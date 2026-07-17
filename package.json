@@ -1,0 +1,26 @@
+{
+  "name": "tajima-ramen",
+  "version": "0.1.0",
+  "description": "Tajima Ramen, San Diego craft Japanese ramen house. Eleventy v3 + Tailwind v4 + Vite.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "css": "tailwindcss -i ./src/css/app.css -o ./src/css/styles.css",
+    "css:watch": "npm run css -- --watch",
+    "serve": "eleventy --serve",
+    "build": "npm run css && eleventy",
+    "start": "npm run css && concurrently -k -n css,11ty -c cyan,magenta \"npm:css:watch\" \"npm:serve\"",
+    "clean": "rm -rf _site .11ty-vite src/css/styles.css"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-plugin-vite": "^5.0.0",
+    "@tailwindcss/cli": "^4.0.0",
+    "concurrently": "^9.0.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^5.4.8"
+  }
+}

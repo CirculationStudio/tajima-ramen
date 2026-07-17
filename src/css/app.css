@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Tajima Ramen, main stylesheet entry.
+
+   Load order matters:
+   1. Tailwind (brings its own preflight/reset and utility engine).
+   2. Theme tokens (@theme block, the single source of design tokens).
+   3. Base element styles.
+   4. Component styles (Strict BEM: site-header, bento, cell, hero, ...).
+   5. Page-specific styles.
+
+   Components and pages are empty at scaffold time; their @import lines are
+   added as blocks are built into the library (never hand-built inline markup).
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* Content sources for utility generation. Tailwind runs as a standalone CLI
+   step (the "css" npm script), NOT through @tailwindcss/vite, because that
+   plugin binds its scanner to Vite's root and the Eleventy Vite plugin sets
+   that root to a throwaway temp dir (no utilities get generated). Run by the
+   CLI, @source resolves relative to this stylesheet (src/css), so ../ is src/.
+   This scans the real template source, the ground truth for used classes. */
+@source "../**/*.{njk,html,md,11ty.js}";
+
+@import "./base/theme.css";
+@import "./base/base.css";
+
+/* Component styles, added per block as the library grows.
+   @import "./components/site-header.css"; */
+
+/* Page styles, added per template as pages are built.
+   @import "./pages/home.css"; */

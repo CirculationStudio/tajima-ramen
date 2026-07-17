@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Base element styles.
+
+   Minimal at scaffold time. Real base typography and the night canvas hook up
+   once the Convoy Red surface ramp is unblocked (DESIGN_SYSTEM.md Open Item #1):
+   body background should be var(--color-canvas), body text var(--color-ink),
+   default font var(--font-body). Left out here so no false color ships before
+   the ramp values land.
+
+   Accessibility baseline (WCAG 2.2 AA) that does not depend on the color ramp:
+   honor reduced motion and keep a visible focus ring. The focus color falls
+   back to Fire Red until --color-focus is defined.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus, var(--color-red));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
