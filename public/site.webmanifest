@@ -1,9 +1,10 @@
 {
   "name": "Tajima Ramen",
   "short_name": "Tajima Ramen",
-  "description": "Authentic Japanese ramen restaurant",
+  "description": "San Diego craft Japanese ramen house since 2001.",
   "start_url": "/",
   "display": "standalone",
+  "_todo_colors": "background_color and theme_color below are light-mode placeholders. This build is permanent night mode. Replace with the Convoy Red night canvas values once DESIGN_SYSTEM.md Open Item #1 (the surface ramp from tajima-home.html :root) is unblocked. Do not guess these values.",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
