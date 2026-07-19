@@ -5,8 +5,7 @@
 // `transition: all`. Page-specific behavior lives in src/js/pages/ and is
 // imported per template, not loaded globally.
 //
-// The stylesheet is loaded via a <link> in the layout head (src/css/app.css),
-// not imported here, so CSS is not blocked behind JS on a performance-first
-// build. This entry is intentionally empty until there is real global behavior.
-
-export {};
+// The stylesheet rides the Vite pipeline: importing it here lets Vite compile
+// Tailwind (via @tailwindcss/vite), extract it to a hashed <link> at build
+// time, and inject it over HMR in dev. Keeps CSS and JS on one pipeline.
+import "/src/css/app.css";

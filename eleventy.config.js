@@ -2,36 +2,59 @@
 // Stack: Eleventy v3 (ESM) + Vite (via @11ty/eleventy-plugin-vite) + Tailwind v4.
 // See ARCHITECTURE.md for the technical map and DEPLOYMENT.md for Cloudflare config.
 //
-// Vite handles CSS/JS bundling (Tailwind runs inside Vite via @tailwindcss/vite,
-// configured in vite.config.js). Eleventy generates the HTML; Vite processes the
-// asset references in that HTML during the build.
+// Tailwind v4 runs INSIDE Vite via @tailwindcss/vite (no separate CLI step).
+// The Eleventy Vite plugin runs Vite with a throwaway temp folder as its root,
+// so any /src/... asset reference in the HTML has to be resolved back to the
+// real source tree. The resolve.alias below maps "/src" to this project's real
+// src/ dir, letting Vite (and the Tailwind plugin) read the true source:
+//   - templates load /src/js/main.js (a module entry)
+//   - main.js does `import "/src/css/app.css"` (Tailwind's source stylesheet)
+// Vite bundles both into hashed, cacheable assets and rewrites the references.
+// This mirrors the working sibling project (circulation-studio), same approach.
 
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
+import tailwindcss from "@tailwindcss/vite";
+
+// Static, served-verbatim files (Cloudflare _headers/_redirects,
+// site.webmanifest, fonts, favicons) live in the project-root public/ dir.
+// Vite copies publicDir into the output root AFTER the build, so they survive
+// the plugin's emptyOutDir. Absolute because Vite's root is the temp folder.
+const publicDir = fileURLToPath(new URL("./public", import.meta.url));
 
 export default function (eleventyConfig) {
-  // Bundle assets through Vite. The temp folder holds Eleventy's HTML output
-  // before Vite processes it into the final _site directory.
   eleventyConfig.addPlugin(EleventyVitePlugin, {
+    // The temp folder holds Eleventy's HTML output before Vite processes it
+    // into the final _site directory.
     tempFolderName: ".11ty-vite",
+    viteOptions: {
+      // Tailwind v4 compiles here, scanning the real template source (see the
+      // @source directive in src/css/app.css).
+      plugins: [tailwindcss()],
+      resolve: {
+        alias: {
+          // Resolve /src/... references (from HTML and JS) out of Vite's temp
+          // root back into the real source tree.
+          "/src": path.resolve(".", "src"),
+        },
+      },
+      publicDir,
+      build: {
+        // Do not inline assets as base64; keep them as cacheable files so the
+        // long-lived Cache-Control headers in public/_headers apply.
+        assetsInlineLimit: 0,
+        rollupOptions: {
+          output: {
+            // Hashed, cacheable asset filenames under /assets/.
+            assetFileNames: "assets/[name].[hash][extname]",
+            chunkFileNames: "assets/[name].[hash].js",
+            entryFileNames: "assets/[name].[hash].js",
+          },
+        },
+      },
+    },
   });
-
-  // Static, served-verbatim files (Cloudflare _headers/_redirects,
-  // site.webmanifest, fonts, favicons) live in the project-root public/ dir and
-  // are emitted by Vite's publicDir (see vite.config.js), not passed through
-  // here (passthrough would only stage them for Vite's emptyOutDir to wipe).
-
-  // CSS and JS entries are passthrough-copied into the build tree so Vite can
-  // pick them up as entry points via the <link>/<script> references in the HTML
-  // (root-relative: /css/styles.css, /js/main.js). Vite bundles them into
-  // hashed assets and rewrites those references; the raw copies do not survive
-  // into final _site (Vite's emptyOutDir clears them, keeping only the hashed
-  // output).
-  //
-  // styles.css is Tailwind's compiled output, produced by the "css" npm script
-  // BEFORE eleventy runs (npm run build). app.css is the Tailwind SOURCE and is
-  // not shipped; only the compiled styles.css is referenced and bundled.
-  eleventyConfig.addPassthroughCopy({ "src/css/styles.css": "css/styles.css" });
-  eleventyConfig.addPassthroughCopy({ "src/js": "js" });
 
   return {
     dir: {

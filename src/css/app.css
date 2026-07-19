@@ -14,12 +14,12 @@
 
 @import "tailwindcss";
 
-/* Content sources for utility generation. Tailwind runs as a standalone CLI
-   step (the "css" npm script), NOT through @tailwindcss/vite, because that
-   plugin binds its scanner to Vite's root and the Eleventy Vite plugin sets
-   that root to a throwaway temp dir (no utilities get generated). Run by the
-   CLI, @source resolves relative to this stylesheet (src/css), so ../ is src/.
-   This scans the real template source, the ground truth for used classes. */
+/* Content sources for utility generation. Tailwind compiles through
+   @tailwindcss/vite (see eleventy.config.js). The Eleventy Vite plugin sets
+   Vite's root to a throwaway temp dir, so we scan explicitly instead of relying
+   on auto-detection. @source resolves relative to this stylesheet (src/css), so
+   ../ is src/. This scans the real template source, the ground truth for used
+   classes. */
 @source "../**/*.{njk,html,md,11ty.js}";
 
 @import "./base/theme.css";
