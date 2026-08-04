@@ -98,3 +98,28 @@
 @media (max-width: 560px){
   .order-grid__inner{ grid-template-columns: 1fr; }
 }
+
+/* Anchor targets for /order-online/#<slug>, linked from the Locations mega
+   menu. The header is sticky, so without scroll-margin the browser parks the
+   card underneath it and the visitor lands looking at the wrong room. */
+.order-card {
+  scroll-margin-top: calc(var(--space-11) + var(--space-4));
+}
+
+/* The arrival gets a brief mark so it is obvious which card was asked for.
+   Colour is not the only carrier: the card also scrolls to the top of the
+   viewport, which is the primary signal. */
+.order-card:target {
+  border-color: var(--color-red-line);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .order-card:target {
+    animation: order-card-arrive var(--duration-slow) var(--ease-smooth) 1;
+  }
+
+  @keyframes order-card-arrive {
+    from { border-color: var(--color-red); }
+    to { border-color: var(--color-red-line); }
+  }
+}

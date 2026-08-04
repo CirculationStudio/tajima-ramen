@@ -1,10 +1,33 @@
 {
+  "_note": "Header and footer navigation. Never hardcode a nav link in a template.",
+
+  "_proposedNote": "`primary` is what ships today, four items, which is what the header was signed off with. `primaryProposed` is the five-item version under review: it adds a top-level Order Online and turns Locations into a mega menu. It is rendered ONLY on /nav-preview/ (noindex) so it can be looked at before it goes live on all fifteen pages. To adopt it: replace the contents of `primary` with `primaryProposed`, point components/site-header.njk at the mega menu partial, and delete the preview routes. To reject it: delete `primaryProposed` and the preview routes and nothing else changes.",
+
   "primary": [
     { "label": "Menu", "url": "/menu/" },
     { "label": "About", "url": "/about/" },
     { "label": "Locations", "url": "/locations/" },
     { "label": "Noodle Room", "url": "/noodle-room/", "sub": true }
   ],
+
+  "primaryProposed": [
+    { "label": "Menu", "url": "/menu/" },
+    { "label": "About", "url": "/about/" },
+    {
+      "label": "Locations",
+      "url": "/locations/",
+      "mega": "locations",
+      "megaNote": "Expands to the seven rooms from locations.json. North Park is absent on purpose: it is closed, and its page is unbuilt pending Sam's closure copy (Open Decision #5)."
+    },
+    { "label": "Noodle Room", "url": "/noodle-room/", "sub": true },
+    {
+      "label": "Order Online",
+      "url": "/order-online/",
+      "cta": true,
+      "ctaNote": "The one nav item styled as an action. /order-online/ is the third-biggest page on the site (5,648 clicks) and currently has no header link at all. DESIGN_SYSTEM.md allows one red CTA per viewport; this is the header's, so page heroes must not put a second red beside it."
+    }
+  ],
+
   "footer": [
     { "label": "Menu", "url": "/menu/" },
     { "label": "About", "url": "/about/" },

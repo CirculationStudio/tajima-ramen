@@ -1,0 +1,37 @@
+---
+permalink: /nav-preview-frame/
+noindex: true
+title: "Nav preview frame"
+---
+{#
+  The mobile view, rendered at a real phone width inside an iframe on
+  /nav-preview/. This is the actual header at that viewport, not a mock-up
+  scaled down: media queries, wrapping, and tap targets all behave as they
+  would on the device.
+
+  Its own bare document, because iframing /nav-preview/ into itself recurses.
+#}
+<!DOCTYPE html>
+<html lang="{{ site.locale }}" data-mode="{{ site.theme.mode }}" data-fonts="{{ site.theme.fonts }}" data-pattern="{{ site.theme.pattern }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.circulationstudio.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,600&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script type="module" src="/src/js/main.js"></script>
+</head>
+<body>
+  {% include "components/site-header-mega.njk" %}
+  <main id="main" style="padding: var(--space-6) var(--layout-gutter); min-height: 60vh;">
+    <p style="font-family: var(--font-cond); color: var(--color-ink-3); font-size: var(--text-small);">
+      Page content sits here. Open the Locations item above: on this width the panel
+      expands inline and pushes this text down, rather than floating over it.
+    </p>
+  </main>
+  <script type="module" src="/src/js/mega-menu.js"></script>
+</body>
+</html>

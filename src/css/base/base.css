@@ -151,3 +151,17 @@ body::before {
     --layout-gutter: var(--space-5);
   }
 }
+
+/* Visually hidden, still announced. Used to give the seven identical "Order
+   online" buttons in the Locations menu distinct accessible names. */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

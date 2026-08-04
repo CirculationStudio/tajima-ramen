@@ -49,7 +49,16 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
 <section class="order-grid" aria-label="Order by location">
   <div class="order-grid__inner">
     {%- for loc in locations.items %}
-    <article class="order-card">
+    {#
+      The id is the anchor target for /order-online/#<slug>, which is where the
+      Locations mega menu's per-location "Order online" buttons point. Those do
+      NOT link straight to Toast: every ordering URL is still unverified
+      (two competing URL patterns, Crown Point's slug reading
+      tajima-pacific-beach, Plaza Bonita on a page.link shortlink). Routing
+      through this page means one place to fix when the click-test happens,
+      instead of seven links scattered through the nav.
+    #}
+    <article class="order-card" id="{{ loc.id }}">
       <div>
         <h2 class="order-card__name">{{ loc.name }}</h2>
         <p class="order-card__hood">{{ loc.neighborhood }}, {{ loc.address.locality }}</p>

@@ -26,6 +26,7 @@
 
 /* Component styles, added per block as the library grows. */
 @import "./components/site-header.css";
+@import "./components/mega-menu.css";
 @import "./components/hero.css";
 @import "./components/stat-bar.css";
 @import "./components/pattern-section.css";

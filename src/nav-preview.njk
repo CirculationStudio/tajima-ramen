@@ -1,0 +1,150 @@
+---
+permalink: /nav-preview/
+noindex: true
+title: "Nav preview | Locations mega menu"
+description: "Internal review page for the proposed Locations mega menu and the header Order Online CTA. Not a shipping page."
+---
+{#
+  REVIEW PAGE. Not wired into the site.
+
+  The live header on all fifteen pages is unchanged: it still renders
+  components/site-header.njk from nav.primary, four items, as signed off. This
+  page is the only place the five-item mega-menu header exists, so the change
+  can be looked at before it goes everywhere.
+
+  Delete this file, nav-preview-frame.njk, and nav.primaryProposed to reject.
+  See nav.json `_proposedNote` to adopt.
+#}
+<!DOCTYPE html>
+<html lang="{{ site.locale }}" data-mode="{{ site.theme.mode }}" data-fonts="{{ site.theme.fonts }}" data-pattern="{{ site.theme.pattern }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.circulationstudio.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,600&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script type="module" src="/src/js/main.js"></script>
+  <style>
+    .rv { max-width: 90rem; margin-inline: auto; padding: var(--space-8) var(--layout-gutter); }
+    .rv h2 { font-family: var(--font-display); font-size: var(--text-h3); text-transform: uppercase;
+             letter-spacing: var(--tracking-display); color: var(--color-ink); margin-bottom: var(--space-2); }
+    .rv h3 { font-family: var(--font-ui); font-size: var(--text-micro); letter-spacing: var(--tracking-widest);
+             text-transform: uppercase; color: var(--color-red); margin-bottom: var(--space-4); }
+    .rv p { font-family: var(--font-cond); font-weight: var(--weight-light); font-size: var(--text-small);
+            line-height: var(--leading-normal); color: var(--color-ink-2); max-width: 46rem; }
+    .rv__rule { border: 0; border-top: var(--stroke-hair) solid var(--color-rule); margin: var(--space-9) 0; }
+    .rv__stage { border: var(--stroke-hair) solid var(--color-rule-strong); background: var(--color-canvas);
+                 margin-top: var(--space-5); position: relative; }
+    .rv__stage-label { position: absolute; top: 0; right: 0; z-index: 2; background: var(--color-red);
+                       color: var(--color-system-cream); font-family: var(--font-ui); font-weight: var(--weight-semibold);
+                       font-size: var(--text-micro); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+                       padding: var(--space-1) var(--space-3); }
+    .rv__frame { width: 390px; height: 760px; border: 0; display: block; background: var(--color-canvas); }
+    .rv__phone { width: 390px; border: var(--stroke-hair) solid var(--color-rule-strong); margin-top: var(--space-5); }
+    .rv__cols { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--space-8); align-items: start; }
+    @media (max-width: 64rem) { .rv__cols { grid-template-columns: 1fr; } }
+    .rv__note { border-left: var(--stroke-rule) solid var(--color-red); padding-left: var(--space-4);
+                margin-top: var(--space-5); }
+    .rv__list { font-family: var(--font-cond); font-weight: var(--weight-light); font-size: var(--text-small);
+                color: var(--color-ink-2); line-height: var(--leading-normal); margin-top: var(--space-4);
+                padding-left: var(--space-5); }
+    .rv__list li { margin-bottom: var(--space-2); }
+    .rv__list code { font-family: var(--font-mono); font-size: 0.9em; color: var(--color-ink); }
+    /* Forces the panel open for the static desktop view, without JS. */
+    .rv__forced .mega__panel[hidden] { display: block; }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {# ---------- 1. The real thing, interactive ---------- #}
+  {% include "components/site-header-mega.njk" %}
+
+  <main id="main">
+    <div class="rv">
+      <h3>Review page, not live</h3>
+      <h2>Locations mega menu</h2>
+      <p>
+        The header above is live and interactive. Click or hover <strong>Locations</strong>.
+        Tab to it and press Enter, Space, or Down. Escape closes it and returns focus to the trigger.
+        The rest of the site still runs the signed four-item header, unchanged.
+      </p>
+
+      <div class="rv__note">
+        <p>
+          <strong>Order Online</strong> is now a top-level item, styled as the header's single red CTA.
+          It is the third-biggest page on the site at 5,648 clicks and currently has no header link at all.
+          Because the header now spends the red, page heroes must not put a second red beside it.
+        </p>
+      </div>
+
+      <hr class="rv__rule">
+
+      {# ---------- 2. Desktop, forced open ---------- #}
+      <h3>Desktop, panel open</h3>
+      <h2>Seven rooms</h2>
+      <p>
+        Rendered open without JavaScript so it can be read as a static layout. Cards come from
+        <code>locations.json</code>. North Park is absent because it is not in that file, which is the
+        right reason: nothing has to remember to exclude it.
+      </p>
+      <div class="rv__stage rv__forced">
+        <span class="rv__stage-label">Desktop</span>
+        <div style="position: relative;">
+          {% set megaInstance = "static-" %}
+          {% include "components/site-header-mega.njk" %}
+        </div>
+        <div style="height: 26rem;" aria-hidden="true"></div>
+      </div>
+
+      <hr class="rv__rule">
+
+      {# ---------- 3. Mobile, real viewport ---------- #}
+      <div class="rv__cols">
+        <div>
+          <h3>Mobile, 390px</h3>
+          <h2>Inline, not overlaid</h2>
+          <p>
+            A real iframe at phone width, not a scaled screenshot, so the media queries and tap
+            targets behave as they would on the device. Open Locations inside it.
+          </p>
+          <p style="margin-top: var(--space-4);">
+            On a phone the panel stops floating and expands inline, pushing the page down. A fixed
+            overlay would fight the sticky header and hide the page behind it. Below 26rem the cards
+            go to one per row, media on the left, so the name and the order button both stay on one line.
+          </p>
+
+          <h3 style="margin-top: var(--space-8);">What to check</h3>
+          <ul class="rv__list">
+            <li>Keyboard: Tab to Locations, Enter to open, Tab through the seven cards and their order buttons, Escape to close.</li>
+            <li>Focus is trapped inside the panel while open, as asked. Worth knowing the WAI-ARIA pattern for disclosure navigation is the opposite, Tab moves out and closes. Escape always works, so it is not a dead end. One function to switch.</li>
+            <li>Reduced motion: the open animation only exists inside <code>prefers-reduced-motion: no-preference</code>, so it is absent rather than suppressed.</li>
+            <li>Every <em>Order online</em> button goes to <code>/order-online/#slug</code>, never to Toast. Those URLs are still unverified.</li>
+            <li>Placeholder media is drawn, not a stock photo standing in for real work.</li>
+          </ul>
+        </div>
+
+        <div class="rv__phone">
+          <iframe class="rv__frame" src="/nav-preview-frame/" title="Mobile preview of the header at 390 pixels wide" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <hr class="rv__rule">
+
+      <h3>Still open</h3>
+      <p>
+        Seven direct Toast links were deliberately not used. Once the click-test happens, changing
+        <code>loc-card__order</code> to point at <code>loc.orderUrl</code> is a one-line change, and
+        <code>/order-online/</code> stays as the fallback for Maui, which has no ordering URL on record.
+      </p>
+    </div>
+  </main>
+
+  <script type="module" src="/src/js/mega-menu.js"></script>
+</body>
+</html>

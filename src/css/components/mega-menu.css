@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Block: mega (the Locations disclosure) + loc-card (its cells)
+
+   UNDER REVIEW. Loaded globally but only rendered on /nav-preview/, so it
+   costs the live pages nothing but the bytes until it is adopted or dropped.
+   ========================================================================== */
+
+/* The panel is positioned against the header, so the header is the containing
+   block. Scoped to the mega variant so the live header is untouched. */
+.site-header--mega {
+  position: relative;
+}
+
+.mega {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* The trigger is a <button>, so it needs the nav link's type reset onto it
+   rather than inheriting it. */
+.mega__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: inherit;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mega__chevron {
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.mega__trigger[aria-expanded="true"] {
+  color: var(--color-ink);
+}
+
+.mega__trigger[aria-expanded="true"] .mega__chevron {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   The panel, desktop: full-bleed under the header.
+   -------------------------------------------------------------------------- */
+.mega__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  background: var(--color-canvas-2);
+  border-top: var(--stroke-hair) solid var(--color-rule);
+  border-bottom: var(--stroke-hair) solid var(--color-rule-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* `hidden` keeps the panel's links out of the tab order entirely. Restated
+   because the display:grid below would otherwise beat the UA sheet. */
+.mega__panel[hidden] {
+  display: none;
+}
+
+.mega__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-7) var(--layout-gutter) var(--space-6);
+}
+
+.mega__lede {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  margin-bottom: var(--space-6);
+  text-transform: none;
+  letter-spacing: var(--tracking-normal);
+}
+
+.mega__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mega__cell {
+  display: flex;
+}
+
+.mega__foot {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: var(--stroke-hair) solid var(--color-rule);
+}
+
+.mega__foot-link {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.mega__foot-link:hover,
+.mega__foot-link:focus-visible {
+  color: var(--color-red);
+}
+
+/* --------------------------------------------------------------------------
+   Block: loc-card
+   -------------------------------------------------------------------------- */
+.loc-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--color-canvas-3);
+  border: var(--stroke-hair) solid var(--color-rule);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc-card:hover,
+.loc-card:focus-within {
+  border-color: var(--color-red-line);
+}
+
+.loc-card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  text-transform: none;
+  letter-spacing: var(--tracking-normal);
+}
+
+/* PLACEHOLDER MEDIA. Drawn, not photographic, and deliberately reads as a
+   holding slot rather than as an image. Replaced by an <img> when the photo
+   manifest has a file for this location. */
+.loc-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--color-canvas);
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
+  overflow: hidden;
+}
+
+.loc-card__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-rule) 0 1px,
+    transparent 1px 10px
+  );
+  opacity: 0.5;
+}
+
+.loc-card__media-no {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 1;
+  color: var(--color-ink-4);
+  letter-spacing: var(--tracking-display);
+}
+
+.loc-card__media-mark {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-1);
+  font-size: var(--text-micro);
+  color: var(--color-ink-4);
+  letter-spacing: 0.08em;
+}
+
+.loc-card__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.loc-card__hood {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-micro);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-3);
+  padding: var(--space-1) var(--space-4) var(--space-4);
+}
+
+.loc-card__link:hover .loc-card__name,
+.loc-card__link:focus-visible .loc-card__name {
+  color: var(--color-red);
+}
+
+/* Compact order button. Hairline-outlined, never a second red: the header CTA
+   is where this view spends its accent budget (DESIGN_SYSTEM.md). */
+.loc-card__order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 var(--space-3) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc-card__order:hover,
+.loc-card__order:focus-visible {
+  color: var(--color-ink);
+  border-color: var(--color-red);
+}
+
+/* --------------------------------------------------------------------------
+   Header CTA. The single red in the header.
+   -------------------------------------------------------------------------- */
+.site-header__nav-link--cta {
+  padding: var(--space-2) var(--space-5);
+  border-radius: 999px;
+  background: var(--color-red);
+  color: var(--color-system-cream);
+  font-weight: var(--weight-semibold);
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth);
+}
+
+.site-header__nav-link--cta:hover,
+.site-header__nav-link--cta:focus-visible {
+  color: var(--color-system-cream);
+  transform: translateY(-1px);
+}
+
+[data-mode="night"] .site-header__nav-link--cta {
+  box-shadow: var(--glow-red);
+}
+
+/* --------------------------------------------------------------------------
+   Motion. The open/close transition is opt-in: it only exists inside
+   `prefers-reduced-motion: no-preference`, so a visitor who has asked for less
+   motion gets an instant show/hide with no animation to suppress.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .mega__panel {
+    animation: mega-open var(--duration-fast) var(--ease-smooth) 1;
+    transform-origin: top center;
+  }
+
+  @keyframes mega-open {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--space-2) * -1));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Narrower desktop: seven across gets tight before the layout breaks.
+   -------------------------------------------------------------------------- */
+@media (max-width: 90rem) {
+  .mega__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile: the panel stops floating and becomes an inline accordion.
+
+   A fixed overlay would fight the sticky header and trap the page behind it.
+   Flowing inline means the page simply gets longer, which is what a phone
+   expects, and it keeps the scroll position honest when the panel closes.
+   -------------------------------------------------------------------------- */
+@media (max-width: 48rem) {
+  .mega {
+    display: block;
+    width: 100%;
+  }
+
+  .mega__trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+  }
+
+  .mega__panel {
+    position: static;
+    background: transparent;
+    border-bottom: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .mega__inner {
+    padding: var(--space-4) 0 var(--space-2);
+  }
+
+  .mega__lede {
+    font-size: var(--text-small);
+    margin-bottom: var(--space-4);
+  }
+
+  .mega__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .loc-card__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .loc-card__name {
+    font-size: var(--text-small);
+    padding: var(--space-3) var(--space-3) 0;
+  }
+
+  .loc-card__hood {
+    padding: var(--space-1) var(--space-3) var(--space-3);
+  }
+
+  .mega__foot {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+  }
+}
+
+/* Very narrow: one card per row, so the name and the order button both stay
+   legible instead of wrapping to two lines each. */
+@media (max-width: 26rem) {
+  .mega__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loc-card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .loc-card__link {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1 1 auto;
+  }
+
+  .loc-card__media {
+    aspect-ratio: 1;
+    width: 4rem;
+    flex: 0 0 auto;
+    border-bottom: none;
+    border-right: var(--stroke-hair) solid var(--color-rule);
+  }
+
+  .loc-card__name,
+  .loc-card__hood {
+    padding: 0;
+  }
+
+  .loc-card__order {
+    margin: var(--space-3);
+    align-self: center;
+  }
+}

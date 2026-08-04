@@ -1,0 +1,155 @@
+{# ===========================================================================
+   Component: site-header, mega-menu variant  (UNDER REVIEW, NOT LIVE)
+
+   Rendered only on /nav-preview/. The live header is
+   components/site-header.njk and is unchanged. See nav.json `_proposedNote`
+   for how to adopt or reject this.
+
+   Two changes against the signed four-item header:
+     1. Locations becomes a disclosure that expands to the seven rooms.
+     2. Order Online joins the top level as the header's single red CTA.
+
+   Everything in the panel comes from locations.json. North Park is absent
+   because it is not in locations.json, which is the correct reason: it is
+   closed, and nothing should have to remember to exclude it.
+
+   ACCESSIBILITY
+   The trigger is a real <button> with aria-expanded and aria-controls, not a
+   link with a hover handler, so it works from the keyboard and announces its
+   state. Escape closes and returns focus to the trigger. The panel is
+   `hidden` when closed, so its links are out of the tab order entirely rather
+   than merely invisible.
+
+   Each card holds two separate links, a card link and an order link, as
+   siblings. They are never nested, which would be invalid and would make the
+   inner one unreachable.
+   =========================================================================== #}
+
+{#
+  `megaInstance` disambiguates the ids when the header is rendered more than
+  once in one document, which /nav-preview/ does (interactive at the top, and
+  again forced open below). Without it both copies claim
+  id="mega-locations-trigger", the ids are no longer unique, and aria-controls
+  and aria-labelledby resolve to whichever the parser saw first. Real pages
+  render the header once and never set this.
+#}
+{%- set megaId = "mega-" + (megaInstance | default("")) %}
+<header class="site-header site-header--mega">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="/" aria-label="{{ site.name }} home">
+      <img
+        class="site-header__logo-img"
+        src="{{ site.logo.src }}"
+        alt="{{ site.logo.alt }}"
+        width="180"
+        height="44"
+        fetchpriority="high">
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {%- for item in nav.primaryProposed %}
+        {%- set isCurrent = page.url == item.url %}
+
+        {%- if item.mega %}
+        {# ---------------- Locations, the disclosure ---------------- #}
+        <div class="mega" data-mega>
+          <button
+            type="button"
+            class="site-header__nav-link mega__trigger{% if isCurrent %} site-header__nav-link--current{% endif %}"
+            id="{{ megaId }}{{ item.mega }}-trigger"
+            aria-expanded="false"
+            aria-controls="{{ megaId }}{{ item.mega }}-panel"
+            data-mega-trigger>
+            {{ item.label }}
+            <svg class="mega__chevron" width="10" height="7" viewBox="0 0 10 7" fill="none" aria-hidden="true">
+              <path d="M1 1.5 5 5.5 9 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div
+            class="mega__panel"
+            id="{{ megaId }}{{ item.mega }}-panel"
+            role="group"
+            aria-labelledby="{{ megaId }}{{ item.mega }}-trigger"
+            data-mega-panel
+            hidden>
+            <div class="mega__inner">
+
+              <p class="mega__lede">
+                Six rooms across San Diego, one in Kihei. Walk in, no reservations.
+              </p>
+
+              <ul class="mega__grid">
+                {%- for loc in locations.items %}
+                <li class="mega__cell">
+                  <article class="loc-card">
+                    <a class="loc-card__link" href="{{ loc.url }}">
+                      {#
+                        PLACEHOLDER. Real photography is not placed yet. This is
+                        a drawn panel, not a stock or AI image standing in for
+                        one: DESIGN_SYSTEM.md forbids imagery that poses as real
+                        photography, and a nav is the last place to start.
+                        Decorative, so aria-hidden. The card's accessible name
+                        comes from the location name below it.
+                        When photos land, swap this span for an <img> with alt
+                        from the photo manifest.
+                      #}
+                      <span class="loc-card__media" aria-hidden="true">
+                        <span class="loc-card__media-no">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+                        <span class="loc-card__media-mark">但馬</span>
+                      </span>
+                      <span class="loc-card__name">{{ loc.name }}</span>
+                      <span class="loc-card__hood">{{ loc.neighborhood }}</span>
+                    </a>
+
+                    {#
+                      Routes to /order-online/#<slug>, NOT to Toast. Every
+                      ordering URL is still unverified: two competing URL
+                      patterns, Crown Point's slug reading tajima-pacific-beach,
+                      Plaza Bonita on a page.link shortlink. One place to fix
+                      after the click-test beats seven links buried in the nav.
+                      The visually-hidden span gives each of the seven buttons a
+                      distinct accessible name, since "Order online" seven times
+                      is useless in a links list.
+                    #}
+                    <a class="loc-card__order" href="/order-online/#{{ loc.id }}">
+                      Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
+                      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                    </a>
+                  </article>
+                </li>
+                {%- endfor %}
+              </ul>
+
+              <p class="mega__foot">
+                <a class="mega__foot-link" href="{{ item.url }}">All locations, with addresses and phone numbers</a>
+              </p>
+
+            </div>
+          </div>
+        </div>
+
+        {%- elif item.cta %}
+        {# ---------------- Order Online, the header CTA ---------------- #}
+        <a
+          class="site-header__nav-link site-header__nav-link--cta"
+          href="{{ item.url }}"
+          {%- if isCurrent %} aria-current="page"{% endif %}>
+          {{ item.label }}
+        </a>
+
+        {%- else %}
+        <a
+          class="site-header__nav-link{% if item.sub %} site-header__nav-link--sub{% endif %}{% if isCurrent %} site-header__nav-link--current{% endif %}"
+          href="{{ item.url }}"
+          {%- if isCurrent %} aria-current="page"{% endif %}>
+          {{- item.label }}{% if item.sub %} <span aria-hidden="true">&#8629;</span>{% endif -%}
+        </a>
+        {%- endif %}
+
+      {%- endfor %}
+    </nav>
+  </div>
+</header>
