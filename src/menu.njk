@@ -1,0 +1,261 @@
+---
+layout: layouts/base.njk
+permalink: /menu/
+pageKey: menu
+title: "Tajima Ramen Menu | Ramen, Izakaya, and Rice Dishes"
+description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White, spicy sesame, and vegan ramen on house-made spinach noodles, plus izakaya plates."
+---
+{#
+  /menu/. Brief: SITE_ARCHITECTURE.md.
+  P0, and the highest-confidence page on the project: 573 menu queries earning
+  6,160 clicks with no menu page to land on. Target `tajima menu` (2,814
+  clicks, 66.1% CTR).
+
+  NOT LAUNCH-READY, AND THE REASON IS DATA, NOT BUILD. SITE_ARCHITECTURE.md
+  Open Decision #12: we do not have the per-location menus. This page renders
+  the ten dishes confirmed in CLIENT_FACTS.md at brand-level prices. It is not
+  the real menu until the Toast pull happens.
+
+  Two brief sections could not be built and are absent rather than faked:
+
+    THE LOCATION SWITCHER (brief section 1) needs the `locations` availability
+    column, which is empty on every row in menu.json. A switcher that filters
+    nothing, or that claims a dish is sold somewhere we have not verified, is
+    worse than no switcher. Three menus genuinely differ (College Heights runs
+    a pared-down ramen bar, Plaza Bonita is quick-serve with no alcohol, Maui
+    has its own dishes), so this is the whole point of the section.
+
+    RICE DISHES AND DRINKS (brief sections 5 and 7) have no confirmed items in
+    CLIENT_FACTS.md. Sections render from data, so they simply do not appear.
+
+  Carnitas Ramen is absent pending Open Decision #4. The recommendation on
+  record is to list it plainly with feature: no. It is a data change, not a
+  template change: add the row and it renders as a quiet line.
+#}
+
+{%- set ramen = menu.items | selectattr("section", "equalto", "ramen") | list %}
+{%- set izakaya = menu.items | selectattr("section", "equalto", "izakaya") | list %}
+{%- set dessert = menu.items | selectattr("section", "equalto", "dessert") | list %}
+
+{# ============================ MENU HERO ============================ #}
+{#
+  REWRITTEN. The concept sub read: "Every noodle, cut daily. Every broth,
+  simmered for twelve. Built in Convoy, since 2001."
+  The first two are the same unconfirmed claims that run through every concept
+  file: noodle cadence is not confirmed, and no simmer time is confirmed
+  anywhere. The third is true and is kept.
+#}
+<section class="menu-hero" aria-labelledby="page-title">
+  <div class="menu-hero__inner">
+
+    <div class="menu-hero__lead">
+      <span class="menu-hero__eyebrow">The Menu</span>
+      <h1 class="menu-hero__title" id="page-title">
+        {{ ramen | length }} bowls.<br><em>One room.</em>
+      </h1>
+      <p class="menu-hero__sub">
+        Broth simmered every morning in Crown Point. Noodles from <a href="/noodle-room/">our own Noodle Room</a>. Built in Convoy, since 2001.
+      </p>
+    </div>
+
+    <nav class="menu-hero__jumps" aria-label="Jump to section">
+      <a class="menu-hero__jump" href="#ramen">
+        <span class="menu-hero__jump-num">01</span>
+        <span class="menu-hero__jump-name">Ramen</span>
+        <span class="menu-hero__jump-count">{{ ramen | length }} bowls</span>
+      </a>
+      <a class="menu-hero__jump" href="#izakaya">
+        <span class="menu-hero__jump-num">02</span>
+        <span class="menu-hero__jump-name">Izakaya</span>
+        <span class="menu-hero__jump-count">Small plates</span>
+      </a>
+      <a class="menu-hero__jump" href="#dessert">
+        <span class="menu-hero__jump-num">03</span>
+        <span class="menu-hero__jump-name">Dessert</span>
+        <span class="menu-hero__jump-count">Matcha</span>
+      </a>
+      <a class="menu-hero__jump" href="/order-online/">
+        <span class="menu-hero__jump-num">04</span>
+        <span class="menu-hero__jump-name">Order</span>
+        <span class="menu-hero__jump-count">Online</span>
+      </a>
+    </nav>
+
+  </div>
+</section>
+
+{# ============================ RAMEN ============================ #}
+<section class="menu-section" id="ramen" aria-labelledby="ramen-title">
+  <div class="menu-section__inner">
+
+    <header class="menu-section__head reveal reveal--d1">
+      <span class="menu-section__eyebrow">01 &middot; Ramen</span>
+      <h2 class="menu-section__title" id="ramen-title">
+        {{ ramen | length }} bowls. <em>The trio</em> is the house.
+      </h2>
+      {#
+        Brief section 2: one line above the ramen section saying the noodles
+        are made in our own room, linking to /noodle-room/. "This is the only
+        selling on the page." Everything below it is ingredients.
+      #}
+      <p class="menu-section__note">
+        The Tajima Red, Black, and White are the same broth with three finishes. The noodles are made in <a href="/noodle-room/">our own Noodle Room</a> in Crown Point.
+      </p>
+    </header>
+
+    <div class="bento bento--ramen">
+      {%- for dish in ramen %}
+      <article class="dish {% if dish.feature %}dish--feature{% else %}dish--quiet{% endif %}{% if dish.bento %} dish--{{ dish.bento }}{% endif %} reveal reveal--d{{ loop.index % 4 + 1 }}">
+        {%- if dish.image %}
+        <div class="dish__photo">
+          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="800" height="800">
+        </div>
+        {%- endif %}
+        <div class="dish__body">
+          <div class="dish__head">
+            {%- if dish.tier %}
+            <span class="dish__tier{% if dish.tier == 'Signature trio' %} dish__tier--signature{% endif %}">{{ dish.tier }}</span>
+            {%- endif %}
+            <span class="dish__price">${{ dish.price }}</span>
+          </div>
+          <h3 class="dish__name">
+            {%- if dish.emphasis -%}
+              {{ dish.name | replace(dish.emphasis, "") | replace("Ramen", "") | trim }} <em>{{ dish.emphasis }}</em>
+            {%- else -%}
+              {{ dish.name }}
+            {%- endif -%}
+          </h3>
+          {%- if dish.romaji %}
+          <p class="dish__romaji">{{ dish.romaji }}</p>
+          {%- endif %}
+          {#
+            Descriptions come from menu.json only. Items with no confirmed
+            ingredient list render without one rather than getting a written
+            description. CLAUDE.md: menu descriptions are never generated.
+          #}
+          {%- if dish.description %}
+          <p class="dish__desc">{{ dish.description }}</p>
+          {%- endif %}
+          {%- if "vegan" in dish.dietary %}
+          <p class="dish__desc"><a href="/menu/vegan-ramen/">More about the vegan bowl</a></p>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+
+  </div>
+</section>
+
+{# ============================ IZAKAYA ============================ #}
+<section class="menu-section menu-section--alt" id="izakaya" aria-labelledby="izakaya-title">
+  <div class="menu-section__inner">
+
+    <header class="menu-section__head reveal reveal--d1">
+      <span class="menu-section__eyebrow">02 &middot; Izakaya</span>
+      <h2 class="menu-section__title" id="izakaya-title">Small <em>plates.</em></h2>
+      <p class="menu-section__note">
+        Izakaya plates run alongside the bowls. What is on offer varies by room.
+      </p>
+    </header>
+
+    <div class="bento bento--izakaya">
+      {%- for dish in izakaya %}
+      <article class="dish dish--quiet reveal reveal--d{{ loop.index % 4 + 1 }}">
+        <div class="dish__body">
+          <div class="dish__head">
+            <span class="dish__price">${{ dish.price }}</span>
+          </div>
+          <h3 class="dish__name">{{ dish.name }}</h3>
+          {%- if dish.description %}
+          <p class="dish__desc">{{ dish.description }}</p>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+
+  </div>
+</section>
+
+{# ============================ DESSERT ============================ #}
+<section class="menu-section" id="dessert" aria-labelledby="dessert-title">
+  <div class="menu-section__inner">
+
+    <header class="menu-section__head reveal reveal--d1">
+      <span class="menu-section__eyebrow">03 &middot; Dessert</span>
+      <h2 class="menu-section__title" id="dessert-title">To <em>finish.</em></h2>
+    </header>
+
+    <div class="bento bento--dessert">
+      {%- for dish in dessert %}
+      <article class="dish dish--quiet reveal reveal--d1">
+        <div class="dish__body">
+          <div class="dish__head">
+            <span class="dish__price">${{ dish.price }}</span>
+          </div>
+          <h3 class="dish__name">{{ dish.name }}</h3>
+          {%- if dish.description %}
+          <p class="dish__desc">{{ dish.description }}</p>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+
+  </div>
+</section>
+
+{# ============================ MENU END ============================ #}
+{#
+  Dietary note. CLIENT_FACTS.md: no gluten-free noodle option exists, some
+  dishes may be prepared GF, and the honest line is to ask staff. Do not imply
+  a GF noodle.
+#}
+<section class="menu-end" aria-labelledby="menu-end-title">
+  <div class="menu-end__inner">
+
+    <div class="menu-end__lead">
+      <span class="menu-end__eyebrow">Menus vary by room</span>
+      <h2 class="menu-end__title" id="menu-end-title">
+        Find the room <em>closest to you.</em>
+      </h2>
+      <p class="menu-end__sub">
+        Walk in at every location. Mercury takes reservations by phone, for groups only.
+      </p>
+      <div class="menu-end__actions">
+        <a class="menu-end__cta menu-end__cta--primary" href="/locations/">
+          See the locations
+          <span aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="menu-end__cta menu-end__cta--quiet" href="/order-online/">
+          Order online
+          <span aria-hidden="true">&#8594;</span>
+        </a>
+      </div>
+    </div>
+
+    {#
+      Dietary key. Two changes from the concept:
+        - Its GF line used an em dash ("prepared GF — ask the floor"). Hard rule.
+        - It listed Tajima Fries as vegan as plated. Tajima Fries is on the
+          CLIENT_FACTS.md do-not-feature list and is not in menu.json, so it is
+          not named here.
+      The GF wording stays honest: no GF noodle exists and we do not imply one.
+    #}
+    <aside class="menu-end__legend" aria-label="A note on the menu">
+      <h3 class="menu-end__legend-title">A note on the menu</h3>
+      <dl class="menu-end__legend-list">
+        <dt>Vegan</dt>
+        <dd>The Vegan Ramen is the only fully vegan bowl. It is built on our own spinach noodles. Edamame is vegan as plated.</dd>
+        <dt>Gluten</dt>
+        <dd>There is no gluten-free noodle. Some dishes can be prepared without gluten, so ask the crew.</dd>
+        <dt>Allergens</dt>
+        <dd>Soy, wheat, shellfish, egg, and dairy are present across the menu. Ask and the crew will tell you.</dd>
+        <dt>Sushi</dt>
+        <dd>Mercury and Maui only.</dd>
+      </dl>
+    </aside>
+
+  </div>
+</section>

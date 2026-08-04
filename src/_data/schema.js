@@ -24,6 +24,7 @@
 
 import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
+import menu from "./menu.json" with { type: "json" };
 
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
@@ -123,7 +124,59 @@ const noodleRoomPlace = {
   isPartOf: { "@id": ORG_ID },
 };
 
+// Menu, with one MenuSection per section that actually renders. Built from the
+// same menu.json the page reads, so the two cannot disagree (SCHEMA.md rule 2).
+//
+// No `offers`: CLIENT_FACTS.md says prices drift and are CONFIRM before schema
+// offers ship. Prices appear as `price` on the MenuItem, matching the visible
+// page, which is the honest floor.
+const MENU_SECTIONS = [
+  { id: "ramen", name: "Ramen" },
+  { id: "izakaya", name: "Izakaya" },
+  { id: "dessert", name: "Dessert" },
+];
+
+const menuEntity = {
+  "@type": "Menu",
+  "@id": `${site.url}/menu/#menu`,
+  name: `${site.name} menu`,
+  inLanguage: "en-US",
+  hasMenuSection: MENU_SECTIONS.map((section) => ({
+    "@type": "MenuSection",
+    name: section.name,
+    hasMenuItem: menu.items
+      .filter((item) => item.section === section.id)
+      .map((item) => {
+        const entry = {
+          "@type": "MenuItem",
+          name: item.name,
+        };
+        if (item.description) entry.description = item.description;
+        if (item.dietary && item.dietary.includes("vegan")) {
+          entry.suitableForDiet = "https://schema.org/VeganDiet";
+        }
+        return entry;
+      }),
+  })),
+};
+
 export default {
+  menu: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${site.url}/menu/#webpage`,
+        url: `${site.url}/menu/`,
+        name: `${site.name} menu`,
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORG_ID },
+        breadcrumb: breadcrumb([{ name: "Menu", url: "/menu/" }]),
+      },
+      menuEntity,
+    ],
+  },
+
   home: {
     "@context": "https://schema.org",
     "@graph": [organization, founder, website, locationList],

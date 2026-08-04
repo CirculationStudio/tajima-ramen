@@ -1,0 +1,702 @@
+/* ==========================================================================
+   Page: /menu/
+
+   The bento-in-Convoy pattern. DESIGN_SYSTEM.md names tajima-menu.html as the
+   approved interior-page reference, and the bento grid as the layout system
+   for interior pages.
+
+   Ported from inspo/tajima-menu.html. One change: `.dish` is already a block
+   in the component library (the editorial dish list on the home page), and
+   here it is the bento cell. Every rule below is scoped under `.bento` so the
+   two treatments of the same name cannot overwrite each other.
+   ========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════ MENU HERO · slim editorial banner with section jumps ═══════════════════════════════════════════════════════════════════ */ .menu-hero {
+  background: var(--color-canvas);
+  padding: var(--space-12) var(--layout-gutter) var(--space-10);
+  border-bottom: 1px solid var(--color-rule);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+
+.menu-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 80% 30%,
+      var(--color-red-soft) 0%,
+      transparent 60%);
+}
+
+.menu-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-9);
+  align-items: end;
+}
+
+.menu-hero__lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.menu-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+  text-shadow: var(--glow-text);
+}
+
+.menu-hero__eyebrow::before {
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+
+.menu-hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-shadow: var(--glow-text);
+}
+
+.menu-hero__title em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+.menu-hero__sub {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 38rem;
+}
+
+.menu-hero__jumps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.menu-hero__jump {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.menu-hero__jump:hover,
+.menu-hero__jump:focus-visible {
+  background: var(--color-canvas-3);
+  border-color: var(--color-red-line);
+  transform: translateY(-2px);
+}
+
+.menu-hero__jump-num {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  color: var(--color-red);
+}
+
+.menu-hero__jump-name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.menu-hero__jump-count {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ MENU SECTION · shared header + container for bento grids ═══════════════════════════════════════════════════════════════════ */ .menu-section {
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+
+.menu-section--alt { background: var(--color-canvas-2);
+}
+
+.menu-section__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+.menu-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+  max-width: 56rem;
+}
+
+.menu-section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.menu-section__eyebrow::before {
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+
+.menu-section__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.menu-section__title em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+.menu-section__note {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 44rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ BENTO · the grid system for dishes ═══════════════════════════════════════════════════════════════════ */ .bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+
+/* Ramen bento — 8 cells in a 4-row asymmetric pattern */ .bento--ramen { grid-auto-rows: minmax(18rem, auto);
+}
+
+.bento .dish--ramen-tonkotsu { grid-column: span 7; grid-row: 1;
+}
+
+.bento .dish--ramen-red {      grid-column: span 5; grid-row: 1 / span 2;
+}
+
+.bento .dish--ramen-black {    grid-column: span 4; grid-row: 2;
+}
+
+.bento .dish--ramen-white {    grid-column: span 3; grid-row: 2;
+}
+
+.bento .dish--ramen-sesame {   grid-column: span 6; grid-row: 3;
+}
+
+.bento .dish--ramen-vegan {    grid-column: span 6; grid-row: 3 / span 2;
+}
+
+.bento .dish--ramen-chicken {  grid-column: span 3; grid-row: 4;
+}
+
+.bento .dish--ramen-miso {     grid-column: span 3; grid-row: 4;
+}
+
+/* Izakaya bento — 3 photo cells + 4 quiet cells */ .bento--izakaya { grid-auto-rows: minmax(15rem, auto);
+}
+
+.bento .dish--izakaya-photo { grid-column: span 4;
+}
+
+.bento .dish--izakaya-text { grid-column: span 4;
+}
+
+.bento--izakaya .dish--quiet { grid-column: span 3;
+}
+
+/* Dessert bento — feature + quiet */ .bento--dessert { grid-auto-rows: minmax(14rem, auto);
+}
+
+.bento .dish--dessert { grid-column: span 8;
+}
+
+.bento--dessert .dish--quiet { grid-column: span 4;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ DISH · the cell ═══════════════════════════════════════════════════════════════════ */ .dish {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+  overflow: hidden;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+  isolation: isolate;
+}
+
+.menu-section--alt .dish { background: var(--color-canvas-3);
+}
+
+.bento .dish:hover {
+  border-color: var(--color-red-line);
+  transform: translateY(-2px);
+}
+
+.bento .dish__photo {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
+  background: var(--color-canvas-3);
+  min-height: 12rem;
+}
+
+.bento .dish__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition:
+    transform var(--duration-slow) var(--ease-smooth),
+    filter var(--duration-slow) var(--ease-smooth);
+  filter: brightness(0.94);
+}
+
+.bento .dish:hover .dish__photo img {
+  transform: scale(1.05);
+  filter: brightness(1.04);
+}
+
+.bento .dish__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-5) var(--space-6);
+  background: var(--color-canvas-2);
+}
+
+.menu-section--alt .dish__body { background: var(--color-canvas-3);
+}
+
+.bento .dish__body--alone {
+  padding: var(--space-6);
+  flex: 1 1 auto;
+}
+
+.bento .dish__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-1);
+}
+
+.bento .dish__tier {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.bento .dish__tier--signature { color: var(--color-red);
+}
+
+.bento .dish__tier--vegan {
+  color: var(--color-canvas);
+  background: var(--color-vegan);
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  font-weight: var(--weight-semibold);
+}
+
+.bento .dish__price {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink);
+  margin-left: auto;
+}
+
+.bento .dish__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.bento .dish__name em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+.bento .dish--small .dish__name,
+.bento .dish--quiet .dish__name {
+  font-size: var(--text-h4);
+}
+
+.bento .dish__romaji {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-regular);
+  font-style: italic;
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-3);
+  margin-bottom: var(--space-2);
+}
+
+.bento .dish__desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-2);
+}
+
+.bento .dish--small .dish__desc,
+.bento .dish--quiet .dish__desc {
+  font-size: var(--text-small);
+}
+
+/* Quiet cells — no photo,
+smaller,
+denser */ .dish--quiet {
+  padding: var(--space-5);
+  background: transparent;
+  border: 1px solid var(--color-rule);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.bento .dish--quiet .dish__head { margin-bottom: var(--space-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ DRINKS GRID · simple location-based legend ═══════════════════════════════════════════════════════════════════ */ .drinks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.drinks-grid__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--color-canvas-3);
+  border: 1px solid var(--color-rule);
+}
+
+.drinks-grid__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.drinks-grid__list {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ MENU END · find a room + dietary key ═══════════════════════════════════════════════════════════════════ */ .menu-end {
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+  border-top: 1px solid var(--color-rule);
+}
+
+.menu-end__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+.menu-end__lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.menu-end__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.menu-end__eyebrow::before {
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+
+.menu-end__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.menu-end__title em { font-style: normal; color: var(--color-red);
+}
+
+.menu-end__sub {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 38rem;
+}
+
+.menu-end__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.menu-end__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.menu-end__cta--primary {
+  background: var(--color-red);
+  color: var(--color-system-cream);
+}
+
+.menu-end__cta--primary:hover,
+.menu-end__cta--primary:focus-visible {
+  background: var(--color-red-deep);
+  transform: translateX(3px);
+}
+
+.menu-end__cta--quiet {
+  background: transparent;
+  color: var(--color-ink-2);
+  border: 1px solid var(--color-rule-strong);
+}
+
+.menu-end__cta--quiet:hover,
+.menu-end__cta--quiet:focus-visible {
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.menu-end__legend {
+  padding: var(--space-6);
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+}
+
+.menu-end__legend-title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.menu-end__legend-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
+}
+
+.menu-end__legend-list dt {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.menu-end__legend-list dd {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-2);
+}
+
+/* --- Responsive ------------------------------------------------------- */ @media (max-width: 64rem) {
+.menu-hero__inner { grid-template-columns: 1fr; gap: var(--space-7);
+}
+
+.menu-hero__jumps { grid-template-columns: repeat(4, 1fr);
+}
+
+.menu-section { padding: var(--space-10) var(--layout-gutter);
+}
+
+.menu-section__head { margin-bottom: var(--space-8);
+}
+
+.bento { gap: var(--space-3);
+}
+
+.bento--ramen { grid-auto-rows: minmax(15rem, auto);
+}
+
+.bento .dish--ramen-tonkotsu { grid-column: span 12; grid-row: auto;
+}
+
+.bento .dish--ramen-red { grid-column: span 12; grid-row: auto;
+}
+
+.bento .dish--ramen-black { grid-column: span 6; grid-row: auto;
+}
+
+.bento .dish--ramen-white { grid-column: span 6; grid-row: auto;
+}
+
+.bento .dish--ramen-sesame { grid-column: span 12; grid-row: auto;
+}
+
+.bento .dish--ramen-vegan { grid-column: span 12; grid-row: auto;
+}
+
+.bento .dish--ramen-chicken { grid-column: span 6; grid-row: auto;
+}
+
+.bento .dish--ramen-miso { grid-column: span 6; grid-row: auto;
+}
+
+.bento .dish--izakaya-photo { grid-column: span 6;
+}
+
+.bento .dish--izakaya-text { grid-column: span 12;
+}
+
+.bento--izakaya .dish--quiet { grid-column: span 6;
+}
+
+.bento .dish--dessert { grid-column: span 12;
+}
+
+.bento--dessert .dish--quiet { grid-column: span 12;
+}
+
+.drinks-grid { grid-template-columns: repeat(2, 1fr);
+}
+
+.menu-end__inner { grid-template-columns: 1fr; gap: var(--space-7);
+}
+
+}
+
+@media (max-width: 40rem) {
+.menu-hero { padding: var(--space-9) var(--layout-gutter) var(--space-8);
+}
+
+.menu-hero__jumps { grid-template-columns: repeat(2, 1fr);
+}
+
+.menu-hero__jump { padding: var(--space-4);
+}
+
+.menu-section { padding: var(--space-8) var(--layout-gutter);
+}
+
+.bento--ramen { grid-auto-rows: minmax(13rem, auto);
+}
+
+.bento .dish--ramen-black,
+.bento .dish--ramen-white,
+.bento .dish--ramen-chicken,
+.bento .dish--ramen-miso,
+.bento .dish--izakaya-photo { grid-column: span 12;
+}
+
+.bento--izakaya .dish--quiet { grid-column: span 12;
+}
+
+.drinks-grid { grid-template-columns: 1fr;
+}
+
+}

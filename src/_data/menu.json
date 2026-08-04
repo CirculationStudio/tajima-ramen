@@ -1,16 +1,10 @@
 {
   "_note": "Menu data layer per SITE_ARCHITECTURE.md. One row per dish. Feeds /menu/, the home teaser, and Menu schema. CLAUDE.md is explicit: menu items, descriptions, and prices are NEVER generated or modified without client approval.",
-
   "_status": "INCOMPLETE AND NOT LAUNCH-READY. This file holds only the ten dishes confirmed in CLIENT_FACTS.md, at brand-level prices. It is NOT the per-location menu. SITE_ARCHITECTURE.md Open Decision #12: we do not know what each location actually serves, Toast is the seed source, and /menu/ cannot ship until that pull happens.",
-
   "_availabilityStatus": "STUBBED. The `locations` array is the per-location availability column described in SITE_ARCHITECTURE.md. It is deliberately empty on every row because we do not have the data. Templates must not render per-location availability while this is empty, and Menu schema must not be emitted per location. College Heights (pared-down ramen bar), Plaza Bonita (quick-serve, no alcohol), and Maui (own dishes) genuinely differ.",
-
   "_descriptionStatus": "DRAFT, PENDING CLIENT APPROVAL. Descriptions are ingredient lists carried over from the design concept, with unconfirmed claims removed (the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here). No description asserts anything about flour, hydration, water, alkalinity, aging, or noodle cadence. Amanda must sign these off before launch.",
-
   "_priceStatus": "Brand-level prices from the Client DNA. CLIENT_FACTS.md says prices drift and must be treated as CONFIRM before shipping schema `offers`. No `offers` are emitted anywhere yet.",
-
   "_carnitasNote": "Carnitas Ramen is deliberately absent. It is a real dish at all six SD locations and was the most-reviewed ramen in the 2025 sample, but SITE_ARCHITECTURE.md Open Decision #4 is unresolved. The recommendation is to list it plainly with `feature: no` once Sam confirms. Do not add it with `feature: yes` under any circumstance, and do not add it to a hero, card, or photo slot.",
-
   "items": [
     {
       "id": "tonkotsu",
@@ -24,7 +18,10 @@
       "locations": [],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-traditonal-tonkotsu-04.jpeg",
-      "alt": "Traditional Tonkotsu Ramen, thin-sliced pork chashu, wood ear mushrooms, green onions and sesame seeds on pork bone broth"
+      "alt": "Traditional Tonkotsu Ramen, thin-sliced pork chashu, wood ear mushrooms, green onions and sesame seeds on pork bone broth",
+      "bento": "ramen-tonkotsu",
+      "tier": "The original, since 2001",
+      "romaji": "豚骨 · tonkotsu"
     },
     {
       "id": "tajima-red",
@@ -38,7 +35,10 @@
       "locations": [],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-red-02.jpeg",
-      "alt": "Tajima Red ramen with red bomb, chashu and baby bok choy on tonkotsu broth"
+      "alt": "Tajima Red ramen with red bomb, chashu and baby bok choy on tonkotsu broth",
+      "bento": "ramen-red",
+      "tier": "Signature trio",
+      "romaji": null
     },
     {
       "id": "tajima-black",
@@ -52,7 +52,10 @@
       "locations": [],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-black-03.jpeg",
-      "alt": "Tajima Black ramen with black garlic oil and chashu over dark tonkotsu broth"
+      "alt": "Tajima Black ramen with black garlic oil and chashu over dark tonkotsu broth",
+      "bento": "ramen-black",
+      "tier": "Signature trio",
+      "romaji": null
     },
     {
       "id": "tajima-white",
@@ -66,7 +69,10 @@
       "locations": [],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-white-01.jpeg",
-      "alt": "Tajima White ramen, clean tonkotsu base with chashu and a ramen egg"
+      "alt": "Tajima White ramen, clean tonkotsu base with chashu and a ramen egg",
+      "bento": "ramen-white",
+      "tier": "Signature trio",
+      "romaji": null
     },
     {
       "id": "spicy-sesame",
@@ -80,7 +86,10 @@
       "locations": [],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-spicy-sesame-02.jpeg",
-      "alt": "Spicy Sesame Ramen with sesame paste, ground pork, fried garlic and dried chili"
+      "alt": "Spicy Sesame Ramen with sesame paste, ground pork, fried garlic and dried chili",
+      "bento": "ramen-sesame",
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "chicken",
@@ -95,7 +104,10 @@
       "locations": [],
       "dietary": [],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": "ramen-chicken",
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "vegan",
@@ -107,9 +119,14 @@
       "price": "17.00",
       "feature": true,
       "locations": [],
-      "dietary": ["vegan"],
+      "dietary": [
+        "vegan"
+      ],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-vegan-ramen-01.jpeg",
-      "alt": "Vegan Ramen with green spinach noodles, marinated tofu and soy-based broth"
+      "alt": "Vegan Ramen with green spinach noodles, marinated tofu and soy-based broth",
+      "bento": "ramen-vegan",
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "miso",
@@ -125,7 +142,10 @@
       "locations": [],
       "dietary": [],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": "ramen-miso",
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "pork-gyoza",
@@ -140,7 +160,10 @@
       "locations": [],
       "dietary": [],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": null,
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "karaage",
@@ -155,7 +178,10 @@
       "locations": [],
       "dietary": [],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": null,
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "garlic-edamame",
@@ -168,9 +194,14 @@
       "price": "5.50",
       "feature": true,
       "locations": [],
-      "dietary": ["vegan"],
+      "dietary": [
+        "vegan"
+      ],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": null,
+      "tier": null,
+      "romaji": null
     },
     {
       "id": "matcha-panna-cotta",
@@ -185,7 +216,11 @@
       "locations": [],
       "dietary": [],
       "image": null,
-      "alt": null
+      "alt": null,
+      "bento": null,
+      "tier": null,
+      "romaji": null
     }
-  ]
+  ],
+  "_bentoNote": "The `bento` value is the grid-cell modifier from the approved inspo/tajima-menu.html layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels."
 }
