@@ -90,7 +90,7 @@ description: "Internal review page for the proposed Locations mega menu and the 
   <a class="skip-link" href="#main">Skip to content</a>
 
   {# ---------- 1. The real thing, interactive ---------- #}
-  {% include "components/site-header-mega.njk" %}
+  {% include "components/site-header.njk" %}
 
   <main id="main">
     <div class="rv">
@@ -124,7 +124,7 @@ description: "Internal review page for the proposed Locations mega menu and the 
         <span class="rv__stage-label">Desktop</span>
         <div style="position: relative;">
           {% set megaInstance = "static-" %}
-          {% include "components/site-header-mega.njk" %}
+          {% include "components/site-header.njk" %}
         </div>
         <div style="height: 26rem;" aria-hidden="true"></div>
       </div>
@@ -240,8 +240,19 @@ description: "Internal review page for the proposed Locations mega menu and the 
           </ul>
         </div>
 
-        <div class="rv__phone">
-          <iframe class="rv__frame" src="/nav-preview-frame/" title="Mobile preview of the header at 390 pixels wide" loading="lazy"></iframe>
+        <div style="display: flex; gap: var(--space-5); flex-wrap: wrap;">
+          <div>
+            <p class="rv__ba-label">375px, iPhone SE / mini</p>
+            <div class="rv__phone" style="width: 375px;">
+              <iframe class="rv__frame" style="width: 375px;" src="/nav-preview-frame/" title="Header at 375 pixels wide" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div>
+            <p class="rv__ba-label">390px</p>
+            <div class="rv__phone">
+              <iframe class="rv__frame" src="/nav-preview-frame/" title="Header at 390 pixels wide" loading="lazy"></iframe>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -256,6 +267,5 @@ description: "Internal review page for the proposed Locations mega menu and the 
     </div>
   </main>
 
-  <script type="module" src="/src/js/mega-menu.js"></script>
 </body>
 </html>

@@ -25,13 +25,13 @@ title: "Nav preview frame"
   <script type="module" src="/src/js/main.js"></script>
 </head>
 <body>
-  {% include "components/site-header-mega.njk" %}
+  {% include "components/site-header.njk" %}
   <main id="main" style="padding: var(--space-6) var(--layout-gutter); min-height: 60vh;">
+    <h1 class="u-visually-hidden">Header preview at phone width</h1>
     <p style="font-family: var(--font-cond); color: var(--color-ink-3); font-size: var(--text-small);">
       Page content sits here. Open the Locations item above: on this width the panel
       expands inline and pushes this text down, rather than floating over it.
     </p>
   </main>
-  <script type="module" src="/src/js/mega-menu.js"></script>
 </body>
 </html>

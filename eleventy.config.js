@@ -39,6 +39,26 @@ export default function (eleventyConfig) {
     (items || []).filter((item) => item && item[key] === value),
   );
 
+  // Fail the build on an empty or missing collection.
+  //
+  // Nunjucks iterating an undefined key is a no-op: `{% for x in nav.typo %}`
+  // renders nothing, the build succeeds, and the page ships with an empty
+  // <nav>. That happened here, renaming nav.primaryProposed to nav.primary
+  // without updating the header, and every one of the fifteen pages built
+  // green with no navigation at all.
+  //
+  // Wrapping the loop source in this filter turns that into a build failure
+  // with the key name in the message. Cheap, and it covers the whole class:
+  // any renamed, moved, or misspelled data key now stops the build.
+  eleventyConfig.addFilter("nonEmpty", (value, label) => {
+    if (!Array.isArray(value) || value.length === 0) {
+      throw new Error(
+        `nonEmpty(): \`${label}\` is empty or missing. A template is iterating a data key that does not resolve, which would ship an empty element. Check the key name against its data file.`,
+      );
+    }
+    return value;
+  });
+
   // Google Maps universal link for a location, built from locations.json.
   //
   // Defined once here rather than inline in the four places a location card

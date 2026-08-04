@@ -55,6 +55,7 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 
 ### Location 2: Mercury
 - Address: **4411 Mercury Street #110, San Diego, CA 92111** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Neighborhood: **Kearny Mesa.** (Restored 2026-08-03: the NAP paste above replaced the line that carried this, which was the only place the file attributed Kearny Mesa to Mercury. Corroborated by `SITE_ARCHITECTURE.md`, whose `/tajima-mercury/` title is "Izakaya, Sushi, and Full Bar in Kearny Mesa".)
 - Phone: **(858) 278-5367**
 - GPS / GBP URL / Yelp: CONFIRM
 - Opened 2007. Largest format, roughly 90 seats, three 40-inch TVs. On-site parking.
@@ -64,6 +65,7 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 
 ### Location 3: East Village
 - Address: **901 E Street, San Diego, CA 92101-6511** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Neighborhood: **East Village, in downtown San Diego.** (Restored 2026-08-03, same cause as Mercury above. "East Village" is itself a neighborhood target in Service Area; "downtown" is the parent district and is how the East Village persona is described.)
 - Phone: **(619) 431-5820**
 - GPS / GBP URL / Yelp: CONFIRM
 - Opened 2016. Interior by Paul Basile (BASILE Studio). Roughly 64 seats. Street parking and nearby paid lots.

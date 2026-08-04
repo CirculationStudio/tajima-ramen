@@ -10,6 +10,9 @@
 // time, and inject it over HMR in dev. Keeps CSS and JS on one pipeline.
 import "/src/css/app.css";
 
+// Locations mega menu. Global: the header is on every page.
+import "/src/js/mega-menu.js";
+
 // Scroll reveal, progressive enhancement.
 //
 // Content is visible by default in CSS. We only add the `js-reveal` hook (which
