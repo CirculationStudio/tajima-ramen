@@ -1,0 +1,159 @@
+---
+layout: layouts/base.njk
+permalink: /menu/vegan-ramen/
+pageKey: veganRamen
+bodyClass: page-vegan
+title: "Vegan Ramen in San Diego | Tajima"
+description: "Tajima's Vegan Ramen, built on house-made spinach noodles from our own Noodle Room, with a soy-based broth and marinated tofu. Runner-Up for Best Vegan Ramen in Vegan in San Diego's Best of 2017."
+---
+{#
+  /menu/vegan-ramen/. Brief: SITE_ARCHITECTURE.md.
+
+  The only dish page that earns itself: 588 vegan queries and 16,186
+  impressions producing only 131 clicks, because Tajima sits on page two.
+  Real demand, real authority, and the spinach noodle turns a dietary query
+  into a craft answer.
+
+  HARD CONSTRAINT FROM THE BRIEF: "the vegan credibility predates the pivot.
+  Do not frame it as new." The 2017 runner-up is eight years old. Nothing here
+  presents the vegan bowl as a recent addition or as a response to anything.
+
+  The dish, its ingredients, and its price come from menu.json. Nothing about
+  this bowl is written here.
+
+  BRIEF SECTION 4 IS NOT BUILT. "Where to get it. Locations from menu.json
+  `locations` column." That column is empty on every row (Open Decision #12),
+  and two locations genuinely run reduced menus (College Heights is a
+  pared-down ramen bar, Plaza Bonita is quick-serve). Naming rooms that serve
+  this bowl without the data would send a vegan diner somewhere that may not
+  have it, which is worse than sending them to the locations index. Section 4
+  routes to /locations/ instead and says the menu varies.
+#}
+{%- set dish = (menu.items | where("id", "vegan")) | first %}
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <p class="page-hero__crumbs">
+      <a href="/">{{ site.name }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="/menu/">Menu</a>
+      <span aria-hidden="true">/</span>
+      <span class="page-hero__crumbs-current">Vegan Ramen</span>
+    </p>
+    <span class="page-hero__eyebrow">On the menu &middot; ${{ dish.price }}</span>
+    <h1 class="page-hero__title" id="page-title">Vegan Ramen</h1>
+    <p class="page-hero__lede">
+      A soy-based broth, marinated tofu, and green noodles we make ourselves. The spinach noodle is one of the two noodles the Noodle Room produces, and this is the bowl it was made for.
+    </p>
+  </div>
+</section>
+
+{# ==================== 1. THE BOWL ==================== #}
+<section class="sect pattern-section" aria-labelledby="bowl-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">The bowl</span>
+      <h2 class="sect__title" id="bowl-title">What's in <em>it.</em></h2>
+      {# Ingredients from menu.json only. CLAUDE.md: menu descriptions are
+         never generated. #}
+      <p class="sect__note">{{ dish.description }} <a class="sect__link" href="/menu/">See the whole menu</a>.</p>
+    </header>
+
+    <div class="bento">
+      <figure class="cell shot reveal">
+        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="eager" fetchpriority="high" width="800" height="800">
+        <figcaption class="shot__caption">{{ dish.name }} &middot; ${{ dish.price }}</figcaption>
+      </figure>
+
+      {#
+        The award. voice-tone.md bans "award-winning" unless it is verified
+        with a specific award name and year. This one is: Vegan in San Diego,
+        Best of 2017, Runner-Up for Vegan Ramen, published 2018
+        (CLIENT_FACTS.md press list). Stated as the record, not as a boast, and
+        the year is on the face of it because the year is the point.
+      #}
+      <article class="cell diff__cell diff__cell--wide reveal">
+        <h3 class="diff__title">Runner-Up, <em>Best of 2017.</em></h3>
+        <p class="diff__body">
+          Vegan in San Diego named this bowl a Runner-Up for Best Vegan Ramen in its Best of 2017. That was eight years ago. The vegan bowl has been on this menu a long time, and it was here well before the Noodle Room was.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ==================== 2. THE SPINACH NOODLE ==================== #}
+{#
+  The brief's wording for this section is "made in the Noodle Room, same as
+  every other Tajima noodle." The second half is not written here: rollout
+  status is unconfirmed and "every other Tajima noodle" is that claim in
+  another shape. What is confirmed is that the room makes two noodles and this
+  is one of them.
+#}
+<section class="sect sect--alt sect--rule" aria-labelledby="noodle-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">The noodle</span>
+      <h2 class="sect__title" id="noodle-title">Green, and <em>ours.</em></h2>
+      <p class="sect__note">
+        The Noodle Room in Crown Point makes two noodles right now. One is the ramen noodle. The other is this one, the spinach noodle, and it exists for this bowl. Sam spent two years building that room, and there is a machine in it that came over from Japan. <a class="sect__link" href="/noodle-room/">Step inside the Noodle Room</a>.
+      </p>
+    </header>
+  </div>
+</section>
+
+{# ==================== 3. OTHER VEGAN AND VEGETARIAN ==================== #}
+{#
+  From CLIENT_FACTS.md Dietary: "Vegan: Vegan Ramen (spinach noodles,
+  soy-based broth, tofu), Vegetable Gyoza where offered, Vegetarian Fried Rice,
+  Edamame. Vegetarian: several rice and appetizer options."
+
+  "Where offered" is carried through rather than smoothed away, because it is
+  what the source says and because the menu genuinely varies by room.
+#}
+<section class="sect" aria-labelledby="more-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Also on the menu</span>
+      <h2 class="sect__title" id="more-title">Other vegan and <em>vegetarian.</em></h2>
+    </header>
+
+    <div class="diff">
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Garlic Edamame.</h3>
+        <p class="diff__body">Vegan as plated. The most-mentioned appetizer in five-star reviews.</p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Vegetable Gyoza.</h3>
+        <p class="diff__body">Where the room offers it. Not every kitchen runs the same list.</p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Vegetarian Fried Rice.</h3>
+        <p class="diff__body">Vegetarian, alongside several other rice and appetizer options.</p>
+      </article>
+
+      {#
+        CLIENT_FACTS.md: "Gluten-free: no GF noodle option exists. Do not imply
+        one. Some dishes may be prepared GF; the honest line is to ask staff."
+        A vegan diner is the most likely person on the site to also be asking
+        about gluten, so the answer goes here rather than only on /menu/.
+      #}
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">On gluten.</h3>
+        <p class="diff__body">There is no gluten-free noodle, here or in any other bowl. Some dishes can be prepared without gluten, so ask the crew.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ==================== 4. WHERE TO GET IT ==================== #}
+<section class="loc-close" aria-labelledby="where-title">
+  <div class="loc-close__inner">
+    <h2 class="loc-close__title" id="where-title">Where to get it.</h2>
+    <p class="loc-close__sub">
+      The menu is not identical in every room, so check with the one nearest you. <a href="/locations/">All six San Diego rooms</a>, with addresses and phone numbers, or <a href="/order-online/">order online</a>.
+    </p>
+  </div>
+</section>

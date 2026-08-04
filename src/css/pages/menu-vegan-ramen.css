@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Page: /menu/vegan-ramen/
+
+   Composed entirely from existing blocks: page-hero, sect, bento, cell, shot,
+   diff, and loc-close. No new block was needed, so none was invented. These
+   are the two adjustments the composition required.
+   ========================================================================== */
+
+/* The bowl photo and the award cell sit side by side in the 12-column
+   interior bento. */
+.page-vegan .bento .shot {
+  grid-column: span 7;
+}
+
+.page-vegan .bento .diff__cell--wide {
+  grid-column: span 5;
+}
+
+@media (max-width: 64rem) {
+  .page-vegan .bento .shot,
+  .page-vegan .bento .diff__cell--wide {
+    grid-column: span 12;
+  }
+}

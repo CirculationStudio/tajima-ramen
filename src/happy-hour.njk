@@ -3,38 +3,49 @@ layout: layouts/base.njk
 permalink: /happy-hour/
 pageKey: happyHour
 title: "Tajima Happy Hour | San Diego"
-description: "Happy hour at Tajima Ramen across San Diego. Times and what is on it vary by room, and Plaza Bonita does not serve alcohol. Walk in, no reservations."
+description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and how to check today's times. Plaza Bonita is quick-serve and does not serve alcohol."
 ---
 {#
   /happy-hour/. Brief: SITE_ARCHITECTURE.md.
 
   This page earns 1,361 clicks with ZERO internal links pointing at it. It
   catches 1,107 happy-hour clicks across 165 queries; all six location pages
-  combined catch 32. A page nobody links to outperforms the entire location set
-  by 35x, because "tajima happy hour" contains no location and a location page
-  cannot answer it. The brief: "This must be in the nav. Its whole problem was
-  that it was invisible internally."
+  combined catch 32, because "tajima happy hour" contains no location and a
+  location page cannot answer it. It is now linked from the footer, /menu/,
+  and the Convoy address plate.
 
-  It is now linked from the footer, from /menu/, and from the Convoy address
-  plate. FLAG: it is still not in the HEADER nav (nav.json primary), which
-  currently holds Menu, About, Locations, and Noodle Room. Adding a fifth item
-  is a design call on a header that was signed off with four, so it is Steve's.
+  Per Steve, it stays OUT of the header nav tonight. Adding a fifth item to a
+  header signed off with four is a design decision, not a build one.
 
-  EVERY TIME AND PRICE ON THIS PAGE IS UNVERIFIED. See _data/happyHour.json.
-  They came from the design concept, not from Tajima, and CLIENT_FACTS.md has
-  no happy hour data at all. This is the same class of promise as opening
-  hours, which CLIENT_FACTS.md forbids publishing unconfirmed, and it deserves
-  the same treatment: Amanda confirms the table or the page does not launch.
+  ============================ TIMES AND PRICES ARE PULLED ============================
+
+  This page previously rendered per-location windows (11:30am to 6:00pm, and
+  Convoy's late-night Fri/Sat) plus drink and food prices, all carried from the
+  design concept. They were removed on Steve's call and the reasoning is the
+  same one that keeps opening hours off every other page: CLIENT_FACTS.md
+  forbids publishing hours the door does not honor, a happy hour window is the
+  same promise, and the failure mode is someone driving over at 5 for a window
+  that shut at 4. The prices were worse: CLAUDE.md says menu prices are never
+  published without client approval and nobody at Tajima has seen these.
+
+  The markup for windows, drinks, and food is still below, behind an `if`.
+  Populate _data/happyHour.json with real values from Amanda and it renders
+  again. Do not restore the concept values.
+
+  WHAT SURVIVES IS ONLY WHAT TRACES TO CLIENT_FACTS.md:
+    - happy hour exists and varies by room
+    - Plaza Bonita is quick-serve with no alcohol, so it has none
+    - East Village runs Padres game-night beer specials and longer hours on
+      home game nights. EAST VILLAGE ONLY. Not widened to the other rooms, and
+      the concept's "$3.50 every tap beer, all locations" is gone with the rest.
 #}
 
 <section class="hh-hero" aria-labelledby="page-title">
   <div class="hh-hero__inner">
     <span class="hh-hero__eyebrow">San Diego</span>
     <h1 class="hh-hero__title" id="page-title">Happy Hour</h1>
-    {# Brief section 1: one line, happy hour runs at most locations and the
-       details vary. Said plainly rather than promised uniformly. #}
     <p class="hh-hero__sub">
-      Happy hour runs at most of the San Diego rooms. The window and what is on it are not the same everywhere, so the times below are per room. <a href="/locations/">Find your Tajima</a>.
+      Happy hour runs at most of the San Diego rooms, and the window is not the same everywhere. We are confirming the current times room by room. Until they are up here, call the one you are heading to and they will tell you. <a href="/locations/">Find your Tajima</a>.
     </p>
   </div>
 </section>
@@ -55,15 +66,15 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
       {%- if hh.noAlcohol %}
       {#
         Brief section 4: "Plaza Bonita: no alcohol. Say it plainly."
-        Quick-serve food court, no alcohol at all, per CLIENT_FACTS.md. Said
-        directly rather than by leaving the card empty and letting someone
-        drive to National City to find out.
+        This is confirmed, so it is stated outright rather than left as a gap
+        for someone to drive to National City and discover.
       #}
       <p class="hh-card__no-alcohol">
         Plaza Bonita is quick-serve inside the mall and does not serve alcohol, so there is no happy hour here. The bowls are the same bowls.
       </p>
-      {%- else %}
 
+      {%- elif hh.windows | length %}
+      {# Renders only when _data/happyHour.json holds confirmed values. #}
       <div class="hh-card__hours">
         {%- for window in hh.windows %}
         <div class="hh-card__hours-row">
@@ -74,6 +85,7 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
       </div>
 
       <div class="hh-card__lists">
+        {%- if hh.drinks | length %}
         <div>
           <p class="hh-card__list-label">Drinks</p>
           <ul class="hh-card__list">
@@ -82,6 +94,8 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
             {%- endfor %}
           </ul>
         </div>
+        {%- endif %}
+        {%- if hh.food | length %}
         <div>
           <p class="hh-card__list-label">Food</p>
           <ul class="hh-card__list">
@@ -90,7 +104,20 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
             {%- endfor %}
           </ul>
         </div>
+        {%- endif %}
       </div>
+
+      {%- else %}
+      {#
+        No confirmed times for this room. The card still does the useful half
+        of its job: it names the room, routes to it, and hands over a phone
+        number that IS confirmed. It does not hold space for a value we do not
+        have, and it does not promise one is coming on a date nobody set.
+      #}
+      <p class="hh-card__pending">
+        Times are being confirmed. Call the room and they will tell you what is running today.
+      </p>
+      <a class="hh-card__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
       {%- endif %}
 
       <span class="hh-card__tag">{{ hh.tag }}</span>
@@ -101,13 +128,14 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
 
 {# ==================== PADRES ==================== #}
 {#
-  Brief section 3. Note the wording: "the San Diego rooms that pour it" rather
-  than "all locations", because Plaza Bonita has no alcohol and the promo
-  module in SITE_ARCHITECTURE.md excludes it explicitly.
+  Brief section 3, scoped down to what CLIENT_FACTS.md actually confirms.
+  Its East Village entry: "Padres game-night beer specials and extended hours
+  on home game nights." That is this room and no other. The concept's "every
+  tap beer $3.50, all SD locations except Plaza Bonita" carried a price and a
+  scope that appear nowhere in CLIENT_FACTS.md, and both are gone.
 
-  This is date-bounded in reality (a season, not a permanent fact) and
-  SITE_ARCHITECTURE.md's position is that time-bound promos belong on GBP
-  Posts. It is one block and it is deletable as one block, on purpose.
+  Still date-bounded in reality. SITE_ARCHITECTURE.md's position is that
+  time-bound promos belong on GBP Posts. One block, deletable as one block.
 #}
 <section class="hh-padres" aria-labelledby="padres-title">
   <div class="hh-padres__inner">
@@ -115,7 +143,7 @@ description: "Happy hour at Tajima Ramen across San Diego. Times and what is on 
       <strong id="padres-title">{{ happyHour.padres.headline }}.</strong>
       {{ happyHour.padres.body }}
     </p>
-    <a class="hh-padres__link" href="/tajima-east-village/">East Village is the walk to Petco</a>
+    <a class="hh-padres__link" href="/tajima-east-village/">See East Village</a>
   </div>
 </section>
 

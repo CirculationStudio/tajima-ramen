@@ -149,6 +149,7 @@ const menuEntity = {
       .map((item) => {
         const entry = {
           "@type": "MenuItem",
+          "@id": `${site.url}/menu/#item-${item.id}`,
           name: item.name,
         };
         if (item.description) entry.description = item.description;
@@ -244,7 +245,29 @@ function webPage(slug, name, crumbName) {
   };
 }
 
+  // Brief: "WebPage + MenuItem referenced by @id from /menu/#menu. Do not
+  // redefine the item." So this page points at the MenuItem the menu page
+  // already defines rather than declaring a second copy of the same dish.
 export default {
+  veganRamen: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${site.url}/menu/vegan-ramen/#webpage`,
+        url: `${site.url}/menu/vegan-ramen/`,
+        name: "Vegan Ramen in San Diego",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORG_ID },
+        mainEntity: { "@id": `${site.url}/menu/#item-vegan` },
+        breadcrumb: breadcrumb([
+          { name: "Menu", url: "/menu/" },
+          { name: "Vegan Ramen", url: "/menu/vegan-ramen/" },
+        ]),
+      },
+    ],
+  },
+
   about: {
     "@context": "https://schema.org",
     "@graph": [
