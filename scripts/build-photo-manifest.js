@@ -81,6 +81,23 @@ const OFFSITE_KITCHEN_ALLOWLIST = new Set([
   "tajima-ramen-offsite-kitchen-02-landscape",
 ]);
 
+// CLIENT_FACTS.md, The menu: "Do not feature: Carnitas Ramen, Tajima Fries,
+// Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeno Bomb.
+// These are real dishes real customers order. They are not hidden, they are
+// not the brand voice."
+//
+// A photograph of one is not a reason to overturn that. These are listed, not
+// silently discarded, because deleting them would hide a real asset from the
+// person who has to decide.
+const DO_NOT_FEATURE = [
+  ["carnitas", "Carnitas Ramen"],
+  ["tajima-fries", "Tajima Fries"],
+  ["curry-fries", "Curry Fries"],
+  ["cream-cheese-wonton", "Cream Cheese Wontons"],
+  ["crispy-rice-spicy-tuna", "Crispy Rice Spicy Tuna"],
+  ["jalapeno-bomb", "Jalapeno Bomb"],
+];
+
 // Words that mark a photo as showing noodle or broth production.
 const PROCESS_WORDS = [
   "noodle", "noodles", "dough", "sheeter", "sheeting", "cut", "cutter",
@@ -137,25 +154,39 @@ function orientation(d) {
   return "square";
 }
 
-// Match a filename against menu.json. Longest dish name first so
-// "tajima-red" cannot be swallowed by a shorter overlapping id.
+// Match a filename against menu.json, on TOKEN BOUNDARIES.
+//
+// Substring matching was wrong and the Kihei set proved it: the id `chicken`
+// is a substring of "Chicken-Chashu-Bowl", "Chicken-Katsu-Bun" and
+// "Chicken-Katsu-Curry-Rice", none of which are the Chicken Ramen on
+// menu.json, and `karaage` and `chicken` both appear in
+// "Karaage-Fried-Chicken" so whichever sorted first would have won silently.
+//
+// Now a dish matches only if its key appears as a contiguous run of whole
+// hyphen-delimited tokens, and if MORE THAN ONE dish matches the file goes to
+// UNMAPPED rather than picking a winner.
 function matchDish(stem) {
-  const candidates = menu.items
-    .map((item) => ({
-      id: item.id,
-      name: item.name,
-      keys: [item.id, item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")],
-    }))
-    .sort((a, b) => Math.max(...b.keys.map((k) => k.length)) - Math.max(...a.keys.map((k) => k.length)));
+  const tokens = stem.split("-").filter(Boolean);
+  const contains = (keyTokens) => {
+    for (let i = 0; i + keyTokens.length <= tokens.length; i += 1) {
+      if (keyTokens.every((t, j) => tokens[i + j] === t)) return true;
+    }
+    return false;
+  };
 
-  for (const c of candidates) {
-    for (const key of c.keys) {
-      if (key && stem.includes(key)) return c.id;
+  const hits = new Set();
+  for (const item of menu.items) {
+    const keys = [item.id, item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")];
+    for (const key of keys) {
+      if (key && contains(key.split("-").filter(Boolean))) hits.add(item.id);
     }
   }
-  // The source set carries a known typo we do not "fix" on the way in.
-  if (stem.includes("traditonal-tonkotsu") || stem.includes("traditional-tonkotsu")) return "tonkotsu";
-  return null;
+  // Known typo in the source set. Not "fixed" on the way in, just understood.
+  if (contains(["traditonal", "tonkotsu"]) || contains(["traditional", "tonkotsu"])) hits.add("tonkotsu");
+
+  if (hits.size === 0) return null;
+  if (hits.size > 1) return { ambiguous: [...hits] };
+  return [...hits][0];
 }
 
 function classify(stem, dish) {
@@ -167,31 +198,40 @@ function classify(stem, dish) {
 
 function proposedUse(location, dish, type) {
   const uses = [];
-  if (dish) {
-    uses.push("/menu/");
+
+  // MAUI IS SCOPED TO ITS OWN PAGE. A Kihei bowl is not proposed for /menu/ or
+  // the home teaser even when the filename names a dish that exists on
+  // menu.json. menu.json is the brand and San Diego menu; CLIENT_FACTS.md says
+  // Maui runs "dishes of its own", and per-location availability is still
+  // unknown (Open Decision #12). Illustrating the brand menu with a photograph
+  // from a 2,500-mile-away kitchen asserts the products are the same dish, and
+  // nobody has established that.
+  const brandLevelAllowed = location !== "maui";
+
+  if (dish && typeof dish === "string" && brandLevelAllowed) {
     const item = menu.items.find((i) => i.id === dish);
-    if (item && item.feature) uses.push("/");
-    if (dish === "vegan") uses.push("/menu/vegan-ramen/");
+    // feature: false means plain line, no photo, no card, no callout. Carnitas
+    // is the live case (Open Decision #4, resolved 2026-08-04): it ships as a
+    // line on /menu/ and must never acquire a photo slot. Proposing one here
+    // would hand someone the exact thing the decision was designed to prevent.
+    if (item && item.feature) {
+      uses.push("/menu/", "/");
+      if (dish === "vegan") uses.push("/menu/vegan-ramen/");
+    }
   }
-  // A photo only reaches a location page if the FILENAME named that location.
+
   if (location) {
-    const slug = location === "college-heights" ? "/tajima-college-heights/"
+    const slug =
+      location === "college-heights" ? "/tajima-college-heights/"
       : location === "maui" ? "/tajima-ramen-maui-hawaii/"
       : `/tajima-${location}/`;
     uses.push(slug);
   }
-  // /noodle-room/ is the narrowest gate on the site, and an early version of
-  // this script got it wrong: it proposed `tajima-college-heights-open-kitchen`
-  // for the Noodle Room, because "kitchen" reads as a process word. A College
-  // Heights open kitchen is a restaurant line, not the Crown Point commissary,
-  // and putting it on that page would assert that College Heights makes
-  // noodles. That is the exact claim CLIENT_FACTS.md says is unconfirmed.
-  //
-  // So the gate is allowlist, not blocklist: a process photo reaches the
-  // Noodle Room only if the filename says Crown Point, or says no location at
-  // all. Any photo that names a different room is excluded by that fact alone.
-  // Maui is excluded twice over, here and by MAUI_PROCESS_FLAGGED, since
-  // whether its process matches Crown Point is unconfirmed (Open Decision #1).
+
+  // /noodle-room/ is the narrowest gate on the site. A process photo reaches it
+  // only if the filename says crown-point or names no location at all. Maui is
+  // excluded here AND by MAUI_PROCESS_FLAGGED below: whether its process
+  // matches Crown Point is unconfirmed (Open Decision #1).
   if (type === "process" && (location === null || location === "crown-point")) {
     uses.push("/noodle-room/");
   }
@@ -207,6 +247,7 @@ const files = fs.existsSync(PHOTO_DIR)
 const manifest = {};
 const unmapped = [];
 const mauiFlagged = [];
+const doNotFeature = [];
 
 for (const file of files) {
   const stem = file.replace(/\.[^.]+$/, "").toLowerCase();
@@ -230,16 +271,31 @@ for (const file of files) {
     }
   }
 
-  const dish = matchDish(stem);
+  const dishMatch = matchDish(stem);
+  const ambiguous = dishMatch && typeof dishMatch === "object" ? dishMatch.ambiguous : null;
+  const dish = ambiguous ? null : dishMatch;
   const type = classify(stem, dish);
+  const banned = DO_NOT_FEATURE.find(([token]) => stem.includes(token));
   const isProcess = type === "process";
 
+  // A dish id on a MAUI photo is a guess, not a fact, so it is recorded as one.
+  // menu.json describes the brand and San Diego menu. CLIENT_FACTS.md says Maui
+  // runs "dishes of its own", and the Kihei set proves the gap: "Chicken Chashu
+  // Bowl", "Chicken Katsu Bun" and "Chicken Katsu Curry Rice" all contain the
+  // token `chicken` and none of them is menu.json's Chicken Ramen. Leaving
+  // `dish` populated would let a later step treat a Kihei plate as the San
+  // Diego menu item of the same name.
+  const isMaui = location === "maui";
   const entry = {
     file,
     src: `/images/photo/${file}`,
     location,
     locationSource,
-    dish,
+    dish: isMaui ? null : dish,
+    dishGuessFromFilename: isMaui && dish ? dish : undefined,
+    dishGuessNote: isMaui && dish
+      ? "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability."
+      : undefined,
     type,
     width: dim ? dim.width : null,
     height: dim ? dim.height : null,
@@ -254,6 +310,22 @@ for (const file of files) {
 
   if (denied) {
     unmapped.push({ file, reason: denied[1] });
+    continue;
+  }
+  if (ambiguous) {
+    unmapped.push({
+      file,
+      reason: `Filename matches more than one dish on menu.json (${ambiguous.join(", ")}). Not guessed. A human has to say which, or confirm it is a Maui dish that is not on menu.json at all.`,
+    });
+    continue;
+  }
+  if (banned) {
+    doNotFeature.push({
+      file,
+      dish: banned[1],
+      location,
+      reason: `"${banned[1]}" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision.`,
+    });
     continue;
   }
   if (stem.includes("offsite-kitchen") && !location) {
@@ -288,15 +360,17 @@ const output = {
   _mapped: Object.keys(manifest).length,
   _unmapped: unmapped.length,
   _mauiFlagged: mauiFlagged.length,
+  _doNotFeature: doNotFeature.length,
   photos: manifest,
   UNMAPPED: unmapped,
   MAUI_PROCESS_FLAGGED: mauiFlagged,
+  DO_NOT_FEATURE_FLAGGED: doNotFeature,
 };
 
 if (DRY) {
   console.log(JSON.stringify(output, null, 2));
 } else {
   fs.writeFileSync(OUT, JSON.stringify(output, null, 2) + "\n");
-  console.log(`${files.length} files: ${Object.keys(manifest).length} mapped, ${unmapped.length} unmapped, ${mauiFlagged.length} maui-flagged`);
+  console.log(`${files.length} files: ${Object.keys(manifest).length} mapped, ${unmapped.length} unmapped, ${mauiFlagged.length} maui-process-flagged, ${doNotFeature.length} do-not-feature-flagged`);
   console.log(`wrote ${path.relative(ROOT, OUT)}`);
 }
