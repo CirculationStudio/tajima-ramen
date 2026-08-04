@@ -77,7 +77,15 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* Explicit rhythm rather than space-between. The panel is min-height
+     100vh minus the header, so space-between handed the two internal gaps
+     whatever was left over: roughly 100px each on a 1080px screen, and a
+     different number on every viewport. Neither value was on the scale.
+     A fixed gap plus `margin-top: auto` on the bottom row keeps the CTA
+     pinned to the floor while the top group and the h1 hold a real
+     interval. */
+  justify-content: flex-start;
+  gap: var(--space-8);
   padding: var(--space-9) var(--space-10);
   transition: background var(--duration-slow) var(--ease-smooth);
 }
@@ -112,7 +120,10 @@
 .hero__panel-top{
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  /* 16px, up from 12px. The logo, the eyebrow, and the lede are three
+     different type sizes stacked; 12px read as a single clump against the
+     48px gap below it. */
+  gap: var(--space-4);
 }
 .hero__logo{
   height: 4rem;
@@ -139,7 +150,18 @@
 .hero__display{
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
-  font-size: var(--text-mega);
+  /* Was var(--text-mega), clamp(5rem, 12vw, 13rem).
+     --text-mega was sized in the concept for a three-word hero ("Eat /
+     Ramen / Slurp loud"). The approved slogan is three full lines, and the
+     longest ("weren't for sale.") runs about 6.7em in this condensed face.
+     The panel is half the viewport minus 160px of padding, so at 1440px it
+     has ~560px to work with and 12vw asked for 173px. It overran the
+     column and swallowed everything around it.
+     5.5vw tracks the panel's own width: ~83px at 1440px, ~105px at 1920px,
+     both just inside the measure. The 7rem ceiling stops it running away on
+     ultrawide, and the 2.75rem floor is what fits a 375px phone once the
+     grid collapses to one column. */
+  font-size: clamp(2.75rem, 5.5vw, 7rem);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
   color: var(--color-system-cream);
@@ -159,6 +181,9 @@
     0 0 32px rgba(255, 210, 94, 0.35);
 }
 .hero__panel-bottom{
+  /* Absorbs the leftover height so the CTA row stays on the floor of the
+     panel while the gap above the h1 stays fixed. */
+  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

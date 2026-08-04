@@ -315,7 +315,14 @@
 .bento .dish__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  /* 12px, up from 8px, and now the only thing setting internal spacing on
+     this card. `.dish__head` and `.dish__romaji` used to add their own
+     margin-bottom on top of the gap, so the real intervals were sums:
+     8+4 above the name, 8 below it, 8+8 below the romaji. Three different
+     values, none of them written down anywhere. One token now does all of
+     it, and every interval is a scale step rather than an accident of
+     which elements happen to be present. */
+  gap: var(--space-3);
   padding: var(--space-5) var(--space-5) var(--space-6);
   background: var(--color-canvas-2);
 }
@@ -333,7 +340,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-bottom: var(--space-1);
+  /* margin-bottom removed: the body's gap owns vertical rhythm now. */
 }
 
 .bento .dish__tier {
@@ -392,7 +399,7 @@
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-wide);
   color: var(--color-ink-3);
-  margin-bottom: var(--space-2);
+  /* margin-bottom removed: the body's gap owns vertical rhythm now. */
 }
 
 .bento .dish__desc {

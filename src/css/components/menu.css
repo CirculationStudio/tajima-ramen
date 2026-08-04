@@ -72,12 +72,19 @@
 .dish:hover .dish__img{ transform: scale(1.04); }
 [data-mode="night"] .dish__img{ filter: saturate(1.18) brightness(0.94); }
 .dish__meta{
-  padding: var(--space-4) 0;
+  /* 24px above the title, 16px below it before the rule.
+     Was a symmetric 16px. The name is uppercase display type, which has a
+     tall cap height and almost no internal leading, so 16px measured off
+     the photo edge read as roughly half that optically and the title sat on
+     the image. The two values are deliberately unequal: the space above
+     separates the title from the photo, the space below only has to hold it
+     off a hairline. */
+  padding: var(--space-5) 0 var(--space-4);
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: baseline;
   gap: var(--space-4);
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
 }
 .dish__name{
   font-family: var(--font-display);
@@ -100,7 +107,10 @@
   color: var(--color-ink-2);
 }
 .dish__desc{
-  margin-top: var(--space-3);
+  /* 16px, matching the space below the title. The description and the title
+     sit either side of the same hairline, so the rule reads as centred in
+     its own interval instead of drifting toward the description. */
+  margin-top: var(--space-4);
   font-family: var(--font-cond);
   font-weight: var(--weight-light);
   font-size: var(--text-small);
