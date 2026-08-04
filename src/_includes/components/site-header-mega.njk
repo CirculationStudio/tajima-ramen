@@ -112,26 +112,33 @@
                       distinct accessible name, since "Order online" seven times
                       is useless in a links list.
                     #}
-                    <div class="loc-card__actions">
-                      <a class="loc-card__order" href="/order-online/#{{ loc.id }}">
-                        Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
-                      </a>
-                      {#
-                        Directions. URL built by the `mapsUrl` filter from this
-                        location's own address in locations.json, so it cannot
-                        drift from what the page prints. New tab because it
-                        hands off to a native Maps app on phones and losing the
-                        site behind that is worse than a second tab. The
-                        new-tab warning is in the accessible name, not implied
-                        by an icon nobody can hear.
-                      #}
-                      <a class="loc-card__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
-                        Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
-                        <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                          <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      </a>
-                    </div>
+                    {#
+                      Directions sits between the neighborhood and the order
+                      button, as a plain underlined link rather than a second
+                      pill. Two pills side by side read as two competing calls
+                      to action in a card the size of a business card; there is
+                      one action here and it is ordering.
+
+                      It has to live outside .loc-card__link, not inside it:
+                      the card is already a link, and an anchor inside an
+                      anchor is invalid and makes the inner one unreachable.
+
+                      URL from the `mapsUrl` filter, same data as every other
+                      Directions link. New tab because it hands off to a native
+                      Maps app on phones, and the warning is in the accessible
+                      name rather than implied by an icon.
+                    #}
+                    <a class="link-quiet loc-card__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                      Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
+                      <svg width="10" height="10" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </a>
+
+                    {# The one button in the card. #}
+                    <a class="loc-card__order" href="/order-online/#{{ loc.id }}">
+                      Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
+                    </a>
                   </article>
                 </li>
                 {%- endfor %}

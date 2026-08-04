@@ -207,40 +207,14 @@
   font-size: var(--text-micro);
   line-height: var(--leading-snug);
   color: var(--color-ink-3);
-  padding: var(--space-1) var(--space-4) var(--space-4);
+  /* Bottom padding is small because the Directions link sits immediately
+     below and owns the space down to the button. */
+  padding: var(--space-1) var(--space-4) var(--space-2);
 }
 
 .loc-card__link:hover .loc-card__name,
 .loc-card__link:focus-visible .loc-card__name {
   color: var(--color-red);
-}
-
-/* Compact order button. Hairline-outlined, never a second red: the header CTA
-   is where this view spends its accent budget (DESIGN_SYSTEM.md). */
-.loc-card__order {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin: 0 var(--space-3) var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  border: var(--stroke-hair) solid var(--color-rule-strong);
-  border-radius: 999px;
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-ink-2);
-  transition:
-    color var(--duration-fast) var(--ease-smooth),
-    border-color var(--duration-fast) var(--ease-smooth);
-}
-
-.loc-card__order:hover,
-.loc-card__order:focus-visible {
-  color: var(--color-ink);
-  border-color: var(--color-red);
 }
 
 /* --------------------------------------------------------------------------
@@ -350,7 +324,11 @@
   }
 
   .loc-card__hood {
-    padding: var(--space-1) var(--space-3) var(--space-3);
+    padding: var(--space-1) var(--space-3) var(--space-2);
+  }
+
+  .loc-card__directions {
+    margin: 0 var(--space-3) var(--space-2);
   }
 
   .mega__foot {
@@ -366,16 +344,15 @@
     grid-template-columns: 1fr;
   }
 
-  .loc-card {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
+  /* The card stays a column. Only the media-and-text row goes horizontal.
+     Directions and Order are siblings of the card link now, not children of
+     it, so turning the CARD into a row would put all three side by side and
+     crush every one of them. */
   .loc-card__link {
     flex-direction: row;
     align-items: center;
     gap: var(--space-3);
-    flex: 1 1 auto;
+    padding-bottom: var(--space-3);
   }
 
   .loc-card__media {
@@ -391,36 +368,36 @@
     padding: 0;
   }
 
-  .loc-card__actions {
-    margin: var(--space-3);
-    align-self: center;
-    grid-template-columns: 1fr;
-    gap: var(--space-1);
+  .loc-card__directions {
+    margin: 0 var(--space-3) var(--space-2);
+  }
+
+  .loc-card__order {
+    margin: 0 var(--space-3) var(--space-3);
+    align-self: flex-start;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Card actions: Order online + Directions, side by side.
+   Card actions.
 
-   Both are hairline-outlined and neither is red. The header CTA is where this
-   view spends its accent budget (DESIGN_SYSTEM.md: one red per viewport), and
-   fourteen red pills in an open panel would be the opposite of that rule.
+   ONE button per card. Directions is a quiet underlined link above it (see
+   .link-quiet in base.css), not a second pill: two pills side by side in a
+   card this size read as two competing calls to action, and only one of them
+   is the action.
    -------------------------------------------------------------------------- */
-.loc-card__actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2);
-  margin: 0 var(--space-3) var(--space-3);
+.loc-card__directions {
+  margin: 0 var(--space-4) var(--space-3);
+  align-self: flex-start;
 }
 
-.loc-card__order,
-.loc-card__directions {
+.loc-card__order {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1);
-  margin: 0;
-  padding: var(--space-2) var(--space-2);
+  gap: var(--space-2);
+  margin: 0 var(--space-3) var(--space-3);
+  padding: var(--space-2) var(--space-4);
   border: var(--stroke-hair) solid var(--color-rule-strong);
   border-radius: 999px;
   font-family: var(--font-ui);
@@ -428,7 +405,9 @@
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--color-ink-2);
+  /* Full ink, where the quiet link above sits at ink-3. The two are a step
+     apart on purpose so the hierarchy is legible before you read either. */
+  color: var(--color-ink);
   text-align: center;
   transition:
     color var(--duration-fast) var(--ease-smooth),
@@ -436,17 +415,7 @@
 }
 
 .loc-card__order:hover,
-.loc-card__order:focus-visible,
-.loc-card__directions:hover,
-.loc-card__directions:focus-visible {
-  color: var(--color-ink);
+.loc-card__order:focus-visible {
   border-color: var(--color-red);
 }
 
-/* Two pills side by side stop fitting long before the card does. Stack them
-   rather than let the labels wrap to two lines each. */
-@media (max-width: 90rem) {
-  .loc-card__actions {
-    grid-template-columns: 1fr;
-  }
-}
