@@ -224,7 +224,47 @@ const locationPages = Object.fromEntries(
     ]),
 );
 
+// Simple WebPage graphs. Per the briefs: /happy-hour/ gets no Menu entity
+// (happy hour is a subset of the location menus already covered), and
+// /order-online/ gets no OrderAction here (that belongs on each Restaurant).
+function webPage(slug, name, crumbName) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${site.url}${slug}#webpage`,
+        url: `${site.url}${slug}`,
+        name,
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORG_ID },
+        breadcrumb: breadcrumb([{ name: crumbName, url: slug }]),
+      },
+    ],
+  };
+}
+
 export default {
+  about: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": `${site.url}/about/#webpage`,
+        url: `${site.url}/about/`,
+        name: `About ${site.name}`,
+        isPartOf: { "@id": WEBSITE_ID },
+        // References the Person by @id. Does not redefine it: the home page
+        // graph owns #founder.
+        mainEntity: { "@id": FOUNDER_ID },
+        about: { "@id": ORG_ID },
+        breadcrumb: breadcrumb([{ name: "About", url: "/about/" }]),
+      },
+    ],
+  },
+
+  happyHour: webPage("/happy-hour/", "Tajima Happy Hour", "Happy Hour"),
+  orderOnline: webPage("/order-online/", "Order Tajima Ramen Online", "Order Online"),
   locationPages,
   convoy: {
     "@context": "https://schema.org",

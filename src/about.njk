@@ -1,0 +1,192 @@
+---
+layout: layouts/base.njk
+permalink: /about/
+pageKey: about
+title: "About Tajima Ramen | Founder-Built in San Diego Since 2001"
+description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitchens including Matsuhisa, and took over a small restaurant on Convoy Street in 2001. It was already called Tajima."
+---
+{#
+  /about/. Brief: SITE_ARCHITECTURE.md.
+  Replaces /about-us/, which is Lorem Ipsum on the current site. That URL is
+  being retired on purpose; this is the new one.
+
+  Tone per voice-tone.md: "Narrative. The one place the story runs in order.
+  Still short sentences." And the technique note that governs every line here:
+  "Every sentence is a fact. No sentence tells the reader what to think about
+  the facts. That is the whole technique."
+
+  The concept for this page was the most accurate of the eight. Corrections
+  below are small and marked. It also already carried the pending-quote block,
+  which is right.
+#}
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <p class="page-hero__crumbs">
+      <a href="/">{{ site.name }}</a>
+      <span aria-hidden="true">/</span>
+      <span class="page-hero__crumbs-current">About</span>
+    </p>
+    <span class="page-hero__eyebrow">The house &middot; Since {{ site.founded }}</span>
+    <h1 class="page-hero__title" id="page-title">About</h1>
+    <p class="page-hero__lede">
+      One owner, one city, twenty-five years. This is the story in order.
+    </p>
+  </div>
+</section>
+
+<section class="sect pattern-section" aria-label="The story, in order">
+  <div class="sect__inner">
+    <div class="chapters">
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">01</span>
+          <span class="chapter__place">Amagasaki, Japan</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">His mother's <em>kitchen.</em></h2>
+          {#
+            TRIMMED. The concept added "That table is where the standard comes
+            from." It is a nice line and it is an interpretation, which is the
+            one thing this page is not allowed to do. The fact is left to sit.
+          #}
+          <p class="chapter__para">
+            Sam Morikizono grew up in Amagasaki, near Osaka, eating his mother's home cooking.
+          </p>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">02</span>
+          <span class="chapter__place">Rockford, Illinois</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">Nineteen, washing <em>dishes.</em></h2>
+          {#
+            SOFTENED ENDING. The concept said Masa-san "taught him how a
+            Japanese kitchen runs." CLIENT_FACTS.md says he was mentored by a
+            kitchen veteran known as Masa-san, and the approved origin story
+            says Masa-san "took him on". What was taught is not documented.
+          #}
+          <p class="chapter__para">
+            He came to the United States at nineteen and washed dishes at J.M.K. Nippon, a Japanese restaurant in Rockford, Illinois. A kitchen veteran called Masa-san took him on.
+          </p>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">03</span>
+          <span class="chapter__place">The kitchens</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">Shogun. Then <em>Matsuhisa.</em></h2>
+          {#
+            Note what this does not say. voice-tone.md on Matsuhisa: "Write
+            'worked at Matsuhisa under Nobu Matsuhisa.' Do not write a year, a
+            city, or a title. All undocumented." Los Angeles is attached to
+            Shogun, which is confirmed, and to nothing else.
+          #}
+          <p class="chapter__para">
+            He worked his way through kitchens, including Shogun in Los Angeles, and a stretch at Matsuhisa under Nobu Matsuhisa.
+          </p>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">04</span>
+          <span class="chapter__place">Convoy Street, 2001</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">A small restaurant, already called <em>Tajima.</em></h2>
+          <p class="chapter__para">
+            In 2001 he took over a small, struggling Japanese restaurant on <a class="sect__link" href="/tajima-convoy/">Convoy Street</a>. The name was already on the door.
+          </p>
+          {#
+            The line. voice-tone.md: "the strongest line in the research file.
+            It belongs somewhere on the new site, once, probably on About. Do
+            not overuse it and do not put it in a hero."
+            This is the one place it appears. It was removed from the home page
+            story block to keep that true. Do not add it anywhere else.
+          #}
+          <p class="keyline">He didn't name it. <em>He made it his.</em></p>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">05</span>
+          <span class="chapter__place">San Diego</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">Twenty-five years. <em>Six rooms.</em></h2>
+          <p class="chapter__para">
+            For twenty-five years he has been building the bowl, the broth, the menu, and the house. Today there are <a class="sect__link" href="/locations/">six Tajima rooms across San Diego</a>, from the original on Convoy to Crown Point, and the crew gets named in reviews more than the food does.
+          </p>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
+        <div>
+          <span class="chapter__no">06</span>
+          {# CORRECTED. The concept read "Crown Point, 2026". The room opened
+             January 2025 per the 2025 Japanese corporate filing. #}
+          <span class="chapter__place">Crown Point, 2025</span>
+        </div>
+        <div>
+          <h2 class="chapter__title">The <em>Noodle Room.</em></h2>
+          <p class="chapter__para">
+            Sam spent two years building a room in Crown Point with a noodle machine brought over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl. The broth is made in the same building every morning and driven to all six San Diego locations.
+          </p>
+          <p class="chapter__para">
+            <a class="sect__link" href="/noodle-room/">Step inside the Noodle Room</a>
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{# ==================== QUOTE PENDING ==================== #}
+{#
+  The concept got this right and it is kept as-is. Brief section 7.
+  Sam has not been interviewed. This block is a launch blocker by design and
+  clears when CLIENT_FACTS.md open question #1 does.
+#}
+<section class="sect sect--alt sect--rule" aria-label="Founder quote, pending interview">
+  <div class="sect__inner">
+    <div class="pending reveal">
+      <span class="pending__tag">[Quote pending interview]</span>
+      <p class="pending__note">
+        Sam's words go here, verbatim, once the founder interview is recorded. Per the voice rules, no quote is written for him. This block is a deliberate launch blocker.
+      </p>
+    </div>
+  </div>
+</section>
+
+{# ==================== NOODLE BAND ==================== #}
+{#
+  REWRITTEN. The concept read "Homemade noodles, crafted daily" and "Every
+  noodle starts in our own room in Crown Point." Cadence is unconfirmed and
+  "every noodle" is the rollout claim.
+#}
+<section class="noodle-band" aria-labelledby="band-title">
+  <div class="noodle-band__inner">
+    <div>
+      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
+      <p class="noodle-band__body">
+        See where the bowl begins, then <a class="sect__link" href="/locations/">find your Tajima</a>.
+      </p>
+    </div>
+    <a class="noodle-band__cta" href="/noodle-room/">
+      See the Noodle Room
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>

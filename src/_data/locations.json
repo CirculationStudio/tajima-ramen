@@ -34,7 +34,9 @@
         "https://www.yelp.com/biz/tajima-ramen-convoy-san-diego"
       ],
       "summary": "The room Sam took over in 2001. Communal tables, the full menu, the expanded izakaya. Japanese, English, and Spanish spoken.",
-      "businessName": "Tajima Ramen Convoy"
+      "businessName": "Tajima Ramen Convoy",
+      "orderUrl": "https://www.toasttab.com/tajima-convoy/v2/online-order",
+      "orderUrlNote": null
     },
     {
       "id": "mercury",
@@ -61,7 +63,9 @@
       "languages": null,
       "sameAs": [],
       "summary": "The biggest room. Full bar, Japanese whisky, sushi, around ninety seats. The one that takes group reservations by phone.",
-      "businessName": "Tajima Ramen Mercury"
+      "businessName": "Tajima Ramen Mercury",
+      "orderUrl": "https://www.toasttab.com/tajima-mercury/v2/online-order",
+      "orderUrlNote": null
     },
     {
       "id": "east-village",
@@ -88,7 +92,9 @@
       "languages": null,
       "sameAs": [],
       "summary": "Walking distance from Petco Park. Six taps of local craft beer, and longer hours on Padres home game nights.",
-      "businessName": "Tajima Ramen East Village"
+      "businessName": "Tajima Ramen East Village",
+      "orderUrl": "https://www.toasttab.com/tajima-east-village/v2/online-order",
+      "orderUrlNote": null
     },
     {
       "id": "college-heights",
@@ -118,7 +124,9 @@
       ],
       "sameAs": [],
       "summary": "The ramen bar near SDSU. Pared-down menu, open kitchen, twenty-plus taps.",
-      "businessName": "Tajima Ramen College Heights"
+      "businessName": "Tajima Ramen College Heights",
+      "orderUrl": "https://www.toasttab.com/tajima-college-heights/v3",
+      "orderUrlNote": "PATTERN MISMATCH: /v3, while Convoy, Mercury, and East Village use /v2/online-order. SITE_ARCHITECTURE.md: pick one pattern and verify all seven resolve."
     },
     {
       "id": "crown-point",
@@ -145,7 +153,9 @@
       "languages": null,
       "sameAs": [],
       "summary": "The room next to the Noodle Room. The broth for every San Diego location is made in this building each morning.",
-      "businessName": "Tajima Ramen Crown Point"
+      "businessName": "Tajima Ramen Crown Point",
+      "orderUrl": "https://www.toasttab.com/tajima-pacific-beach-3782-ingraham-street",
+      "orderUrlNote": "SLUG MISMATCH, DO NOT SILENTLY FIX. The Toast slug says `tajima-pacific-beach`, not crown-point. SITE_ARCHITECTURE.md flags this explicitly and says flag it rather than fixing it, because the slug may be the real one inside Toast and changing it breaks the cart."
     },
     {
       "id": "plaza-bonita",
@@ -176,7 +186,9 @@
       ],
       "sameAs": [],
       "summary": "Quick-serve inside Westfield Plaza Bonita. A focused menu, and no alcohol. Mall hours.",
-      "businessName": "Tajima Ramen Plaza Bonita"
+      "businessName": "Tajima Ramen Plaza Bonita",
+      "orderUrl": "https://toasttakeout.page.link/hJi7",
+      "orderUrlNote": "SHORTLINK, not a toasttab.com URL. A page.link shortener is a single point of failure and cannot be verified by reading it. Needs a click test and probably a real URL."
     },
     {
       "id": "maui",
@@ -206,8 +218,11 @@
       ],
       "summary": "Our only Hawaii room. Full ramen menu, sushi, and izakaya plates, with dishes of its own.",
       "noodleNote": "Do NOT extend any 'our noodles' claim here. Crown Point supplies San Diego and Maui is 2,500 miles away. SITE_ARCHITECTURE.md Open Decision #1.",
-      "businessName": "Tajima Ramen Maui"
+      "businessName": "Tajima Ramen Maui",
+      "orderUrl": null,
+      "orderUrlNote": "NO ORDERING URL. Not present in the design concept and not in CLIENT_FACTS.md. The card renders without an order button rather than guessing one."
     }
   ],
-  "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim."
+  "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim.",
+  "_orderUrlStatus": "UNVERIFIED. LAUNCH BLOCKER. These came from the approved design concept (inspo/order-online.html), not from Tajima. CLIENT_FACTS.md lists per-location ordering URLs as CONFIRM. SITE_ARCHITECTURE.md flags three specific problems, recorded per-location in orderUrlNote: two competing URL patterns (/v2/online-order vs /v3), Crown Point's slug reading tajima-pacific-beach, and Plaza Bonita using a page.link shortlink. Every one of the seven needs a click test before launch. A dead ordering link on the third-biggest page on the site (5,648 clicks) costs more than a missing one."
 }

@@ -1,0 +1,129 @@
+---
+layout: layouts/base.njk
+permalink: /happy-hour/
+pageKey: happyHour
+title: "Tajima Happy Hour | San Diego"
+description: "Happy hour at Tajima Ramen across San Diego. Times and what is on it vary by room, and Plaza Bonita does not serve alcohol. Walk in, no reservations."
+---
+{#
+  /happy-hour/. Brief: SITE_ARCHITECTURE.md.
+
+  This page earns 1,361 clicks with ZERO internal links pointing at it. It
+  catches 1,107 happy-hour clicks across 165 queries; all six location pages
+  combined catch 32. A page nobody links to outperforms the entire location set
+  by 35x, because "tajima happy hour" contains no location and a location page
+  cannot answer it. The brief: "This must be in the nav. Its whole problem was
+  that it was invisible internally."
+
+  It is now linked from the footer, from /menu/, and from the Convoy address
+  plate. FLAG: it is still not in the HEADER nav (nav.json primary), which
+  currently holds Menu, About, Locations, and Noodle Room. Adding a fifth item
+  is a design call on a header that was signed off with four, so it is Steve's.
+
+  EVERY TIME AND PRICE ON THIS PAGE IS UNVERIFIED. See _data/happyHour.json.
+  They came from the design concept, not from Tajima, and CLIENT_FACTS.md has
+  no happy hour data at all. This is the same class of promise as opening
+  hours, which CLIENT_FACTS.md forbids publishing unconfirmed, and it deserves
+  the same treatment: Amanda confirms the table or the page does not launch.
+#}
+
+<section class="hh-hero" aria-labelledby="page-title">
+  <div class="hh-hero__inner">
+    <span class="hh-hero__eyebrow">San Diego</span>
+    <h1 class="hh-hero__title" id="page-title">Happy Hour</h1>
+    {# Brief section 1: one line, happy hour runs at most locations and the
+       details vary. Said plainly rather than promised uniformly. #}
+    <p class="hh-hero__sub">
+      Happy hour runs at most of the San Diego rooms. The window and what is on it are not the same everywhere, so the times below are per room. <a href="/locations/">Find your Tajima</a>.
+    </p>
+  </div>
+</section>
+
+<nav class="hh-jumps" aria-label="Jump to a location">
+  {%- for hh in happyHour.locations %}
+  <a class="hh-jumps__btn" href="#hh-{{ hh.id }}">{{ hh.name }}</a>
+  {%- endfor %}
+</nav>
+
+<section class="hh-grid" aria-label="Happy hour by location">
+  <div class="hh-grid__inner">
+    {%- for hh in happyHour.locations %}
+    {%- set loc = (locations.items | where("id", hh.id)) | first %}
+    <article class="hh-card" id="hh-{{ hh.id }}">
+      <h2 class="hh-card__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h2>
+
+      {%- if hh.noAlcohol %}
+      {#
+        Brief section 4: "Plaza Bonita: no alcohol. Say it plainly."
+        Quick-serve food court, no alcohol at all, per CLIENT_FACTS.md. Said
+        directly rather than by leaving the card empty and letting someone
+        drive to National City to find out.
+      #}
+      <p class="hh-card__no-alcohol">
+        Plaza Bonita is quick-serve inside the mall and does not serve alcohol, so there is no happy hour here. The bowls are the same bowls.
+      </p>
+      {%- else %}
+
+      <div class="hh-card__hours">
+        {%- for window in hh.windows %}
+        <div class="hh-card__hours-row">
+          <span>{{ window.time }}</span>
+          <span class="hh-card__hours-days">{{ window.days }}</span>
+        </div>
+        {%- endfor %}
+      </div>
+
+      <div class="hh-card__lists">
+        <div>
+          <p class="hh-card__list-label">Drinks</p>
+          <ul class="hh-card__list">
+            {%- for item in hh.drinks %}
+            <li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>
+            {%- endfor %}
+          </ul>
+        </div>
+        <div>
+          <p class="hh-card__list-label">Food</p>
+          <ul class="hh-card__list">
+            {%- for item in hh.food %}
+            <li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </div>
+      {%- endif %}
+
+      <span class="hh-card__tag">{{ hh.tag }}</span>
+    </article>
+    {%- endfor %}
+  </div>
+</section>
+
+{# ==================== PADRES ==================== #}
+{#
+  Brief section 3. Note the wording: "the San Diego rooms that pour it" rather
+  than "all locations", because Plaza Bonita has no alcohol and the promo
+  module in SITE_ARCHITECTURE.md excludes it explicitly.
+
+  This is date-bounded in reality (a season, not a permanent fact) and
+  SITE_ARCHITECTURE.md's position is that time-bound promos belong on GBP
+  Posts. It is one block and it is deletable as one block, on purpose.
+#}
+<section class="hh-padres" aria-labelledby="padres-title">
+  <div class="hh-padres__inner">
+    <p class="hh-padres__text">
+      <strong id="padres-title">{{ happyHour.padres.headline }}.</strong>
+      {{ happyHour.padres.body }}
+    </p>
+    <a class="hh-padres__link" href="/tajima-east-village/">East Village is the walk to Petco</a>
+  </div>
+</section>
+
+<section class="loc-close" aria-labelledby="close-title">
+  <div class="loc-close__inner">
+    <h2 class="loc-close__title" id="close-title">Pick a room.</h2>
+    <p class="loc-close__sub">
+      Happy hour is per location and so is the menu. <a href="/menu/">See the menu</a>, or <a href="/locations/">see all six San Diego rooms</a>.
+    </p>
+  </div>
+</section>

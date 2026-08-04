@@ -1,0 +1,115 @@
+{
+  "_status": "UNVERIFIED. LAUNCH BLOCKER. Every time and every price below was lifted from the approved design concept (inspo/happy-hour.html). None of it appears in CLIENT_FACTS.md, which carries no happy hour data at all. Amanda must confirm the whole table before this page goes live.",
+
+  "_whyThisIsBlocking": "CLIENT_FACTS.md forbids publishing opening hours the door does not honor, because hours have changed repeatedly across 2024 to 2026. Happy hour times are the same class of promise and the same class of harm: someone reads 11:30am to 6:00pm, drives to Convoy at 5, and the window closed at 4. Treat this table exactly like openingHoursSpecification, which is to say do not trust it until someone at Tajima confirms it.",
+
+  "_pricesNote": "The food and drink prices here are menu prices. CLAUDE.md: menu items, descriptions, and prices are NEVER generated or modified without explicit client approval. These were not generated, they were carried from the concept, and they still need that approval.",
+
+  "_padresNote": "The Padres promo detail is from the SITE_ARCHITECTURE.md promos module example: every tap beer $3.50, Padres home games, all day, at all SD locations except Plaza Bonita. SITE_ARCHITECTURE.md also says time-bound promos belong on GBP Posts, not on pages. This section stays because the brief's section plan for /happy-hour/ names it explicitly, but it is date-bounded in reality and someone has to own taking it down out of season.",
+
+  "_orderNote": "East Village is deliberately first. It is the only location with map-pack visibility for `happy hour near me` (ARP 1.00, against 12 to 14 everywhere else), and the brief says lead with it.",
+
+  "locations": [
+    {
+      "id": "east-village",
+      "name": "East Village",
+      "tag": "Near Petco Park",
+      "windows": [{ "time": "11:30am to 6:00pm", "days": "Mon to Fri" }],
+      "drinks": [
+        { "name": "Beer", "price": "$3.50" },
+        { "name": "Wine", "price": "$6" },
+        { "name": "Small hot sake", "price": "$1.50" },
+        { "name": "Filtered flavored sake", "price": "$5.50" },
+        { "name": "Matcha refresher", "price": "$2" },
+        { "name": "Fresh squeezed lemonade", "price": "$3" }
+      ],
+      "food": [
+        { "name": "Karaage", "price": "$6" },
+        { "name": "Edamame", "price": "$3.50" },
+        { "name": "Chicken katsu bun", "price": "$3.50" }
+      ]
+    },
+    {
+      "id": "convoy",
+      "name": "Convoy",
+      "tag": "The original, since 2001",
+      "windows": [
+        { "time": "11:30am to 6:00pm", "days": "Mon to Fri" },
+        { "time": "10:00pm to 11:30pm", "days": "Fri to Sat" }
+      ],
+      "drinks": [
+        { "name": "Beer", "price": "$3.50" },
+        { "name": "Small hot sake", "price": "$1.50" },
+        { "name": "Filtered flavored sake", "price": "$5.50" },
+        { "name": "Matcha refresher", "price": "$2" }
+      ],
+      "food": [
+        { "name": "Karaage", "price": "$6" },
+        { "name": "Edamame", "price": "$3.50" },
+        { "name": "Chicken katsu bun", "price": "$3.50" }
+      ]
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "tag": "Full bar and sushi",
+      "windows": [{ "time": "11:30am to 6:00pm", "days": "Mon to Fri" }],
+      "drinks": [
+        { "name": "Beer", "price": "$3.50" },
+        { "name": "Wine", "price": "$6" },
+        { "name": "Small hot sake", "price": "$1.50" },
+        { "name": "Filtered flavored sake", "price": "$5.50" }
+      ],
+      "food": [
+        { "name": "Karaage", "price": "$6" },
+        { "name": "Edamame", "price": "$3.50" },
+        { "name": "California roll", "price": "$5" }
+      ]
+    },
+    {
+      "id": "college-heights",
+      "name": "College Heights",
+      "tag": "Twenty-plus taps",
+      "windows": [{ "time": "11:30am to 6:00pm", "days": "Mon to Fri" }],
+      "drinks": [
+        { "name": "Beer", "price": "$3.50" },
+        { "name": "Small hot sake", "price": "$1.50" },
+        { "name": "Matcha refresher", "price": "$2" }
+      ],
+      "food": [
+        { "name": "Karaage", "price": "$6" },
+        { "name": "Edamame", "price": "$3.50" }
+      ]
+    },
+    {
+      "id": "crown-point",
+      "name": "Crown Point",
+      "tag": "Next to the Noodle Room",
+      "windows": [{ "time": "11:30am to 6:00pm", "days": "Mon to Fri" }],
+      "drinks": [
+        { "name": "Beer", "price": "$3.50" },
+        { "name": "Small hot sake", "price": "$1.50" },
+        { "name": "Matcha refresher", "price": "$2" }
+      ],
+      "food": [
+        { "name": "Karaage", "price": "$6" },
+        { "name": "Edamame", "price": "$3.50" }
+      ]
+    },
+    {
+      "id": "plaza-bonita",
+      "name": "Plaza Bonita",
+      "tag": "South Bay",
+      "noAlcohol": true,
+      "windows": [],
+      "drinks": [],
+      "food": []
+    }
+  ],
+
+  "padres": {
+    "headline": "Padres home games",
+    "body": "Every tap beer $3.50, all day, at the San Diego rooms that pour it.",
+    "excludes": ["plaza-bonita"]
+  }
+}

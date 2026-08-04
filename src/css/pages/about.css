@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Page: /about/
+
+   The chapter list, the keyline, and the pending-quote block. Ported from
+   inspo/tajima-about.html. Sits on top of interior.css.
+   ========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHAPTERS · the story, told in order
+═══════════════════════════════════════════════════════════════════ */
+.chapters{
+  display: flex;
+  flex-direction: column;
+}
+.chapter{
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: var(--space-8);
+  padding: var(--space-9) 0;
+  border-top: 1px solid var(--color-rule);
+}
+.chapter:first-child{ border-top: none; padding-top: 0; }
+.chapter__no{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-red);
+}
+[data-mode="night"] .chapter__no{ text-shadow: var(--glow-text); }
+.chapter__place{
+  display: block;
+  margin-top: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.chapter__title{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+  margin-bottom: var(--space-4);
+}
+.chapter__title em{ font-style: normal; color: var(--color-red); }
+.chapter__para{
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-2);
+  max-width: 42rem;
+}
+.chapter__para + .chapter__para{ margin-top: var(--space-4); }
+.chapter__para em{ font-style: italic; color: var(--color-ink); }
+
+/* The one line. Set apart, used once. */
+.keyline{
+  padding: var(--space-6) 0 0;
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-style: italic;
+  font-size: var(--text-h4);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+}
+.keyline em{ font-style: italic; color: var(--color-red); }
+[data-mode="night"] .keyline em{ text-shadow: var(--glow-text); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   QUOTE PENDING · deliberate placeholder, ships as a blocker
+═══════════════════════════════════════════════════════════════════ */
+.pending{
+  border: 1px dashed var(--color-rule-strong);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.pending__tag{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+.pending__note{
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-3);
+  max-width: 40rem;
+}
+
+/* --- Responsive ------------------------------------------------- */
+
+@media (max-width: 64rem) {
+  .chapter { grid-template-columns: 6rem 1fr; gap: var(--space-6); }
+}
+
+@media (max-width: 40rem) {
+  .chapter { grid-template-columns: 1fr; gap: var(--space-4); }
+}

@@ -1,0 +1,82 @@
+---
+layout: layouts/base.njk
+permalink: /order-online/
+pageKey: orderOnline
+title: "Order Tajima Ramen Online | Pickup and Delivery"
+description: "Order Tajima Ramen online for pickup or delivery. One link per San Diego location, plus Kihei on Maui."
+---
+{#
+  /order-online/. Brief: SITE_ARCHITECTURE.md.
+
+  Third-biggest page on the site: 5,648 clicks, 355,269 impressions.
+  Transactional intent. The brief's whole section plan is four words long:
+  "One card per location. Name, neighborhood, Toast link. Nothing else. This
+  page's only job is not to be in the way." So there is no hero video, no
+  story, no noodle band. Cards and out.
+
+  THE ORDERING URLS ARE UNVERIFIED AND THIS IS THE BIGGEST OPEN RISK ON THE
+  PAGE. They came from the design concept, not from Tajima. CLIENT_FACTS.md
+  lists per-location ordering URLs as CONFIRM. SITE_ARCHITECTURE.md flags three
+  specific problems and all three are still present, recorded per location in
+  locations.json under orderUrlNote:
+
+    - Two competing URL patterns. Convoy, Mercury, and East Village use
+      /v2/online-order. College Heights uses /v3. The brief says pick one and
+      verify all seven resolve. Neither has happened.
+    - Crown Point's Toast slug reads `tajima-pacific-beach-3782-ingraham-street`.
+      Left exactly as found. The brief says flag it, do not silently fix it,
+      because the slug may be what Toast actually uses and editing it breaks
+      the cart.
+    - Plaza Bonita is a `toasttakeout.page.link` shortlink rather than a
+      toasttab.com URL.
+
+  Maui has no ordering URL at all. Its card renders without an order button
+  rather than inventing one.
+
+  A dead ordering link on this page costs more than a missing one. Click-test
+  all seven before launch.
+#}
+
+<section class="order-hero" aria-labelledby="page-title">
+  <div class="order-hero__inner">
+    <h1 class="order-hero__title" id="page-title">Order Online</h1>
+    <p class="order-hero__sub">
+      Pick the room you want it from. Pickup and delivery, straight through to that kitchen's order page. <a href="/menu/">See the menu</a> first if you want.
+    </p>
+  </div>
+</section>
+
+<section class="order-grid" aria-label="Order by location">
+  <div class="order-grid__inner">
+    {%- for loc in locations.items %}
+    <article class="order-card">
+      <div>
+        <h2 class="order-card__name">{{ loc.name }}</h2>
+        <p class="order-card__hood">{{ loc.neighborhood }}, {{ loc.address.locality }}</p>
+      </div>
+
+      {%- if loc.orderUrl %}
+      <a class="order-card__cta" href="{{ loc.orderUrl }}" rel="noopener">
+        Order from {{ loc.name }}
+        <span aria-hidden="true">&#8594;</span>
+      </a>
+      {%- else %}
+      {# No ordering URL on record. Offer the phone, which is confirmed, rather
+         than a button that goes nowhere. #}
+      <a class="order-card__cta order-card__cta--quiet" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">
+        Call {{ loc.phone }}
+      </a>
+      {%- endif %}
+    </article>
+    {%- endfor %}
+  </div>
+</section>
+
+<section class="loc-close" aria-labelledby="close-title">
+  <div class="loc-close__inner">
+    <h2 class="loc-close__title" id="close-title">Not sure which room?</h2>
+    <p class="loc-close__sub">
+      <a href="/locations/">All six San Diego rooms</a>, with addresses and phone numbers.
+    </p>
+  </div>
+</section>
