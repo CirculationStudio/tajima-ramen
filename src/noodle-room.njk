@@ -65,8 +65,10 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
       that handcrafted is "both off and slightly false" because there is a
       machine); and the ingredient list is unsourced.
     #}
+    {# RESTORED (audit #5): "The bowl begins here." No violation attached to
+       it; it was collateral from cutting the ingredient list it sat beside. #}
     <p class="hero__lede">
-      Sam spent two years building this room. There is a machine in it that came over from Japan. It makes <em>two kinds of noodle</em> right now.
+      Sam spent two years building this room. There is a machine in it that came over from Japan. It makes <em>two kinds of noodle</em> right now. The bowl begins here.
     </p>
 
     {#
@@ -148,14 +150,24 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
       </h2>
 
       <div class="philosophy__body reveal reveal--d2">
+        {# RESTORED (audit #15). The strongest line in the concept's copy: it
+           answers the chain objection head-on instead of ignoring it. Nothing
+           in CLIENT_FACTS.md or voice-tone.md was ever against it; it went as
+           collateral when the twelve-hour simmer sentence beside it was cut.
+           Kept as its own paragraph so the sentence lands unedited. #}
+        <p>
+          Tajima has been a real Japanese kitchen at the head of a growing chain.
+        </p>
         <p>
           For twenty-five years, Tajima bought its noodles. They came frozen, from a factory, like almost every ramen shop in America.
         </p>
         <p>
           They were good. They weren't <em>ours.</em>
         </p>
+        {# RESTORED (audit #21): "The chain still runs. The bowl is now whole."
+           Closing beat, no violation, and it pays off the opening line above. #}
         <p>
-          Sam spent two years building a room in Crown Point so that would stop being true. <a href="/about/">He has been on Convoy Street since 2001</a>, and this is the part he built last.
+          Sam spent two years building a room in Crown Point so that would stop being true. <a href="/about/">He has been on Convoy Street since 2001</a>, and this is the part he built last. The chain still runs. The bowl is now whole.
         </p>
       </div>
 
@@ -166,9 +178,23 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
 {# ============================ THE FILM ============================ #}
 {#
   The concept titled this "One minute and twenty seconds with Sam" and labelled
-  the control "Watch the film · 01:20". Runtime removed: nobody here has
-  verified it, and a wrong number on this page is a cheap way to lose the
-  reader who came for precision.
+  the control "Watch the film · 01:20".
+
+  RUNTIME VERIFIED, CONTENT NOT. The mvhd atom on
+  tajima-brand-video-web-1080p.mp4 reads timescale 1000 / duration 80447, so
+  the file is exactly 80.45 seconds, which is 1:20. The concept's number was
+  right and this build was wrong to drop it as unverifiable.
+
+  The title stays as written anyway, because the runtime was never the risky
+  half. "with Sam" asserts that a named real person appears in a film, and the
+  only metadata the file carries is a title atom reading "TAJIMA Brand Video 3"
+  with no reference to him. That is weak evidence against rather than proof
+  either way, and a claim about a person does not get published on an
+  inference.
+
+  To restore once somebody watches it, two strings and nothing else:
+  the title becomes "One minute and twenty seconds<br><em>with Sam.</em>" and
+  the play label becomes "Watch the film &middot; 01:20".
 #}
 <section class="watch" aria-labelledby="watch-title">
   <div class="watch__inner">
@@ -425,8 +451,11 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
       <h2 class="return-card__title" id="return-title">
         You've seen the room.<br>Now <em>the bowl.</em>
       </h2>
+      {# RESTORED (audit #46): "Pick a room. Pick a bowl." The rollout claim
+         that preceded it in the concept stays out; this half never carried
+         one. #}
       <p class="return-card__sub">
-        The room is in Crown Point. The bowls are across San Diego.
+        The room is in Crown Point. The bowls are across San Diego. Pick a room. Pick a bowl.
       </p>
     </div>
     <div class="return-card__actions">
