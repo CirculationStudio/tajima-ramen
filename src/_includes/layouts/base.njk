@@ -53,7 +53,13 @@
     Graphs are built in _data/schema.js from the same data the page renders,
     and selected by the page's `pageKey` front matter.
   #}
-  {%- set pageSchema = schema[pageKey] if pageKey else false %}
+  {#- Paginated location stubs pick their graph by location id, since they all
+      share one pageKey. Everything else selects by pageKey. -#}
+  {%- if pageKey == "locationStub" %}
+    {%- set pageSchema = schema.locationPages[loc.id] %}
+  {%- elif pageKey %}
+    {%- set pageSchema = schema[pageKey] %}
+  {%- endif %}
   {%- if pageSchema %}
   <script type="application/ld+json">{{ pageSchema | dump | safe }}</script>
   {%- endif %}

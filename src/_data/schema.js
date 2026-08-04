@@ -194,7 +194,38 @@ function restaurant(id) {
   return entity;
 }
 
+// Per-location graphs, keyed by location id. Used by the stub template, which
+// paginates and so cannot select a graph by a static pageKey. The Restaurant
+// entity is the same shape the full location pages use, so replacing a stub
+// with a real page does not change its structured data.
+const locationPages = Object.fromEntries(
+  locations.items
+    .filter((loc) => loc.id !== "convoy")
+    .map((loc) => [
+      loc.id,
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": `${site.url}${loc.url}#webpage`,
+            url: `${site.url}${loc.url}`,
+            name: loc.businessName,
+            isPartOf: { "@id": WEBSITE_ID },
+            about: { "@id": loc.schemaId },
+            breadcrumb: breadcrumb([
+              { name: "Locations", url: "/locations/" },
+              { name: loc.name, url: loc.url },
+            ]),
+          },
+          restaurant(loc.id),
+        ],
+      },
+    ]),
+);
+
 export default {
+  locationPages,
   convoy: {
     "@context": "https://schema.org",
     "@graph": [

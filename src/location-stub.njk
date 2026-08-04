@@ -1,0 +1,137 @@
+---
+pagination:
+  # Convoy has a real page (src/tajima-convoy.njk), so it is excluded in
+  # _data/locationStubs.js. Do NOT filter with `pagination.before` here:
+  # `before` must be a real function, YAML cannot express one, and a string is
+  # ignored silently rather than erroring.
+  data: locationStubs
+  size: 1
+  alias: loc
+layout: layouts/base.njk
+permalink: "{{ loc.url }}"
+pageKey: locationStub
+noindex: true
+eleventyComputed:
+  title: "Tajima Ramen {{ loc.name }} | {{ loc.address.locality }}, {{ loc.address.region }}"
+  description: "Tajima Ramen {{ loc.name }}, {{ loc.address.street }}, {{ loc.address.locality }}. Address and phone. Walk in, no reservations."
+---
+{#
+  ============================ STUB PAGES ============================
+
+  THESE ARE NOT FINISHED PAGES AND MUST NOT GO LIVE AS THEY ARE.
+
+  Built tonight for one reason: /locations/ is a P1 page that linked to six
+  URLs that did not exist. Six 404s off the site's router is worse than six
+  thin pages behind a noindex.
+
+  They carry `noindex` deliberately. These URLs have existing traffic on the
+  current site (SITE_ARCHITECTURE.md: existing location URLs do not change
+  precisely because they earn it), and shipping thin content on a page that
+  already ranks is a regression, not a placeholder. Noindex keeps them out of
+  the index until the real page replaces them. Removing the noindex is part of
+  finishing the page, not a separate decision.
+
+  CONTENT RULE FOR THIS TEMPLATE: everything on the page comes from
+  locations.json, which carries the SITE_ARCHITECTURE.md NAP table. Nothing is
+  written here. The one line of prose per location is the `summary` field,
+  which was already sourced from CLIENT_FACTS.md for the /locations/ cards, not
+  drafted tonight.
+
+  Hours are absent, as everywhere else. Open Decision #9. The page says so
+  and offers the phone number instead of guessing.
+
+  What each of these still needs before launch, per the location page template
+  in SITE_ARCHITECTURE.md: real photography of this room, the "what's different
+  here" section (the one section the brief says must not be templated), this
+  location's menu section once menu.json has the availability column, its happy
+  hour block, its Toast ordering URL, its nearest-neighbour link, and its GBP
+  and Yelp URLs for `sameAs`.
+#}
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <p class="page-hero__crumbs">
+      <a href="/">{{ site.name }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="/locations/">Locations</a>
+      <span aria-hidden="true">/</span>
+      <span class="page-hero__crumbs-current">{{ loc.name }}</span>
+    </p>
+    <span class="page-hero__eyebrow">
+      {%- if loc.opened %}Since {{ loc.opened }} &middot; {% endif -%}
+      {{ loc.neighborhood }}
+    </span>
+    <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
+    <p class="page-hero__lede">{{ loc.summary }}</p>
+
+    <address class="plate">
+      <span class="plate__item">
+        <span class="plate__label">Address</span>
+        <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
+      </span>
+      <span class="plate__item">
+        <span class="plate__label">Phone</span>
+        <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+      </span>
+      <span class="plate__item">
+        <span class="plate__label">Hours</span>
+        {# Not a placeholder for a value we have. We do not have it, and
+           CLIENT_FACTS.md says do not publish hours the door does not honor. #}
+        <span class="plate__value">Being confirmed. Call the room.</span>
+      </span>
+      <span class="plate__item">
+        <span class="plate__label">Seating</span>
+        <span class="plate__value">Walk in. No reservations.</span>
+      </span>
+      {%- if loc.parking %}
+      <span class="plate__item">
+        <span class="plate__label">Parking</span>
+        <span class="plate__value">{{ loc.parking }}</span>
+      </span>
+      {%- endif %}
+      <span class="plate__item">
+        <span class="plate__label">Menu</span>
+        <a class="plate__value" href="/menu/">See the menu</a>
+      </span>
+    </address>
+  </div>
+</section>
+
+<section class="sect" aria-labelledby="soon-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">This page</span>
+      <h2 class="sect__title" id="soon-title">The full page is <em>coming.</em></h2>
+      <p class="sect__note">
+        Address and phone are right, and they are the same everywhere we publish them. The rest of this room, its photographs, what is different about it, and its own menu, is being written. In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
+      </p>
+    </header>
+  </div>
+</section>
+
+{# The noodle line, universal section 6 of the location page template. #}
+<section class="noodle-band" aria-labelledby="band-title">
+  <div class="noodle-band__inner">
+    <div>
+      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
+      <p class="noodle-band__body">
+        {#
+          Scoped to San Diego on purpose. Crown Point supplies San Diego and
+          Maui is 2,500 miles away, so no "our noodles" claim extends there.
+          SITE_ARCHITECTURE.md Open Decision #1.
+        #}
+        {%- if loc.region == "san-diego" %}
+        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
+        {%- else %}
+        Sam spent two years building a noodle room in Crown Point, on a machine brought over from Japan.
+        {%- endif %}
+      </p>
+    </div>
+    <a class="noodle-band__cta" href="/noodle-room/">
+      See the Noodle Room
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
