@@ -26,6 +26,14 @@
 
 /* Component styles, added per block as the library grows. */
 @import "./components/site-header.css";
+@import "./components/hero.css";
+@import "./components/stat-bar.css";
+@import "./components/pattern-section.css";
+@import "./components/noodleroom-card.css";
+@import "./components/locations.css";
+@import "./components/menu.css";
+@import "./components/curtain-stage.css";
+@import "./components/story.css";
 @import "./components/monolith.css";
 
 /* Page styles, added per template as pages are built.

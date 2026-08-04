@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Block: locations
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.locations{
+  background: var(--color-canvas-2);
+  padding: var(--space-11) var(--layout-gutter);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.locations__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+.locations__head{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: var(--stroke-rule) solid var(--color-rule);
+  margin-bottom: var(--space-6);
+}
+.locations__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+.locations__title em{
+  font-style: normal;
+  color: var(--color-red);
+}
+[data-mode="night"] .locations__title em{ text-shadow: var(--glow-text); }
+.locations__row{
+  display: grid;
+  grid-template-columns: auto 1fr 1fr auto auto;
+  align-items: baseline;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-rule);
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.locations__row:hover{
+  background: var(--color-canvas-3);
+}
+.locations__row-no{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-mono, 0.02em);
+  color: var(--color-ink-4);
+}
+.locations__row-name{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.locations__row-name em{
+  display: block;
+  margin-top: var(--space-1);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.locations__row-addr{
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  font-style: normal;
+}
+.locations__row-since{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.locations__row-hours{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-body);
+  color: var(--color-ink);
+  text-align: right;
+  white-space: nowrap;
+}
+
+
+@media (max-width: 64rem) {
+  .locations__head { grid-template-columns: 1fr; gap: var(--space-4); }
+  .locations__row {
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+  }
+  .locations__row-no { grid-row: 1; }
+  .locations__row-name { grid-column: 2; grid-row: 1; }
+  .locations__row-addr,
+  .locations__row-since,
+  .locations__row-hours {
+    grid-column: 2;
+    text-align: left;
+  }
+}

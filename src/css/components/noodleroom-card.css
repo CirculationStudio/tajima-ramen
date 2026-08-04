@@ -1,0 +1,190 @@
+/* ==========================================================================
+   Block: noodleroom-card
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.noodleroom-card{
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.noodleroom-card__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: block;
+  min-height: 38rem;
+}
+.noodleroom-card__video{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.55) saturate(1.08);
+  transition: filter var(--duration-slow) var(--ease-smooth),
+              transform var(--duration-slow) var(--ease-smooth);
+}
+.noodleroom-card__inner:hover .noodleroom-card__video,
+.noodleroom-card__inner:focus-visible .noodleroom-card__video{
+  filter: brightness(0.65) saturate(1.15);
+  transform: scale(1.02);
+}
+[data-mode="night"] .noodleroom-card__video{
+  filter: brightness(0.35) saturate(1.25) hue-rotate(-10deg);
+}
+.noodleroom-card__scrim{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(135deg,
+      rgba(10, 10, 7, 0.42) 0%,
+      rgba(10, 10, 7, 0.78) 70%),
+    radial-gradient(ellipse at 75% 50%,
+      rgba(224, 60, 49, 0.18) 0%,
+      transparent 55%);
+}
+[data-mode="night"] .noodleroom-card__scrim{
+  background:
+    linear-gradient(135deg,
+      rgba(5, 3, 8, 0.55) 0%,
+      rgba(15, 10, 22, 0.92) 70%),
+    radial-gradient(ellipse at 75% 50%,
+      rgba(255, 77, 64, 0.28) 0%,
+      transparent 55%);
+}
+.noodleroom-card__content{
+  position: relative;
+  z-index: 2;
+  padding: var(--space-12) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-9);
+  min-height: 38rem;
+}
+.noodleroom-card__lead{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 50rem;
+}
+.noodleroom-card__eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.noodleroom-card__eyebrow::before{
+  content: '';
+  width: 1.5rem; height: 1px;
+  background: currentColor;
+}
+[data-mode="night"] .noodleroom-card__eyebrow{ text-shadow: var(--glow-text); }
+.noodleroom-card__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-mega);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-system-cream);
+  text-transform: uppercase;
+  margin-top: var(--space-3);
+}
+.noodleroom-card__title em{
+  font-style: normal;
+  color: var(--color-red);
+}
+[data-mode="night"] .noodleroom-card__title em{ text-shadow: var(--glow-text); }
+.noodleroom-card__desc{
+  margin-top: var(--space-5);
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: rgba(255, 254, 244, 0.86);
+  max-width: 32rem;
+}
+.noodleroom-card__foot{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-7);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 254, 244, 0.18);
+}
+.noodleroom-card__meta{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.noodleroom-card__meta-row{
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 254, 244, 0.78);
+}
+.noodleroom-card__meta-row dt{
+  color: rgba(255, 254, 244, 0.5);
+}
+.noodleroom-card__meta-row dd{
+  color: var(--color-system-cream);
+}
+.noodleroom-card__cta{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-red);
+  color: var(--color-system-cream);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+.noodleroom-card__inner:hover .noodleroom-card__cta,
+.noodleroom-card__inner:focus-visible .noodleroom-card__cta{
+  transform: translateX(4px);
+}
+[data-mode="night"] .noodleroom-card__cta{
+  box-shadow: var(--glow-red);
+}
+
+
+@media (max-width: 64rem) {
+  .noodleroom-card { padding: var(--space-10) var(--layout-gutter); }
+  .noodleroom-card__inner { min-height: 32rem; }
+  .noodleroom-card__content {
+    padding: var(--space-9) var(--space-6);
+    min-height: 32rem;
+    gap: var(--space-7);
+  }
+  .noodleroom-card__foot { grid-template-columns: 1fr; gap: var(--space-5); }
+  .noodleroom-card__meta-row { grid-template-columns: 5rem 1fr; }
+}
+
+@media (max-width: 40rem) {
+  .noodleroom-card__title { font-size: clamp(3rem, 14vw, 5rem); }
+  .noodleroom-card__inner { min-height: 28rem; }
+  .noodleroom-card__content { min-height: 28rem; padding: var(--space-7) var(--space-5); }
+}

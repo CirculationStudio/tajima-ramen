@@ -1,0 +1,260 @@
+/* ==========================================================================
+   Block: curtain-stage
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.curtain-stage{
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter) var(--space-13);
+  position: relative;
+  overflow: hidden;
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.curtain-stage::before{
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 80%,
+    rgba(224, 60, 49, 0.08) 0%,
+    transparent 60%);
+  pointer-events: none;
+}
+[data-mode="night"] .curtain-stage::before{
+  background: radial-gradient(ellipse at 50% 80%,
+    rgba(255, 77, 64, 0.18) 0%,
+    transparent 65%);
+}
+.curtain-stage__rail{
+  max-width: var(--layout-max);
+  margin: 0 auto var(--space-9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  position: relative;
+}
+.curtain-stage__eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.curtain-stage__eyebrow::before,
+.curtain-stage__eyebrow::after{
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+[data-mode="night"] .curtain-stage__eyebrow{ text-shadow: var(--glow-text); }
+.curtain-stage__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-transform: uppercase;
+  max-width: 64rem;
+  text-wrap: balance;
+}
+.curtain-stage__title em{
+  font-style: normal;
+  color: var(--color-red);
+}
+[data-mode="night"] .curtain-stage__title em{ text-shadow: var(--glow-text); }
+
+/* The house — the framed video stage */
+.curtain-stage__house{
+  position: relative;
+  max-width: 72rem;
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--color-canvas-3);
+  isolation: isolate;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    0 0 0 1px var(--color-rule);
+}
+[data-mode="night"] .curtain-stage__house{
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--color-rule-strong),
+    0 0 60px rgba(255, 77, 64, 0.18);
+}
+
+/* Screen / video */
+.curtain-stage__screen{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-canvas-3);
+  cursor: pointer;
+}
+.curtain-stage__video{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play button overlay (until clicked) */
+.curtain-stage__play{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background: radial-gradient(circle at 50% 50%,
+    rgba(13, 13, 10, 0.45) 0%,
+    rgba(13, 13, 10, 0.75) 100%);
+  color: var(--color-system-cream);
+  transition: opacity var(--duration-base) var(--ease-smooth);
+  cursor: pointer;
+}
+[data-curtain-state="playing"] .curtain-stage__play{
+  opacity: 0;
+  pointer-events: none;
+}
+.curtain-stage__play-icon{
+  width: 5rem; height: 5rem;
+  padding: 1rem;
+  border: 2px solid var(--color-system-cream);
+  border-radius: 999px;
+  transition: transform var(--duration-base) var(--ease-smooth),
+              background var(--duration-base) var(--ease-smooth);
+}
+.curtain-stage__play:hover .curtain-stage__play-icon{
+  transform: scale(1.08);
+  background: rgba(224, 60, 49, 0.4);
+  border-color: var(--color-red);
+}
+.curtain-stage__play-label{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
+/* Pause/close button (visible when playing) */
+.curtain-stage__pause{
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; height: 2.5rem;
+  background: rgba(13, 13, 10, 0.65);
+  color: var(--color-system-cream);
+  border-radius: 999px;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.curtain-stage__pause svg{ width: 1rem; height: 1rem; }
+.curtain-stage__pause:hover,
+.curtain-stage__pause:focus-visible{
+  background: var(--color-red);
+}
+[data-curtain-state="playing"] .curtain-stage__pause{
+  display: inline-flex;
+}
+
+/* The curtains themselves */
+.curtain{
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 52%;
+  z-index: 3;
+  pointer-events: none;
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+.curtain--left{ left: 0; }
+.curtain--right{ right: 0; }
+.curtain__panel{
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--color-red) 0px,
+      var(--color-red) 24px,
+      var(--color-red-deep) 24px,
+      var(--color-red-deep) 28px,
+      var(--color-red) 28px,
+      var(--color-red) 52px);
+  background-size: 52px 100%;
+  box-shadow:
+    inset -30px 0 60px rgba(0, 0, 0, 0.35),
+    inset 30px 0 60px rgba(0, 0, 0, 0.25);
+}
+.curtain--right .curtain__panel{
+  box-shadow:
+    inset 30px 0 60px rgba(0, 0, 0, 0.35),
+    inset -30px 0 60px rgba(0, 0, 0, 0.25);
+}
+/* Curtain rope · the gold trim where the curtain meets the screen */
+.curtain__rope{
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg,
+    var(--color-gold) 0%,
+    var(--color-gold-mid) 50%,
+    var(--color-gold) 100%);
+  box-shadow:
+    0 0 16px rgba(255, 198, 88, 0.5),
+    0 0 30px rgba(255, 198, 88, 0.25);
+}
+.curtain--left .curtain__rope{ right: 0; }
+.curtain--right .curtain__rope{ left: 0; }
+
+/* Curtains opening animation when playing */
+[data-curtain-state="playing"] ~ .curtain--left,
+.curtain-stage__house[data-curtain-state="playing"] .curtain--left{
+  transform: translateX(-100%);
+}
+[data-curtain-state="playing"] ~ .curtain--right,
+.curtain-stage__house[data-curtain-state="playing"] .curtain--right{
+  transform: translateX(100%);
+}
+
+/* Curtain peek · the slight overlap before play, gives the framed-stage look */
+.curtain-stage__house:not([data-curtain-state="playing"]) .curtain--left{
+  transform: translateX(0);
+}
+.curtain-stage__house:not([data-curtain-state="playing"]) .curtain--right{
+  transform: translateX(0);
+}
+
+.curtain-stage__floor{
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 8px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    var(--color-red-deep) 0%,
+    rgba(0, 0, 0, 0.6) 100%);
+}
+
+
+@media (max-width: 64rem) {
+  .curtain-stage { padding: var(--space-10) var(--layout-gutter); }
+}
+
+@media (max-width: 40rem) {
+  .curtain-stage__title { font-size: clamp(2rem, 8vw, 3rem); }
+  .curtain__rope { display: none; }
+  .curtain-stage__play-icon { width: 4rem; height: 4rem; }
+}

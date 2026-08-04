@@ -48,8 +48,14 @@
      rewrites both to hashed assets. See eleventy.config.js. #}
   <script type="module" src="/src/js/main.js"></script>
 
-  {%- if schema %}
-  <script type="application/ld+json">{{ schema | dump | safe }}</script>
+  {#
+    One <script type="application/ld+json"> per page, holding a single @graph.
+    Graphs are built in _data/schema.js from the same data the page renders,
+    and selected by the page's `pageKey` front matter.
+  #}
+  {%- set pageSchema = schema[pageKey] if pageKey else false %}
+  {%- if pageSchema %}
+  <script type="application/ld+json">{{ pageSchema | dump | safe }}</script>
   {%- endif %}
 </head>
 

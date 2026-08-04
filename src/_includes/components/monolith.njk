@@ -4,8 +4,17 @@
    The site footer for the main template family.
 
    Every figure in the spec strip comes from site.json, which traces to
-   CLIENT_FACTS.md. Two figures in the reference concept were changed here:
-   see the build notes. Do not add a figure without a confirmed source.
+   CLIENT_FACTS.md. Two of them deliberately differ from the reference
+   concept and must not be reverted:
+
+     "6 / San Diego"    was "8 Houses". CLIENT_FACTS.md forbids publishing a
+                        global location total until the live site's
+                        location-count contradiction is fixed.
+     "2 / Noodle Types" was "12h Tonkotsu". No simmer time is confirmed
+                        anywhere in CLIENT_FACTS.md. That number is invented.
+
+   See the _specNote key in site.json. Do not add a figure without a
+   confirmed source.
    =========================================================================== #}
 
 <footer class="monolith" aria-label="{{ site.name }} footer">

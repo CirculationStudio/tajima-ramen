@@ -143,3 +143,11 @@ body::before {
     scroll-behavior: auto !important;
   }
 }
+
+/* Gutter tightens below the desktop breakpoint. Lives here rather than in a
+   component because it is a layout-wide value the reference sets on :root. */
+@media (max-width: 64rem) {
+  :root {
+    --layout-gutter: var(--space-5);
+  }
+}

@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Block: hero
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.hero{
+  min-height: calc(100vh - 7rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Video left side */
+.hero__video{
+  position: relative;
+  overflow: hidden;
+  background: var(--color-system-black);
+}
+.hero__video-media{
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.hero__video-scrim{
+  position: absolute; inset: 0;
+  background: linear-gradient(270deg,
+    rgba(10, 10, 7, 0.7) 0%,
+    rgba(10, 10, 7, 0.1) 60%,
+    rgba(10, 10, 7, 0.3) 100%);
+}
+[data-mode="night"] .hero__video-scrim{
+  background: linear-gradient(270deg,
+    rgba(5, 3, 8, 0.75) 0%,
+    rgba(15, 10, 22, 0.2) 60%,
+    rgba(5, 3, 8, 0.4) 100%);
+}
+.hero__video-controls{
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.video-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 254, 244, 0.92);
+  color: var(--color-canvas);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.video-pill:hover,
+.video-pill:focus-visible{
+  background: var(--color-system-cream);
+  color: var(--color-red);
+}
+[data-mode="night"] .video-pill{
+  background: rgba(255, 241, 244, 0.94);
+}
+
+/* Red panel right side */
+.hero__panel{
+  background: var(--hero-bg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-9) var(--space-10);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.hero__panel::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(-50deg,
+      transparent, transparent 62px,
+      var(--hero-stripe) 62px, var(--hero-stripe) 63px),
+    repeating-linear-gradient(40deg,
+      transparent, transparent 22px,
+      var(--hero-stripe-2) 22px, var(--hero-stripe-2) 23px);
+  pointer-events: none;
+}
+/* Night mode adds an inner glow at the panel edge */
+[data-mode="night"] .hero__panel::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%,
+    rgba(255, 77, 64, 0.42) 0%,
+    transparent 55%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.hero__panel > *{
+  position: relative;
+  z-index: 1;
+}
+.hero__panel-top{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.hero__logo{
+  height: 4rem;
+  width: auto;
+  align-self: flex-start;
+  display: block;
+}
+.hero__eyebrow{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255, 254, 244, 0.78);
+}
+.hero__lede{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-tight);
+  color: rgba(255, 254, 244, 0.82);
+  max-width: 28rem;
+}
+.hero__display{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-mega);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-system-cream);
+  text-transform: uppercase;
+}
+[data-mode="night"] .hero__display{
+  text-shadow: var(--glow-text);
+}
+.hero__display-line{ display: block; }
+.hero__display-line em{
+  font-style: normal;
+  color: var(--color-gold);
+}
+[data-mode="night"] .hero__display-line em{
+  text-shadow:
+    0 0 12px rgba(255, 210, 94, 0.6),
+    0 0 32px rgba(255, 210, 94, 0.35);
+}
+.hero__panel-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+.hero__hint{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255, 254, 244, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.hero__hint::after{ content: '↓'; font-size: 1rem; }
+.hero__order{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-system-cream);
+  color: var(--color-red);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+.hero__order:hover{ transform: translateY(-1px); }
+[data-mode="night"] .hero__order{
+  background: var(--color-system-cream);
+  color: var(--color-red-deep);
+  box-shadow: var(--glow-red);
+}
+
+
+@media (max-width: 64rem) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero__video { aspect-ratio: 16 / 9; min-height: 24rem; }
+  .hero__panel { padding: var(--space-8) var(--space-7); }
+}
+
+/* Secondary action. DESIGN_SYSTEM.md: one red CTA per viewport, secondary
+   actions are hairline-outlined and never a second red. The panel behind this
+   is already the red field, so the primary is cream-on-red and this is an
+   outline on the same field. */
+.hero__secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border: var(--stroke-hair) solid var(--color-system-cream-70);
+  border-radius: 999px;
+  color: var(--color-system-cream);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.hero__secondary:hover,
+.hero__secondary:focus-visible {
+  border-color: var(--color-system-cream);
+  transform: translateY(-1px);
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}

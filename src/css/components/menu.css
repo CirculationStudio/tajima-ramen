@@ -1,0 +1,151 @@
+/* ==========================================================================
+   Block: menu / dish
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.menu{
+  background: var(--color-canvas-2);
+  padding: var(--space-11) var(--layout-gutter);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.menu__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+.menu__head{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-6);
+  padding-bottom: var(--space-7);
+  border-bottom: var(--stroke-rule) solid var(--color-rule);
+  margin-bottom: var(--space-7);
+}
+.menu__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+.menu__title em{
+  font-style: normal;
+  color: var(--color-red);
+}
+[data-mode="night"] .menu__title em{ text-shadow: var(--glow-text); }
+.menu__note{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-3);
+  max-width: 22rem;
+  text-align: right;
+}
+.menu__grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+.dish{
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.dish__figure{
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-canvas-3);
+  margin: 0;
+}
+.dish__img{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-smooth),
+              filter var(--duration-base) var(--ease-smooth);
+}
+.dish:hover .dish__img{ transform: scale(1.04); }
+[data-mode="night"] .dish__img{ filter: saturate(1.18) brightness(0.94); }
+.dish__meta{
+  padding: var(--space-4) 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-rule);
+}
+.dish__name{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+.dish__name em{
+  font-style: normal;
+  color: var(--color-red);
+}
+[data-mode="night"] .dish__name em{ text-shadow: var(--glow-text); }
+.dish__price{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-body);
+  color: var(--color-ink-2);
+}
+.dish__desc{
+  margin-top: var(--space-3);
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-3);
+}
+
+
+@media (max-width: 64rem) {
+  .menu__grid { grid-template-columns: repeat(2, 1fr); }
+  .menu__head { grid-template-columns: 1fr; gap: var(--space-4); }
+  .menu__note { text-align: left; }
+}
+
+@media (max-width: 40rem) {
+  .menu__grid { grid-template-columns: 1fr; }
+}
+
+/* Link out to the full menu. Secondary action: hairline-outlined, never a
+   second red on a view that already spends its accent budget elsewhere. */
+.menu__more {
+  margin-top: var(--space-9);
+  text-align: center;
+}
+
+.menu__more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.menu__more-link:hover,
+.menu__more-link:focus-visible {
+  color: var(--color-ink);
+  border-color: var(--color-red);
+}

@@ -1,0 +1,350 @@
+---
+layout: layouts/base.njk
+permalink: /
+pageKey: home
+title: "Tajima Ramen | San Diego Craft Japanese Ramen House Since 2001"
+description: "San Diego's craft Japanese ramen house, founder-built since 2001. Noodles made in our own Noodle Room in Crown Point, broth simmered every morning, six San Diego locations."
+---
+{#
+  Home. Brief: SITE_ARCHITECTURE.md `/`.
+  Target keyword: `tajima ramen`. Intent is navigational, the visitor already
+  knows Tajima and wants routing, so the section order follows the brief:
+  hero, Noodle Room (growth priority), location router, menu teaser, the 25
+  years. Structure and design are ported from the signed inspo/tajima-home.html.
+
+  COPY IS NOT PORTED. Several claims in the concept contradict CLIENT_FACTS.md
+  and voice-tone.md and were rewritten from confirmed facts. Each one is marked
+  inline below with the reason. Do not paste concept copy back over these.
+#}
+
+{# ============================ HERO ============================ #}
+<section class="hero" aria-labelledby="hero-title">
+
+  <div class="hero__video">
+    <video
+      class="hero__video-media"
+      src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-san-diego-web-background-full.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      data-decorative
+      aria-hidden="true"></video>
+    <div class="hero__video-scrim" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__panel">
+    <div class="hero__panel-top">
+      <img
+        class="hero__logo"
+        src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Branding/tajima%20brand%20assets_digital_RGB-07.png"
+        alt="Tajima Ramen"
+        width="200"
+        height="120"
+        fetchpriority="high">
+      <span class="hero__eyebrow">Since {{ site.founded }} &middot; San Diego, California</span>
+
+      {#
+        REWRITTEN. The concept read: "Founder-built since 2001 by Isamu 'Sam'
+        Morikizono. Twelve-hour tonkotsu. House-made noodles, cut daily in our
+        own Noodle Room."
+        Two claims fail CLIENT_FACTS.md. There is no confirmed tonkotsu simmer
+        time anywhere, and noodle production cadence is explicitly unconfirmed
+        ("the easiest wrong sentence on the whole site to write"). Replaced with
+        the approved home hero body from voice-tone.md, which is three
+        confirmed facts and no adjectives.
+      #}
+      <p class="hero__lede">
+        Tajima has been on Convoy Street since 2001. The noodles are made in our own room in Crown Point, on a machine we brought over from Japan. The broth is simmered every morning and driven to all six San Diego locations.
+      </p>
+    </div>
+
+    {#
+      REWRITTEN. The concept H1 was "Eat Ramen / Slurp loud", which is not in
+      the locked slogan set and sits close to the retired 2025 voice ("All
+      Slurps Welcome"). SITE_ARCHITECTURE.md: "Hero line from the approved
+      slogan set in voice-tone.md. Do not write a new one." This is the
+      approved web hero primary.
+    #}
+    <h1 class="hero__display" id="hero-title">
+      <span class="hero__display-line">Better noodles</span>
+      <span class="hero__display-line">weren't for sale.</span>
+      <span class="hero__display-line"><em>So we made them.</em></span>
+    </h1>
+
+    <div class="hero__panel-bottom">
+      <div class="hero__actions">
+        {# One red CTA per viewport. The panel is the red field, so the primary
+           is cream-on-red and the secondary is a hairline outline. #}
+        <a class="hero__order" href="/locations/">Find your Tajima</a>
+        <a class="hero__secondary" href="/noodle-room/">See the Noodle Room</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{# ============================ STAT BAR ============================ #}
+{# Figures come from site.json. See the _statsNote there: the concept's
+   "8 Ramen houses" and "12h Tonkotsu simmer" are both corrected. #}
+<section class="stat-bar" aria-label="{{ site.name }} at a glance">
+  {%- for stat in site.stats %}
+  <div class="stat-cell">
+    <p class="stat-cell__num">{{ stat.num }}</p>
+    <p class="stat-cell__label">{{ stat.label }}</p>
+  </div>
+  {%- endfor %}
+</section>
+
+{# ============================ NOODLE ROOM ============================ #}
+{#
+  Section 2 per the brief, three sentences max, links out. This is the growth
+  priority.
+
+  REWRITTEN throughout. The concept read: eyebrow "Homemade noodles, crafted
+  daily"; body "In 2026, Sam built a dedicated facility on Ingraham Street.
+  Salt. Water. Lye. Flour. Time."; and a meta row "Feeds: Every Tajima room,
+  daily". Four separate problems:
+    - "crafted daily" and "Feeds ... daily" assert a noodle cadence that
+      CLIENT_FACTS.md says is unconfirmed.
+    - "Every Tajima room" is the forbidden rollout claim, and it would sweep in
+      Maui, 2,500 miles from the commissary.
+    - "Salt. Water. Lye. Flour. Time." asserts ingredients, alkalinity, and
+      aging. CLIENT_FACTS.md: "Any claim about flour type, hydration, water,
+      alkalinity, or aging time. Nobody has told us any of it."
+    - Crown Point opened January 2025, not 2026.
+  Everything below is from the Sam video transcript, which is confirmed.
+#}
+<section class="noodleroom-card" aria-labelledby="noodleroom-title">
+  <a class="noodleroom-card__inner" href="/noodle-room/">
+
+    <video
+      class="noodleroom-card__video"
+      src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-san-diego-web-background-full.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      data-decorative
+      aria-hidden="true"></video>
+    <div class="noodleroom-card__scrim" aria-hidden="true"></div>
+
+    <div class="noodleroom-card__content">
+      <div class="noodleroom-card__lead">
+        <span class="noodleroom-card__eyebrow">Made in Crown Point</span>
+        <h2 class="noodleroom-card__title" id="noodleroom-title">
+          The<br><em>Noodle Room</em>
+        </h2>
+        <p class="noodleroom-card__desc">
+          For twenty-five years Tajima bought its noodles. Sam spent two years building a room in Crown Point so that would stop being true. There is a machine in it that came over from Japan.
+        </p>
+      </div>
+
+      <div class="noodleroom-card__foot">
+        <dl class="noodleroom-card__meta">
+          <div class="noodleroom-card__meta-row">
+            <dt>Where</dt>
+            <dd>3782 Ingraham St &middot; Crown Point</dd>
+          </div>
+          <div class="noodleroom-card__meta-row">
+            <dt>Opened</dt>
+            <dd>January 2025</dd>
+          </div>
+          <div class="noodleroom-card__meta-row">
+            <dt>In production</dt>
+            <dd>Two noodle types</dd>
+          </div>
+        </dl>
+
+        <span class="noodleroom-card__cta">
+          Step inside the Noodle Room
+          <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </a>
+</section>
+
+{# ============================ LOCATION ROUTER ============================ #}
+{#
+  Section 3 per the brief, all seven from locations.json.
+
+  The concept hardcoded a street address and an opening-hours range on every
+  row. Both are removed. CLIENT_FACTS.md flags every hours value as unverified
+  and says do not publish hours the door does not honor, and four of the seven
+  street addresses are unconfirmed (Convoy's suite is the known citation
+  defect). Rows show the neighborhood and the year, which are confirmed, and
+  the street line renders only where locations.json has a confirmed value.
+#}
+<section class="locations" id="locations" aria-labelledby="locations-title">
+  <div class="locations__inner">
+    <header class="locations__head">
+      <h2 class="locations__title" id="locations-title">Where to <em>find us.</em></h2>
+    </header>
+
+    {%- for loc in locations.items %}
+    <article class="locations__row">
+      <span class="locations__row-no">&#8470;&nbsp;{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+      <h3 class="locations__row-name">
+        <a href="{{ loc.url }}">{{ loc.name }} <em>{{ loc.descriptor }}</em></a>
+      </h3>
+      <address class="locations__row-addr">
+        {%- if loc.address.street %}{{ loc.address.street }}, {% endif -%}
+        {%- if loc.neighborhood and loc.neighborhood != loc.address.locality %}{{ loc.neighborhood }}, {% endif -%}
+        {{ loc.address.locality }}, {{ loc.address.region }}
+        {%- if loc.address.postalCode %} {{ loc.address.postalCode }}{% endif -%}
+      </address>
+      {%- if loc.opened %}
+      <span class="locations__row-since">Since {{ loc.opened }}</span>
+      {%- endif %}
+    </article>
+    {%- endfor %}
+  </div>
+</section>
+
+{# ============================ MENU TEASER ============================ #}
+{#
+  Section 4 per the brief, featured bowls only, links to /menu/.
+  Filtered to feature: true plus a photo, so nothing renders an empty frame.
+  Carnitas Ramen is absent from menu.json on purpose (Open Decision #4).
+
+  REWRITTEN note line. The concept read "Tonkotsu base simmered twelve hours in
+  the Crown Point commissary. Noodles cut daily in the Noodle Room." Neither
+  the simmer time nor the noodle cadence is confirmed. What is confirmed is
+  that broth is made every morning in Crown Point and driven out before
+  service, and that noodles are made in our own Noodle Room.
+#}
+<section class="menu" id="menu" aria-labelledby="menu-title">
+  <div class="menu__inner">
+    <header class="menu__head">
+      <h2 class="menu__title" id="menu-title">The <em>bowls.</em></h2>
+      <p class="menu__note">
+        Broth simmered every morning in the Crown Point commissary and driven out before service. Noodles from our own Noodle Room.
+      </p>
+    </header>
+
+    <div class="menu__grid">
+      {%- for dish in menu.items %}
+        {%- if dish.feature and dish.image %}
+      <article class="dish reveal reveal--d{{ loop.index % 3 + 1 }}">
+        <figure class="dish__figure">
+          <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="600" height="600">
+        </figure>
+        <div class="dish__meta">
+          <h3 class="dish__name">
+            {%- if dish.emphasis -%}
+              {{ dish.shortName | replace(dish.emphasis, "") }}<em>{{ dish.emphasis }}</em>
+            {%- else -%}
+              {{ dish.shortName }}
+            {%- endif -%}
+          </h3>
+          <span class="dish__price">${{ dish.price }}</span>
+        </div>
+        {%- if dish.description %}
+        <p class="dish__desc">{{ dish.description }}</p>
+        {%- endif %}
+      </article>
+        {%- endif %}
+      {%- endfor %}
+    </div>
+
+    <p class="menu__more">
+      <a class="menu__more-link" href="/menu/">See the whole menu</a>
+    </p>
+  </div>
+</section>
+
+{# ============================ THE FILM ============================ #}
+{#
+  The concept titled this "Twenty-five years on Convoy. Told in his own words."
+  and labelled it "A film by Tajima · 01:20". Softened: nobody here has
+  verified the runtime, and "in his own words" asserts what the film contains.
+  The video itself is a real client asset on the Tajima CDN.
+#}
+<section class="curtain-stage" aria-labelledby="film-title">
+  <div class="curtain-stage__rail">
+    <span class="curtain-stage__eyebrow">A film by Tajima</span>
+    <h2 class="curtain-stage__title" id="film-title">
+      Twenty-five years <em>on Convoy.</em>
+    </h2>
+  </div>
+
+  <div class="curtain-stage__house">
+    <div class="curtain curtain--left" aria-hidden="true">
+      <div class="curtain__panel"></div>
+      <div class="curtain__rope"></div>
+    </div>
+    <div class="curtain curtain--right" aria-hidden="true">
+      <div class="curtain__panel"></div>
+      <div class="curtain__rope"></div>
+    </div>
+
+    <div class="curtain-stage__screen" data-curtain-stage>
+      <video
+        class="curtain-stage__video"
+        src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="A film about Tajima Ramen"></video>
+
+      <button type="button" class="curtain-stage__play" data-curtain-play>
+        <svg class="curtain-stage__play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="6 4 20 12 6 20 6 4"></polygon>
+        </svg>
+        <span class="curtain-stage__play-label">Watch the film</span>
+      </button>
+
+      <button type="button" class="curtain-stage__pause" data-curtain-pause aria-label="Stop the film" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="curtain-stage__floor" aria-hidden="true"></div>
+  </div>
+</section>
+
+{# ============================ THE 25 YEARS ============================ #}
+{#
+  Section 5 per the brief: two sentences, link to /about/.
+
+  The concept used "He didn't name it. He made it his." as this section's H2.
+  Moved off the home page: voice-tone.md says that line "belongs somewhere on
+  the new site, once, probably on About. Do not overuse it." It is reserved
+  for /about/.
+
+  The concept also carried a three-line Sam blockquote ("Ramen is freedom. The
+  bowl is the proof. You don't have to talk about it."). Only the first
+  sentence is a real quote (Beyondish, 2026). The rest was invented. Trimmed to
+  the confirmed line with its citation. Sam has not been interviewed. Do not
+  extend this quote.
+#}
+<section class="story pattern-section" id="story" aria-labelledby="story-title">
+  <div class="story__inner">
+    <header>
+      <span class="story__eyebrow">The house</span>
+      <h2 class="story__title" id="story-title">One owner. <em>Twenty-five years.</em></h2>
+    </header>
+    <div class="story__body">
+      <p class="story__lede">
+        Sam Morikizono took over a small Japanese restaurant on Convoy Street in 2001 and has run it ever since. There are six of them across San Diego now, and the noodles come from his own kitchen.
+      </p>
+      <p class="story__para">
+        <a class="story__link" href="/about/">Read how he got here</a>
+      </p>
+      <blockquote class="story__quote">
+        Ramen is freedom.
+        <cite class="story__quote-cite">Sam Morikizono, Beyondish, 2026</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<script type="module" src="/src/js/pages/home.js"></script>

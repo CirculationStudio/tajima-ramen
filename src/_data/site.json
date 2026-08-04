@@ -24,12 +24,21 @@
     "pattern": "on"
   },
 
+  "_statsNote": "Same rule as the footer spec strip. The reference concept's home stat bar read '8 Ramen houses' and '12h Tonkotsu simmer'. Both are corrected here: CLIENT_FACTS.md forbids publishing a global location total, and no simmer time is confirmed anywhere. Do not revert.",
+  "stats": [
+    { "num": "25", "label": "Years on Convoy" },
+    { "num": "6", "label": "San Diego rooms" },
+    { "num": "2", "label": "Noodle types" },
+    { "num": "1", "label": "Noodle Room" }
+  ],
+
   "footer": {
     "epitaph": {
       "before": "Built in ",
       "emphasis": "Convoy.",
       "after": " Since 2001."
     },
+    "_specNote": "DO NOT change these figures without a source in CLIENT_FACTS.md. Two differ from the reference concept on purpose. (1) The concept read '8 Houses'. CLIENT_FACTS.md 'Verified-versus-flagged' says write 'six San Diego locations' and do NOT publish a global total until the live site's location-count contradiction is fixed. (2) The concept read '12h Tonkotsu'. No simmer time is confirmed anywhere in CLIENT_FACTS.md; that number is invented. '2 Noodle Types' is confirmed in the Sam video transcript (ramen noodle and spinach noodle). See voice-tone.md Claims Inventory.",
     "spec": [
       { "num": "25", "label": "Years" },
       { "num": "6", "label": "San Diego" },

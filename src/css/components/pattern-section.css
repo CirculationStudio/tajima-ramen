@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Block: pattern-section
+
+   Ported from the approved, client-signed reference implementation
+   inspo/tajima-home.html. Structure and visual design only.
+   ========================================================================== */
+
+.pattern-section{
+  position: relative;
+  isolation: isolate;
+}
+.pattern-section::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-red);
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  z-index: var(--z-pattern);
+  pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-smooth);
+  mix-blend-mode: screen;
+}
+[data-pattern="on"] .pattern-section::before{ opacity: 0.22; }
+[data-mode="night"][data-pattern="on"] .pattern-section::before{
+  opacity: 0.32;
+  mix-blend-mode: lighten;
+}
+.pattern-section > *{
+  position: relative;
+  z-index: var(--z-content);
+}
+
