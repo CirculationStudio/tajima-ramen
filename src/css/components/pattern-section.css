@@ -22,9 +22,16 @@
   transition: opacity var(--duration-slow) var(--ease-smooth);
   mix-blend-mode: screen;
 }
-[data-pattern="on"] .pattern-section::before{ opacity: 0.22; }
+/* Background texture, not a second layer competing with the type.
+   Was 0.22 day / 0.32 night. `mix-blend-mode: lighten` on a near-black canvas
+   makes every light stroke in the artwork render at full strength, so the
+   night value was doing far more work than the number suggests. Both are
+   dropped by roughly two thirds.
+   ONE component, used on five pages (/, /about/, /locations/,
+   /tajima-convoy/, /menu/vegan-ramen/), so this cannot drift between them. */
+[data-pattern="on"] .pattern-section::before{ opacity: 0.08; }
 [data-mode="night"][data-pattern="on"] .pattern-section::before{
-  opacity: 0.32;
+  opacity: 0.11;
   mix-blend-mode: lighten;
 }
 .pattern-section > *{

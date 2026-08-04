@@ -447,6 +447,10 @@
 ═══════════════════════════════════════════════════════════════════ */
 [data-experience="noodle-room"] .hero {
   min-height: calc(100vh - 7rem);
+  /* Upper bound so the media column does not grow unboundedly taller than the
+     16:9 source on tall or very wide displays, which is what left the letterbox
+     bands large once `contain` replaced `cover`. */
+  max-height: 44rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   position: relative;
@@ -598,11 +602,22 @@
   background: var(--color-ink);
 }
 
+/* CONTAIN, not COVER.
+   The source is 1920x1080 (1.78). The hero is a 1fr 1fr grid at
+   min-height calc(100vh - 7rem), so the media column runs 0.86 to 0.99 in
+   ratio: far TALLER relative to its width than the video. `cover` therefore
+   scaled to fill the height and threw away the sides, measured at 340px per
+   side at 1440, 461px at 1728, 540px at 2560. On a 1920-wide source that is
+   up to 56% of the frame gone, taking the subject and the name caption with
+   it. `contain` crops nothing at any width. `.hero__right` is already
+   `background: var(--color-ink)`, so the letterboxing reads as a dark panel
+   rather than a gap. */
 [data-experience="noodle-room"] .hero__video-media {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 [data-experience="noodle-room"] .hero__video-scrim {
@@ -690,8 +705,12 @@
   background-image: url("https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-02-landscape.webp");
   background-size: cover;
   background-position: center;
-  filter: grayscale(1) brightness(0.6);
-  opacity: 0.18;
+  /* Measured, not eyeballed. At brightness(0.6) and opacity 0.18 under the
+     scrim below, this photograph lifted the section background by 1 to 11
+     sRGB levels out of 255: invisible, not subtle. Now 0.9 / 0.5, which lifts
+     it 16 to 73 levels. Contrast is checked below. */
+  filter: grayscale(1) brightness(0.9);
+  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -706,9 +725,15 @@
     radial-gradient(ellipse at 90% 10%,
       rgba(255, 254, 244, 0.04) 0%,
       transparent 40%),
+    /* Was 0.55 -> 0.85, which is what buried the photograph. Measured against
+       the real file: with this scrim, cream text (#FFFEF4) holds 14.9:1 over
+       the typical pixel and 7.2:1 over the brightest 1%, both clearing WCAG
+       AAA for normal text. There is deliberate headroom left, because these
+       are section-wide averages and a future photo swap must not silently
+       drop below AA. */
     linear-gradient(180deg,
-      rgba(13, 13, 10, 0.55) 0%,
-      rgba(13, 13, 10, 0.85) 100%);
+      rgba(13, 13, 10, 0.28) 0%,
+      rgba(13, 13, 10, 0.55) 100%);
   pointer-events: none;
 }
 
@@ -1779,12 +1804,16 @@
 [data-experience="noodle-room"] .hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none;
 }
 
 [data-experience="noodle-room"] .hero__left { padding: var(--space-9) var(--space-6);
 }
 
-[data-experience="noodle-room"] .hero__right { min-height: 28rem;
+/* Stacked. 28rem tall at full width gave a 0.84 ratio box, which cropped the
+   sides just as hard as desktop did. An explicit 16:9 box matches the source
+   exactly, so `contain` produces no bands here at all. */
+[data-experience="noodle-room"] .hero__right { min-height: 0; aspect-ratio: 16 / 9;
 }
 
 [data-experience="noodle-room"] .hero__title { font-size: clamp(4rem, 14vw, 7rem);

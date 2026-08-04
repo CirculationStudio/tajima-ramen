@@ -5,11 +5,16 @@
    costs the live pages nothing but the bytes until it is adopted or dropped.
    ========================================================================== */
 
-/* The panel is positioned against the header, so the header is the containing
-   block. Scoped to the mega variant so the live header is untouched. */
-.site-header--mega {
-  position: relative;
-}
+/* NO `position` HERE. It used to say `position: relative`, to give the
+   absolutely-positioned panel a containing block, and that silently killed the
+   sticky header on all sixteen main-family pages: `.site-header` sets
+   `position: sticky` and `.site-header--mega` sets `position: relative`, both
+   at specificity 0,1,0, on the same element, with mega-menu.css imported after
+   site-header.css. Later wins, so every page lost its sticky nav.
+
+   `position: sticky` is itself a positioned value, so it already establishes
+   the containing block the panel needs. The correct fix was to delete the
+   declaration, not to add another one. */
 
 .mega {
   display: inline-flex;

@@ -28,7 +28,12 @@ body {
   line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* `clip`, not `hidden`. `overflow-x: hidden` forces the other axis to
+     `auto`, which makes an element a scroll container and is a well-known way
+     to break `position: sticky` on descendants. `clip` does the same visual
+     job without creating one. Belt and braces alongside the real cause, which
+     was a competing `position` declaration on the header itself. */
+  overflow-x: clip;
 }
 
 img,
