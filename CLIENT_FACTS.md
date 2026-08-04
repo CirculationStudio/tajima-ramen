@@ -36,8 +36,8 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 **Citation health is a known problem.** The Convoy GBP audit scored 25/100. Name inconsistency exists across platforms (Apple Maps shows "Tajima," Facebook shows "Tajima (Convoy)"). A suite number discrepancy exists across directories. Every NAP value below must be reconciled against GBP before it ships, because the site will propagate whatever we pick.
 
 ### Location 1: Convoy (the original, the flagship)
-- Address: 4681 Convoy St, Suite A, San Diego, CA 92111 **(suite CONFIRM, this is the known discrepancy and it is blocking)**
-- Phone: CONFIRM (pull from GBP)
+- Address: **4681 Convoy Street STE H, San Diego, CA 92111-2330** (RESOLVED 2026-08-03, see below)
+- Phone: **(858) 576-7244**
 - GPS: CONFIRM (pull from GBP)
 - GBP URL: CONFIRM
 - Yelp: https://www.yelp.com/biz/tajima-ramen-convoy-san-diego
@@ -45,38 +45,51 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Languages: English, Japanese, Spanish
 - Highest review volume of any location (40 of 154 in the 2025 five-star sample).
 
+> **Correction, 2026-08-03 (build night).** This entry previously read "Suite A" and marked the suite CONFIRM and blocking. **That was wrong and it is now resolved: the suite is STE H.**
+>
+> Source: the `NAP (GBP is the source of truth)` table in `SITE_ARCHITECTURE.md`, under the Location page template. Its finding: **"Suite A" appears on zero of 84 tracked Convoy listings and was never real.** The genuine live conflict was STE H (GBP, data-axle with a matching ZIP+4 of 92111-2330, bippermedia, restaurantguru, restaurantji, sirved) against Ste I (MapQuest DA 88, yellowbot, giftly). Google's public display shows no suite at all, which is normal suppression and does not change the record. The instruction is explicit: **publish STE H.**
+>
+> This mattered because `CLIENT_FACTS.md` is first in the `CLAUDE.md` priority order, so an agent following the priority order literally would have published a suite number that has never existed on any listing, into schema, onto a page, and out into the citation graph the Convoy audit already scored 25/100.
+>
+> Phones, and the street addresses and ZIPs for all seven locations, come from the same table and are now filled in below. **Hours remain the one NAP field still blocked** (`SITE_ARCHITECTURE.md` Open Decision #9).
+
 ### Location 2: Mercury
-- Address: Mercury Street, Kearny Mesa, San Diego, CA. **Exact street address and ZIP CONFIRM.**
-- Phone / GPS / GBP URL / Yelp: CONFIRM
+- Address: **4411 Mercury Street #110, San Diego, CA 92111** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Phone: **(858) 278-5367**
+- GPS / GBP URL / Yelp: CONFIRM
 - Opened 2007. Largest format, roughly 90 seats, three 40-inch TVs. On-site parking.
 - **The only location with sushi.** Full bar, craft cocktails, Japanese whisky, full wine list. Expanded izakaya program.
 - Group reservations accepted by phone. Not walk-in-only in the same sense as the others, but **do not emit `acceptsReservations: true`** (see Booking and Access).
 - Runs Yelp Ads. A performance audit is the decision gate before any rating campaign.
 
 ### Location 3: East Village
-- Address: 9th and E Street, downtown San Diego, CA. **Exact address and ZIP CONFIRM.**
-- Phone / GPS / GBP URL / Yelp: CONFIRM
+- Address: **901 E Street, San Diego, CA 92101-6511** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Phone: **(619) 431-5820**
+- GPS / GBP URL / Yelp: CONFIRM
 - Opened 2016. Interior by Paul Basile (BASILE Studio). Roughly 64 seats. Street parking and nearby paid lots.
 - Walking distance from Petco Park. Six taps of local craft beer. Padres game-night beer specials and extended hours on home game nights.
 - Second-highest review volume (32 of 154 in the 2025 sample).
 
 ### Location 4: College Heights
 - Also known as Tajima Ramen Bar, College Heights.
-- Address: College Area, near SDSU. **Exact address and ZIP CONFIRM.**
-- Phone / GPS / GBP URL / Yelp: CONFIRM
+- Address: **6061 El Cajon Boulevard Suite 2, San Diego, CA 92115** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Phone: **(619) 269-0838**
+- GPS / GBP URL / Yelp: CONFIRM
 - Opened 2020. **Pared-down ramen-bar menu, not the full menu.** Open-kitchen layout. 20+ craft beer taps. Street parking.
 - Languages: English, Spanish.
 
 ### Location 5: Crown Point
-- Address: 3782 Ingraham St, San Diego, CA 92109
-- Phone / GPS / GBP URL / Yelp: CONFIRM
+- Address: **3782 Ingraham Street, San Diego, CA 92109**
+- Phone: **(858) 203-3674**
+- GPS / GBP URL / Yelp: CONFIRM
 - Opened January 12, 2025 (per 2025 Japanese corporate filing). Roughly 2,000 sq ft. Street parking.
 - **Houses the commissary and the Noodle Room.** Broth for every San Diego location is made here every morning. ZIP 92109 confirmed via job listings.
 - Strong local craft beer focus. Matcha-forward non-alcoholic program.
 
 ### Location 6: Plaza Bonita
-- Address: Westfield Plaza Bonita Mall, National City, CA. **Exact suite and ZIP CONFIRM.**
-- Phone / GPS / GBP URL / Yelp: CONFIRM
+- Address: **3030 Plaza Bonita Road #2445, National City, CA 91950** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Phone: **(619) 773-6164**
+- GPS / GBP URL / Yelp: CONFIRM
 - Opened late 2020. **Quick-serve, food court format. Limited menu. No alcohol.** Mall parking, mall hours.
 - Languages: Spanish (primary), English.
 - South Bay's only Tajima. National City is 63.5% Hispanic/Latino per US Census QuickFacts.
@@ -87,7 +100,8 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Currency MXN. Languages: Spanish primary, English, Japanese.
 
 ### Maui (Kihei)
-- Address: Kihei, HI. **Exact address and ZIP CONFIRM.**
+- Address: **1819 South Kihei Road, D105, Kihei, HI 96753** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
+- Phone: **(808) 214-5702**
 - Yelp: https://www.yelp.com/biz/tajima-ramen-maui-kihei
 - Full ramen menu, sushi rolls (similar to Mercury), izakaya plates.
 
@@ -371,9 +385,9 @@ Note what the second story does not do: it does not call the old noodles bad. It
 3. **Noodle production cadence.** Blocks applying "made this morning" to noodles. (Interview Q13.)
 4. **The Noodle Room lead's name.** Blocks the second character in the brand story. (Interview Q12.)
 5. **Carnitas decision.** Blocks the menu page and its schema.
-6. **Convoy suite number.** Blocks Convoy schema and the citation cleanup.
-7. **Exact addresses** for Mercury, East Village, College Heights, Plaza Bonita. Blocks four location pages.
-8. **Phones, GPS, GBP URLs, Yelp URLs, ordering URLs**, all six. Blocks all location schema.
+6. ~~**Convoy suite number.**~~ **RESOLVED 2026-08-03: STE H.** See the correction note under Location 1.
+7. ~~**Exact addresses** for Mercury, East Village, College Heights, Plaza Bonita.~~ **RESOLVED 2026-08-03** from the `SITE_ARCHITECTURE.md` NAP table. All seven are filled in above.
+8. **GPS, GBP URLs, Yelp URLs, and ordering URLs**, all seven. Still blocks the `sameAs` and `geo` blocks. **Phones are resolved** (2026-08-03, same table).
 9. **Authoritative hours** per location. Blocks `openingHoursSpecification`.
 10. **Tijuana operating count** and **Tijuana / Maui site scope.** Blocks the schema graph and the locations index.
 11. **US legal entity name.** Blocks `Organization.legalName`.
