@@ -39,6 +39,23 @@ export default function (eleventyConfig) {
     (items || []).filter((item) => item && item[key] === value),
   );
 
+  // Dev server: pin the port and REFUSE to move.
+  //
+  // Eleventy's default is to increment when 8080 is taken (8080 -> 8081) with a
+  // single line of output that is easy to miss. That default caused a real
+  // failure on this project: a stale `eleventy --serve` from an earlier session
+  // kept 8080 and kept watching src/, a new server answered on 8081, and both
+  // wrote to the same _site/. The page flickered between styled and unstyled
+  // and the port move went unnoticed for a while.
+  //
+  // portReassignmentRetryCount: 0 makes a busy port a loud failure instead of a
+  // silent relocation. `npm start` runs scripts/free-port.js first, which
+  // clears our own strays and refuses to touch anyone else's process.
+  eleventyConfig.setServerOptions({
+    port: 8080,
+    portReassignmentRetryCount: 0,
+  });
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     // The temp folder holds Eleventy's HTML output before Vite processes it
     // into the final _site directory.
@@ -55,6 +72,22 @@ export default function (eleventyConfig) {
         },
       },
       publicDir,
+      server: {
+        watch: {
+          // Do not let Vite watch the built HTML or publicDir.
+          //
+          // Eleventy writes all 15 pages on every rebuild and then copies
+          // publicDir, and Vite was firing a separate full page reload for each
+          // file it saw change: 23 reload commands to the browser from a single
+          // template save, arriving inside ~100ms. That is the flicker.
+          //
+          // Eleventy's own reload client (/.11ty/reload-client.js, already in
+          // every page) is the correct channel for HTML changes and sends one
+          // reload per rebuild. Vite keeps the module graph for CSS and JS,
+          // which is what it is actually needed for here.
+          ignored: ["**/*.html", "**/public/**", `${publicDir}/**`],
+        },
+      },
       build: {
         // Do not inline assets as base64; keep them as cacheable files so the
         // long-lived Cache-Control headers in public/_headers apply.

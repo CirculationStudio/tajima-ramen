@@ -8,7 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "start": "eleventy --serve",
+    "start": "node scripts/free-port.js 8080 && eleventy --serve",
     "build": "eleventy",
     "clean": "rm -rf _site .11ty-vite"
   },
