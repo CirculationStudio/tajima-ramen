@@ -1,0 +1,104 @@
+{# ===========================================================================
+   Layout: noodle-room
+
+   The editorial sub-experience gets its own shell. Per DESIGN_SYSTEM.md it
+   runs Cormorant Garamond / DM Mono on cream paper with a single token set
+   and no day/night system, and it is explicitly not a page in the main
+   template family. So: its own header (a back link, not the primary nav), its
+   own footer, and data-experience="noodle-room" on <html> to scope its
+   tokens and blocks away from the Convoy Red night ramp.
+   =========================================================================== #}
+<!DOCTYPE html>
+<html lang="{{ site.locale }}" data-experience="noodle-room">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.circulationstudio.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="module" src="/src/js/main.js"></script>
+
+  {%- set pageSchema = schema[pageKey] if pageKey else false %}
+  {%- if pageSchema %}
+  <script type="application/ld+json">{{ pageSchema | dump | safe }}</script>
+  {%- endif %}
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {#
+    The doorway. An interstitial that opens into the room, part of the
+    approved sub-experience. It self-dismisses, is keyboard-dismissable, and
+    is skipped outright under prefers-reduced-motion. See pages/noodle-room.js.
+  #}
+  <aside class="doorway" id="doorway" role="dialog" aria-label="Enter the Noodle Room" tabindex="0">
+    <div class="doorway__inner">
+      <p class="doorway__kanji" aria-hidden="true">但馬</p>
+      <span class="doorway__divider" aria-hidden="true"></span>
+      <p class="doorway__cta">Enter the <em>Noodle Room.</em></p>
+      <p class="doorway__hint">Click anywhere to step inside</p>
+    </div>
+  </aside>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__back" href="/">
+        <span class="site-header__back-arrow" aria-hidden="true">&#8592;</span>
+        Back to Tajima
+      </a>
+      <p class="site-header__mark">
+        <span class="site-header__mark-name">The <em>Noodle Room</em></span>
+      </p>
+      <nav class="site-header__nav" aria-label="Primary">
+        <a class="site-header__nav-link" href="/menu/">Menu</a>
+        <a class="site-header__nav-link" href="/about/">About</a>
+        <a class="site-header__nav-link" href="/locations/">Locations</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <a class="site-footer__logo" href="/" aria-label="{{ site.name }} home">
+        <img
+          class="site-footer__logo-img"
+          src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Branding/tajima%20brand%20assets_digital_RGB-07.png"
+          alt="{{ site.name }}"
+          width="160"
+          height="64"
+          loading="lazy">
+      </a>
+      <p class="site-footer__brand">
+        The Noodle Room &middot; 但馬
+        <span class="site-footer__brand-sub">The Noodle Room &middot; {{ site.name }}</span>
+      </p>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <a class="site-footer__nav-link" href="/menu/">Menu</a>
+        <a class="site-footer__nav-link" href="/locations/">Locations</a>
+        <a class="site-footer__nav-link" href="/order-online/">Order online</a>
+        <a class="site-footer__nav-link" href="{{ site.social.instagram }}" rel="noopener">Instagram</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/js/pages/noodle-room.js"></script>
+
+</body>
+</html>

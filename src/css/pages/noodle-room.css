@@ -1,0 +1,1995 @@
+/* ==========================================================================
+   Page: /noodle-room/ (the editorial sub-experience)
+
+   DESIGN_SYSTEM.md: "The Noodle Room is a deliberate exception. It runs its
+   own editorial identity (Cormorant Garamond / DM Mono, single :root, no
+   day/night system). It is a sub-experience inside the site, not a page in
+   the main template family. Do not normalize it into Convoy Red."
+
+   Ported from the approved inspo/tajima-noodle-room.html. Two structural
+   changes:
+     - Every selector is scoped to [data-experience="noodle-room"], which the
+       page's layout sets on <html>. The concept was a standalone file, so its
+       :root and its .hero / .site-header / .site-footer blocks would
+       otherwise overwrite the Convoy Red night ramp that every other page
+       runs off.
+     - The concept's tour-bar and control-rail demo chrome is dropped. It drove
+       the design walkthrough and is not a shipping surface.
+
+   Visual design only. The concept's COPY is not ported. See the template.
+   ========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] {
+  /* Brand colors */
+  --color-red:           #E03C31;
+  --color-red-deep:      #B5261C;
+  --color-red-soft:      rgba(224, 60, 49, 0.08);
+  --color-red-line:      rgba(224, 60, 49, 0.22);
+  --color-gold:          #FFC658;
+  --color-success:       #16A34A;
+
+   
+  --color-canvas:        #FFFEF4;
+  --color-canvas-2:      #F6F4E8;
+  --color-canvas-3:      #EEEBDA;
+  --color-surface:       #FFFFFF;
+
+   
+  --color-ink:           #0D0D0A;
+  --color-ink-deep:      #050504;
+  --color-ink-warm:      #1A1612;
+
+   
+  --color-text:          #0D0D0A;
+  --color-text-2:        #2A2A26;
+  --color-text-3:        #595951;
+  --color-text-4:        #8C8C82;
+
+   
+  --color-text-on-dark:    #FFFEF4;
+  --color-text-on-dark-2:  rgba(255, 254, 244, 0.82);
+  --color-text-on-dark-3:  rgba(255, 254, 244, 0.55);
+  --color-text-on-dark-4:  rgba(255, 254, 244, 0.32);
+
+   
+  --color-rule:          rgba(13, 13, 10, 0.1);
+  --color-rule-faint:    rgba(13, 13, 10, 0.05);
+  --color-rule-strong:   rgba(13, 13, 10, 0.22);
+  --color-rule-on-dark:  rgba(255, 254, 244, 0.14);
+
+   
+  --color-system-black:  #000;
+  --color-system-cream:  #FFFEF4;
+
+   
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.5rem;
+  --space-6:   2rem;
+  --space-7:   2.5rem;
+  --space-8:   3rem;
+  --space-9:   4rem;
+  --space-10:  5rem;
+  --space-11:  6rem;
+  --space-12:  8rem;
+  --space-13: 10rem;
+
+   
+  --stroke-hair:  1px;
+  --stroke-rule:  2px;
+  --stroke-thick: 3px;
+
+   
+  --font-display: 'Cormorant Garamond', 'Hoefler Text', Georgia, 'Times New Roman', serif;
+  --font-body:    'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'DM Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --font-system:  'DM Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+   
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+
+   
+  --text-micro:    0.875rem;                               
+  --text-meta:     1rem;                                   
+  --text-small:    1.125rem;                               
+  --text-body:     1.25rem;                                
+  --text-lead:     1.5rem;                                 
+  --text-h4:       clamp(1.5rem,  2vw,   1.875rem);
+  --text-h3:       clamp(1.875rem, 2.6vw, 2.625rem);
+  --text-h2:       clamp(2.75rem, 4.4vw, 4.25rem);
+  --text-h1:       clamp(4rem,    8vw,   8rem);
+  --text-display:  clamp(5rem,   11vw,  12rem);
+  --text-mega:     clamp(6rem,   14vw,  16rem);
+
+   
+  --tracking-tight:  -0.025em;
+  --tracking-snug:   -0.012em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.14em;
+  --tracking-widest: 0.24em;
+  --tracking-mono:   0.02em;
+
+   
+  --leading-display: 0.92;
+  --leading-tight:   1.08;
+  --leading-snug:    1.2;
+  --leading-normal:  1.55;
+  --leading-relaxed: 1.7;
+  --leading-loose:   1.95;
+
+   
+  --ease-smooth:   cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 220ms;
+  --duration-base: 420ms;
+  --duration-slow: 800ms;
+  --duration-door: 1400ms;
+
+   
+  --layout-max:    90rem;
+  --layout-gutter: var(--space-7);
+
+   
+  --z-content:  1;
+  --z-tour:     200;
+  --z-nav:      100;
+  --z-doorway:  500;
+  --z-grain:    1000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] *,
+[data-experience="noodle-room"] *::before,
+[data-experience="noodle-room"] *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+
+[data-experience="noodle-room"] body { font-size: 16px; scroll-behavior: smooth;
+}
+
+[data-experience="noodle-room"] body {
+  background: var(--color-canvas);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+[data-experience="noodle-room"] img,
+[data-experience="noodle-room"] svg,
+[data-experience="noodle-room"] video { display: block; max-width: 100%;
+}
+
+[data-experience="noodle-room"] button { font: inherit; color: inherit; background: none; border: none; cursor: pointer;
+}
+
+[data-experience="noodle-room"] a { color: inherit; text-decoration: none;
+}
+
+[data-experience="noodle-room"] *:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 3px;
+}
+
+/* Paper grain */
+[data-experience="noodle-room"] body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none;
+  z-index: var(--z-grain);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* Reveal */
+[data-experience="noodle-room"] .reveal {
+  opacity: 0; transform: translateY(var(--space-4));
+  transition:
+    opacity   var(--duration-slow) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .reveal.is-visible { opacity: 1; transform: none;
+}
+
+[data-experience="noodle-room"] .reveal--d1 { transition-delay: 120ms;
+}
+
+[data-experience="noodle-room"] .reveal--d2 { transition-delay: 240ms;
+}
+
+[data-experience="noodle-room"] .reveal--d3 { transition-delay: 380ms;
+}
+
+[data-experience="noodle-room"] .reveal--d4 { transition-delay: 520ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+[data-experience="noodle-room"] .reveal { opacity: 1; transform: none; transition: none;
+}
+
+[data-experience="noodle-room"] *,
+[data-experience="noodle-room"] *::before,
+[data-experience="noodle-room"] *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+}
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DOORWAY · interstitial opening
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .doorway {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-doorway);
+  background: var(--color-ink);
+  color: var(--color-text-on-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    opacity var(--duration-door) var(--ease-smooth),
+    visibility 0s linear var(--duration-door);
+}
+
+[data-experience="noodle-room"] .doorway[data-state="open"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .doorway::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+[data-experience="noodle-room"] .doorway::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(224, 60, 49, 0.15) 0%,
+    transparent 60%);
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .doorway__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-7);
+  padding: var(--space-6);
+  text-align: center;
+}
+
+[data-experience="noodle-room"] .doorway__kanji {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: clamp(5rem, 12vw, 11rem);
+  line-height: 1;
+  color: var(--color-text-on-dark);
+  letter-spacing: 0.08em;
+  animation: doorBreath 4s ease-in-out infinite;
+}
+
+@keyframes doorBreath {
+  0%, 100% { opacity: 0.92; transform: scale(1);
+}
+
+  50% {     opacity: 1;    transform: scale(1.015);
+}
+
+}
+
+[data-experience="noodle-room"] .doorway__divider {
+  width: 5rem;
+  height: 1px;
+  background: var(--color-red);
+  opacity: 0.7;
+}
+
+[data-experience="noodle-room"] .doorway__cta {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
+  line-height: 1;
+  color: var(--color-text-on-dark);
+  letter-spacing: var(--tracking-tight);
+}
+
+[data-experience="noodle-room"] .doorway__cta em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .doorway__hint {
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-on-dark-3);
+  opacity: 0;
+  animation: doorHint 1.4s var(--ease-smooth) 1.2s forwards;
+}
+
+@keyframes doorHint {
+  to { opacity: 1;
+}
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SITE HEADER · with "Back to Tajima" return
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-rule-faint);
+}
+
+[data-experience="noodle-room"] .site-header__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-4) var(--layout-gutter);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+[data-experience="noodle-room"] .site-header__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-canvas-2);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  transition: background var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .site-header__back:hover,
+[data-experience="noodle-room"] .site-header__back:focus-visible {
+  background: var(--color-canvas-3);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .site-header__back-arrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+[data-experience="noodle-room"] .site-header__mark {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+}
+
+[data-experience="noodle-room"] .site-header__mark-name {
+  font-weight: var(--weight-medium);
+  font-size: var(--text-body);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .site-header__mark-name em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .site-header__mark-sub {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-4);
+}
+
+[data-experience="noodle-room"] .site-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-5);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+[data-experience="noodle-room"] .site-header__nav-link {
+  color: var(--color-text-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .site-header__nav-link:hover,
+[data-experience="noodle-room"] .site-header__nav-link:focus-visible { color: var(--color-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HERO · editorial split, large type, video right
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .hero {
+  min-height: calc(100vh - 7rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+
+[data-experience="noodle-room"] .hero__left {
+  background: var(--color-canvas);
+  padding: var(--space-12) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-8);
+  position: relative;
+  isolation: isolate;
+}
+
+[data-experience="noodle-room"] .hero__left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3' cy='3' r='0.7' fill='%230D0D0A'/%3E%3C/svg%3E");
+  background-size: 14px 14px;
+  opacity: 0.06;
+  mask-image: linear-gradient(135deg,
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.2) 60%,
+    transparent 100%);
+}
+
+[data-experience="noodle-room"] .hero__left > * { position: relative; z-index: 1;
+}
+
+[data-experience="noodle-room"] .hero__crumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-3);
+}
+
+[data-experience="noodle-room"] .hero__crumbs-sep { color: var(--color-text-4);
+}
+
+[data-experience="noodle-room"] .hero__crumbs-current { color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .hero__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+[data-experience="noodle-room"] .hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(5rem, 11vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .hero__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .hero__subtitle {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-text-3);
+  max-width: 32rem;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-red);
+}
+
+[data-experience="noodle-room"] .hero__lede {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-text-2);
+  max-width: 32rem;
+}
+
+[data-experience="noodle-room"] .hero__lede em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .hero__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-5);
+  row-gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-rule);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-3);
+}
+
+[data-experience="noodle-room"] .hero__meta dt { color: var(--color-text-4);
+}
+
+[data-experience="noodle-room"] .hero__meta dd { color: var(--color-text); font-weight: var(--weight-medium);
+}
+
+[data-experience="noodle-room"] .hero__meta-live {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-red) !important;
+}
+
+[data-experience="noodle-room"] .hero__meta-pulse {
+  width: 0.5rem; height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-red);
+  box-shadow: 0 0 0 4px rgba(224, 60, 49, 0.18);
+  animation: heroPulse 2.4s var(--ease-smooth) infinite;
+}
+
+@keyframes heroPulse {
+  0%, 100% { opacity: 1; transform: scale(1);
+}
+
+  50% { opacity: 0.5; transform: scale(0.82);
+}
+
+}
+
+[data-experience="noodle-room"] .hero__right {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-ink);
+}
+
+[data-experience="noodle-room"] .hero__video-media {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+[data-experience="noodle-room"] .hero__video-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(270deg,
+    rgba(13, 13, 10, 0) 0%,
+    rgba(13, 13, 10, 0.15) 70%,
+    rgba(13, 13, 10, 0.4) 100%);
+}
+
+[data-experience="noodle-room"] .hero__video-caption {
+  position: absolute;
+  left: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(13, 13, 10, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: rgba(255, 254, 244, 0.92);
+}
+
+[data-experience="noodle-room"] .hero__video-caption-dot {
+  width: 0.5rem; height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-red);
+  box-shadow: 0 0 8px rgba(224, 60, 49, 0.7);
+}
+
+[data-experience="noodle-room"] .hero__video-controls {
+  position: absolute;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+[data-experience="noodle-room"] .video-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 254, 244, 0.94);
+  color: var(--color-text);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  transition: background var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .video-pill:hover,
+[data-experience="noodle-room"] .video-pill:focus-visible {
+  background: var(--color-canvas);
+  color: var(--color-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PHILOSOPHY · dark editorial spread
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .philosophy {
+  background: var(--color-ink);
+  color: var(--color-text-on-dark);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-experience="noodle-room"] .philosophy__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-02-landscape.webp");
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) brightness(0.6);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .philosophy::before {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 20% 60%,
+      rgba(224, 60, 49, 0.18) 0%,
+      transparent 55%),
+    radial-gradient(ellipse at 90% 10%,
+      rgba(255, 254, 244, 0.04) 0%,
+      transparent 40%),
+    linear-gradient(180deg,
+      rgba(13, 13, 10, 0.55) 0%,
+      rgba(13, 13, 10, 0.85) 100%);
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .philosophy::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pn)' opacity='0.08'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .philosophy__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  position: relative;
+  z-index: 3;
+}
+
+[data-experience="noodle-room"] .philosophy__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: var(--space-7);
+}
+
+[data-experience="noodle-room"] .philosophy__eyebrow::before {
+  content: '';
+  width: 1.5rem; height: 1px;
+  background: currentColor;
+}
+
+[data-experience="noodle-room"] .philosophy__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+[data-experience="noodle-room"] .philosophy__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-h2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-on-dark);
+}
+
+[data-experience="noodle-room"] .philosophy__headline em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .philosophy__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-loose);
+  color: var(--color-text-on-dark-2);
+  padding-top: var(--space-4);
+}
+
+[data-experience="noodle-room"] .philosophy__body p em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-text-on-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   WATCH · featured Sam video moment
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .watch {
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+}
+
+[data-experience="noodle-room"] .watch__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+[data-experience="noodle-room"] .watch__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  margin-bottom: var(--space-9);
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+[data-experience="noodle-room"] .watch__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .watch__eyebrow::before,
+[data-experience="noodle-room"] .watch__eyebrow::after {
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+
+[data-experience="noodle-room"] .watch__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(2.5rem, 4.8vw, 4.5rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .watch__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .watch__sub {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-text-3);
+  max-width: 42rem;
+}
+
+/* Featured stage */
+[data-experience="noodle-room"] .watch__stage {
+  position: relative;
+  max-width: 72rem;
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  background: var(--color-ink);
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.32),
+    0 0 0 1px var(--color-rule);
+}
+
+[data-experience="noodle-room"] .watch__video {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Poster (visible until play clicked) — uses the ambient food loop as the poster */
+[data-experience="noodle-room"] .watch__poster {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity var(--duration-base) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] [data-watch-state="playing"] .watch__poster {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .watch__poster-loop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.3) brightness(0.7);
+}
+
+[data-experience="noodle-room"] .watch__poster-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(13, 13, 10, 0.45) 0%,
+    rgba(13, 13, 10, 0.78) 100%);
+}
+
+[data-experience="noodle-room"] .watch__play {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-text-on-dark);
+  background: transparent;
+  border: none;
+  padding: var(--space-4);
+  cursor: pointer;
+}
+
+[data-experience="noodle-room"] .watch__play-icon {
+  width: 5rem; height: 5rem;
+  padding: 1rem;
+  border: 2px solid var(--color-text-on-dark);
+  border-radius: 999px;
+  transition:
+    transform var(--duration-base) var(--ease-smooth),
+    background var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .watch__play:hover .watch__play-icon,
+[data-experience="noodle-room"] .watch__play:focus-visible .watch__play-icon {
+  transform: scale(1.08);
+  background: var(--color-red);
+  border-color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .watch__play-label {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
+[data-experience="noodle-room"] .watch__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: rgba(13, 13, 10, 0.7);
+  color: var(--color-text-on-dark);
+  border-radius: 999px;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .watch__close svg { width: 1rem; height: 1rem;
+}
+
+[data-experience="noodle-room"] .watch__close:hover,
+[data-experience="noodle-room"] .watch__close:focus-visible {
+  background: var(--color-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INGREDIENTS · the four building blocks
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .ingredients {
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-experience="noodle-room"] .ingredients::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg,
+      transparent, transparent 38px,
+      rgba(13, 13, 10, 0.025) 38px, rgba(13, 13, 10, 0.025) 39px),
+    repeating-linear-gradient(-45deg,
+      transparent, transparent 38px,
+      rgba(13, 13, 10, 0.025) 38px, rgba(13, 13, 10, 0.025) 39px);
+}
+
+[data-experience="noodle-room"] .ingredients__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+[data-experience="noodle-room"] .ingredients__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-8);
+  margin-bottom: var(--space-9);
+}
+
+[data-experience="noodle-room"] .ingredients__head-lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 44rem;
+}
+
+[data-experience="noodle-room"] .ingredients__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-h2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .ingredients__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .ingredients__note {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-meta);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text-3);
+  max-width: 18rem;
+  text-align: right;
+}
+
+[data-experience="noodle-room"] .ingredients__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-8);
+}
+
+[data-experience="noodle-room"] .ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 26rem;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-canvas-2);
+  transition: transform var(--duration-base) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .ingredient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--ingredient-tint, transparent);
+  opacity: 0.65;
+}
+
+[data-experience="noodle-room"] .ingredient:hover {
+  transform: translateY(-4px);
+}
+
+/* Tonal washes — each ingredient gets a faint color personality */
+[data-experience="noodle-room"] .ingredient--flour {
+  --ingredient-tint: linear-gradient(180deg,
+    rgba(245, 232, 200, 0.7) 0%,
+    rgba(245, 232, 200, 0.15) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient--water {
+  --ingredient-tint: linear-gradient(180deg,
+    rgba(196, 220, 232, 0.75) 0%,
+    rgba(196, 220, 232, 0.12) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient--salt {
+  --ingredient-tint: linear-gradient(180deg,
+    rgba(240, 240, 235, 0.85) 0%,
+    rgba(240, 240, 235, 0.2) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient--kansui {
+  --ingredient-tint: linear-gradient(180deg,
+    rgba(245, 220, 150, 0.7) 0%,
+    rgba(245, 220, 150, 0.12) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient__kanji {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(7rem, 11vw, 12rem);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-experience="noodle-room"] .ingredient__body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+[data-experience="noodle-room"] .ingredient__num {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .ingredient__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .ingredient__romaji {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  margin-bottom: var(--space-3);
+}
+
+[data-experience="noodle-room"] .ingredient__desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROCESS · the day, by the hour
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .process {
+  background: var(--color-canvas-2);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-experience="noodle-room"] .process::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(90deg,
+    transparent, transparent 79px,
+    rgba(13, 13, 10, 0.04) 79px, rgba(13, 13, 10, 0.04) 80px);
+}
+
+[data-experience="noodle-room"] .process__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+[data-experience="noodle-room"] .process__head {
+  margin-bottom: var(--space-9);
+}
+
+[data-experience="noodle-room"] .process__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: var(--space-5);
+}
+
+[data-experience="noodle-room"] .process__eyebrow::before {
+  content: '';
+  width: 1.5rem; height: 1px;
+  background: currentColor;
+}
+
+[data-experience="noodle-room"] .process__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-h2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  max-width: 50rem;
+}
+
+[data-experience="noodle-room"] .process__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .process__steps {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: var(--space-6);
+}
+
+/* Vertical thread connecting all steps */
+[data-experience="noodle-room"] .process__steps::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2.5rem;
+  bottom: 2.5rem;
+  width: 1px;
+  background: linear-gradient(180deg,
+    var(--color-rule-strong) 0%,
+    var(--color-red-line) 50%,
+    var(--color-rule) 100%);
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .process__step {
+  display: grid;
+  grid-template-columns: 7rem 9rem 1fr auto;
+  gap: var(--space-7);
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--color-rule);
+  align-items: baseline;
+  position: relative;
+}
+
+[data-experience="noodle-room"] .process__step:first-child {
+  border-top: var(--stroke-rule) solid var(--color-text);
+}
+
+/* Dot on the thread for each step */
+[data-experience="noodle-room"] .process__step::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-6) * -1);
+  top: 50%;
+  width: 11px; height: 11px;
+  margin-top: -5.5px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--color-canvas);
+  border: 2px solid var(--color-red);
+  z-index: 1;
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .process__step:hover::before {
+  background: var(--color-red);
+  transform: scale(1.3);
+}
+
+[data-experience="noodle-room"] .process__step-time {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-h4);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .process__step-name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .process__step-name em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .process__step-desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-2);
+  max-width: 36rem;
+}
+
+[data-experience="noodle-room"] .process__step-num {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GALLERY · documentary photos
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .gallery {
+  background: var(--color-canvas);
+  padding: var(--space-13) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .gallery__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(14rem, auto);
+  gap: var(--space-5);
+}
+
+[data-experience="noodle-room"] .gallery__head {
+  grid-column: 1 / 5;
+  grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-4);
+  padding-right: var(--space-5);
+}
+
+[data-experience="noodle-room"] .gallery__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .gallery__eyebrow::before {
+  content: '';
+  width: 1.5rem; height: 1px;
+  background: currentColor;
+}
+
+[data-experience="noodle-room"] .gallery__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .gallery__plate {
+  position: relative;
+  overflow: hidden;
+  min-height: 18rem;
+  background: var(--color-canvas-3);
+  box-shadow:
+    inset 0 0 60px rgba(0, 0, 0, 0.25),
+    0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+[data-experience="noodle-room"] .gallery__plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.12'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+[data-experience="noodle-room"] .gallery__plate-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) contrast(1.04);
+  transition: transform var(--duration-slow) var(--ease-smooth),
+              filter var(--duration-base) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .gallery__plate:hover .gallery__plate-img {
+  transform: scale(1.03);
+  filter: grayscale(0) contrast(1.04);
+}
+
+[data-experience="noodle-room"] .gallery__plate-caption {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 2;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(255, 254, 244, 0.94);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+[data-experience="noodle-room"] .gallery__plate--a { grid-column: 5 / 9; grid-row: 1 / 2;
+}
+
+[data-experience="noodle-room"] .gallery__plate--b { grid-column: 9 / 13; grid-row: 1 / 3;
+}
+
+[data-experience="noodle-room"] .gallery__plate--c { grid-column: 1 / 5; grid-row: 2 / 3;
+}
+
+[data-experience="noodle-room"] .gallery__plate--d { grid-column: 5 / 9; grid-row: 2 / 3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   QUOTE · framed plaque
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .quote {
+  background: var(--color-ink);
+  color: var(--color-text-on-dark);
+  padding: var(--space-13) var(--layout-gutter);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-experience="noodle-room"] .quote::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%,
+      rgba(224, 60, 49, 0.08) 0%,
+      transparent 60%);
+}
+
+[data-experience="noodle-room"] .quote__inner {
+  max-width: 56rem;
+  margin-inline: auto;
+  position: relative;
+}
+
+[data-experience="noodle-room"] .quote__plaque {
+  position: relative;
+  padding: var(--space-10) var(--space-9) var(--space-8);
+  background: var(--color-canvas);
+  color: var(--color-text);
+  isolation: isolate;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 254, 244, 0.06);
+}
+
+/* Inner double-line plaque border */
+[data-experience="noodle-room"] .quote__plaque::before,
+[data-experience="noodle-room"] .quote__plaque::after {
+  content: '';
+  position: absolute;
+  border: 1px solid var(--color-rule-strong);
+  pointer-events: none;
+}
+
+[data-experience="noodle-room"] .quote__plaque::before {
+  top: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: var(--space-4);
+}
+
+[data-experience="noodle-room"] .quote__plaque::after {
+  top: calc(var(--space-4) + 6px);
+  left: calc(var(--space-4) + 6px);
+  right: calc(var(--space-4) + 6px);
+  bottom: calc(var(--space-4) + 6px);
+  border-color: var(--color-red-line);
+}
+
+[data-experience="noodle-room"] .quote__crest {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--color-red);
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-bottom: var(--space-6);
+  position: relative;
+  z-index: 2;
+}
+
+[data-experience="noodle-room"] .quote__mark {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: clamp(5rem, 8vw, 7rem);
+  line-height: 0.5;
+  color: var(--color-red);
+  margin-bottom: var(--space-5);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+[data-experience="noodle-room"] .quote__text {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: clamp(1.625rem, 2.8vw, 2.5rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+[data-experience="noodle-room"] .quote__divider {
+  display: block;
+  width: 4rem;
+  height: 1px;
+  margin: var(--space-7) auto var(--space-4);
+  background: var(--color-red);
+  opacity: 0.6;
+  position: relative;
+  z-index: 2;
+}
+
+[data-experience="noodle-room"] .quote__cite {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  font-size: var(--text-lead);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-text-2);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+[data-experience="noodle-room"] .quote__cite-meta {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-style: normal;
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RETURN CARD · softer outro
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .return-card {
+  background: var(--color-canvas-2);
+  padding: var(--space-12) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .return-card__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-10) var(--space-9);
+  background: var(--color-canvas);
+  border: 1px solid var(--color-rule);
+}
+
+[data-experience="noodle-room"] .return-card__lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+[data-experience="noodle-room"] .return-card__eyebrow {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .return-card__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+[data-experience="noodle-room"] .return-card__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+[data-experience="noodle-room"] .return-card__sub {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-2);
+  margin-top: var(--space-2);
+  max-width: 32rem;
+}
+
+[data-experience="noodle-room"] .return-card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+[data-experience="noodle-room"] .return-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth),
+              transform var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .return-card__cta--primary {
+  background: var(--color-red);
+  color: var(--color-canvas);
+}
+
+[data-experience="noodle-room"] .return-card__cta--primary:hover,
+[data-experience="noodle-room"] .return-card__cta--primary:focus-visible {
+  background: var(--color-red-deep);
+  transform: translateX(3px);
+}
+
+[data-experience="noodle-room"] .return-card__cta--quiet {
+  background: transparent;
+  color: var(--color-text-3);
+  border: 1px solid var(--color-rule-strong);
+}
+
+[data-experience="noodle-room"] .return-card__cta--quiet:hover,
+[data-experience="noodle-room"] .return-card__cta--quiet:focus-visible {
+  color: var(--color-text);
+  border-color: var(--color-text);
+  transform: translateX(-3px);
+}
+
+[data-experience="noodle-room"] .return-card__cta-arrow { font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════════════ */
+[data-experience="noodle-room"] .site-footer {
+  background: var(--color-canvas);
+  padding: var(--space-9) var(--layout-gutter) var(--space-10);
+  border-top: 1px solid var(--color-rule);
+}
+
+[data-experience="noodle-room"] .site-footer__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+[data-experience="noodle-room"] .site-footer__logo-img { height: 4rem; width: auto;
+}
+
+[data-experience="noodle-room"] .site-footer__brand {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-small);
+  color: var(--color-text-2);
+  letter-spacing: var(--tracking-snug);
+  text-align: center;
+}
+
+[data-experience="noodle-room"] .site-footer__brand-sub {
+  display: block;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-4);
+}
+
+[data-experience="noodle-room"] .site-footer__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-3);
+}
+
+[data-experience="noodle-room"] .site-footer__nav-link { transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-experience="noodle-room"] .site-footer__nav-link:hover,
+[data-experience="noodle-room"] .site-footer__nav-link:focus-visible { color: var(--color-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 64rem) {    /* 1024px */
+[data-experience="noodle-room"] { --layout-gutter: var(--space-5);
+}
+
+[data-experience="noodle-room"] .site-header__inner { grid-template-columns: auto auto;
+}
+
+[data-experience="noodle-room"] .site-header__mark { display: none;
+}
+
+[data-experience="noodle-room"] .site-header__nav { gap: var(--space-4);
+}
+
+[data-experience="noodle-room"] .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+}
+
+[data-experience="noodle-room"] .hero__left { padding: var(--space-9) var(--space-6);
+}
+
+[data-experience="noodle-room"] .hero__right { min-height: 28rem;
+}
+
+[data-experience="noodle-room"] .hero__title { font-size: clamp(4rem, 14vw, 7rem);
+}
+
+[data-experience="noodle-room"] .philosophy { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .philosophy__grid { grid-template-columns: 1fr; gap: var(--space-7);
+}
+
+[data-experience="noodle-room"] .watch { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .ingredients { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .ingredients__head { grid-template-columns: 1fr; gap: var(--space-4);
+}
+
+[data-experience="noodle-room"] .ingredients__note { text-align: left;
+}
+
+[data-experience="noodle-room"] .ingredients__grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-5);
+}
+
+[data-experience="noodle-room"] .ingredient { min-height: 22rem;
+}
+
+[data-experience="noodle-room"] .process { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .process__step {
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6) 0;
+}
+
+[data-experience="noodle-room"] .process__step-time { grid-column: 1; grid-row: 1;
+}
+
+[data-experience="noodle-room"] .process__step-name { grid-column: 2; grid-row: 1;
+}
+
+[data-experience="noodle-room"] .process__step-desc { grid-column: 1 / 3; grid-row: 2; max-width: none;
+}
+
+[data-experience="noodle-room"] .process__step-num { display: none;
+}
+
+[data-experience="noodle-room"] .process__step::before { left: calc(var(--space-6) * -1 + 0.25rem);
+}
+
+[data-experience="noodle-room"] .gallery { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .gallery__inner {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(16rem, auto);
+}
+
+[data-experience="noodle-room"] .gallery__head,
+[data-experience="noodle-room"] .gallery__plate--a,
+[data-experience="noodle-room"] .gallery__plate--b,
+[data-experience="noodle-room"] .gallery__plate--c,
+[data-experience="noodle-room"] .gallery__plate--d {
+    grid-column: 1 / -1;
+    grid-row: auto;
+}
+
+[data-experience="noodle-room"] .quote { padding: var(--space-10) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .quote__plaque { padding: var(--space-8) var(--space-6) var(--space-7);
+}
+
+[data-experience="noodle-room"] .return-card { padding: var(--space-9) var(--layout-gutter);
+}
+
+[data-experience="noodle-room"] .return-card__inner {
+    grid-template-columns: 1fr;
+    padding: var(--space-7);
+    gap: var(--space-6);
+}
+
+[data-experience="noodle-room"] .return-card__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+[data-experience="noodle-room"] .site-footer__inner { grid-template-columns: 1fr; gap: var(--space-5); text-align: left;
+}
+
+[data-experience="noodle-room"] .site-footer__brand { text-align: left;
+}
+
+[data-experience="noodle-room"] .site-footer__nav { justify-content: flex-start; flex-wrap: wrap;
+}
+
+}
+
+@media (max-width: 40rem) {
+[data-experience="noodle-room"] .ingredients__grid { grid-template-columns: 1fr;
+}
+
+[data-experience="noodle-room"] .ingredient__kanji { font-size: clamp(6rem, 24vw, 9rem);
+}
+
+[data-experience="noodle-room"] .watch__play-icon { width: 4rem; height: 4rem;
+}
+
+[data-experience="noodle-room"] .quote__plaque { padding: var(--space-7) var(--space-5) var(--space-6);
+}
+
+[data-experience="noodle-room"] .quote__plaque::before,
+[data-experience="noodle-room"] .quote__plaque::after { display: none;
+}
+
+}
+
+/* ==========================================================================
+   Build additions.
+
+   The concept's four-ingredient grid became a two-noodle pair, and its Sam
+   quote became a pending-interview marker. Both are documented in
+   src/noodle-room.njk. These are the only style rules not ported from the
+   reference file.
+   ========================================================================== */
+
+/* Two cards, not four. Keeps the pair centred instead of leaving two holes. */
+[data-experience="noodle-room"] .ingredients__grid--pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 48rem) {
+  [data-experience="noodle-room"] .ingredients__grid--pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Wheat and spinach tints, matching how the concept tinted its ingredient
+   cards. Same treatment, different subjects. */
+[data-experience="noodle-room"] .ingredient--ramen {
+  --ingredient-tint: linear-gradient(180deg, rgba(245, 232, 200, 0.7) 0%, rgba(245, 232, 200, 0.15) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient--spinach {
+  --ingredient-tint: linear-gradient(180deg, rgba(203, 222, 186, 0.72) 0%, rgba(203, 222, 186, 0.12) 100%);
+}
+
+[data-experience="noodle-room"] .ingredient__desc a {
+  color: var(--color-red);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* The pending-quote plaque. It reads as deliberately empty, not as a broken
+   component: the marker is legible, the reason is stated, and the attribution
+   line stays so the shape of the finished quote is obvious. */
+[data-experience="noodle-room"] .quote__plaque--pending {
+  border-style: dashed;
+}
+
+[data-experience="noodle-room"] .quote__pending-label {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-lead);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-red);
+  margin-bottom: var(--space-4);
+}
+
+[data-experience="noodle-room"] .quote__pending-note {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-3);
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+/* Breadcrumb link, the only link in the hero crumbs. */
+[data-experience="noodle-room"] .hero__crumbs a,
+[data-experience="noodle-room"] .hero__meta a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+[data-experience="noodle-room"] .hero__crumbs a:hover,
+[data-experience="noodle-room"] .hero__meta a:hover {
+  color: var(--color-red);
+}
+
+/* The philosophy body sits on the dark panel, so its link needs the on-dark
+   token rather than the page's ink. */
+[data-experience="noodle-room"] .philosophy__body a {
+  color: var(--color-text-on-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+[data-experience="noodle-room"] .philosophy__body a:hover {
+  color: var(--color-red);
+}

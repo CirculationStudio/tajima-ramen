@@ -1,0 +1,443 @@
+---
+layout: layouts/noodle-room.njk
+permalink: /noodle-room/
+pageKey: noodleRoom
+title: "The Noodle Room | Tajima Ramen"
+description: "Tajima spent two years building a noodle room in Crown Point, on a machine brought over from Japan. Two noodle types in production, and broth simmered in the same building every morning."
+---
+{#
+  /noodle-room/. Brief: SITE_ARCHITECTURE.md.
+  P0, the growth priority. No keyword target: every handmade / house-made /
+  fresh-noodle query combined is 20 rows and 2 clicks over fifteen months. This
+  page is justified on AEO, press, and conversion, not search volume. Do not
+  set a ranking KPI on it.
+
+  The brief calls this "the highest-exposure page on the site" and it is right.
+  Two entire sections of the approved concept could not be built:
+
+    THE FOUR-INGREDIENT BLOCK (flour, water, salt, kansui) is dropped. It
+    asserted "a specific Japanese-style milled wheat, higher protein, finer
+    grind", hydration ratios, and kansui/alkalinity. CLIENT_FACTS.md: "Any
+    claim about flour type, hydration, water, alkalinity, or aging time.
+    Nobody has told us any of it." It is also close to a competitor's public
+    noodle claim, which makes shipping it worse than merely unsourced.
+    Replaced with the two noodle types that ARE confirmed.
+
+    THE HOUR-BY-HOUR PROCESS TIMELINE (06:00 mix, 08:00 rest, 10:00 sheet,
+    11:30 cut, 12:00 send) is dropped. Every time, every step, the gluten
+    claims, and the per-broth noodle widths are unsourced, and the whole block
+    asserts a daily production cadence that CLIENT_FACTS.md explicitly lists as
+    unconfirmed. Replaced with the confirmed sequence, which has no clock in it.
+
+  The concept's founder quote was also invented. See the quote section.
+#}
+
+{# ============================ HERO ============================ #}
+<section class="hero" aria-labelledby="page-title">
+
+  <div class="hero__left reveal reveal--d1">
+    <div>
+      <p class="hero__crumbs">
+        <a href="/">Tajima Ramen</a>
+        <span class="hero__crumbs-sep" aria-hidden="true">/</span>
+        <span class="hero__crumbs-current">The Noodle Room</span>
+      </p>
+    </div>
+
+    <div class="hero__title-block">
+      <h1 class="hero__title" id="page-title">
+        The<br><em>Noodle</em><br>Room.
+      </h1>
+      {#
+        REWRITTEN. The concept subtitle read "Homemade noodles, crafted daily."
+        Cadence is unconfirmed, and voice-tone.md rules out "crafted" for this
+        brand ("We have a machine imported from Japan").
+      #}
+      <p class="hero__subtitle">Crown Point, San Diego.</p>
+    </div>
+
+    {#
+      REWRITTEN. The concept lede read: "In 2026, Sam Morikizono built a
+      dedicated facility on Ingraham Street to make every Tajima noodle by
+      hand. Salt. Water. Lye. Flour. Time."
+      Four failures: the room opened January 2025; "every Tajima noodle" is the
+      forbidden rollout claim; "by hand" is false (voice-tone.md is explicit
+      that handcrafted is "both off and slightly false" because there is a
+      machine); and the ingredient list is unsourced.
+    #}
+    <p class="hero__lede">
+      Sam spent two years building this room. There is a machine in it that came over from Japan. It makes <em>two kinds of noodle</em> right now.
+    </p>
+
+    {#
+      The concept's meta list opened with a fake live status ("Now: Sheeting
+      today's batch, 11:34 AM"). Removed: it is invented, and a hardcoded
+      timestamp presented as live is the kind of detail that reads as proof
+      while being the opposite.
+
+      Street address deliberately omitted. The brief: "No street address and no
+      geo. It is a working commissary, not a destination, and pinning it
+      invites people to show up." The public restaurant at that address is
+      linked instead.
+    #}
+    <dl class="hero__meta">
+      <dt>Where</dt>
+      <dd><a href="/tajima-crown-point/">Crown Point</a>, San Diego 92109</dd>
+      <dt>Opened</dt>
+      <dd>January 2025</dd>
+      <dt>In production</dt>
+      <dd>Two noodle types</dd>
+      <dt>Built over</dt>
+      <dd>Two years</dd>
+    </dl>
+  </div>
+
+  <figure class="hero__right">
+    <video
+      class="hero__video-media"
+      src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
+      poster="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-01-portrait.webp"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      data-decorative
+      aria-label="Inside the Tajima kitchen"></video>
+    <div class="hero__video-scrim" aria-hidden="true"></div>
+    <figcaption class="hero__video-caption">
+      <span class="hero__video-caption-dot" aria-hidden="true"></span>
+      Inside the room &middot; Crown Point
+    </figcaption>
+    <div class="hero__video-controls">
+      <button type="button" class="video-pill" data-video-mute aria-label="Unmute the video">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <span data-video-mute-label>Muted</span>
+      </button>
+    </div>
+  </figure>
+
+</section>
+
+{# ==================== SECTION 1: WHAT IT WAS BEFORE ==================== #}
+{#
+  Brief section 1: "Tajima bought its noodles. They came frozen, from a
+  factory, like almost every ramen shop in America. Stated as fact, never as a
+  knock. The reader does the math."
+
+  The concept's third paragraph read "In 2026, Sam changed that ... every
+  noodle in every Tajima bowl is cut from dough we sheeted that morning."
+  Wrong year, forbidden rollout claim, unconfirmed cadence. Rewritten from the
+  approved prose in CLIENT_FACTS.md. The concept's "They were good. They
+  weren't ours." is kept verbatim: it is exactly the restraint voice-tone.md
+  asks for, and it never calls the old noodles bad.
+#}
+<section class="philosophy" aria-labelledby="why-title">
+  <div class="philosophy__bg" aria-hidden="true"></div>
+  <div class="philosophy__inner">
+    <span class="philosophy__eyebrow">Why a Noodle Room</span>
+    <div class="philosophy__grid">
+
+      <h2 class="philosophy__headline reveal reveal--d1" id="why-title">
+        Most American ramen chains buy their noodles.<br>
+        <em>We don't.</em>
+      </h2>
+
+      <div class="philosophy__body reveal reveal--d2">
+        <p>
+          For twenty-five years, Tajima bought its noodles. They came frozen, from a factory, like almost every ramen shop in America.
+        </p>
+        <p>
+          They were good. They weren't <em>ours.</em>
+        </p>
+        <p>
+          Sam spent two years building a room in Crown Point so that would stop being true. <a href="/about/">He has been on Convoy Street since 2001</a>, and this is the part he built last.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ============================ THE FILM ============================ #}
+{#
+  The concept titled this "One minute and twenty seconds with Sam" and labelled
+  the control "Watch the film · 01:20". Runtime removed: nobody here has
+  verified it, and a wrong number on this page is a cheap way to lose the
+  reader who came for precision.
+#}
+<section class="watch" aria-labelledby="watch-title">
+  <div class="watch__inner">
+
+    <header class="watch__head">
+      <span class="watch__eyebrow">From inside the room</span>
+      <h2 class="watch__title" id="watch-title">
+        A short film<br><em>from the kitchen.</em>
+      </h2>
+      <p class="watch__sub">
+        The room, the noodles, and twenty-five years of getting here.
+      </p>
+    </header>
+
+    <div class="watch__stage" data-watch-stage>
+      <video
+        class="watch__video"
+        src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="A short film about the Tajima Noodle Room"></video>
+
+      <div class="watch__poster" data-watch-poster>
+        <video
+          class="watch__poster-loop"
+          src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-san-diego-web-background-full.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          data-decorative
+          aria-hidden="true"></video>
+        <div class="watch__poster-scrim" aria-hidden="true"></div>
+        <button type="button" class="watch__play" data-watch-play>
+          <svg class="watch__play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="6 4 20 12 6 20 6 4"></polygon>
+          </svg>
+          <span class="watch__play-label">Watch the film</span>
+        </button>
+      </div>
+
+      <button type="button" class="watch__close" data-watch-close aria-label="Stop the film" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+{# ==================== SECTION 3: THE NOODLES ==================== #}
+{#
+  Replaces the concept's four-ingredient block (see the note at the top of this
+  file). Two noodle types in production is confirmed in the Sam video
+  transcript, and it is the whole of what we know. The charcoal noodle is
+  deliberately absent: CLIENT_FACTS.md has it in development, not in
+  production, and says do not publish it.
+
+  Nothing here describes the dough. That is not an oversight.
+#}
+<section class="ingredients" aria-labelledby="noodles-title">
+  <div class="ingredients__inner">
+
+    <header class="ingredients__head">
+      <div class="ingredients__head-lead">
+        <h2 class="ingredients__title" id="noodles-title">
+          Two <em>noodles.</em><br>
+          That's what the room makes.
+        </h2>
+      </div>
+      <p class="ingredients__note">
+        Both are made in Crown Point, on the machine that came over from Japan.
+      </p>
+    </header>
+
+    <div class="ingredients__grid ingredients__grid--pair">
+
+      <article class="ingredient ingredient--ramen reveal reveal--d1">
+        <div class="ingredient__kanji" aria-hidden="true">麺</div>
+        <div class="ingredient__body">
+          <span class="ingredient__num">No. 01</span>
+          <h3 class="ingredient__name">The ramen noodle</h3>
+          <p class="ingredient__desc">
+            The house noodle. <a href="/menu/">See the bowls it goes into.</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="ingredient ingredient--spinach reveal reveal--d2">
+        <div class="ingredient__kanji" aria-hidden="true">青</div>
+        <div class="ingredient__body">
+          <span class="ingredient__num">No. 02</span>
+          <h3 class="ingredient__name">The spinach noodle</h3>
+          <p class="ingredient__desc">
+            Green, and made for one bowl. <a href="/menu/vegan-ramen/">It goes into the vegan ramen.</a>
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{# ==================== SECTIONS 2 AND 4: THE ROOM, THE BROTH ==================== #}
+{#
+  Replaces the concept's hour-by-hour timeline. Same block, no clock. Every
+  line below is in the CLIENT_FACTS.md confirmed list: two years to build, the
+  machine imported from Japan, broth made every morning in the same building
+  and driven out to the San Diego locations before service.
+
+  "Made this morning" is applied to broth only, never to noodles.
+#}
+<section class="process" aria-labelledby="room-title">
+  <div class="process__inner">
+    <header class="process__head">
+      <span class="process__eyebrow">The room</span>
+      <h2 class="process__title" id="room-title">
+        Two years to build it. <em>Every morning</em> it runs.
+      </h2>
+    </header>
+
+    <div class="process__steps">
+
+      <article class="process__step reveal reveal--d1">
+        <span class="process__step-time">Two years</span>
+        <h3 class="process__step-name"><em>Build.</em></h3>
+        <p class="process__step-desc">
+          Sam spent two years putting the room together in Crown Point, in the same building as the commissary.
+        </p>
+        <span class="process__step-num">01</span>
+      </article>
+
+      <article class="process__step reveal reveal--d2">
+        <span class="process__step-time">From Japan</span>
+        <h3 class="process__step-name"><em>The machine.</em></h3>
+        <p class="process__step-desc">
+          The noodle machine was imported from Japan. It makes the ramen noodle and the spinach noodle.
+        </p>
+        <span class="process__step-num">02</span>
+      </article>
+
+      <article class="process__step reveal reveal--d3">
+        <span class="process__step-time">Every morning</span>
+        <h3 class="process__step-name"><em>The broth.</em></h3>
+        <p class="process__step-desc">
+          Broth is simmered in the same building every morning and driven out to the San Diego locations before service.
+        </p>
+        <span class="process__step-num">03</span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{# ============================ GALLERY ============================ #}
+{#
+  Real photographs from the Tajima CDN, not placeholders and not AI. Two are
+  the Crown Point commissary; the other two are a dining room and a dish, so
+  the section is framed honestly rather than as "photographs from the room".
+
+  The concept captioned plate 02 "Twelve hours of simmer". No simmer time is
+  confirmed anywhere, so the caption now says what the photograph shows.
+
+  PROVISIONAL. SITE_ARCHITECTURE.md: the documentary Noodle Room and commissary
+  shoot does not exist yet and is "the asset every page depends on". This
+  gallery is the best real imagery available tonight, not the final one.
+#}
+<section class="gallery" aria-labelledby="gallery-title">
+  <div class="gallery__inner">
+
+    <header class="gallery__head">
+      <span class="gallery__eyebrow">From the kitchens</span>
+      <h2 class="gallery__title" id="gallery-title">Photographed.</h2>
+    </header>
+
+    <figure class="gallery__plate gallery__plate--a reveal reveal--d1">
+      <img class="gallery__plate-img" loading="lazy" width="900" height="600"
+        src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-02-landscape.webp"
+        alt="The Tajima commissary kitchen, a row of stainless steel broth vessels with steam rising and red shut-off valves visible">
+      <figcaption class="gallery__plate-caption">Plate 01 &middot; The commissary, Crown Point</figcaption>
+    </figure>
+
+    <figure class="gallery__plate gallery__plate--b reveal reveal--d2">
+      <img class="gallery__plate-img" loading="lazy" width="600" height="900"
+        src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-01-portrait.webp"
+        alt="A column of steam rising from a broth vessel inside the Tajima commissary kitchen">
+      <figcaption class="gallery__plate-caption">Plate 02 &middot; Steam, Crown Point</figcaption>
+    </figure>
+
+    <figure class="gallery__plate gallery__plate--c reveal reveal--d3">
+      <img class="gallery__plate-img" loading="lazy" width="900" height="600"
+        src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/Interiors/College%20Heights/tajima-ch-dining-room-01-land.jpg"
+        alt="The dining room at Tajima College Heights before service">
+      <figcaption class="gallery__plate-caption">Plate 03 &middot; Dining room, College Heights</figcaption>
+    </figure>
+
+    <figure class="gallery__plate gallery__plate--d reveal reveal--d4">
+      <img class="gallery__plate-img" loading="lazy" width="900" height="600"
+        src="https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-karaage-01.jpeg"
+        alt="A plate of karaage, seasoned deep-fried Japanese chicken, with mayonnaise and lemon">
+      <figcaption class="gallery__plate-caption">Plate 04 &middot; Karaage</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+{# ==================== SECTION 5: THE QUOTE ==================== #}
+{#
+  LAUNCH BLOCKER BY DESIGN. Do not fill this in.
+
+  The concept shipped a Sam quote here: "The Noodle Room is the part of Tajima
+  I always wanted. It just took twenty-five years to build it." He never said
+  it. Sam has not been interviewed. voice-tone.md: "A fabricated founder quote
+  on a page whose entire argument is 'this is real' is the one mistake that
+  cannot be walked back."
+
+  The brief for this page specifies the marker, and CLIENT_FACTS.md open
+  question #1 is what clears it. The only confirmed Sam quote on record is
+  "Ramen is freedom" (Beyondish, 2026), which is already used on the home page
+  and is not about this room.
+#}
+<section class="quote" aria-labelledby="quote-title">
+  <div class="quote__inner">
+    <figure class="quote__plaque quote__plaque--pending">
+      <p class="quote__crest" aria-hidden="true">但馬</p>
+      <h2 class="quote__pending-label" id="quote-title">[QUOTE PENDING INTERVIEW]</h2>
+      <p class="quote__pending-note">
+        Sam on why he built the room. This space is held for his words and stays empty until he says them.
+      </p>
+      <span class="quote__divider" aria-hidden="true"></span>
+      <figcaption class="quote__cite">
+        Isamu &ldquo;Sam&rdquo; Morikizono
+        <span class="quote__cite-meta">Founder</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+{# ==================== SECTION 6: WHERE THE NOODLES GO ==================== #}
+{#
+  The concept read: "Every Tajima bowl, from the Convoy original to the South
+  Bay outpost, is built on noodles cut in this room." That is the rollout claim
+  in its strongest form. CLIENT_FACTS.md: rollout status is unconfirmed, write
+  "made in our own Noodle Room", not "every bowl at every location".
+#}
+<section class="return-card" aria-labelledby="return-title">
+  <div class="return-card__inner">
+    <div class="return-card__lead">
+      <span class="return-card__eyebrow">From the room to the bowl</span>
+      <h2 class="return-card__title" id="return-title">
+        You've seen the room.<br>Now <em>the bowl.</em>
+      </h2>
+      <p class="return-card__sub">
+        The room is in Crown Point. The bowls are across San Diego.
+      </p>
+    </div>
+    <div class="return-card__actions">
+      <a class="return-card__cta return-card__cta--primary" href="/menu/">
+        See the bowls
+        <span class="return-card__cta-arrow" aria-hidden="true">&#8594;</span>
+      </a>
+      <a class="return-card__cta return-card__cta--quiet" href="/locations/">
+        <span class="return-card__cta-arrow" aria-hidden="true">&#8594;</span>
+        Find a room
+      </a>
+    </div>
+  </div>
+</section>

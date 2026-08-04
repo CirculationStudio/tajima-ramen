@@ -36,5 +36,5 @@
 @import "./components/story.css";
 @import "./components/monolith.css";
 
-/* Page styles, added per template as pages are built.
-   @import "./pages/home.css"; */
+/* Page styles, added per template as pages are built. */
+@import "./pages/noodle-room.css";

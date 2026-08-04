@@ -89,9 +89,59 @@ const locationList = {
   })),
 };
 
+// BreadcrumbList on every page except `/`, per SITE_ARCHITECTURE.md.
+function breadcrumb(trail) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: [{ name: site.name, url: "/" }, ...trail].map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: `${site.url}${crumb.url}`,
+    })),
+  };
+}
+
+// The Noodle Room is a Place, not a Restaurant, and it is not open to the
+// public. The brief is explicit about why there is no street address and no
+// geo on it: "It is a working commissary, not a destination, and pinning it
+// invites people to show up." Locality and ZIP only.
+const noodleRoomPlace = {
+  "@type": "Place",
+  "@id": `${site.url}/noodle-room/#place`,
+  name: "The Tajima Noodle Room",
+  description:
+    "Tajima's own noodle room and broth commissary in Crown Point, San Diego. Two noodle types in production, made on a machine imported from Japan.",
+  publicAccess: false,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "San Diego",
+    addressRegion: "CA",
+    postalCode: "92109",
+    addressCountry: "US",
+  },
+  isPartOf: { "@id": ORG_ID },
+};
+
 export default {
   home: {
     "@context": "https://schema.org",
     "@graph": [organization, founder, website, locationList],
+  },
+
+  noodleRoom: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": `${site.url}/noodle-room/#webpage`,
+        url: `${site.url}/noodle-room/`,
+        name: "The Noodle Room",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": `${site.url}/noodle-room/#place` },
+        breadcrumb: breadcrumb([{ name: "The Noodle Room", url: "/noodle-room/" }]),
+      },
+      noodleRoomPlace,
+    ],
   },
 };
