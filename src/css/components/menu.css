@@ -72,14 +72,17 @@
 .dish:hover .dish__img{ transform: scale(1.04); }
 [data-mode="night"] .dish__img{ filter: saturate(1.18) brightness(0.94); }
 .dish__meta{
-  /* 24px above the title, 16px below it before the rule.
-     Was a symmetric 16px. The name is uppercase display type, which has a
-     tall cap height and almost no internal leading, so 16px measured off
-     the photo edge read as roughly half that optically and the title sat on
-     the image. The two values are deliberately unequal: the space above
-     separates the title from the photo, the space below only has to hold it
-     off a hairline. */
-  padding: var(--space-5) 0 var(--space-4);
+  /* 32px above the title, 16px below it before the rule.
+     16px was the original, 24px was not enough on a real screen, so this is
+     the third value and the reasoning is worth writing down. The name is
+     uppercase display type at up to 28px with line-height 1.05, so the cap
+     sits almost exactly on the top of its line box: whatever this padding is,
+     that is the entire visible gap between a bright photo edge and a heavy
+     caps face. Nothing optical is being added by the type itself.
+     The two values stay deliberately unequal. The space above separates two
+     different kinds of thing, a photograph and a headline. The space below
+     only has to hold the headline off a hairline. */
+  padding: var(--space-6) 0 var(--space-4);
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: baseline;

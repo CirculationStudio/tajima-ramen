@@ -266,7 +266,11 @@
 .bento--dessert .dish--quiet { grid-column: span 4;
 }
 
-/* ═══════════════════════════════════════════════════════════════════ DISH · the cell ═══════════════════════════════════════════════════════════════════ */ .dish {
+/* DISH, the bento cell.
+   MUST stay scoped under .bento. Unscoped, this rule overwrites the `.dish`
+   block in components/menu.css, which is the home page's editorial dish list,
+   and hands every home teaser card this cell's border and background. */
+.bento .dish {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -417,7 +421,8 @@
 
 /* Quiet cells — no photo,
 smaller,
-denser */ .dish--quiet {
+denser */
+.bento .dish--quiet {
   padding: var(--space-5);
   background: transparent;
   border: 1px solid var(--color-rule);
