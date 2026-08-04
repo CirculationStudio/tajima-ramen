@@ -1,0 +1,17 @@
+{
+  "primary": [
+    { "label": "Menu", "url": "/menu/" },
+    { "label": "About", "url": "/about/" },
+    { "label": "Locations", "url": "/locations/" },
+    { "label": "Noodle Room", "url": "/noodle-room/", "sub": true }
+  ],
+  "footer": [
+    { "label": "Menu", "url": "/menu/" },
+    { "label": "About", "url": "/about/" },
+    { "label": "Locations", "url": "/locations/" },
+    { "label": "Happy Hour", "url": "/happy-hour/" },
+    { "label": "Order Online", "url": "/order-online/" },
+    { "label": "Instagram", "url": "https://www.instagram.com/tajimaramen/", "external": true },
+    { "label": "Noodle Room", "url": "/noodle-room/", "sub": true }
+  ]
+}

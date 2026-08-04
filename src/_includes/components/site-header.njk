@@ -1,0 +1,35 @@
+{# ===========================================================================
+   Component: site-header
+
+   Sticky primary nav for the main template family. Links come from
+   nav.json, never hardcoded. Current-page state is derived from page.url so
+   no template has to pass it in.
+
+   The Noodle Room sub-experience uses its own header component.
+   =========================================================================== #}
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="/" aria-label="{{ site.name }} home">
+      <img
+        class="site-header__logo-img"
+        src="{{ site.logo.src }}"
+        alt="{{ site.logo.alt }}"
+        width="180"
+        height="44"
+        fetchpriority="high">
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {%- for item in nav.primary %}
+        {%- set isCurrent = page.url == item.url %}
+        <a
+          class="site-header__nav-link{% if item.sub %} site-header__nav-link--sub{% endif %}{% if isCurrent %} site-header__nav-link--current{% endif %}"
+          href="{{ item.url }}"
+          {%- if isCurrent %} aria-current="page"{% endif %}>
+          {{- item.label }}{% if item.sub %} <span aria-hidden="true">&#8629;</span>{% endif -%}
+        </a>
+      {%- endfor %}
+    </nav>
+  </div>
+</header>

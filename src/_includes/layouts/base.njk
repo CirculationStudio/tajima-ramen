@@ -1,0 +1,69 @@
+{# ===========================================================================
+   Layout: base
+
+   The shell every page in the main template family hangs off. Provides the
+   document head, the theme attributes, the skip link, the site header, the
+   <main> landmark, and the monolith footer.
+
+   Front matter a page may set:
+     title            required, the <title> tag (unique per page)
+     description      required, meta description (unique per page)
+     bodyClass        optional, page-level hook class on <body>
+     schema           optional, a JSON-LD object rendered into the head
+     noindex          optional, true to suppress indexing
+
+   Night mode is permanent: data-mode comes from site.json and there is no
+   toggle. See DESIGN_SYSTEM.md.
+   =========================================================================== #}
+<!DOCTYPE html>
+<html
+  lang="{{ site.locale }}"
+  data-mode="{{ site.theme.mode }}"
+  data-fonts="{{ site.theme.fonts }}"
+  data-pattern="{{ site.theme.pattern }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+
+  {# Self-referencing canonical on every page. UTM params are stripped at the
+     Cloudflare edge and 301'd to the clean URL. See SITE_ARCHITECTURE.md. #}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex, follow">
+  {%- endif %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.circulationstudio.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,600&family=Barlow:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="manifest" href="/site.webmanifest">
+
+  {# Vite resolves this module entry and the stylesheet it imports, then
+     rewrites both to hashed assets. See eleventy.config.js. #}
+  <script type="module" src="/src/js/main.js"></script>
+
+  {%- if schema %}
+  <script type="application/ld+json">{{ schema | dump | safe }}</script>
+  {%- endif %}
+</head>
+
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {% include "components/site-header.njk" %}
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  {% include "components/monolith.njk" %}
+
+</body>
+</html>

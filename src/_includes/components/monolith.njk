@@ -1,0 +1,51 @@
+{# ===========================================================================
+   Component: monolith
+
+   The site footer for the main template family.
+
+   Every figure in the spec strip comes from site.json, which traces to
+   CLIENT_FACTS.md. Two figures in the reference concept were changed here:
+   see the build notes. Do not add a figure without a confirmed source.
+   =========================================================================== #}
+
+<footer class="monolith" aria-label="{{ site.name }} footer">
+  <div class="monolith__atmosphere" aria-hidden="true"></div>
+
+  <div class="monolith__inner">
+    <p class="monolith__crest" aria-hidden="true">但馬</p>
+
+    <p class="monolith__wordmark" aria-label="{{ site.shortName }}">
+      {%- for letter in site.shortName | upper | chars %}<span class="monolith__wordmark-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
+    </p>
+
+    <p class="monolith__epitaph">
+      {{ site.footer.epitaph.before }}<em>{{ site.footer.epitaph.emphasis }}</em>{{ site.footer.epitaph.after }}
+    </p>
+
+    <ul class="monolith__spec" aria-label="{{ site.name }} at a glance">
+      {%- for item in site.footer.spec %}
+        <li>
+          <span class="monolith__spec-num">{{ item.num }}</span>
+          <span class="monolith__spec-label">{{ item.label }}</span>
+        </li>
+      {%- endfor %}
+    </ul>
+
+    <nav class="monolith__nav" aria-label="Footer">
+      {%- for item in nav.footer %}
+        {%- set isCurrent = page.url == item.url %}
+        <a
+          class="monolith__nav-link{% if isCurrent %} monolith__nav-link--current{% endif %}"
+          href="{{ item.url }}"
+          {%- if item.external %} rel="noopener"{% endif %}
+          {%- if isCurrent %} aria-current="page"{% endif %}>
+          {{- item.label }}{% if item.sub %} <span aria-hidden="true">&#8629;</span>{% endif -%}
+        </a>
+      {%- endfor %}
+    </nav>
+
+    <p class="monolith__sub">
+      {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
+    </p>
+  </div>
+</footer>

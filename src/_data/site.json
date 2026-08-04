@@ -1,0 +1,41 @@
+{
+  "name": "Tajima Ramen",
+  "shortName": "Tajima",
+  "url": "https://tajimaramen.com",
+  "locale": "en",
+  "timezone": "America/Los_Angeles",
+
+  "founded": "2001",
+  "foundedIn": "Convoy",
+  "yearsInBusiness": 25,
+
+  "logo": {
+    "src": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20Branding/Tajima%20Logo%20red%20logo%20white%20text.png",
+    "alt": "Tajima Ramen"
+  },
+
+  "social": {
+    "instagram": "https://www.instagram.com/tajimaramen/"
+  },
+
+  "theme": {
+    "mode": "night",
+    "fonts": "brand",
+    "pattern": "on"
+  },
+
+  "footer": {
+    "epitaph": {
+      "before": "Built in ",
+      "emphasis": "Convoy.",
+      "after": " Since 2001."
+    },
+    "spec": [
+      { "num": "25", "label": "Years" },
+      { "num": "6", "label": "San Diego" },
+      { "num": "2", "label": "Noodle Types" },
+      { "num": "1", "label": "Noodle Room" }
+    ],
+    "region": "San Diego, CA"
+  }
+}

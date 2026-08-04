@@ -24,6 +24,10 @@ import tailwindcss from "@tailwindcss/vite";
 const publicDir = fileURLToPath(new URL("./public", import.meta.url));
 
 export default function (eleventyConfig) {
+  // Split a string into characters. The monolith wordmark animates per letter,
+  // so the markup needs one span per character without hardcoding the name.
+  eleventyConfig.addFilter("chars", (value) => String(value).split(""));
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     // The temp folder holds Eleventy's HTML output before Vite processes it
     // into the final _site directory.

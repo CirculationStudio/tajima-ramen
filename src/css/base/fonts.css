@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Brand font faces (the 2025 guideline "KPR" system).
+
+   Bebas Neue, Barlow, and Barlow Condensed load from Google Fonts in the
+   document head. These two are brand-licensed files served from Bunny.
+
+   TODO (DESIGN_SYSTEM.md Open Item #2): confirm web-embedding licensing for
+   both faces before launch, then self-host under public/fonts/ as woff2 to
+   drop the third-party connection and the TTF payload. The .ttf files below
+   are the reference-implementation assets and are a launch-blocker to
+   replace, not a permanent state.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Bright Sunshine Caps";
+  src: url("https://cdn.circulationstudio.com/tajima-temp/Tajima%20New%20Fonts/Bright%20Sunshine%20Cap%20Demo.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Calps";
+  src: url("https://cdn.circulationstudio.com/tajima-temp/Tajima%20New%20Fonts/calps-regular.ttf") format("truetype");
+  font-display: swap;
+}

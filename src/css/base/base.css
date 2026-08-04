@@ -1,29 +1,139 @@
 /* ==========================================================================
    Base element styles.
 
-   Minimal at scaffold time. Real base typography and the night canvas hook up
-   once the Convoy Red surface ramp is unblocked (DESIGN_SYSTEM.md Open Item #1):
-   body background should be var(--color-canvas), body text var(--color-ink),
-   default font var(--font-body). Left out here so no false color ships before
-   the ramp values land.
-
-   Accessibility baseline (WCAG 2.2 AA) that does not depend on the color ramp:
-   honor reduced motion and keep a visible focus ring. The focus color falls
-   back to Fire Red until --color-focus is defined.
+   Ported from the approved reference implementation inspo/tajima-home.html.
+   The night canvas is live here because the surface ramp is no longer
+   blocked (see base/theme.css).
    ========================================================================== */
 
 *,
 *::before,
 *::after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-focus, var(--color-red));
-  outline-offset: 2px;
+  outline: 2px solid var(--color-red);
+  outline-offset: 3px;
+}
+
+/* Paper grain. Decorative, sits above content but never intercepts input. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-grain);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.038'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* --------------------------------------------------------------------------
+   Skip link. Not in the reference concepts; required for WCAG 2.2 AA.
+   Uses system constants, not theme tokens: it overlays whatever is beneath it.
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-4);
+  z-index: calc(var(--z-grain) + 1);
+  transform: translateY(-200%);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-system-cream);
+  color: var(--color-system-ink);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal. Progressive enhancement: elements are visible by default and
+   main.js only opts in when IntersectionObserver is available, so no-JS and
+   reduced-motion users never see hidden content.
+   -------------------------------------------------------------------------- */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(var(--space-3));
+  transition:
+    opacity var(--duration-slow) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-smooth);
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal--d1 {
+  transition-delay: 100ms;
+}
+.reveal--d2 {
+  transition-delay: 200ms;
+}
+.reveal--d3 {
+  transition-delay: 320ms;
+}
+.reveal--d4 {
+  transition-delay: 440ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   *,
   *::before,
   *::after {

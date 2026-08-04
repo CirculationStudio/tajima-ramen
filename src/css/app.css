@@ -3,13 +3,11 @@
 
    Load order matters:
    1. Tailwind (brings its own preflight/reset and utility engine).
-   2. Theme tokens (@theme block, the single source of design tokens).
-   3. Base element styles.
-   4. Component styles (Strict BEM: site-header, bento, cell, hero, ...).
-   5. Page-specific styles.
-
-   Components and pages are empty at scaffold time; their @import lines are
-   added as blocks are built into the library (never hand-built inline markup).
+   2. Brand font faces.
+   3. Theme tokens (@theme block plus the surface ramps).
+   4. Base element styles.
+   5. Component styles (Strict BEM: site-header, monolith, hero, bento, ...).
+   6. Page-specific styles.
    ========================================================================== */
 
 @import "tailwindcss";
@@ -22,11 +20,13 @@
    classes. */
 @source "../**/*.{njk,html,md,11ty.js}";
 
+@import "./base/fonts.css";
 @import "./base/theme.css";
 @import "./base/base.css";
 
-/* Component styles, added per block as the library grows.
-   @import "./components/site-header.css"; */
+/* Component styles, added per block as the library grows. */
+@import "./components/site-header.css";
+@import "./components/monolith.css";
 
 /* Page styles, added per template as pages are built.
    @import "./pages/home.css"; */

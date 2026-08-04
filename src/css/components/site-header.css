@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Block: site-header
+
+   Sticky brand nav for the main template family. Ported from the approved
+   reference implementation inspo/tajima-home.html.
+
+   The Noodle Room sub-experience runs its own header (back link + editorial
+   mark) and does NOT use this block.
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: var(--color-header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
+}
+
+.site-header__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-4) var(--layout-gutter);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.site-header__logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-header__logo-img {
+  height: 2.75rem;
+  width: auto;
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-7);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.site-header__nav-link {
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.site-header__nav-link:hover,
+.site-header__nav-link:focus-visible {
+  color: var(--color-ink);
+}
+
+.site-header__nav-link--current {
+  color: var(--color-red);
+  position: relative;
+}
+
+.site-header__nav-link--current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--space-4) * -1);
+  height: var(--stroke-rule);
+  background: var(--color-red);
+  box-shadow: var(--glow-red);
+}
+
+.site-header__nav-link--sub {
+  color: var(--color-red);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-header__nav-link--sub:hover,
+.site-header__nav-link--sub:focus-visible {
+  color: var(--color-red);
+  text-shadow: var(--glow-text);
+}
+
+@media (max-width: 64rem) {
+  .site-header__inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .site-header__nav {
+    gap: var(--space-5);
+  }
+
+  .site-header__nav-link--sub span {
+    display: none;
+  }
+}
+
+/* Narrow phones: let the four links wrap under the logo rather than crushing
+   the tracking. The reference concepts stop at 64rem; this keeps the same
+   design legible at 360px without introducing a burger menu the design
+   system does not define. */
+@media (max-width: 30rem) {
+  .site-header__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .site-header__nav {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-5);
+  }
+}

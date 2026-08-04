@@ -1,33 +1,27 @@
 /* ==========================================================================
-   Tajima Ramen design tokens (Tailwind v4 @theme).
+   Tajima Ramen design tokens.
 
-   This is the single source of truth for design tokens. It compiles to CSS
-   custom properties on :root and drives Tailwind's utility generation.
-   Night mode is permanent for this build (no theme toggle, no day-mode surface).
+   Source of truth: the approved, client-signed reference implementation
+   inspo/tajima-home.html (canonical token source per DESIGN_SYSTEM.md).
+   Values below are PASTED from that file's :root and theme blocks, not
+   retyped from memory. This closes DESIGN_SYSTEM.md Open Items #1 and #3.
 
-   RULES (from DESIGN_SYSTEM.md):
-   - Zero hex codes anywhere in CSS outside this token block.
-   - rgba() is permitted only for transparency variations.
-   - No gradients as a brand device.
+   Night mode is permanent for this build. The <html> element carries
+   data-mode="night" from site.json and there is no theme toggle. The day
+   token set is retained in the cascade (as DESIGN_SYSTEM.md requires) but is
+   not a shipping surface.
 
-   Values below are ONLY those confirmed in DESIGN_SYSTEM.md. Anything gated on
-   a DESIGN_SYSTEM.md "Open Item" is left as a loud TODO and NOT invented. Do not
-   guess these; paste them from the approved reference file when unblocked.
+   HEX RULE: DESIGN_SYSTEM.md says zero hex outside :root. The [data-mode]
+   and [data-fonts] blocks below are theme root scopes, the sanctioned
+   exception. No hex may appear in any component or page stylesheet.
    ========================================================================== */
 
 @theme {
-  /* --- Brand constants (Tajima Brand Guidelines, October 2025) -------------
-     Confirmed. Fire Red is an accent only, never a background field.
-     Sesame Gold is capped at under 10% of any visual element. */
-  --color-red: #e03c31; /* Fire Red / Convoy Red */
-  --color-gold: #ffc658; /* Sesame Gold, rare accent */
-  --color-cream: #fffef4; /* Off-White, warmer than pure white */
-  --color-black: #000000; /* logo lockup / pure-black contexts only */
-
   /* --- System constants (never invert, never respond to theme) -------------
-     Confirmed exact values. Photo overlays, caption pills, location plate
-     pills, and scrim text use these EXCLUSIVELY, never the theme surface
-     tokens. This is the fix for the invisible-pill bug in concept 01. */
+     Photo overlays, caption pills, location plate pills, and scrim text use
+     these EXCLUSIVELY, never the theme surface tokens. This is the fix for
+     the invisible-pill bug in concept 01. */
+  --color-system-black: #000000;
   --color-system-cream: #fffef4;
   --color-system-cream-90: rgba(255, 254, 244, 0.94);
   --color-system-cream-70: rgba(255, 254, 244, 0.82);
@@ -35,58 +29,220 @@
   --color-system-ink-90: rgba(13, 13, 10, 0.92);
   --color-system-ink-70: rgba(13, 13, 10, 0.7);
 
-  /* --- Convoy Red night surface ramp ---------------------------------------
-     TODO(BLOCKING): DESIGN_SYSTEM.md Open Item #1. These seven values are the
-     tuned ramp and live only in the approved tajima-home.html :root. Marco or
-     Steve: open that file, copy its :root block, and paste the real values
-     here. DO NOT retype from memory or approximate. Left unset on purpose so
-     nothing false ships; no page consumes them yet.
+  /* --- Brand constants (Tajima Brand Guidelines, October 2025) -------------
+     Fire Red is an accent only, never a background field. Sesame Gold is
+     capped at under 10% of any visual element. Note: the night ramp below
+     lifts --color-red for contrast against the darker canvas. */
+  --color-red: #e03c31; /* Fire Red / Convoy Red */
+  --color-red-deep: #b5261c;
+  --color-red-soft: rgba(224, 60, 49, 0.12);
+  --color-red-line: rgba(224, 60, 49, 0.32);
+  --color-gold: #ffc658; /* Sesame Gold, rare accent */
+  --color-gold-mid: #c8961a;
+  --color-cream: #fffef4; /* Off-White, warmer than pure white */
+  --color-black: #000000; /* logo lockup / pure-black contexts only */
 
-     --color-canvas:      base page, near-black warm (approx #0D0D0A family)
-     --color-surface:     raised cards and bento cells
-     --color-surface-2:   nested / inset surfaces
-     --color-ink:         primary type on canvas
-     --color-ink-muted:   secondary type, meta, captions
-     --color-hairline:    1px rules, cell borders
-     --color-focus:       focus ring, derived from --color-red
-     ------------------------------------------------------------------------- */
+  /* --- Type families -------------------------------------------------------
+     Two sets. EDITORIAL (Bebas Neue / Barlow) and BRAND (the 2025 guideline
+     "KPR" system: Bright Sunshine Caps / Calps). The active set is selected
+     by data-fonts on <html>, driven from site.json.
 
-  /* --- Typography ----------------------------------------------------------
-     Family names are confirmed production fonts (the 2025 Brand "KPR" system).
-     Fallback stacks are generic-safe placeholders only. TODO: DESIGN_SYSTEM.md
-     Open Item #2, confirm the exact fallback stacks as written in the reference
-     file and confirm web-embedding licensing before these ship.
+     OPEN, see the build notes: DESIGN_SYSTEM.md restricts Bright Sunshine
+     Caps to pull quotes, merch, and promo moments and says it must not be the
+     default h1/h2, but the signed reference ships data-fonts="brand" which
+     makes it exactly that. Flip site.json theme.fonts to "editorial" to
+     resolve in the other direction. One value, no markup change.
 
-     Bright Sunshine Caps is RESTRICTED: pull quotes, merch, and limited-time
-     promo moments only. It is NOT the default h1/h2 on craft-led pages.
-     Cormorant Garamond and DM Mono are Noodle Room sub-experience ONLY. */
-  --font-body: "Calps", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "Bright Sunshine Caps", var(--font-body); /* restricted use */
-  --font-editorial: "Cormorant Garamond", "Hoefler Text", Georgia, "Times New Roman", serif; /* Noodle Room only */
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; /* Noodle Room only */
+     OPEN, DESIGN_SYSTEM.md #2: confirm web-embedding licensing for Bright
+     Sunshine Caps and Calps before launch. */
+  --font-system: "Barlow", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --font-display-editorial: "Bebas Neue", "Impact", sans-serif;
+  --font-cond-editorial: "Barlow Condensed", sans-serif;
+  --font-body-editorial: "Barlow", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ui-editorial: "Barlow", sans-serif;
+
+  --font-display-brand: "Bright Sunshine Caps", "Bebas Neue", sans-serif;
+  --font-cond-brand: "Calps", "Barlow Condensed", sans-serif;
+  --font-body-brand: "Calps", "Barlow", sans-serif;
+  --font-ui-brand: "Calps", "Barlow", sans-serif;
+
+  /* Noodle Room sub-experience ONLY. Never in the main template family. */
+  --font-editorial: "Cormorant Garamond", "Hoefler Text", Georgia, "Times New Roman", serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* --- Weights (declared by name, never `bold`/`lighter`) ------------------ */
+  --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
 
-  /* --- Spacing (8px baseline grid) -----------------------------------------
-     Every padding, gap, and margin references this scale. No 0.95rem etc. */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 40px;
-  --space-8: 48px;
-  --space-9: 64px;
-  --space-10: 80px;
-  --space-11: 96px;
+  /* --- Type sizes ---------------------------------------------------------- */
+  --text-micro: 0.8125rem;
+  --text-meta: 0.875rem;
+  --text-small: 1rem;
+  --text-body: 1.125rem;
+  --text-lead: 1.375rem;
+  --text-h4: clamp(1.375rem, 2vw, 1.75rem);
+  --text-h3: clamp(1.75rem, 2.6vw, 2.5rem);
+  --text-h2: clamp(2.5rem, 4vw, 3.75rem);
+  --text-h1: clamp(3.5rem, 5.6vw, 5.5rem);
+  --text-display: clamp(4.5rem, 10vw, 10rem);
+  --text-mega: clamp(5rem, 12vw, 13rem);
+  --text-stat: clamp(3rem, 5vw, 4.5rem);
 
-  /* --- Radius / shadow / motion --------------------------------------------
-     TODO(BLOCKING): DESIGN_SYSTEM.md Open Item #3. Pull the exact radius,
-     shadow, and motion token values from the reference :root. The radius
-     system is limited to three: pills, cards, inputs. Do not invent values. */
+  /* --- Tracking ------------------------------------------------------------ */
+  --tracking-tight: -0.018em;
+  --tracking-snug: -0.008em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.14em;
+  --tracking-widest: 0.22em;
+  --tracking-display: 0.02em;
+
+  /* --- Leading ------------------------------------------------------------- */
+  --leading-display: 0.88;
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  /* --- Spacing (8px baseline grid) -----------------------------------------
+     Every padding, gap, and margin references this scale. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --space-11: 6rem;
+  --space-12: 8rem;
+  --space-13: 10rem;
+  --space-14: 12rem;
+
+  /* --- Strokes ------------------------------------------------------------- */
+  --stroke-hair: 1px;
+  --stroke-rule: 2px;
+  --stroke-thick: 3px;
+
+  /* --- Motion -------------------------------------------------------------- */
+  --ease-smooth: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 220ms;
+  --duration-base: 420ms;
+  --duration-slow: 800ms;
+
+  /* --- Layout -------------------------------------------------------------- */
+  --layout-max: 90rem; /* 1440px */
+  --layout-gutter: var(--space-6);
+
+  /* --- Z-index ------------------------------------------------------------- */
+  --z-pattern: 0;
+  --z-content: 1;
+  --z-nav: 100;
+  --z-grain: 1000;
+
+  /* --- Pattern assets ------------------------------------------------------ */
+  --pattern-red: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-red-background-print.png.png");
+  --pattern-white: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-white-background-print.png.png");
+  --pattern-yellow: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-yellow-background-print.png");
+}
+
+/* ==========================================================================
+   Surface ramp: DAY
+
+   Retained in the cascade per DESIGN_SYSTEM.md. Not user-switchable, not a
+   shipping surface. Do not build a theme toggle against it.
+   ========================================================================== */
+[data-mode="day"] {
+  --color-canvas: #0a0a07;
+  --color-canvas-2: #111110;
+  --color-canvas-3: #1a1a17;
+  --color-surface: #1a1a17;
+  --color-surface-2: #252522;
+
+  --color-ink: #fffef4;
+  --color-ink-2: rgba(255, 254, 244, 0.78);
+  --color-ink-3: rgba(255, 254, 244, 0.55);
+  --color-ink-4: rgba(255, 254, 244, 0.32);
+
+  --color-rule: rgba(255, 254, 244, 0.1);
+  --color-rule-strong: rgba(255, 254, 244, 0.22);
+
+  --hero-bg: var(--color-red);
+  --hero-stripe: rgba(0, 0, 0, 0.085);
+  --hero-stripe-2: rgba(0, 0, 0, 0.045);
+
+  --color-header-bg: rgba(255, 254, 244, 0.9);
+
+  --glow-red: none;
+  --glow-text: none;
+  --glow-pink: none;
+}
+
+/* ==========================================================================
+   Surface ramp: NIGHT (permanent, the shipping surface)
+   ========================================================================== */
+[data-mode="night"] {
+  --color-canvas: #050308;
+  --color-canvas-2: #0c0814;
+  --color-canvas-3: #15101e;
+  --color-surface: #0f0a16;
+  --color-surface-2: #1a1226;
+
+  --color-ink: #fff1f4;
+  --color-ink-2: rgba(255, 241, 244, 0.82);
+  --color-ink-3: rgba(255, 241, 244, 0.55);
+  --color-ink-4: rgba(255, 241, 244, 0.32);
+
+  /* Fire Red lifted for contrast against the darker night canvas. */
+  --color-red: #ff4d40;
+  --color-red-deep: #d02418;
+  --color-red-soft: rgba(255, 77, 64, 0.18);
+  --color-red-line: rgba(255, 77, 64, 0.5);
+  --color-gold: #ffd25e;
+
+  --color-rule: rgba(255, 241, 244, 0.14);
+  --color-rule-strong: rgba(255, 77, 64, 0.4);
+
+  --hero-bg: #c0241a;
+  --hero-stripe: rgba(255, 77, 64, 0.16);
+  --hero-stripe-2: rgba(255, 77, 64, 0.08);
+
+  --color-header-bg: rgba(5, 3, 8, 0.82);
+
+  --glow-red:
+    0 0 12px rgba(255, 77, 64, 0.55),
+    0 0 38px rgba(255, 77, 64, 0.32),
+    0 0 80px rgba(255, 77, 64, 0.18);
+  --glow-text:
+    0 0 8px rgba(255, 77, 64, 0.55),
+    0 0 24px rgba(255, 77, 64, 0.35);
+  --glow-pink:
+    0 0 16px rgba(255, 110, 196, 0.45),
+    0 0 40px rgba(255, 110, 196, 0.22);
+}
+
+/* ==========================================================================
+   Active font assignment
+   ========================================================================== */
+[data-fonts="editorial"] {
+  --font-display: var(--font-display-editorial);
+  --font-cond: var(--font-cond-editorial);
+  --font-body: var(--font-body-editorial);
+  --font-ui: var(--font-ui-editorial);
+  --tracking-display: 0.02em;
+}
+
+[data-fonts="brand"] {
+  --font-display: var(--font-display-brand);
+  --font-cond: var(--font-cond-brand);
+  --font-body: var(--font-body-brand);
+  --font-ui: var(--font-ui-brand);
+  /* Bright Sunshine Caps is heavier optically; tracking adjust. */
+  --tracking-display: 0.06em;
 }
