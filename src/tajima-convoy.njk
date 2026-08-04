@@ -61,6 +61,10 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
           <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
         </span>
         <span class="plate__item">
+          <span class="plate__label">Directions</span>
+          <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
+        </span>
+        <span class="plate__item">
           <span class="plate__label">Parking</span>
           <span class="plate__value">{{ loc.parking }} on Convoy Street</span>
         </span>

@@ -35,6 +35,10 @@
     {%- if loc.phone %}
     <a class="loc__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
     {%- endif %}
+    {# Same filter, same data as every other Directions link on the site. #}
+    <a class="loc__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
+      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
     <a class="loc__go" href="{{ loc.url }}">See the room
       <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </a>

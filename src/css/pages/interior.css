@@ -350,3 +350,23 @@ a.loc__phone:focus-visible{ color: var(--color-red); }
 @media (max-width: 40rem) {
   .loc--wide, .loc--std, .elsewhere .loc--maui, .elsewhere .loc--tj { grid-column: span 12; }
 }
+
+/* Directions link on a /locations/ card. Sits with the address and phone,
+   quiet like them: this is reference information, not a call to action. */
+.loc__directions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc__directions:hover,
+.loc__directions:focus-visible {
+  color: var(--color-red);
+}

@@ -391,8 +391,62 @@
     padding: 0;
   }
 
-  .loc-card__order {
+  .loc-card__actions {
     margin: var(--space-3);
     align-self: center;
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Card actions: Order online + Directions, side by side.
+
+   Both are hairline-outlined and neither is red. The header CTA is where this
+   view spends its accent budget (DESIGN_SYSTEM.md: one red per viewport), and
+   fourteen red pills in an open panel would be the opposite of that rule.
+   -------------------------------------------------------------------------- */
+.loc-card__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin: 0 var(--space-3) var(--space-3);
+}
+
+.loc-card__order,
+.loc-card__directions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-2) var(--space-2);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  text-align: center;
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc-card__order:hover,
+.loc-card__order:focus-visible,
+.loc-card__directions:hover,
+.loc-card__directions:focus-visible {
+  color: var(--color-ink);
+  border-color: var(--color-red);
+}
+
+/* Two pills side by side stop fitting long before the card does. Stack them
+   rather than let the labels wrap to two lines each. */
+@media (max-width: 90rem) {
+  .loc-card__actions {
+    grid-template-columns: 1fr;
   }
 }

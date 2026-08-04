@@ -39,6 +39,33 @@ export default function (eleventyConfig) {
     (items || []).filter((item) => item && item[key] === value),
   );
 
+  // Google Maps universal link for a location, built from locations.json.
+  //
+  // Defined once here rather than inline in the four places a location card
+  // appears (mega menu, /locations/, the Convoy page, the stub template), so
+  // the query string cannot drift between them and there is one place to
+  // change if the format ever does.
+  //
+  // The business name is included ahead of the street address on purpose: a
+  // bare address resolves to a point on a map, while name-plus-address
+  // resolves to the business listing, which is what someone tapping
+  // "Directions" actually wants. Both fields come from locations.json.
+  //
+  // Universal link format works on iOS, Android, and desktop, handing off to
+  // the native Maps app where one exists and falling back to the browser where
+  // it does not. No app-specific scheme, no platform sniffing.
+  eleventyConfig.addFilter("mapsUrl", (loc) => {
+    if (!loc || !loc.address || !loc.address.street) return null;
+    const parts = [
+      loc.businessName,
+      loc.address.street,
+      loc.address.locality,
+      loc.address.region,
+      loc.address.postalCode,
+    ].filter(Boolean);
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(parts.join(", "))}`;
+  });
+
   // Dev server: pin the port and REFUSE to move.
   //
   // Eleventy's default is to increment when 8080 is taken (8080 -> 8081) with a

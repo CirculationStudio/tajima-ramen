@@ -61,7 +61,15 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
     <article class="order-card" id="{{ loc.id }}">
       <div>
         <h2 class="order-card__name">{{ loc.name }}</h2>
-        <p class="order-card__hood">{{ loc.neighborhood }}, {{ loc.address.locality }}</p>
+        {#- Dedupe: Plaza Bonita and Maui have neighborhood == locality, which
+            printed "National City, National City". Same guard the home router uses. -#}
+        <p class="order-card__hood">
+          {%- if loc.neighborhood and loc.neighborhood != loc.address.locality -%}
+            {{ loc.neighborhood }}, {{ loc.address.locality }}
+          {%- else -%}
+            {{ loc.address.locality }}, {{ loc.address.region }}
+          {%- endif -%}
+        </p>
       </div>
 
       {%- if loc.orderUrl %}
