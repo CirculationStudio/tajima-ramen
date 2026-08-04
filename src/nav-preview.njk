@@ -67,7 +67,11 @@ description: "Internal review page for the proposed Locations mega menu and the 
                    letter-spacing: var(--tracking-display); color: var(--color-ink); padding: var(--space-4) var(--space-4) 0; }
     .rv__ba-hood { font-family: var(--font-cond); font-weight: var(--weight-light); font-size: var(--text-micro);
                    color: var(--color-ink-3); padding: var(--space-1) var(--space-4) var(--space-2); }
-    .rv__ba-card > .link-quiet { margin: 0 var(--space-4) var(--space-3); align-self: flex-start; }
+    .rv__ba-hoodline { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2);
+                       font-family: var(--font-cond); font-weight: var(--weight-light);
+                       font-size: var(--text-micro); color: var(--color-ink-3);
+                       padding: var(--space-2) var(--space-4) var(--space-4); }
+    .rv__ba-sep { color: var(--color-ink-4); }
     .rv__ba-pills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin: 0 var(--space-3); }
     .rv__ba-pill { display: inline-flex; align-items: center; justify-content: center; padding: var(--space-2);
                    border: var(--stroke-hair) solid var(--color-rule-strong); border-radius: 999px;
@@ -127,18 +131,18 @@ description: "Internal review page for the proposed Locations mega menu and the 
 
       <hr class="rv__rule">
 
-      {# ---------- 2b. Directions treatment, before and after ---------- #}
-      <h3>Directions, redesigned</h3>
-      <h2>One button, not two</h2>
+      {# ---------- 2b. Directions treatment ---------- #}
+      <h3>Directions, folded into the neighborhood line</h3>
+      <h2>One button, everything else quiet</h2>
       <p>
-        Directions was a second pill matching Order Online. Two pills in a card this size read as
-        two competing calls to action, and only one of them is the action. It is now a plain
-        underlined link sitting between the neighborhood and the button.
+        Directions was a second pill, then a standalone link row. It is now part of the neighborhood
+        line, separated by the middot the design system already uses elsewhere. Muted, no underline
+        at rest, small external-link glyph. The card has exactly one thing that looks like a button.
       </p>
 
       <div class="rv__ba">
         <div>
-          <p class="rv__ba-label">Before</p>
+          <p class="rv__ba-label">Before, two pills</p>
           <div class="rv__ba-card">
             <span class="rv__ba-media" aria-hidden="true">01</span>
             <span class="rv__ba-name">Convoy</span>
@@ -154,8 +158,11 @@ description: "Internal review page for the proposed Locations mega menu and the 
           <div class="rv__ba-card">
             <span class="rv__ba-media" aria-hidden="true">01</span>
             <span class="rv__ba-name">Convoy</span>
-            <span class="rv__ba-hood">Kearny Mesa</span>
-            <a class="link-quiet" style="margin: 0 0 var(--space-3);" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden">, opens in a new tab</span></a>
+            <p class="rv__ba-hoodline">
+              Kearny Mesa
+              <span class="rv__ba-sep" aria-hidden="true">&middot;</span>
+              <a class="link-quiet" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden">, opens in a new tab</span><svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </p>
             <span class="rv__ba-pill rv__ba-pill--solo" aria-hidden="true">Order online</span>
           </div>
         </div>
@@ -163,47 +170,45 @@ description: "Internal review page for the proposed Locations mega menu and the 
 
       <div class="rv__note">
         <p>
-          One judgment call worth your eye. The inline links this borrows from
-          (<em>See the bowls it goes into</em>, <em>Read how he got here</em>) are <strong>red at rest</strong>,
-          because they sit in prose where red is the only thing marking them as links. Red directly above
-          an outlined button would have made the quiet action the loud one. So it rests at muted ink and
-          takes the red on hover and focus, still underlined at rest so nothing depends on colour alone.
-          Say the word if you want it red at rest to match the prose links exactly.
+          One thing to weigh. With no colour difference and no underline at rest, the external-link
+          glyph is the <em>only</em> cue that Directions is a link. It is a real non-colour
+          distinction so it clears WCAG 1.4.1, but it is a quiet one. The underline returns on hover
+          and focus and the focus ring is untouched, so keyboard users get both. If it reads as too
+          buried when you look at it, giving it the red at rest is one line.
         </p>
       </div>
 
-      <h3 style="margin-top: var(--space-8);">The same treatment on the two live surfaces</h3>
+      <h3 style="margin-top: var(--space-8);">The same fold on the live surfaces</h3>
       <p>
-        Not applied yet. These are the proposed markup rendered with the real classes, so they look
-        exactly as they will. <code>/locations/</code> and the seven location pages still ship the
-        current version until you sign off.
+        Not applied yet. Rendered with the real classes so it looks exactly as it will.
       </p>
 
       <div class="rv__surfaces">
         <div class="rv__surface">
           <p class="rv__ba-label">/locations/ card, proposed</p>
-          <p class="rv__ba-name" style="font-size: var(--text-h4);">Convoy <em style="color: var(--color-red); font-style: normal;">The original</em></p>
-          <p class="rv__ba-hood">Kearny Mesa</p>
+          <p class="rv__ba-name" style="font-size: var(--text-h4); padding: 0;">Convoy <em style="color: var(--color-red); font-style: normal;">The original</em></p>
+          <p class="rv__ba-hoodline" style="padding: var(--space-2) 0 0;">
+            Kearny Mesa
+            <span class="rv__ba-sep" aria-hidden="true">&middot;</span>
+            <a class="link-quiet" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden">, opens in a new tab</span><svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </p>
           <p style="font-family: var(--font-cond); font-weight: var(--weight-light); font-size: var(--text-small); color: var(--color-ink-2); margin: var(--space-3) 0;">
             The room Sam took over in 2001. Communal tables, the full menu, the expanded izakaya.
           </p>
           <p style="font-family: var(--font-cond); font-size: var(--text-micro); color: var(--color-ink-3);">4681 Convoy Street STE H, San Diego, CA 92111-2330</p>
-          <p style="margin-top: var(--space-3); display: flex; gap: var(--space-5); flex-wrap: wrap;">
-            <a class="link-quiet" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden">, opens in a new tab</span></a>
-            <a class="link-quiet" href="/tajima-convoy/">See the room</a>
-          </p>
         </div>
 
         <div class="rv__surface">
           <p class="rv__ba-label">Location page plate, proposed</p>
           <p style="font-family: var(--font-ui); font-size: var(--text-micro); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--color-ink-3);">Address</p>
-          <p style="font-family: var(--font-cond); font-size: var(--text-body); color: var(--color-ink-2); margin-bottom: var(--space-4);">4681 Convoy Street STE H, San Diego, CA 92111-2330</p>
-          <p style="font-family: var(--font-ui); font-size: var(--text-micro); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--color-ink-3);">Directions</p>
-          <p style="margin-bottom: var(--space-4);">
-            <a class="link-quiet" style="font-size: var(--text-small);" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
+          <p style="font-family: var(--font-cond); font-size: var(--text-body); color: var(--color-ink-2);">
+            4681 Convoy Street STE H, San Diego, CA 92111-2330
+            <span class="rv__ba-sep" aria-hidden="true">&middot;</span>
+            <a class="link-quiet" style="font-size: var(--text-small);" href="{{ locations.items[0] | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden">, opens in a new tab</span><svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </p>
-          <p style="font-family: var(--font-cond); font-size: var(--text-micro); color: var(--color-ink-3);">
-            The plate never had competing pills, so this is only the underline treatment for consistency.
+          <p style="font-family: var(--font-cond); font-size: var(--text-micro); color: var(--color-ink-3); margin-top: var(--space-4);">
+            The plate has no neighborhood line, so Directions folds onto the <strong>address</strong> value
+            instead, which is the nearest equivalent. Its standalone Directions row goes away.
           </p>
         </div>
       </div>

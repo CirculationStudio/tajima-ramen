@@ -99,7 +99,6 @@
                         <span class="loc-card__media-mark">但馬</span>
                       </span>
                       <span class="loc-card__name">{{ loc.name }}</span>
-                      <span class="loc-card__hood">{{ loc.neighborhood }}</span>
                     </a>
 
                     {#
@@ -113,27 +112,30 @@
                       is useless in a links list.
                     #}
                     {#
-                      Directions sits between the neighborhood and the order
-                      button, as a plain underlined link rather than a second
-                      pill. Two pills side by side read as two competing calls
-                      to action in a card the size of a business card; there is
-                      one action here and it is ordering.
+                      Neighborhood and Directions share one line, separated by
+                      the middot the design system already uses everywhere
+                      ("Since 2001 · San Diego", "Plate 01 · The commissary").
 
-                      It has to live outside .loc-card__link, not inside it:
-                      the card is already a link, and an anchor inside an
-                      anchor is invalid and makes the inner one unreachable.
+                      The neighborhood had to come OUT of .loc-card__link to do
+                      this: the card is already a link and an anchor cannot
+                      nest inside an anchor. The separator is aria-hidden so it
+                      is not announced as punctuation between two list items.
 
-                      URL from the `mapsUrl` filter, same data as every other
-                      Directions link. New tab because it hands off to a native
-                      Maps app on phones, and the warning is in the accessible
-                      name rather than implied by an icon.
+                      Muted and not underlined at rest, per the brief. The
+                      external-link glyph is therefore the only at-rest cue
+                      that this is a link, so an underline comes back on hover
+                      and focus and the focus ring is untouched.
                     #}
-                    <a class="link-quiet loc-card__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
-                      Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
-                      <svg width="10" height="10" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                        <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </a>
+                    <p class="loc-card__hood">
+                      {{ loc.neighborhood }}
+                      <span class="loc-card__sep" aria-hidden="true">&middot;</span>
+                      <a class="link-quiet" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                        Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
+                        <svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </a>
+                    </p>
 
                     {# The one button in the card. #}
                     <a class="loc-card__order" href="/order-online/#{{ loc.id }}">

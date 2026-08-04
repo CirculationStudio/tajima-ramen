@@ -169,28 +169,21 @@ body::before {
 /* --------------------------------------------------------------------------
    Quiet inline link.
 
-   Same shape as the underlined inline links already used across the site
-   (.story__link on the home page, .ingredient__desc a on /noodle-room/):
-   underlined text, same offset, same 1px rule, red on hover.
+   Sits inside a line of muted text (the neighborhood line on a location card)
+   rather than standing on its own. Muted, not underlined at rest, so it reads
+   as part of that line instead of competing with the one button on the card.
 
-   One deliberate difference. Those links are red at rest, because they sit in
-   running prose where red is the only thing marking them as links. This one
-   sits directly above an outlined button, and red at rest would make the
-   secondary action louder than the primary one, which is the opposite of the
-   point. So it rests at muted ink and takes the red on hover and focus.
-   Still underlined at rest, so nothing depends on colour alone.
+   Because there is neither colour nor underline distinguishing it at rest, the
+   external-link glyph beside it is the only at-rest affordance. That is why the
+   underline comes back on hover and focus rather than being dropped entirely,
+   and why the focus ring is left alone: a keyboard user gets both.
    -------------------------------------------------------------------------- */
 .link-quiet {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-cond);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-normal);
-  text-transform: none;
+  gap: var(--space-1);
   color: var(--color-ink-3);
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.25em;
   text-decoration-thickness: 1px;
   transition: color var(--duration-fast) var(--ease-smooth);
@@ -199,4 +192,5 @@ body::before {
 .link-quiet:hover,
 .link-quiet:focus-visible {
   color: var(--color-red);
+  text-decoration: underline;
 }

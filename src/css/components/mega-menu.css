@@ -144,6 +144,9 @@
   flex: 1 1 auto;
   text-transform: none;
   letter-spacing: var(--tracking-normal);
+  /* Ends at the name. The neighborhood line below is a sibling, not a child,
+     because it contains a link and anchors cannot nest. */
+  padding-bottom: 0;
 }
 
 /* PLACEHOLDER MEDIA. Drawn, not photographic, and deliberately reads as a
@@ -201,21 +204,66 @@
   padding: var(--space-4) var(--space-4) 0;
 }
 
+/* Neighborhood and Directions on one line. Everything on this line is muted,
+   so the single button below is unambiguously the card's action. */
 .loc-card__hood {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
   font-family: var(--font-cond);
   font-weight: var(--weight-light);
   font-size: var(--text-micro);
   line-height: var(--leading-snug);
   color: var(--color-ink-3);
-  /* Bottom padding is small because the Directions link sits immediately
-     below and owns the space down to the button. */
-  padding: var(--space-1) var(--space-4) var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-4);
+}
+
+.loc-card__sep {
+  color: var(--color-ink-4);
 }
 
 .loc-card__link:hover .loc-card__name,
 .loc-card__link:focus-visible .loc-card__name {
   color: var(--color-red);
 }
+
+/* --------------------------------------------------------------------------
+   The one button on the card.
+
+   Everything above it is muted: the neighborhood line and the Directions link
+   inside it both sit at ink-3, the separator at ink-4. This is the only
+   element with a border, an uppercase UI face, and full ink, so it reads as
+   the action without needing colour to say so. Not red: the header CTA owns
+   the one red per viewport (DESIGN_SYSTEM.md), and seven red pills in an open
+   panel would be the opposite of that rule.
+   -------------------------------------------------------------------------- */
+.loc-card__order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 var(--space-4) var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-align: center;
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc-card__order:hover,
+.loc-card__order:focus-visible {
+  border-color: var(--color-red);
+}
+
 
 /* --------------------------------------------------------------------------
    Header CTA. The single red in the header.
@@ -324,11 +372,11 @@
   }
 
   .loc-card__hood {
-    padding: var(--space-1) var(--space-3) var(--space-2);
+    padding: var(--space-1) var(--space-3) var(--space-3);
   }
 
-  .loc-card__directions {
-    margin: 0 var(--space-3) var(--space-2);
+  .loc-card__order {
+    margin: 0 var(--space-3) var(--space-3);
   }
 
   .mega__foot {
@@ -337,85 +385,16 @@
   }
 }
 
-/* Very narrow: one card per row, so the name and the order button both stay
-   legible instead of wrapping to two lines each. */
+/* Very narrow: one card per row. The horizontal variant is gone: the
+   neighborhood line is a sibling of the card link now, not a child, so laying
+   the card out as a row would strand it beside the media instead of under the
+   name. Stacking is simpler and does not break when the structure moves. */
 @media (max-width: 26rem) {
   .mega__grid {
     grid-template-columns: 1fr;
   }
 
-  /* The card stays a column. Only the media-and-text row goes horizontal.
-     Directions and Order are siblings of the card link now, not children of
-     it, so turning the CARD into a row would put all three side by side and
-     crush every one of them. */
-  .loc-card__link {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-3);
-    padding-bottom: var(--space-3);
-  }
-
   .loc-card__media {
-    aspect-ratio: 1;
-    width: 4rem;
-    flex: 0 0 auto;
-    border-bottom: none;
-    border-right: var(--stroke-hair) solid var(--color-rule);
-  }
-
-  .loc-card__name,
-  .loc-card__hood {
-    padding: 0;
-  }
-
-  .loc-card__directions {
-    margin: 0 var(--space-3) var(--space-2);
-  }
-
-  .loc-card__order {
-    margin: 0 var(--space-3) var(--space-3);
-    align-self: flex-start;
+    aspect-ratio: 21 / 9;
   }
 }
-
-/* --------------------------------------------------------------------------
-   Card actions.
-
-   ONE button per card. Directions is a quiet underlined link above it (see
-   .link-quiet in base.css), not a second pill: two pills side by side in a
-   card this size read as two competing calls to action, and only one of them
-   is the action.
-   -------------------------------------------------------------------------- */
-.loc-card__directions {
-  margin: 0 var(--space-4) var(--space-3);
-  align-self: flex-start;
-}
-
-.loc-card__order {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin: 0 var(--space-3) var(--space-3);
-  padding: var(--space-2) var(--space-4);
-  border: var(--stroke-hair) solid var(--color-rule-strong);
-  border-radius: 999px;
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  /* Full ink, where the quiet link above sits at ink-3. The two are a step
-     apart on purpose so the hierarchy is legible before you read either. */
-  color: var(--color-ink);
-  text-align: center;
-  transition:
-    color var(--duration-fast) var(--ease-smooth),
-    border-color var(--duration-fast) var(--ease-smooth);
-}
-
-.loc-card__order:hover,
-.loc-card__order:focus-visible {
-  border-color: var(--color-red);
-}
-
