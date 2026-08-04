@@ -1,10 +1,7 @@
 {
   "_note": "Single source of truth for location NAP, per SITE_ARCHITECTURE.md 'Data sources (never hardcode)'. Feeds the location pages, /locations/, the home router, and all location schema. Facts trace to CLIENT_FACTS.md. NEVER add a value here that is not in CLIENT_FACTS.md as confirmed. Anything unconfirmed stays null with a `tbc` string explaining what unblocks it, and templates must render null as a visible [TO BE CONFIRMED] rather than inventing a fallback.",
-
-  "_hoursNote": "Every hours value in the Client DNA is marked verify and CLIENT_FACTS.md says do NOT populate openingHoursSpecification from it. Hours are null across the board on purpose. The reference concept hardcoded '11:00 to 22:00' on every row; that is invented and must not come back. Pull from GBP, confirm with Tajima, then ship. SITE_ARCHITECTURE.md Open Decision #9.",
-
-  "_addressNote": "The reference concept rendered Convoy as 'STE H' in one place while CLIENT_FACTS.md records 'Suite A'. That contradiction IS the known citation defect (Convoy GBP audit scored 25/100). Neither value ships until reconciled against GBP. SITE_ARCHITECTURE.md Open Decision, CLIENT_FACTS.md open question #6.",
-
+  "_hoursNote": "Every hours value in the Client DNA is marked verify and CLIENT_FACTS.md says do NOT populate openingHoursSpecification from it. Hours are null across the board on purpose and remain the one NAP field still blocked. The reference concept hardcoded '11:00 to 22:00' on every row; that is invented and must not come back. SITE_ARCHITECTURE.md Open Decision #9.",
+  "_addressNote": "NAP is from the SITE_ARCHITECTURE.md 'NAP (GBP is the source of truth)' table, which is byte-identical to GBP and is the operative source for the build. IT CONTRADICTS CLIENT_FACTS.md, WHICH IS STALE: CLIENT_FACTS.md records Convoy as 'Suite A' and marks it CONFIRM. SITE_ARCHITECTURE.md resolves it with the tracking evidence: 'Suite A' appears on zero of 84 tracked Convoy listings and was never real, the live conflict is STE H (GBP, data-axle with matching ZIP+4, and four others) versus Ste I (three low-authority directories), and the instruction is 'Publish STE H.' CLIENT_FACTS.md needs updating to match. Do not reintroduce Suite A.",
   "items": [
     {
       "id": "convoy",
@@ -16,21 +13,28 @@
       "neighborhood": "Kearny Mesa",
       "opened": "2001",
       "address": {
-        "street": null,
-        "streetTbc": "4681 Convoy St, suite number CONFIRM. The suite is the known directory discrepancy and it is blocking. Do not publish either 'Suite A' or 'STE H' until GBP is reconciled.",
+        "street": "4681 Convoy Street STE H",
+        "streetTbc": null,
         "locality": "San Diego",
         "region": "CA",
-        "postalCode": "92111"
+        "postalCode": "92111-2330"
       },
-      "phone": null,
+      "phone": "(858) 576-7244",
       "geo": null,
       "hours": null,
       "parking": "Lot parking",
       "seating": "Communal table seating",
       "menuScope": "full",
-      "languages": ["English", "Japanese", "Spanish"],
-      "sameAs": ["https://www.yelp.com/biz/tajima-ramen-convoy-san-diego"],
-      "summary": "The first one. Full menu plus an expanded izakaya list."
+      "languages": [
+        "English",
+        "Japanese",
+        "Spanish"
+      ],
+      "sameAs": [
+        "https://www.yelp.com/biz/tajima-ramen-convoy-san-diego"
+      ],
+      "summary": "The room Sam took over in 2001. Communal tables, the full menu, the expanded izakaya. Japanese, English, and Spanish spoken.",
+      "businessName": "Tajima Ramen Convoy"
     },
     {
       "id": "mercury",
@@ -42,13 +46,13 @@
       "neighborhood": "Kearny Mesa",
       "opened": "2007",
       "address": {
-        "street": null,
-        "streetTbc": "Mercury Street, Kearny Mesa. Exact street address and ZIP CONFIRM.",
+        "street": "4411 Mercury Street #110",
+        "streetTbc": null,
         "locality": "San Diego",
         "region": "CA",
-        "postalCode": null
+        "postalCode": "92111"
       },
-      "phone": null,
+      "phone": "(858) 278-5367",
       "geo": null,
       "hours": null,
       "parking": "On-site parking",
@@ -56,7 +60,8 @@
       "menuScope": "full",
       "languages": null,
       "sameAs": [],
-      "summary": "The largest room. Full bar, Japanese whisky, and the only San Diego location serving sushi."
+      "summary": "The biggest room. Full bar, Japanese whisky, sushi, around ninety seats. The one that takes group reservations by phone.",
+      "businessName": "Tajima Ramen Mercury"
     },
     {
       "id": "east-village",
@@ -68,13 +73,13 @@
       "neighborhood": "Downtown",
       "opened": "2016",
       "address": {
-        "street": null,
-        "streetTbc": "9th and E Street, downtown San Diego. Exact address and ZIP CONFIRM.",
+        "street": "901 E Street",
+        "streetTbc": null,
         "locality": "San Diego",
         "region": "CA",
-        "postalCode": null
+        "postalCode": "92101-6511"
       },
-      "phone": null,
+      "phone": "(619) 431-5820",
       "geo": null,
       "hours": null,
       "parking": "Street parking and nearby paid lots",
@@ -82,7 +87,8 @@
       "menuScope": "full",
       "languages": null,
       "sameAs": [],
-      "summary": "Walking distance from Petco Park. Six taps of local craft beer, and longer hours on Padres home game nights."
+      "summary": "Walking distance from Petco Park. Six taps of local craft beer, and longer hours on Padres home game nights.",
+      "businessName": "Tajima Ramen East Village"
     },
     {
       "id": "college-heights",
@@ -94,21 +100,25 @@
       "neighborhood": "College Area",
       "opened": "2020",
       "address": {
-        "street": null,
-        "streetTbc": "College Area, near SDSU. Exact address and ZIP CONFIRM.",
+        "street": "6061 El Cajon Boulevard Suite 2",
+        "streetTbc": null,
         "locality": "San Diego",
         "region": "CA",
-        "postalCode": null
+        "postalCode": "92115"
       },
-      "phone": null,
+      "phone": "(619) 269-0838",
       "geo": null,
       "hours": null,
       "parking": "Street parking",
       "seating": "Open-kitchen layout",
       "menuScope": "ramen-bar",
-      "languages": ["English", "Spanish"],
+      "languages": [
+        "English",
+        "Spanish"
+      ],
       "sameAs": [],
-      "summary": "A ramen bar near SDSU. Pared-down menu, open kitchen, and more than 20 craft beer taps."
+      "summary": "The ramen bar near SDSU. Pared-down menu, open kitchen, twenty-plus taps.",
+      "businessName": "Tajima Ramen College Heights"
     },
     {
       "id": "crown-point",
@@ -120,13 +130,13 @@
       "neighborhood": "Crown Point",
       "opened": "2025",
       "address": {
-        "street": "3782 Ingraham St",
+        "street": "3782 Ingraham Street",
         "streetTbc": null,
         "locality": "San Diego",
         "region": "CA",
         "postalCode": "92109"
       },
-      "phone": null,
+      "phone": "(858) 203-3674",
       "geo": null,
       "hours": null,
       "parking": "Street parking",
@@ -134,7 +144,8 @@
       "menuScope": "full",
       "languages": null,
       "sameAs": [],
-      "summary": "The newest room, and the one with the Noodle Room and the commissary in the same building."
+      "summary": "The room next to the Noodle Room. The broth for every San Diego location is made in this building each morning.",
+      "businessName": "Tajima Ramen Crown Point"
     },
     {
       "id": "plaza-bonita",
@@ -146,22 +157,26 @@
       "neighborhood": "National City",
       "opened": "2020",
       "address": {
-        "street": null,
-        "streetTbc": "Westfield Plaza Bonita Mall, National City. Exact suite and ZIP CONFIRM.",
+        "street": "3030 Plaza Bonita Road #2445",
+        "streetTbc": null,
         "locality": "National City",
         "region": "CA",
-        "postalCode": null
+        "postalCode": "91950"
       },
-      "phone": null,
+      "phone": "(619) 773-6164",
       "geo": null,
       "hours": null,
       "hoursNote": "Mall hours. CLIENT_FACTS.md: mall hours are not restaurant hours and must not be copied from the Convoy pattern.",
       "parking": "Mall parking",
       "seating": null,
       "menuScope": "quick-serve",
-      "languages": ["Spanish", "English"],
+      "languages": [
+        "Spanish",
+        "English"
+      ],
       "sameAs": [],
-      "summary": "Quick-serve inside Westfield Plaza Bonita. Limited menu, no alcohol, mall hours."
+      "summary": "Quick-serve inside Westfield Plaza Bonita. A focused menu, and no alcohol. Mall hours.",
+      "businessName": "Tajima Ramen Plaza Bonita"
     },
     {
       "id": "maui",
@@ -173,22 +188,26 @@
       "neighborhood": "Kihei",
       "opened": null,
       "address": {
-        "street": null,
-        "streetTbc": "Kihei, HI. Exact address and ZIP CONFIRM.",
+        "street": "1819 South Kihei Road, D105",
+        "streetTbc": null,
         "locality": "Kihei",
         "region": "HI",
-        "postalCode": null
+        "postalCode": "96753"
       },
-      "phone": null,
+      "phone": "(808) 214-5702",
       "geo": null,
       "hours": null,
       "parking": null,
       "seating": null,
       "menuScope": "maui",
       "languages": null,
-      "sameAs": ["https://www.yelp.com/biz/tajima-ramen-maui-kihei"],
-      "summary": "Kihei, Hawaii. Full ramen menu, sushi rolls, and izakaya plates.",
-      "noodleNote": "Do NOT extend any 'our noodles' claim here. Crown Point supplies San Diego and Maui is 2,500 miles away. SITE_ARCHITECTURE.md Open Decision #1."
+      "sameAs": [
+        "https://www.yelp.com/biz/tajima-ramen-maui-kihei"
+      ],
+      "summary": "Our only Hawaii room. Full ramen menu, sushi, and izakaya plates, with dishes of its own.",
+      "noodleNote": "Do NOT extend any 'our noodles' claim here. Crown Point supplies San Diego and Maui is 2,500 miles away. SITE_ARCHITECTURE.md Open Decision #1.",
+      "businessName": "Tajima Ramen Maui"
     }
-  ]
+  ],
+  "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim."
 }

@@ -1,0 +1,129 @@
+---
+layout: layouts/base.njk
+permalink: /locations/
+pageKey: locations
+title: "Tajima Ramen Locations | Six in San Diego, Plus Maui"
+description: "Six Tajima Ramen locations across San Diego, from the Convoy original to Plaza Bonita, plus Kihei on Maui. Addresses, phone numbers, and what is different about each room. Walk in, no reservations."
+---
+{#
+  /locations/. Brief: SITE_ARCHITECTURE.md.
+  A router, not a destination. The job is one click to the right location page.
+
+  Current live page: 297,154 impressions, 557 clicks, 0.19% CTR, a meta
+  description that is the single word EIGHT, an H1 reading "8 Loctions", and an
+  og:image of North Park, which is closed. The brief says fixing the meta alone
+  is worth more than most of the build.
+
+  NAP comes from locations.json, which now carries the SITE_ARCHITECTURE.md
+  "GBP is the source of truth" table. Hours do not appear anywhere on this page
+  and there is no placeholder for them: Open Decision #9.
+#}
+{% from "components/location-card.njk" import card %}
+
+{%- set sanDiego = locations.items | where("region", "san-diego") %}
+{%- set hawaii = locations.items | where("region", "hawaii") %}
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <p class="page-hero__crumbs">
+      <a href="/">{{ site.name }}</a>
+      <span aria-hidden="true">/</span>
+      <span class="page-hero__crumbs-current">Locations</span>
+    </p>
+    {# Six San Diego, and no global total. CLIENT_FACTS.md: the live site says
+       8 in the heading and 6+4+1 in the footer one scroll apart. Do not
+       publish a total until that is fixed. #}
+    <span class="page-hero__eyebrow">Six in San Diego &middot; Plus Maui</span>
+    <h1 class="page-hero__title" id="page-title">Locations</h1>
+    <p class="page-hero__lede">
+      Six rooms across San Diego, one in Kihei. Walk in. No reservations.
+    </p>
+  </div>
+</section>
+
+{# ============================ SAN DIEGO ============================ #}
+<section class="sect pattern-section" aria-labelledby="sd-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">San Diego</span>
+      <h2 class="sect__title" id="sd-title">Six rooms. <em>One kitchen behind them.</em></h2>
+      {#
+        REWRITTEN. The concept read: "The noodles and the morning broth for
+        every San Diego bowl come from our own kitchen in Crown Point."
+        That folds two claims into one and only half of it is confirmed. Broth
+        to every San Diego location every morning is confirmed. Noodles to
+        every location is the unconfirmed rollout claim. Split apart here so
+        the true half keeps its force and the unconfirmed half is not made.
+      #}
+      <p class="sect__note">
+        The morning broth for every San Diego room is made in our own kitchen in Crown Point, and the noodles are made in <a class="sect__link" href="/noodle-room/">our own Noodle Room</a> in the same building. <a class="sect__link" href="/menu/">See the menu</a>.
+      </p>
+    </header>
+
+    <div class="bento">
+      {%- for loc in sanDiego %}
+        {{ card(loc, loop.index, "wide" if loop.index <= 2 else "std") }}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{# ============================ BEYOND SAN DIEGO ============================ #}
+<section class="sect sect--alt sect--rule" aria-labelledby="beyond-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Beyond San Diego</span>
+      <h2 class="sect__title" id="beyond-title">Maui and <em>Tijuana.</em></h2>
+    </header>
+
+    <div class="elsewhere">
+      {%- for loc in hawaii %}
+        {{ card(loc, sanDiego | length + loop.index, "maui") }}
+      {%- endfor %}
+    </div>
+
+    {#
+      Tijuana is a line and an outbound link, not a card. The brief is explicit:
+      "Tijuana: outbound link to tajimamx.com. Not a card."
+
+      The concept made it a card numbered No. 08, which implies it is one more
+      room in the same set and quietly asserts a count. CLIENT_FACTS.md has the
+      Tijuana operating count unresolved (older materials reference up to four)
+      and says do not publish a global total.
+    #}
+    <p class="elsewhere__note">
+      Tajima in Tijuana runs on its own site.
+      <a class="sect__link" href="https://tajimamx.com" rel="external noopener">Visit tajimamx.com</a>.
+    </p>
+
+    {# North Park gets one line and a link to the closure page, no card. #}
+    <p class="closed-note">
+      Our North Park location is <a class="sect__link" href="/tajima-north-park/">permanently closed</a>.
+    </p>
+  </div>
+</section>
+
+{# ============================ NOODLE BAND ============================ #}
+{#
+  REWRITTEN. The concept slogan read "Homemade noodles, crafted daily" and the
+  body read "Whichever room you walk into, the noodles come from ours."
+  Cadence is unconfirmed and "whichever room" is the rollout claim. Replaced
+  with the locked slogan from voice-tone.md, which says exactly what happened
+  and claims nothing about where it has landed yet.
+#}
+<section class="noodle-band" aria-labelledby="band-title">
+  <div class="noodle-band__inner">
+    <div>
+      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
+      <p class="noodle-band__body">
+        The Noodle Room is in Crown Point, in the same building as the commissary. Sam spent two years building it.
+      </p>
+    </div>
+    <a class="noodle-band__cta" href="/noodle-room/">
+      See the Noodle Room
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>

@@ -28,6 +28,17 @@ export default function (eleventyConfig) {
   // so the markup needs one span per character without hardcoding the name.
   eleventyConfig.addFilter("chars", (value) => String(value).split(""));
 
+  // Filter a list of objects by an exact property value.
+  //
+  // Nunjucks' own `selectattr(key, "equalto", value)` does NOT do this: the
+  // `equalto` test is not resolved, so it silently degrades to a truthiness
+  // check on the attribute and returns every item whose key is set. That is a
+  // quiet wrong-output bug (every menu section rendered every dish), not an
+  // error, so it has to be avoided rather than worked around.
+  eleventyConfig.addFilter("where", (items, key, value) =>
+    (items || []).filter((item) => item && item[key] === value),
+  );
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     // The temp folder holds Eleventy's HTML output before Vite processes it
     // into the final _site directory.

@@ -160,7 +160,77 @@ const menuEntity = {
   })),
 };
 
+// Location page Restaurant entities. Built from locations.json so the page and
+// the schema carry the same NAP, which is the point of the citation cleanup.
+//
+// acceptsReservations is false on all seven. SCHEMA.md rule 4: Tajima is
+// walk-in only and Mercury's phone-only group reservations have no honest
+// schema expression, so false is the accurate value.
+//
+// No openingHoursSpecification and no geo: still CONFIRM-blocked.
+function restaurant(id) {
+  const loc = locations.items.find((item) => item.id === id);
+  const entity = {
+    "@type": "Restaurant",
+    "@id": loc.schemaId,
+    name: loc.businessName,
+    url: `${site.url}${loc.url}`,
+    parentOrganization: { "@id": ORG_ID },
+    servesCuisine: ["Japanese", "Ramen"],
+    priceRange: "$$",
+    acceptsReservations: false,
+    hasMenu: { "@id": `${site.url}/menu/#menu` },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: loc.address.street,
+      addressLocality: loc.address.locality,
+      addressRegion: loc.address.region,
+      postalCode: loc.address.postalCode,
+      addressCountry: "US",
+    },
+  };
+  if (loc.phone) entity.telephone = loc.phone;
+  if (loc.sameAs && loc.sameAs.length) entity.sameAs = loc.sameAs;
+  return entity;
+}
+
 export default {
+  convoy: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${site.url}/tajima-convoy/#webpage`,
+        url: `${site.url}/tajima-convoy/`,
+        name: "Tajima Ramen Convoy",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": `${site.url}/tajima-convoy/#restaurant` },
+        breadcrumb: breadcrumb([
+          { name: "Locations", url: "/locations/" },
+          { name: "Convoy", url: "/tajima-convoy/" },
+        ]),
+      },
+      restaurant("convoy"),
+    ],
+  },
+  locations: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${site.url}/locations/#webpage`,
+        url: `${site.url}/locations/`,
+        name: `${site.name} locations`,
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORG_ID },
+        breadcrumb: breadcrumb([{ name: "Locations", url: "/locations/" }]),
+      },
+      // References each Restaurant by @id. Does not redefine them: the
+      // location pages own those entities.
+      locationList,
+    ],
+  },
+
   menu: {
     "@context": "https://schema.org",
     "@graph": [

@@ -1,0 +1,43 @@
+{# ===========================================================================
+   Component: loc (a location card in a bento cell)
+
+   Everything comes from locations.json. Never hardcode a NAP value here.
+
+   Hours are absent on purpose and there is no placeholder for them.
+   CLIENT_FACTS.md flags every hours value as unverified and says do not
+   publish hours the door does not honor. The reference concept printed
+   "11:00 to 22:00" on every row; that was invented.
+   =========================================================================== #}
+
+{% macro card(loc, index, modifier) %}
+<article class="cell loc loc--{{ modifier | default('std') }} reveal">
+  <div>
+    <div class="loc__top">
+      <span class="loc__no">&#8470;&nbsp;{{ "0" if index < 10 }}{{ index }}</span>
+      {%- if loc.opened %}
+      <span class="loc__since">Since {{ loc.opened }}</span>
+      {%- else %}
+      <span class="loc__since">{{ loc.neighborhood }}, Hawaii</span>
+      {%- endif %}
+    </div>
+    <h3 class="loc__name">
+      <a href="{{ loc.url }}">{{ loc.name }}{% if loc.descriptor %} <em>{{ loc.descriptor }}</em>{% endif %}</a>
+    </h3>
+    <p class="loc__hood">{{ loc.neighborhood }}</p>
+  </div>
+
+  <p class="loc__diff">{{ loc.summary }}</p>
+
+  <address class="loc__meta">
+    <span class="loc__addr">
+      {{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}
+    </span>
+    {%- if loc.phone %}
+    <a class="loc__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+    {%- endif %}
+    <a class="loc__go" href="{{ loc.url }}">See the room
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </a>
+  </address>
+</article>
+{% endmacro %}

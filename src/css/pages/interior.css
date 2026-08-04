@@ -1,0 +1,352 @@
+/* ==========================================================================
+   Page: interior pages (locations index, location pages)
+
+   The bento-on-interior pattern. Ported from inspo/tajima-locations.html:
+   page-hero, sect, bento (interior variant), noodle-band, and the location
+   cards. Shared by /locations/ and the location page template.
+   ========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════
+   PAGE HERO · interior editorial banner
+═══════════════════════════════════════════════════════════════════ */
+.page-hero{
+  background: var(--color-canvas);
+  padding: var(--space-12) var(--layout-gutter) var(--space-10);
+  border-bottom: 1px solid var(--color-rule);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.page-hero__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.page-hero__crumbs{
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-4);
+}
+.page-hero__crumbs a{ transition: color var(--duration-fast) var(--ease-smooth); }
+.page-hero__crumbs a:hover,
+.page-hero__crumbs a:focus-visible{ color: var(--color-ink); }
+.page-hero__crumbs-current{ color: var(--color-ink-3); }
+.page-hero__eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.page-hero__eyebrow::before{
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+.page-hero__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.page-hero__title em{ font-style: normal; color: var(--color-red); }
+[data-mode="night"] .page-hero__title em{ text-shadow: var(--glow-text); }
+.page-hero__lede{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 46rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION SHELL · interior sections
+═══════════════════════════════════════════════════════════════════ */
+.sect{
+  padding: var(--space-11) var(--layout-gutter);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.sect--alt{ background: var(--color-canvas-2); }
+.sect--rule{ border-top: 1px solid var(--color-rule); }
+.sect__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+.sect__head{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-9);
+  max-width: 56rem;
+}
+.sect__eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+.sect__eyebrow::before{
+  content: '';
+  width: 2rem; height: 1px;
+  background: currentColor;
+}
+.sect__title{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h2);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+.sect__title em{ font-style: normal; color: var(--color-red); }
+.sect__note{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 44rem;
+}
+.sect__link{
+  color: var(--color-red);
+  border-bottom: 1px solid var(--color-red-line);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+.sect__link:hover,
+.sect__link:focus-visible{ border-color: var(--color-red); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENTO · interior grid
+═══════════════════════════════════════════════════════════════════ */
+.bento{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+.cell{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+.sect--alt .cell{ background: var(--color-canvas-3); }
+.cell:hover{
+  border-color: var(--color-red-line);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NOODLE BAND · the slogan strip, links to the Noodle Room
+═══════════════════════════════════════════════════════════════════ */
+.noodle-band{
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-canvas-2);
+  padding: var(--space-10) var(--layout-gutter);
+  transition: background var(--duration-slow) var(--ease-smooth);
+}
+.noodle-band__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-8);
+}
+.noodle-band__slogan{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.noodle-band__slogan em{ font-style: normal; color: var(--color-red); }
+[data-mode="night"] .noodle-band__slogan em{ text-shadow: var(--glow-text); }
+.noodle-band__body{
+  margin-top: var(--space-4);
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 40rem;
+}
+.noodle-band__cta{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-red);
+  color: var(--color-system-cream);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth);
+}
+.noodle-band__cta:hover,
+.noodle-band__cta:focus-visible{
+  background: var(--color-red-deep);
+  box-shadow: var(--glow-red);
+}
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOCATION CARDS · bento router
+═══════════════════════════════════════════════════════════════════ */
+.loc{
+  padding: var(--space-6);
+  gap: var(--space-4);
+  justify-content: space-between;
+  min-height: 17rem;
+}
+.loc--wide{ grid-column: span 6; }
+.loc--std{ grid-column: span 4; }
+.loc__top{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.loc__no{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-red);
+}
+[data-mode="night"] .loc__no{ text-shadow: var(--glow-text); }
+.loc__since{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-4);
+}
+.loc__name{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+.loc__name em{ font-style: normal; color: var(--color-red); }
+.loc__name a{ transition: color var(--duration-fast) var(--ease-smooth); }
+.loc__name a:hover,
+.loc__name a:focus-visible{ color: var(--color-red); }
+.loc__hood{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  margin-top: var(--space-1);
+}
+.loc__diff{
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-2);
+  max-width: 34rem;
+}
+.loc__meta{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-rule);
+  font-style: normal;
+}
+.loc__addr{
+  font-style: normal;
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+}
+.loc__phone{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+a.loc__phone:hover,
+a.loc__phone:focus-visible{ color: var(--color-red); }
+.loc__go{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-top: var(--space-2);
+}
+
+/* Elsewhere strip: Maui, Tijuana, North Park note */
+.elsewhere{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+.elsewhere .loc--maui{ grid-column: span 7; }
+.elsewhere .loc--tj{ grid-column: span 5; }
+.closed-note{
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-rule);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+}
+
+/* --- Responsive ---------------------------------------------------- */
+
+@media (max-width: 64rem) {
+  .noodle-band__inner { grid-template-columns: 1fr; justify-items: start; }
+  .loc--wide, .loc--std { grid-column: span 6; }
+  .elsewhere .loc--maui, .elsewhere .loc--tj { grid-column: span 6; }
+}
+
+@media (max-width: 40rem) {
+  .loc--wide, .loc--std, .elsewhere .loc--maui, .elsewhere .loc--tj { grid-column: span 12; }
+}

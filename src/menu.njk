@@ -33,9 +33,9 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   template change: add the row and it renders as a quiet line.
 #}
 
-{%- set ramen = menu.items | selectattr("section", "equalto", "ramen") | list %}
-{%- set izakaya = menu.items | selectattr("section", "equalto", "izakaya") | list %}
-{%- set dessert = menu.items | selectattr("section", "equalto", "dessert") | list %}
+{%- set ramen = menu.items | where("section", "ramen") %}
+{%- set izakaya = menu.items | where("section", "izakaya") %}
+{%- set dessert = menu.items | where("section", "dessert") %}
 
 {# ============================ MENU HERO ============================ #}
 {#

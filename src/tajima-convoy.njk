@@ -1,0 +1,229 @@
+---
+layout: layouts/base.njk
+permalink: /tajima-convoy/
+pageKey: convoy
+locationId: convoy
+title: "Tajima Ramen Convoy | The Original, on Convoy Street Since 2001"
+description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Communal tables, the full menu plus an expanded izakaya list, and okonomiyaki. Walk in, no reservations."
+---
+{#
+  /tajima-convoy/. Brief: SITE_ARCHITECTURE.md, plus the shared location page
+  template above it.
+
+  The highest-traffic page on the site: 9,704 clicks, 678,630 impressions. It
+  owns `best ramen san diego` (130 clicks), not the home page. It is also doing
+  the worst work of the six on the money keyword, ARP 5.47 / SoLV 26.5%, because
+  it sits in the densest ramen market in San Diego. The brief: "Content quality
+  matters more here than anywhere."
+
+  MUST NOT READ AS A NEAR-DUPLICATE OF MERCURY. They are two miles apart in the
+  same ZIP, and Google is already mis-resolving the two entities (localstack
+  lists Convoy at Mercury's address, frankiapp puts Convoy in Los Angeles).
+  Everything below is specific to this room.
+
+  NAP comes from locations.json. Hours are absent: Open Decision #9.
+#}
+{%- set loc = (locations.items | where("id", locationId)) | first %}
+
+<section class="page-hero page-hero--split" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <div>
+      <p class="page-hero__crumbs">
+        <a href="/">{{ site.name }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="/locations/">Locations</a>
+        <span aria-hidden="true">/</span>
+        <span class="page-hero__crumbs-current">{{ loc.name }}</span>
+      </p>
+      <span class="page-hero__eyebrow">The original &middot; Since {{ loc.opened }}</span>
+      <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
+      {#
+        REWRITTEN ENDING. The concept closed with "it still sets the standard
+        for the other five." voice-tone.md: "Every sentence is a fact. No
+        sentence tells the reader what to think about the facts." Replaced with
+        the fact that carries the same weight without grading the other rooms.
+      #}
+      <p class="page-hero__lede">
+        The room Sam Morikizono took over in 2001, on the street San Diego goes to for ramen. It was already called Tajima. It is still the room the rest of the house grew out of.
+      </p>
+
+      {#
+        The address plate. Every value from locations.json, none hardcoded.
+        There is no Hours row, and no placeholder for one.
+      #}
+      <address class="plate">
+        <span class="plate__item">
+          <span class="plate__label">Address</span>
+          <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Phone</span>
+          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Parking</span>
+          <span class="plate__value">{{ loc.parking }} on Convoy Street</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Seating</span>
+          <span class="plate__value">Walk in. No reservations.</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Happy Hour</span>
+          <a class="plate__value" href="/happy-hour/">See times</a>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Order</span>
+          <a class="plate__value" href="/order-online/">Order online</a>
+        </span>
+      </address>
+    </div>
+
+    <figure class="page-hero__photo">
+      <img class="page-hero__photo-img"
+        src="https://tajimaramen.com/wp-content/uploads/2022/06/Tajima-Convoy-3-2.jpg"
+        alt="The storefront at Tajima Ramen Convoy on Convoy Street"
+        loading="lazy" width="900" height="600">
+      <figcaption class="page-hero__photo-cap">The Convoy storefront</figcaption>
+    </figure>
+  </div>
+</section>
+
+{# ==================== WHAT'S DIFFERENT HERE ==================== #}
+{#
+  Brief: "the one section that must not be templated." Everything here is
+  specific to Convoy and none of it is true of Mercury.
+#}
+<section class="sect pattern-section" aria-labelledby="diff-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">This room</span>
+      <h2 class="sect__title" id="diff-title">Where the house <em>started.</em></h2>
+    </header>
+
+    <div class="diff">
+
+      <article class="cell diff__cell diff__cell--wide reveal">
+        <h3 class="diff__title">The <em>original.</em></h3>
+        <p class="diff__body">
+          In 2001, Sam took over a small Japanese restaurant on Convoy Street. The name was already on the door. Convoy is San Diego's Pan-Asian district, and this room has held its corner of it for twenty-five years. Read the whole story on <a class="sect__link" href="/about/">the About page</a>.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Communal tables.</h3>
+        <p class="diff__body">
+          Long shared tables, the way the room has always run. You sit with the neighborhood.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">The full menu, plus izakaya.</h3>
+        <p class="diff__body">
+          Every bowl, plus an expanded izakaya list you will not find at the ramen-bar locations. <a class="sect__link" href="/menu/">See the menu</a>.
+        </p>
+      </article>
+
+      {#
+        Okonomiyaki stays. The brief is explicit: "Keep okonomiyaki on the page.
+        It earns 56 clicks and it is a real quirk of this room."
+
+        SOFTENED. The concept read "in the room run by a chef from just outside
+        Osaka." Sam being from Amagasaki, near Osaka, is confirmed. Him running
+        this kitchen day to day in 2026 is not, and the sentence implies it.
+        The Osaka connection is stated without putting anyone at the pass.
+
+        FLAG: okonomiyaki is not in menu.json, because it is not in the
+        CLIENT_FACTS.md dish list. It belongs in the Toast pull.
+      #}
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Okonomiyaki.</h3>
+        <p class="diff__body">
+          A Convoy quirk. The savory Osaka-style pancake, in a house founded by someone who grew up just outside Osaka.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Three languages.</h3>
+        <p class="diff__body">
+          Japanese, English, and Spanish spoken at this location.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{# ==================== FROM THIS KITCHEN ==================== #}
+{#
+  REWRITTEN note. The concept read "Tonkotsu simmered twelve hours." No simmer
+  time is confirmed anywhere in CLIENT_FACTS.md.
+
+  The bowls shown are filtered from menu.json, so this gallery cannot drift
+  from the menu page or from schema.
+#}
+<section class="sect sect--alt sect--rule" aria-labelledby="kitchen-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">From this kitchen</span>
+      <h2 class="sect__title" id="kitchen-title">What comes out of <em>Convoy.</em></h2>
+      <p class="sect__note">
+        The Red, Black, and White trio, and an izakaya list that runs deeper here than anywhere else in the house. <a class="sect__link" href="/menu/">See the whole menu</a>.
+      </p>
+    </header>
+
+    <div class="bento">
+      {%- for dish in menu.items %}
+        {%- if dish.feature and dish.image %}
+      <figure class="cell shot reveal">
+        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="800" height="800">
+        <figcaption class="shot__caption">{{ dish.name }}</figcaption>
+      </figure>
+        {%- endif %}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{# ==================== THE NOODLE ROOM LINE ==================== #}
+{#
+  Universal section 6 of the location page template: one line saying the
+  noodles are made in our own room, linking to /noodle-room/.
+
+  Same rewrite as /locations/. The concept's "Homemade noodles, crafted daily"
+  asserts an unconfirmed cadence.
+#}
+<section class="noodle-band" aria-labelledby="band-title">
+  <div class="noodle-band__inner">
+    <div>
+      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
+      <p class="noodle-band__body">
+        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
+      </p>
+    </div>
+    <a class="noodle-band__cta" href="/noodle-room/">
+      See the Noodle Room
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+{# ==================== NEAREST NEIGHBOUR ==================== #}
+{#
+  Brief: "Nearest neighbour link: /tajima-mercury/ only." Not all six. Linking
+  every location from every location page is how six pages become one
+  undifferentiated blob to a crawler.
+#}
+<section class="sect" aria-labelledby="near-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Nearby</span>
+      <h2 class="sect__title" id="near-title">Two miles up the road.</h2>
+      <p class="sect__note">
+        <a class="sect__link" href="/tajima-mercury/">Tajima Ramen Mercury</a> is the bigger room, with the full bar and the only sushi in San Diego. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.
+      </p>
+    </header>
+  </div>
+</section>
