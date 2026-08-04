@@ -1,0 +1,99 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-ramen-maui-1819-south-kihei-road-d105",
+  "_pulledAt": "2026-08-04",
+  "_location": "maui",
+  "_locationAddress": "1819 South Kihei Road, D105, Kihei, HI 96753",
+  "_locationPhone": "(808) 214-5702",
+
+  "_note": "Live Toast catalog for the Maui (Kihei) location only. THIS IS NOT THE SAN DIEGO MENU and must never be used to populate menu.json, which is brand and San Diego. CLIENT_FACTS.md says Maui runs dishes of its own; this pull is the proof. Prices run $2.50 to $3.50 above the brand-level figures on every comparable item, several San Diego dishes are absent entirely, and several Maui dishes have no San Diego equivalent.",
+
+  "_nameIsNotProof": "Matching names do not mean matching products. Maui's `Vegetable Ramen` is not menu.json's `Vegan Ramen`: different name, and its description says HM noodles rather than the spinach noodles that define the San Diego vegan bowl. Do not link it from /menu/vegan-ramen/ and do not treat it as vegan without Amanda confirming.",
+
+  "_hmNoodlesObservation": "Every ramen here except Carnitas is described as `HM Noodles`, and Garlic Fried Noodle says `HM thick noodle`. Carnitas alone says `Egg noodles`. That is a sharper detail than the menu-label observation already recorded against SITE_ARCHITECTURE.md Open Decision #1: whatever HM denotes, it is applied selectively rather than blanket, which is what an inherited catalog tag would NOT look like. It still does not establish mechanism (made on site, shipped in, or bought in), so #1 stays open. Worth putting to Amanda.",
+
+  "_addressCheck": "Address and phone in this pull match locations.json byte for byte. No NAP conflict.",
+
+  "_outOfStock": "Captured as observed on 2026-08-04. This is a live operational state, not a menu fact. Do not render it, and do not treat an out-of-stock item as delisted.",
+
+  "sections": [
+    {
+      "name": "Ramen",
+      "items": [
+        { "name": "Tajima WHITE Ramen", "price": "20.00", "description": "Original tonkotsu pork broth, HM Noodles, pork chashu, half a ramen egg, corn, baby bok choy, green onions, and sesame seeds." },
+        { "name": "Tajima BLACK Ramen", "price": "21.00", "description": "Original pork bone broth with HM noodles, burnt garlic oil, pork chashu, half a ramen egg, corn and sesame seeds, baby bok choy, green onions." },
+        { "name": "Tajima RED Ramen", "price": "21.00", "description": "Original spicy pork bone broth with HM noodles, pork chashu, half a ramen egg, corn, and sesame seeds, baby bok choy, green onions." },
+        { "name": "Spicy Sesame Ramen", "price": "21.00", "description": "Original spicy pork bone broth with HM noodles, pork chashu, half a ramen egg, corn, and sesame seeds, baby bok choy, green onion." },
+        { "name": "Carnitas Ramen", "price": "21.00", "description": "Spicy tonkotsu pork bone broth, egg noodles, housemade carnitas, half a ramen egg, red radish, cilantro, diced onions, lime, and dried oregano.", "doNotFeature": true },
+        { "name": "Vegetable Ramen", "price": "21.00", "description": "Creamy soy based broth, HM noodles, marinated tofu, braised takenoko, wood ear mushrooms, baby bok choy, corn, green onions, and sesame seeds." }
+      ]
+    },
+    {
+      "name": "Sushi Hand Rolls",
+      "items": [
+        { "name": "Tajima Roll", "price": "11.00", "description": "Topped with HM chashu, avocado cream cheese, spicy mayo, eel sauce, garlic crunchy sauce, green onion." },
+        { "name": "Spicy Roll", "price": "13.00", "description": "Topped with tuna or salmon, avocado, cucumber, spicy mayo, tobiko." },
+        { "name": "Shrimp Crunchy Roll", "price": "11.00", "description": "Shrimp tempura, crab mix, avocado, eel sauce, tobiko, sesame seeds.", "outOfStock": true },
+        { "name": "California Roll", "price": "9.00", "description": "Crab mix, avocado, cucumber, topped with tobiko, sesame seeds." },
+        { "name": "Toro Taku Roll", "price": "10.00", "description": "Ground tuna, radish pickles, sesame seeds." },
+        { "name": "Negi Toro Roll", "price": "10.00", "description": "Ground tuna, green onion, sesame seeds." },
+        { "name": "Eel Roll", "price": "13.50", "description": "Eel, avocado, cucumber, eel sauce, sesame seeds." },
+        { "name": "Green Roll", "price": "9.00", "description": "Cucumber, avocado, seaweed salad, sesame seeds." }
+      ]
+    },
+    {
+      "name": "Side Menu",
+      "items": [
+        { "name": "Edamame", "price": "7.50", "description": null },
+        { "name": "Garlic Edamame", "price": "8.50", "description": null },
+        { "name": "Kimchee Cucumber", "price": "9.00", "description": null },
+        { "name": "Pork Gyoza", "price": "10.00", "description": "Pan fried pork dumplings, gyoza sauce." },
+        { "name": "Vegetable Gyoza", "price": "9.00", "description": "Pan-fried vegetable dumplings, gyoza sauce." },
+        { "name": "Karaage", "price": "11.00", "description": "Seasoned deep fried chicken, spicy mayo." },
+        { "name": "Takoyaki", "price": "11.00", "description": "Octopus fritters, brown sauce, mayo, bonito flakes, seaweed flakes." },
+        { "name": "Cream Cheese Wontons", "price": "12.00", "description": "Deep fried cream cheese, sweet and sour sauce.", "doNotFeature": true },
+        { "name": "Shishito Peppers", "price": "8.00", "description": "Sauteed sweet chili peppers, garlic soy sauce." },
+        { "name": "Tajima Fries", "price": "17.50", "description": "French fries, minced pork, onions, mozzarella, spicy mayo.", "doNotFeature": true },
+        { "name": "Tebasaki Wings", "price": "12.00", "description": "Four pieces, crispy chicken, special sauces." },
+        { "name": "Garlic Fried Noodle", "price": "16.00", "description": "Stir-fried HM thick noodle with butter, soy sauce, garlic, green onion, sesame seeds.", "variants": ["Pork", "Shrimp", "Chicken", "Tofu"], "variantNote": "Chicken variant out of stock 2026-08-04." },
+        { "name": "Regular Fries", "price": "7.00", "description": null }
+      ]
+    },
+    {
+      "name": "Side Rices",
+      "items": [
+        { "name": "Chicken Teriyaki Bowl", "price": "14.50", "description": null, "outOfStock": true },
+        { "name": "Pork Chashu Bowl", "price": "15.50", "description": null },
+        { "name": "Steam Rice", "price": "4.50", "description": null },
+        { "name": "Katsu Curry Rice", "price": "21.00", "description": "Rice, homemade curry sauce, katsu.", "variants": ["Pork", "Chicken"] },
+        { "name": "Tofu Curry Rice", "price": "19.00", "description": null },
+        { "name": "Pork Fried Rice", "price": "18.00", "description": null },
+        { "name": "Shrimp Fried Rice", "price": "18.00", "description": null },
+        { "name": "Chicken Fried Rice", "price": "17.00", "description": null, "outOfStock": true },
+        { "name": "Tofu Fried Rice", "price": "17.00", "description": null }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "items": [
+        { "name": "Vanilla Ice Cream", "price": "4.00", "description": null },
+        { "name": "Matcha Green Tea Cheese Cake", "price": "8.00", "description": null },
+        { "name": "NY Cheese Cake", "price": "8.00", "description": null }
+      ]
+    },
+    {
+      "name": "Beverages",
+      "items": [
+        { "name": "Melon Cream Soda", "price": "6.00", "description": null },
+        { "name": "Matcha refreshers, sodas and teas", "price": "4.00-4.50", "description": "Range captured as a band rather than per item; the pull did not enumerate them." }
+      ]
+    },
+    {
+      "name": "Specials and Retail",
+      "items": [
+        { "name": "Genbe Green Tea", "price": "19.99", "description": "20 tea bags per pack, premium green tea from Kyoto, Japan. Gyokuro and matcha.", "retail": true },
+        { "name": "Genbe Hoji Tea", "price": "19.99", "description": "20 tea bags per pack, premium roasted green tea from Kyoto, Japan.", "retail": true },
+        { "name": "NIJI NO KIRAMEKI Rice", "price": "12.99 / 44.29", "description": "Fresh milled rice from Niigata, Japan. 4.4 pound and 15 pound packs.", "retail": true }
+      ]
+    }
+  ]
+}
