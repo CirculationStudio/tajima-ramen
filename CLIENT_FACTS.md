@@ -59,7 +59,8 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Phone: **(858) 278-5367**
 - GPS / GBP URL / Yelp: CONFIRM
 - Opened 2007. Largest format, roughly 90 seats, three 40-inch TVs. On-site parking.
-- **The only location with sushi.** Full bar, craft cocktails, Japanese whisky, full wine list. Expanded izakaya program.
+- **Sushi: DISPUTED as of 2026-08-04.** This entry previously read "The only location with sushi." **East Village's live Toast menu carries a Sushi Hand Roll section**, so either that claim is stale or East Village added it. Amanda to confirm which. Until then do not publish sushi exclusivity anywhere, and do not publish "no sushi here" on any location page. See `SITE_ARCHITECTURE.md` Open Decision #20.
+- Full bar, craft cocktails, Japanese whisky, full wine list. Expanded izakaya program.
 - Group reservations accepted by phone. Not walk-in-only in the same sense as the others, but **do not emit `acceptsReservations: true`** (see Booking and Access).
 - Runs Yelp Ads. A performance audit is the decision gate before any rating campaign.
 
@@ -106,6 +107,7 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Phone: **(808) 214-5702**
 - Yelp: https://www.yelp.com/biz/tajima-ramen-maui-kihei
 - Full ramen menu, sushi rolls (similar to Mercury), izakaya plates.
+- **Noodles: every ramen item on Maui's live Toast menu is labelled "HM Noodles"** (observed 2026-08-04). Stronger evidence than the `...HM-Noodles...Kihei.jpg` filename it supersedes, because it comes from Tajima's own operational system and is applied consistently rather than appearing once. **It is not confirmation.** "HM" is presumed to mean house-made, which is an inference, and the label says nothing about mechanism: made on site, shipped in, or a tag inherited from the San Diego catalog. All three read identically in Toast and all three change what the site may say. **Still blocked**, see `SITE_ARCHITECTURE.md` Open Decision #1.
 
 ### Brand-level
 - Website: https://tajimaramen.com
@@ -197,7 +199,7 @@ Signature dishes and confirmed prices (current as of the menu file, **prices dri
 - Garlic Edamame, $5.50. Most-mentioned appetizer in five-star reviews.
 - Matcha Panna Cotta, $6.00. The signature dessert.
 
-**Menus differ by location.** Convoy, Mercury, East Village, and Crown Point run the full menu. **College Heights runs a pared-down ramen-bar menu. Plaza Bonita runs a limited quick-serve menu with no alcohol.** Mercury and Maui are the only locations with sushi. Publishing one menu across six locations advertises dishes two of them do not sell.
+**Menus differ by location.** Convoy, Mercury, East Village, and Crown Point run the full menu. **College Heights runs a pared-down ramen-bar menu. Plaza Bonita runs a limited quick-serve menu with no alcohol.** ~~Mercury and Maui are the only locations with sushi.~~ **DISPUTED 2026-08-04: East Village's live Toast menu has a Sushi Hand Roll section. Do not publish sushi exclusivity until Amanda confirms.** Publishing one menu across six locations advertises dishes some of them do not sell, and this finding is the proof: nobody had checked, and the assumption was wrong somewhere.
 
 **Lead with:** tonkotsu, the Red/Black/White trio, Spicy Sesame, Vegan, Chicken, Pork Gyoza, Karaage, Garlic Edamame, Matcha Panna Cotta.
 
@@ -211,7 +213,13 @@ Schema must mirror the visible page, so "does the menu page list it" is one deci
 - **Listed:** schema lists it. No photo, no callout, no hero placement. Just a line.
 - **Omitted:** schema omits it, and Tajima ships a website menu that contradicts the menu on the table.
 
-Recommendation: list it plainly, keep it out of everything else. A website menu that disagrees with the printed menu is not a quiet phase-out, it is a front-of-house problem. **Steve to confirm with Sam.**
+**RESOLVED 2026-08-04.** Confirmed **active at all seven locations** via live Toast menus. Listed plainly on `/menu/`, `feature: no`, and nowhere else: no photo, no card, no callout, no hero, no fusion framing. It is now in `menu.json` with `locations` populated for all seven, the only row carrying real availability data.
+
+⚠️ **`DESIGN_SYSTEM.md` and `voice-tone.md` still ban it outright** and will read as forbidding what was just shipped. See `SITE_ARCHITECTURE.md` Open Decision #21. The intent of those rules survives untouched; only the absolute "does not appear on this site" is now wrong.
+
+### Retail
+
+- **Genbe.** Tea from Kyoto, sold at Maui. Confirmed 2026-08-04 as **genuine Tajima retail stock**, not third-party or unrelated product that happened to land in the asset folder. The Genbe files in the Bunny photo folder are therefore safe to use and carry no mislabelling risk. Standard rules still apply: a Genbe photograph is a photograph of tea. It is not evidence about noodles, broth, or any location's process.
 
 ### Dietary
 - Vegan: Vegan Ramen (spinach noodles, soy-based broth, tofu), Vegetable Gyoza where offered, Vegetarian Fried Rice, Edamame.

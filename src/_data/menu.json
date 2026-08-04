@@ -1,10 +1,10 @@
 {
   "_note": "Menu data layer per SITE_ARCHITECTURE.md. One row per dish. Feeds /menu/, the home teaser, and Menu schema. CLAUDE.md is explicit: menu items, descriptions, and prices are NEVER generated or modified without client approval.",
   "_status": "INCOMPLETE AND NOT LAUNCH-READY. This file holds only the ten dishes confirmed in CLIENT_FACTS.md, at brand-level prices. It is NOT the per-location menu. SITE_ARCHITECTURE.md Open Decision #12: we do not know what each location actually serves, Toast is the seed source, and /menu/ cannot ship until that pull happens.",
-  "_availabilityStatus": "STUBBED. The `locations` array is the per-location availability column described in SITE_ARCHITECTURE.md. It is deliberately empty on every row because we do not have the data. Templates must not render per-location availability while this is empty, and Menu schema must not be emitted per location. College Heights (pared-down ramen bar), Plaza Bonita (quick-serve, no alcohol), and Maui (own dishes) genuinely differ.",
+  "_availabilityStatus": "PARTIALLY SEEDED, 2026-08-04. `locations` is the per-location availability column. ONE row is real: carnitas, all seven, from live Toast menus. Every other row is still an empty array because THE SEVEN TOAST CATALOGS HAVE NOT BEEN SUPPLIED to this repo, only three findings from them were. Do not read an empty array as 'sold nowhere' or as 'sold everywhere'; it means unknown. Templates must not render per-location availability, and Menu schema must not be emitted per location, until this is filled. Known live-Toast findings not yet expressible here: East Village has a Sushi Hand Roll section (Open Decision #20, and no sushi item exists on this file to attach it to), and Maui labels every ramen item 'HM Noodles' (Open Decision #1, a noodle-provenance label rather than an availability fact).",
   "_descriptionStatus": "DRAFT, PENDING CLIENT APPROVAL. Descriptions are ingredient lists carried over from the design concept, with unconfirmed claims removed (the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here). No description asserts anything about flour, hydration, water, alkalinity, aging, or noodle cadence. Amanda must sign these off before launch.",
   "_priceStatus": "Brand-level prices from the Client DNA. CLIENT_FACTS.md says prices drift and must be treated as CONFIRM before shipping schema `offers`. No `offers` are emitted anywhere yet.",
-  "_carnitasNote": "Carnitas Ramen is deliberately absent. It is a real dish at all six SD locations and was the most-reviewed ramen in the 2025 sample, but SITE_ARCHITECTURE.md Open Decision #4 is unresolved. The recommendation is to list it plainly with `feature: no` once Sam confirms. Do not add it with `feature: yes` under any circumstance, and do not add it to a hero, card, or photo slot.",
+  "_carnitasNote": "RESOLVED 2026-08-04, SITE_ARCHITECTURE.md Open Decision #4. Confirmed active at all seven locations via live Toast menus. Present here on purpose: listed plainly on /menu/ with feature: false, and nowhere else. No photo, no card, no callout, no hero, no fusion framing anywhere on the site. DO NOT DELETE IT AS A VIOLATION: DESIGN_SYSTEM.md and voice-tone.md still carry blanket bans that predate this decision and have not been edited yet (Open Decision #21). Those docs are stale on this one point; this row is correct.",
   "items": [
     {
       "id": "tonkotsu",
@@ -144,6 +144,34 @@
       "image": null,
       "alt": null,
       "bento": "ramen-miso",
+      "tier": null,
+      "romaji": null
+    },
+    {
+      "id": "carnitas",
+      "section": "ramen",
+      "name": "Carnitas Ramen",
+      "shortName": "Carnitas Ramen",
+      "emphasis": null,
+      "description": null,
+      "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md. Do NOT write one: this item ships as a plain line and needs no description to do that job.",
+      "price": "17.50",
+      "feature": false,
+      "featureNote": "feature: false is load-bearing, not incidental. SITE_ARCHITECTURE.md Open Decision #4, resolved 2026-08-04: listed plainly, and never in a hero, card, photo slot, or callout. Setting this true would ship the one thing the decision was designed to prevent.",
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
+      "locationsSource": "Live Toast menus, all seven, observed 2026-08-04. The ONLY row on this file with real availability data.",
+      "dietary": [],
+      "image": null,
+      "alt": null,
+      "bento": null,
       "tier": null,
       "romaji": null
     },
