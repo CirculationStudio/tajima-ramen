@@ -447,14 +447,39 @@
 ═══════════════════════════════════════════════════════════════════ */
 [data-experience="noodle-room"] .hero {
   min-height: calc(100vh - 7rem);
-  /* Upper bound so the media column does not grow unboundedly taller than the
-     16:9 source on tall or very wide displays, which is what left the letterbox
-     bands large once `contain` replaced `cover`. */
-  max-height: 44rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   position: relative;
 }
+
+/* FIXED 2026-08-05: `max-height: 44rem` was here and it clipped the hero copy
+   on wide screens.
+ *
+ * It was added to stop the media column growing unboundedly taller than its
+ * 16:9 source, which is a real concern, but it was applied to the whole grid.
+ * A max-height on the grid can only ever make the box SMALLER than its
+ * content, and the left column needs far more than 44rem once the title
+ * reaches its clamp ceiling:
+ *
+ *   .hero__left padding    space-12 top + bottom            16.00rem
+ *   .hero__title           3 lines x 11rem x 0.92           30.36rem
+ *                                                           -------
+ *   subtotal, before anything else                          46.36rem
+ *
+ * That alone exceeds the cap, and the crumbs, the three space-8 gaps, the
+ * "Crown Point, San Diego." subtitle, the lede and the four-row meta list all
+ * still have to fit. Real need is around 73rem. The title hits its 11rem
+ * ceiling at 1600px viewport width (11vw), which is exactly the "large
+ * screens" where this showed up.
+ *
+ * The overflow was invisible rather than scrollable because .hero__left sets
+ * `isolation: isolate`, creating a stacking context that the following
+ * .philosophy section paints straight over. So the lede and the entire meta
+ * list were being covered, not cut.
+ *
+ * The bound now lives on the media itself, below, which is where it belonged:
+ * it constrains the thing it was written to constrain and cannot affect the
+ * text column. Do not put a max-height back on .hero. */
 
 [data-experience="noodle-room"] .hero__left {
   background: var(--color-canvas);
@@ -614,8 +639,17 @@
    rather than a gap. */
 [data-experience="noodle-room"] .hero__video-media {
   position: absolute;
+  /* `inset: 0` plus `margin: auto` plus a max-height centres the element in
+     its column and caps it. This is where the 44rem bound moved to when it
+     came off .hero: it keeps the media from running unboundedly tall on a
+     very tall column, which was the original intent, without being able to
+     squeeze the text column beside it. .hero__right keeps its ink background,
+     so the space above and below still reads as a dark panel. */
   inset: 0;
-  width: 100%; height: 100%;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  max-height: 44rem;
   object-fit: contain;
   object-position: center;
 }
