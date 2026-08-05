@@ -232,7 +232,16 @@ description: "San Diego's craft Japanese ramen house, founder-built since 2001. 
 
     <div class="menu__grid">
       {%- for dish in menu.items %}
-        {%- if dish.feature and dish.image %}
+        {#-
+          Ramen only, and that is a content constraint rather than a layout
+          one. This section is headed "The bowls." Filling five menu.json
+          image gaps on 2026-08-05 gave gyoza, karaage, edamame and a panna
+          cotta a photo each, and without this filter all four would have
+          landed in a section that calls itself bowls. Chicken Ramen is the
+          one addition that belongs, and it joins its siblings here.
+          /menu/ shows all eleven. This shows the bowls.
+        -#}
+        {%- if dish.feature and dish.image and dish.section == "ramen" %}
       <article class="dish reveal reveal--d{{ loop.index % 3 + 1 }}">
         <figure class="dish__figure">
           <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">

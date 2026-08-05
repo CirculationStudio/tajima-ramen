@@ -162,6 +162,13 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     <div class="bento bento--izakaya">
       {%- for dish in izakaya %}
       <article class="dish dish--quiet reveal reveal--d{{ loop.index % 4 + 1 }}">
+        {#- Added 2026-08-05. This loop rendered no photo block at all, so an
+            izakaya plate could not show one however good its data was. #}
+        {%- if dish.image %}
+        <div class="dish__photo">
+          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        </div>
+        {%- endif %}
         <div class="dish__body">
           <div class="dish__head">
             <span class="dish__price">${{ dish.price }}</span>
@@ -190,6 +197,12 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     <div class="bento bento--dessert">
       {%- for dish in dessert %}
       <article class="dish dish--quiet reveal reveal--d1">
+        {#- Same addition as the izakaya loop above, same date, same reason. #}
+        {%- if dish.image %}
+        <div class="dish__photo">
+          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        </div>
+        {%- endif %}
         <div class="dish__body">
           <div class="dish__head">
             <span class="dish__price">${{ dish.price }}</span>

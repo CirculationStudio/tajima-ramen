@@ -163,12 +163,14 @@
         "plaza-bonita"
       ],
       "dietary": [],
-      "image": null,
-      "alt": null,
+      "image": "/images/photo/tajima-ramen-convoy-chicken-ramen-04.webp",
+      "alt": "Chicken Ramen, grilled sliced chicken, half a seasoned egg, bok choy, bamboo shoot and scallion on clear broth with ramen noodles",
       "bento": "ramen-chicken",
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 1280,
+      "imageHeight": 854
     },
     {
       "id": "vegan",
@@ -273,12 +275,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": null,
-      "alt": null,
+      "image": "/images/photo/tajima-ramen-convoy-pork-gyoza-01.webp",
+      "alt": "Pork Gyoza, seven pan-fried dumplings browned on one side, lined up on a white plate with a cup of dipping sauce",
       "bento": null,
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 1280,
+      "imageHeight": 853
     },
     {
       "id": "karaage",
@@ -300,12 +304,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": null,
-      "alt": null,
+      "image": "/images/photo/tajima-ramen-convoy-karaage-01.webp",
+      "alt": "Karaage, pieces of seasoned fried chicken on Tajima-branded paper, with a cup of mayonnaise and a lemon wedge",
       "bento": null,
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 853,
+      "imageHeight": 1280
     },
     {
       "id": "garlic-edamame",
@@ -328,12 +334,14 @@
       "dietary": [
         "vegan"
       ],
-      "image": null,
-      "alt": null,
+      "image": "/images/photo/tajima-ramen-convoy-garlic-edamame-01.webp",
+      "alt": "Garlic Edamame, edamame pods in a white bowl, glossed with sauce and scattered with fried garlic",
       "bento": null,
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 854,
+      "imageHeight": 1280
     },
     {
       "id": "matcha-panna-cotta",
@@ -353,15 +361,18 @@
         "crown-point"
       ],
       "dietary": [],
-      "image": null,
-      "alt": null,
+      "image": "/images/photo/tajima-ramen-convoy-matcha-panna-cotta-01.webp",
+      "alt": "Matcha Panna Cotta in a glass jar, a pale green set cream under red berry compote with strawberry pieces and blueberries",
       "bento": null,
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 854,
+      "imageHeight": 1280
     }
   ],
   "_bentoNote": "The `bento` value is the grid-cell modifier from the approved tajima-menu concept layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels.",
   "_nameConflicts": "menu.json's names do NOT match what Toast calls two of these dishes. Recorded rather than changed, because renaming a menu item is a client decision. (1) `Tajima White` is called `Tajima Ramen` on all six San Diego catalogs and `Tajima WHITE Ramen` on Maui. So the San Diego menu has no item literally called Tajima White, and the site currently prints one. (2) `Miso Ramen` is called `Naruto Miso Ramen` everywhere it appears, and the description names a Naruto fishcake that menu.json does not mention.",
-  "_imageStatus": "REPOINTED 2026-08-05 from cdn.circulationstudio.com/tajima-temp/*.jpeg to the committed local WebP in public/images/photo/. Same photographs, matched by exact basename, verified present in photos.json. Reasons: it drops a third-party origin off the image path on /menu/, /, /tajima-convoy/ and /menu/vegan-ramen/, it serves WebP instead of JPEG, and the temp CDN is temporary by name. imageWidth and imageHeight are the manifest real pixel dimensions and exist so templates can stop hardcoding 800x800, which was wrong for every one of these (they are 3:2, not square). ALT TEXT IS UNCHANGED: it was already hand-written here and is better than the photos.json draft placeholders. Only 6 of 13 items carry an image; the other 7 are deliberately imageless rather than mapped on a guess."
+  "_imageStatus": "REPOINTED 2026-08-05 from cdn.circulationstudio.com/tajima-temp/*.jpeg to the committed local WebP in public/images/photo/. Same photographs, matched by exact basename, verified present in photos.json. Reasons: it drops a third-party origin off the image path on /menu/, /, /tajima-convoy/ and /menu/vegan-ramen/, it serves WebP instead of JPEG, and the temp CDN is temporary by name. imageWidth and imageHeight are the manifest real pixel dimensions and exist so templates can stop hardcoding 800x800, which was wrong for every one of these (they are 3:2, not square). ALT TEXT IS UNCHANGED: it was already hand-written here and is better than the photos.json draft placeholders. Only 6 of 13 items carry an image; the other 7 are deliberately imageless rather than mapped on a guess.",
+  "_imageGapNote": "Five images added 2026-08-05 from photos already classified as mapped in photos.json, each checked by eye before placing rather than trusted from its dish token. TWO ITEMS ARE DELIBERATELY LEFT WITHOUT ONE. (1) carnitas: Open Decision #4 resolved it as listed plainly on /menu/ and nowhere else, explicitly no photo, no card, no callout. (2) miso: the manifest maps three files to dish 'miso' and ALL THREE ARE MISO SOUP, a small lacquer bowl of soup with scallion and wakame, not Naruto Miso Ramen. The token matched the word, not the dish. Do not place them. The same trap sits on the 'chicken' token, which groups chicken fried rice, chicken katsu bun and chicken teriyaki alongside the real Chicken Ramen: only the two files named chicken-ramen are the bowl. Treat photos.json dish tokens as candidates to inspect, never as a mapping to apply."
 }
