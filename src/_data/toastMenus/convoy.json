@@ -1,0 +1,393 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-convoy",
+  "_pulledAt": "2026-08-04",
+  "_location": "convoy",
+  "_locationAddress": "4681 Convoy St, San Diego, CA 92111",
+  "_locationPhone": "(858) 576-7244",
+  "_note": "Live Toast catalog for Convoy. The fullest catalog of the seven: the only one with Curry Ramen, Xiao Long Bao, Chili Wontons, Jalapeno Bomb, Curry Fries, Chicken Katsu Curry and Karaage Curry.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Drinks - Craft Beers, Hard Cider, and Hard Kombucha on Tap",
+      "items": [
+        {
+          "name": "16oz JIANT Kiwi Strawberry Hard Tea",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz 2 TOWNS Cosmic Crisp Imperial Cider",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz SAPPORO",
+          "price": "6.50",
+          "description": "Japanese lager, 4.9% ABV."
+        },
+        {
+          "name": "16oz HARLAND Japanese Lager",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz STONE Delicious IPA",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz LATITUDE 33 Blood Orange IPA",
+          "price": "6.50",
+          "description": null
+        },
+        {
+          "name": "16oz MOTHER EARTH Cali Creamin (Nitro)",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz SOCIETE The Pupil",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz PIZZA PORT Chronic Ale",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz EPPIG Special Lager",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz BATTLE MAGE Perception Czech",
+          "price": "7.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Sake, take out only",
+      "items": [
+        {
+          "name": "16oz Filtered Flavored Sake",
+          "price": "10.50",
+          "description": null
+        },
+        {
+          "name": "16oz Unfiltered Flavored Sake",
+          "price": "10.50",
+          "description": null
+        },
+        {
+          "name": "16oz House Cold Sake",
+          "price": "9.50",
+          "description": null
+        },
+        {
+          "name": "16oz House Nigori Sake",
+          "price": "9.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Take Out",
+      "items": [
+        {
+          "name": "Matcha Refresher",
+          "price": "3.50",
+          "description": null,
+          "variants": [
+            "Peach",
+            "Mango",
+            "Strawberry",
+            "Passionfruit",
+            "Lychee"
+          ]
+        },
+        {
+          "name": "Coca-Cola",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Diet Coke",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Sprite",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Lemonade",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Pink Lemonade",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Unsweetened Iced Tea",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Raspberry Iced Tea",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Calpico",
+          "price": "3.75",
+          "description": null
+        },
+        {
+          "name": "Apple Juice",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Iced Matcha",
+          "price": "3.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Appetizers",
+      "items": [
+        {
+          "name": "Edamame",
+          "price": "5.50",
+          "description": "Steamed soy beans."
+        },
+        {
+          "name": "Garlic Edamame",
+          "price": "5.50",
+          "description": "Steamed soy beans cooked with garlic and butter."
+        },
+        {
+          "name": "Chicken Katsu Bun",
+          "price": "5.50",
+          "description": "Steamed bun with crispy chicken cutlet glazed in house sauce, shredded cabbage and mayo mustard."
+        },
+        {
+          "name": "Pork Gyoza",
+          "price": "7.50",
+          "description": "Pan fried pork dumplings served with gyoza sauce."
+        },
+        {
+          "name": "Karaage",
+          "price": "8.50",
+          "description": "Seasoned deep fried chicken with spicy mayo on the side."
+        },
+        {
+          "name": "Takoyaki",
+          "price": "10.00",
+          "description": "Octopus fritters topped with brown sauce, mayo, bonito flakes, and seaweed flakes."
+        },
+        {
+          "name": "Chili Wontons",
+          "price": "10.50",
+          "description": "Shrimp and pork wontons served with house made crunchy chili sauce and green onions."
+        },
+        {
+          "name": "Cream Cheese Wontons",
+          "price": "8.00",
+          "description": "Deep fried cream cheese in wonton skin served with sweet and sour sauce.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Crispy Rice Spicy Tuna",
+          "price": "7.50",
+          "description": "Spicy tuna, jalapeno, and avocado on crispy rice topped with spicy mayo and eel sauce.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Crunchy Cucumber Salad",
+          "price": "5.00",
+          "description": "Chopped crunchy cucumber topped with house made fried chili oil and sesame seeds."
+        },
+        {
+          "name": "Jalapeno Bomb",
+          "price": "10.00",
+          "description": "Deep fried stuffed jalapeno with cream cheese and spicy tuna, topped with spicy mayonnaise and eel sauce.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Tajima Fries",
+          "price": "10.50",
+          "description": "French fries, minced pork, and onions topped with mozzarella cheese and spicy mayo.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Curry Fries",
+          "price": "10.50",
+          "description": "Crunchy fries topped with ground pork and melted mozzarella.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Tebasaki Wings",
+          "price": "9.00",
+          "description": "Crispy chicken with chili and teriyaki sauce."
+        },
+        {
+          "name": "Xiao Long Bao",
+          "price": "11.00",
+          "description": "Pork soup dumplings served with fresh ginger."
+        },
+        {
+          "name": "Kimchi",
+          "price": "5.00",
+          "description": "Spicy and sour pickled napa cabbage."
+        },
+        {
+          "name": "French Fries",
+          "price": "4.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "18.00",
+          "description": "Rich pork bone miso broth with egg noodles, pork chashu, half a ramen egg, corn, baby bok choy, green onions, Naruto fishcake, and sesame seeds."
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "16.00",
+          "description": "Original pork bone broth with noodles, thin sliced pork chashu, wood ear mushrooms, green onions, and sesame seeds, topped with red bomb."
+        },
+        {
+          "name": "Tajima Red",
+          "price": "18.00",
+          "description": "Spicy tonkotsu pork bone broth, egg noodles, pork chashu, half a ramen egg, corn, baby bok choy, green onions, and sesame seeds."
+        },
+        {
+          "name": "Tajima Black",
+          "price": "18.00",
+          "description": "Original tonkotsu pork bone broth with black garlic oil, egg noodles, pork chashu, half a ramen egg, fried garlic, corn, baby bok choy, green onions, and sesame seeds."
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "18.00",
+          "description": "Original tonkotsu pork bone broth, egg noodles, pork chashu, half a ramen egg, fried garlic, corn, baby bok choy, green onions, and sesame seeds."
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "18.00",
+          "description": "Spicy tonkotsu pork bone broth mixed with special sesame paste, egg noodles, ground pork, half a ramen egg, corn, wood ear mushrooms, baby bok choy, diced onions, dried chili, and sesame seeds."
+        },
+        {
+          "name": "Vegan Ramen",
+          "price": "17.50",
+          "description": "Creamy soy base broth, spinach noodles, marinated tofu, braised takenoko, wood ear mushrooms, baby bok choy, corn, red radish, and sesame seeds."
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "18.00",
+          "description": "Spicy tonkotsu pork bone broth, egg noodles, housemade carnitas, half a ramen egg, red radish, cilantro, diced onions, lime, and dried oregano."
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "17.50",
+          "description": "Chicken bone broth, egg noodles, chicken chashu, half a ramen egg, braised takenoko, baby spinach, red onions, and sesame seeds."
+        },
+        {
+          "name": "Curry Ramen",
+          "price": "17.50",
+          "description": "Original tonkotsu pork bone broth mixed with special spiced curry, egg noodles, ground pork, half a ramen egg, baby spinach, corn, diced onions, dried chili pepper, and sesame seeds."
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Rice Dishes",
+      "items": [
+        {
+          "name": "Chicken Teriyaki",
+          "price": "12.00",
+          "description": "Stir fry chicken mixed with teriyaki sauce, served with white rice, broccoli and mixed vegetables."
+        },
+        {
+          "name": "Salmon Poke",
+          "price": "16.50",
+          "description": "Salmon with sweet shoyu sauce, avocado, seaweed salad, wonton crunch, and furikake over steamed rice."
+        },
+        {
+          "name": "Spicy Tuna Poke",
+          "price": "15.00",
+          "description": "Spicy tuna, spicy mayo, avocado, seaweed salad, wonton crunch, and furikake over steamed rice."
+        },
+        {
+          "name": "Pork Chashu Fried Rice",
+          "price": "14.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Chashu Fried Rice",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Vegetarian Fried Rice",
+          "price": "13.50",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Bowl",
+          "price": "7.00",
+          "description": "Sliced pork chashu bowl with sweet sauce, green onions, and sesame seeds on top of white rice."
+        },
+        {
+          "name": "Chicken Katsu Curry",
+          "price": "13.50",
+          "description": "Curry with breaded deep fried chicken cutlet."
+        },
+        {
+          "name": "Karaage Curry",
+          "price": "13.50",
+          "description": "Curry with seasoned deep fried chicken."
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "items": [
+        {
+          "name": "Cinnamon Churros",
+          "price": "5.00",
+          "description": "Churros dusted with a cinnamon and sugar coating."
+        },
+        {
+          "name": "Matcha Panna Cotta",
+          "price": "6.00",
+          "description": "Creamy gelatin matcha pudding topped with mixed berries."
+        }
+      ]
+    }
+  ]
+}

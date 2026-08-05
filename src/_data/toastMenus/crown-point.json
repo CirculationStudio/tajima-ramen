@@ -1,0 +1,260 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-pacific-beach-3782-ingraham-street",
+  "_pulledAt": "2026-08-04",
+  "_location": "crown-point",
+  "_locationAddress": "3782 Ingraham Street, San Diego, CA 92109",
+  "_locationPhone": "(858) 203-3674",
+  "_note": "Live Toast catalog for Crown Point.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Drinks - Craft Beer, Hard Cider, and Hard Kombucha on Tap",
+      "items": [
+        {
+          "name": "16oz 2TOWNS CIDER Pacific Pineapple",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz SAPPORO",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz KIRIN Ichiban",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz MOTHER EARTH Cali Creamin (Nitro)",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz STONE Delicious IPA",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz CORONADO Orange Ave Wit",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz CORONADO Salty Crew",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz HARLAND Hazy IPA",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz KONA Big Wave",
+          "price": "7.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Sake, take out",
+      "items": [
+        {
+          "name": "16oz Filtered Flavored Sake",
+          "price": "10.50",
+          "description": null
+        },
+        {
+          "name": "16oz Unfiltered Flavored Sake",
+          "price": "10.50",
+          "description": null
+        },
+        {
+          "name": "House Hot Sake",
+          "price": "9.50",
+          "description": null
+        },
+        {
+          "name": "House Cold Sake",
+          "price": "9.50",
+          "description": null
+        },
+        {
+          "name": "House Nigori Sake",
+          "price": "9.50",
+          "description": null
+        },
+        {
+          "name": "Kikusui Perfect Snow",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Kurosawa",
+          "price": "15.00",
+          "description": null
+        },
+        {
+          "name": "Mio Sparkling Sake",
+          "price": "14.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Appetizers",
+      "items": [
+        {
+          "name": "Crispy Rice Spicy Tuna",
+          "price": "7.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Garlic Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Katsu Bun",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Pork Gyoza",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "Karaage",
+          "price": "8.50",
+          "description": null
+        },
+        {
+          "name": "Crunchy Cucumber Salad",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Tebasaki Wings",
+          "price": "9.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Red",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Black",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Vegan Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Rice Dishes",
+      "items": [
+        {
+          "name": "Pork Chashu Fried Rice",
+          "price": "14.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Chashu Fried Rice",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Vegetarian Fried Rice",
+          "price": "13.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Teriyaki",
+          "price": "12.00",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Bowl",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "items": [
+        {
+          "name": "Matcha Panna Cotta",
+          "price": "6.00",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "_slugDiscrepancy": "The Toast URL slug reads tajima-pacific-beach-3782-ingraham-street, not crown-point. The page title, breadcrumb and address all confirm this IS Crown Point, so the slug is stale, not a different restaurant. Left exactly as found: SITE_ARCHITECTURE.md says flag it, do not silently fix it, because the slug may be what Toast actually uses and editing it breaks the cart. This is also why `pacific-beach` is a hard deny token in the photo manifest and never resolves to Crown Point.",
+  "_ramenDescriptions": "The pull states these descriptions match Convoy's ramen section, same recipes. Descriptions are therefore NOT copied here: they were not observed verbatim in this location's catalog. Read Convoy's file for the wording.",
+  "_fullMenuCheck": "CLIENT_FACTS.md groups Crown Point with Convoy, Mercury and East Village as running \"the full menu\". The ramen section matches, but the appetizer list is the shortest of the four (8 items against Convoy's 17) and there are no rice-bowl poke options. Flagged, not resolved."
+}

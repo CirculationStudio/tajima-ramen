@@ -1,9 +1,9 @@
 {
   "_note": "Menu data layer per SITE_ARCHITECTURE.md. One row per dish. Feeds /menu/, the home teaser, and Menu schema. CLAUDE.md is explicit: menu items, descriptions, and prices are NEVER generated or modified without client approval.",
   "_status": "INCOMPLETE AND NOT LAUNCH-READY. This file holds only the ten dishes confirmed in CLIENT_FACTS.md, at brand-level prices. It is NOT the per-location menu. SITE_ARCHITECTURE.md Open Decision #12: we do not know what each location actually serves, Toast is the seed source, and /menu/ cannot ship until that pull happens.",
-  "_availabilityStatus": "PARTIALLY SEEDED, 2026-08-04. `locations` is the per-location availability column. ONE row is real: carnitas, all seven, from live Toast menus. Every other row is still an empty array because THE SEVEN TOAST CATALOGS HAVE NOT BEEN SUPPLIED to this repo, only three findings from them were. Do not read an empty array as 'sold nowhere' or as 'sold everywhere'; it means unknown. Templates must not render per-location availability, and Menu schema must not be emitted per location, until this is filled. Known live-Toast findings not yet expressible here: East Village has a Sushi Hand Roll section (Open Decision #20, and no sushi item exists on this file to attach it to), and Maui labels every ramen item 'HM Noodles' (Open Decision #1, a noodle-provenance label rather than an availability fact).",
+  "_availabilityStatus": "SEEDED 2026-08-04 from all seven live Toast catalogs. Open Decision #12 closes. Every row's `locations` is derived by exact name match against src/_data/toastMenus/*.json through an explicit alias table, because three separate substring matchers on this project produced wrong answers. TWO ALIASES ARE NAME CONFLICTS, not typos, and are flagged in _nameConflicts below.",
   "_descriptionStatus": "DRAFT, PENDING CLIENT APPROVAL. Descriptions are ingredient lists carried over from the design concept, with unconfirmed claims removed (the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here). No description asserts anything about flour, hydration, water, alkalinity, aging, or noodle cadence. Amanda must sign these off before launch.",
-  "_priceStatus": "Brand-level prices from the Client DNA. CLIENT_FACTS.md says prices drift and must be treated as CONFIRM before shipping schema `offers`. No `offers` are emitted anywhere yet.",
+  "_priceStatus": "STALE AS OF 2026-08-04, and now measurably so. Nine of the thirteen brand prices are below live Convoy: every ramen is $0.50 under except Miso Ramen, which is $0.50 OVER at 18.50 against a live 18.00. The four appetiser and dessert prices match Convoy exactly. Prices also vary by location: Plaza Bonita runs $2.00 below the other San Diego rooms and Maui runs $2.50 to $3.50 above them, so a single brand price cannot be right for all seven. No `offers` are emitted in schema and none should be until someone decides whether /menu/ prints Convoy's prices, a range, or none.",
   "_carnitasNote": "RESOLVED 2026-08-04, SITE_ARCHITECTURE.md Open Decision #4. Confirmed active at all seven locations via live Toast menus. Present here on purpose: listed plainly on /menu/ with feature: false, and nowhere else. No photo, no card, no callout, no hero, no fusion framing anywhere on the site. DO NOT DELETE IT AS A VIOLATION: DESIGN_SYSTEM.md and voice-tone.md still carry blanket bans that predate this decision and have not been edited yet (Open Decision #21). Those docs are stale on this one point; this row is correct.",
   "items": [
     {
@@ -15,13 +15,21 @@
       "description": "Pork bone broth, chashu, wood ear mushrooms, scallion.",
       "price": "15.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita"
+      ],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-traditonal-tonkotsu-04.jpeg",
       "alt": "Traditional Tonkotsu Ramen, thin-sliced pork chashu, wood ear mushrooms, green onions and sesame seeds on pork bone broth",
       "bento": "ramen-tonkotsu",
       "tier": "The original, since 2001",
-      "romaji": "豚骨 · tonkotsu"
+      "romaji": "豚骨 · tonkotsu",
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "tajima-red",
@@ -32,13 +40,22 @@
       "description": "Red bomb, chashu, baby bok choy, corn.",
       "price": "17.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-red-02.jpeg",
       "alt": "Tajima Red ramen with red bomb, chashu and baby bok choy on tonkotsu broth",
       "bento": "ramen-red",
       "tier": "Signature trio",
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "tajima-black",
@@ -49,13 +66,21 @@
       "description": "Black garlic oil over tonkotsu. Deeper, darker.",
       "price": "17.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "maui"
+      ],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-black-03.jpeg",
       "alt": "Tajima Black ramen with black garlic oil and chashu over dark tonkotsu broth",
       "bento": "ramen-black",
       "tier": "Signature trio",
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "tajima-white",
@@ -66,13 +91,22 @@
       "description": "The base, clean. Chashu, half a ramen egg, corn, bok choy.",
       "price": "17.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-white-01.jpeg",
       "alt": "Tajima White ramen, clean tonkotsu base with chashu and a ramen egg",
       "bento": "ramen-white",
       "tier": "Signature trio",
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "spicy-sesame",
@@ -83,13 +117,22 @@
       "description": "Pork bone broth with sesame paste, seasoned ground pork, half a ramen egg, corn, wood ear mushrooms, baby bok choy, fried garlic, dried chili.",
       "price": "17.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
       "dietary": [],
       "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-spicy-sesame-02.jpeg",
       "alt": "Spicy Sesame Ramen with sesame paste, ground pork, fried garlic and dried chili",
       "bento": "ramen-sesame",
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "chicken",
@@ -101,13 +144,21 @@
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md. Pull from the printed menu and get client sign-off.",
       "price": "17.00",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita"
+      ],
       "dietary": [],
       "image": null,
       "alt": null,
       "bento": "ramen-chicken",
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "vegan",
@@ -118,7 +169,13 @@
       "description": "House-made spinach noodles, marinated tofu, soy-based broth.",
       "price": "17.00",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point"
+      ],
       "dietary": [
         "vegan"
       ],
@@ -126,7 +183,8 @@
       "alt": "Vegan Ramen with green spinach noodles, marinated tofu and soy-based broth",
       "bento": "ramen-vegan",
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "miso",
@@ -139,13 +197,21 @@
       "price": "18.50",
       "feature": false,
       "featureNote": "Not in the CLIENT_FACTS.md 'lead with' set. Renders as a plain line, never a hero or card.",
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita"
+      ],
       "dietary": [],
       "image": null,
       "alt": null,
       "bento": "ramen-miso",
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "carnitas",
@@ -167,7 +233,7 @@
         "plaza-bonita",
         "maui"
       ],
-      "locationsSource": "Live Toast menus, all seven, observed 2026-08-04. The ONLY row on this file with real availability data.",
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "dietary": [],
       "image": null,
       "alt": null,
@@ -185,13 +251,22 @@
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "7.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
       "dietary": [],
       "image": null,
       "alt": null,
       "bento": null,
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "karaage",
@@ -203,13 +278,22 @@
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "8.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "plaza-bonita",
+        "maui"
+      ],
       "dietary": [],
       "image": null,
       "alt": null,
       "bento": null,
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "garlic-edamame",
@@ -221,7 +305,14 @@
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "5.50",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point",
+        "maui"
+      ],
       "dietary": [
         "vegan"
       ],
@@ -229,7 +320,8 @@
       "alt": null,
       "bento": null,
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     },
     {
       "id": "matcha-panna-cotta",
@@ -241,14 +333,22 @@
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "6.00",
       "feature": true,
-      "locations": [],
+      "locations": [
+        "convoy",
+        "mercury",
+        "east-village",
+        "college-heights",
+        "crown-point"
+      ],
       "dietary": [],
       "image": null,
       "alt": null,
       "bento": null,
       "tier": null,
-      "romaji": null
+      "romaji": null,
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
     }
   ],
-  "_bentoNote": "The `bento` value is the grid-cell modifier from the approved inspo/tajima-menu.html layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels."
+  "_bentoNote": "The `bento` value is the grid-cell modifier from the approved inspo/tajima-menu.html layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels.",
+  "_nameConflicts": "menu.json's names do NOT match what Toast calls two of these dishes. Recorded rather than changed, because renaming a menu item is a client decision. (1) `Tajima White` is called `Tajima Ramen` on all six San Diego catalogs and `Tajima WHITE Ramen` on Maui. So the San Diego menu has no item literally called Tajima White, and the site currently prints one. (2) `Miso Ramen` is called `Naruto Miso Ramen` everywhere it appears, and the description names a Naruto fishcake that menu.json does not mention."
 }

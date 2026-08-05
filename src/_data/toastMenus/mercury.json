@@ -1,0 +1,339 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-mercury",
+  "_pulledAt": "2026-08-04",
+  "_location": "mercury",
+  "_locationAddress": "4411 Mercury St, San Diego, CA 92111",
+  "_locationPhone": "(858) 278-5367",
+  "_note": "Live Toast catalog for Mercury. The only location of the seven with a full sushi program: sashimi, specialty rolls, and a mochi ice cream dessert line.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Appetizers",
+      "items": [
+        {
+          "name": "Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Garlic Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Katsu Bun",
+          "price": "5.50",
+          "description": "Steamed bun with crispy chicken cutlet glazed in house sauce, shredded cabbage and mayo mustard."
+        },
+        {
+          "name": "Pork Gyoza",
+          "price": "7.50",
+          "description": "Pan fried pork dumplings served with gyoza sauce."
+        },
+        {
+          "name": "Karaage",
+          "price": "8.50",
+          "description": "Seasoned deep fried chicken with spicy mayo on the side."
+        },
+        {
+          "name": "Takoyaki",
+          "price": "10.00",
+          "description": "Octopus fritters topped with brown sauce, mayo, bonito flakes, and seaweed flakes."
+        },
+        {
+          "name": "Shrimp Tempura",
+          "price": "9.50",
+          "description": "Four pieces of deep fried shrimp with tempura batter served with tempura sauce."
+        },
+        {
+          "name": "Vegetable Tempura",
+          "price": "6.50",
+          "description": "Deep fried mixed vegetables with tempura batter. Eight pieces."
+        },
+        {
+          "name": "Cream Cheese Wontons",
+          "price": "8.00",
+          "description": "Deep fried cream cheese in wonton skin served with sweet and sour sauce.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Crispy Rice Spicy Tuna",
+          "price": "7.50",
+          "description": "Spicy tuna, jalapeno, and avocado on crispy rice topped with spicy mayo and eel sauce.",
+          "doNotFeature": true
+        },
+        {
+          "name": "Crunchy Cucumber Salad",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Fries",
+          "price": "10.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Seaweed Salad",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Miso Soup",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "French Fries",
+          "price": "4.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Sushi",
+      "items": [
+        {
+          "name": "Salmon Sashimi",
+          "price": "13.00",
+          "description": "Five pieces of salmon sashimi on top of mixed wakame."
+        },
+        {
+          "name": "Tuna Sashimi",
+          "price": "13.00",
+          "description": "Five pieces of tuna sashimi on top of mixed wakame."
+        },
+        {
+          "name": "Yellow Tail Sashimi",
+          "price": "13.00",
+          "description": "Five pieces of yellow tail sashimi on top of mixed wakame."
+        },
+        {
+          "name": "Mix Sashimi",
+          "price": "13.00",
+          "description": "Two pieces each of salmon, tuna, and yellow tail sashimi on top of mixed wakame. No substitution."
+        },
+        {
+          "name": "Carnitas Roll",
+          "price": "13.50",
+          "description": "House-made carnitas mixed with cream cheese, avocado, diced onion, with spicy ponzu sauce and topped with cilantro.",
+          "doNotFeature": true
+        },
+        {
+          "name": "California Roll",
+          "price": "9.50",
+          "description": "Kanikama, avocado, and cucumber."
+        },
+        {
+          "name": "163 Roll",
+          "price": "19.50",
+          "description": "Spicy tuna, onions, cucumber, avocado, and spicy mayo, topped with yuzu marinated yellowtail tataki, cilantro, and jalapeno."
+        },
+        {
+          "name": "Crunchy Dragon",
+          "price": "18.00",
+          "description": "Shrimp tempura, kanikama, cucumber, gobo, and kaiware, topped with avocado, house-made tempura crunchies, and eel sauce."
+        },
+        {
+          "name": "Rainbow Roll",
+          "price": "17.50",
+          "description": "Kanikama, avocado, cucumber, topped with salmon, tuna, yellowtail, and shrimp."
+        },
+        {
+          "name": "Spicy Salmon Roll",
+          "price": "11.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Tuna Roll",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Yellowtail Roll",
+          "price": "13.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Roll",
+          "price": "18.00",
+          "description": "Avocado, kanikama, gobo, asparagus, and kaiware, topped with tuna tataki and served with a side of butter ponzu cilantro sauce."
+        },
+        {
+          "name": "Philadelphia Roll",
+          "price": "10.50",
+          "description": "Salmon, avocado, cream cheese, and kaiware."
+        },
+        {
+          "name": "Vegetable Roll",
+          "price": "8.50",
+          "description": "Avocado, cucumber, gobo, asparagus, and kaiware."
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Red",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Black",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Vegan Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Rice Dishes",
+      "items": [
+        {
+          "name": "Salmon Poke",
+          "price": "16.50",
+          "description": null
+        },
+        {
+          "name": "Spicy Tuna Poke",
+          "price": "15.50",
+          "description": null
+        },
+        {
+          "name": "Tuna Poke",
+          "price": "16.50",
+          "description": "Tuna cube with sweet shoyu sauce, avocado, seaweed salad, wonton crunch, and furikake over steamed rice."
+        },
+        {
+          "name": "Pork Chashu Fried Rice",
+          "price": "14.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Chashu Fried Rice",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Shrimp Fried Rice",
+          "price": "17.00",
+          "description": null
+        },
+        {
+          "name": "Vegetarian Fried Rice",
+          "price": "13.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Teriyaki",
+          "price": "12.00",
+          "description": null
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Sushi Rice",
+          "price": "3.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Dessert - Mochi Ice Cream",
+      "items": [
+        {
+          "name": "Chocolate Mochi",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Mango Mochi",
+          "price": "4.00",
+          "description": null,
+          "outOfStock": true
+        },
+        {
+          "name": "Matcha Mochi",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Strawberry Mochi",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Lychee Mochi",
+          "price": "4.00",
+          "description": null,
+          "outOfStock": true
+        },
+        {
+          "name": "Vanilla Mochi",
+          "price": "4.00",
+          "description": null,
+          "outOfStock": true
+        }
+      ]
+    },
+    {
+      "name": "Dessert",
+      "items": [
+        {
+          "name": "Matcha Panna Cotta",
+          "price": "6.00",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "_ramenDescriptions": "The pull states these descriptions match Convoy's ramen section, same recipes. Descriptions are therefore NOT copied here: they were not observed verbatim in this location's catalog. Read Convoy's file for the wording."
+}

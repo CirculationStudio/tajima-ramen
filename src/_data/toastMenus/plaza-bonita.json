@@ -1,0 +1,300 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-plaza-bonita-3030-plaza-bonita-rd-suite-2075",
+  "_pulledAt": "2026-08-04",
+  "_location": "plaza-bonita",
+  "_locationAddress": "3030 Plaza Bonita Road, STE 2445, National City, CA 91950",
+  "_locationPhone": "(619) 773-6164",
+  "_note": "Live Toast catalog for Plaza Bonita. Quick-serve, and the only one of the seven with a Happy Hour section priced in the catalog.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Happy Hours - HH Drinks",
+      "items": [
+        {
+          "name": "HH Green Tea (can)",
+          "price": "2.00",
+          "description": null
+        },
+        {
+          "name": "HH Milk Coffee (can)",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "HH Ramune Original",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "HH Ramune Grape",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "HH Ramune Strawberry",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "HH Calpico Original",
+          "price": "4.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Happy Hours - HH Foods",
+      "items": [
+        {
+          "name": "HH Onigiri",
+          "price": "6.00",
+          "description": null
+        },
+        {
+          "name": "HH Karaage",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "HH Pork Gyoza",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "HH Traditional Tonkotsu Ramen",
+          "price": "11.00",
+          "description": "Original pork bone broth with thin noodles, green onions, wood ear mushrooms, half a ramen egg, and sliced pork chashu."
+        },
+        {
+          "name": "HH Chicken Ramen",
+          "price": "12.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Beverages",
+      "items": [
+        {
+          "name": "Bottled Water",
+          "price": "2.50",
+          "description": null
+        },
+        {
+          "name": "Coca-Cola (can)",
+          "price": "2.00",
+          "description": null
+        },
+        {
+          "name": "Diet Coke (can)",
+          "price": "2.00",
+          "description": null
+        },
+        {
+          "name": "Sprite (can)",
+          "price": "2.00",
+          "description": null
+        },
+        {
+          "name": "Green Tea (can)",
+          "price": "2.50",
+          "description": null
+        },
+        {
+          "name": "Oolong Tea (can)",
+          "price": "2.50",
+          "description": null
+        },
+        {
+          "name": "Milk Coffee (can)",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Ramune Original",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Ramune Grape",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Ramune Strawberry",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Calpico Original",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Calpico Mandarin",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Calpico Mango",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Calpico Strawberry",
+          "price": "4.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Onigiri",
+      "items": [
+        {
+          "name": "Spam Musubi",
+          "price": "4.25",
+          "description": null
+        },
+        {
+          "name": "Tuna Mayo Onigiri",
+          "price": "3.75",
+          "description": null
+        },
+        {
+          "name": "Spicy Tuna Mayo Onigiri",
+          "price": "3.75",
+          "description": null
+        },
+        {
+          "name": "Salmon Onigiri",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Salmon Onigiri",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Shrimp Tempura Onigiri",
+          "price": "4.25",
+          "description": null
+        },
+        {
+          "name": "Pork Belly Onigiri",
+          "price": "4.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Miso Onigiri",
+          "price": "4.25",
+          "description": null
+        },
+        {
+          "name": "Garlic Chili Onigiri",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Plain Onigiri",
+          "price": "2.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Sides",
+      "items": [
+        {
+          "name": "Pork Gyoza",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "Karaage",
+          "price": "8.00",
+          "description": "Seasoned deep fried chicken with mayo on the side."
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Combo",
+      "items": [
+        {
+          "name": "Combo A",
+          "price": "19.00",
+          "description": null
+        },
+        {
+          "name": "Combo B",
+          "price": "19.00",
+          "description": null
+        },
+        {
+          "name": "Combo C",
+          "price": "19.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Red",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "15.50",
+          "description": null
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.00",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "_slugDiscrepancy": "The Toast URL slug says suite 2075. The page's own address says STE 2445, which matches the SITE_ARCHITECTURE.md NAP table and CLIENT_FACTS.md. Publish 2445. The slug is left as found and not edited, same reasoning as Crown Point.",
+  "_ramenDescriptions": "The pull states these descriptions match Convoy's ramen section, same recipes. Descriptions are therefore NOT copied here: they were not observed verbatim in this location's catalog. Read Convoy's file for the wording.",
+  "_confirmsQuickServe": "Confirms the CLIENT_FACTS.md and SITE_ARCHITECTURE.md characterisation exactly: no alcohol section, no sushi, a reduced ramen list with no Tajima Black and no Vegan Ramen, prices $2.00 below the other San Diego rooms, and an onigiri line no other location carries.",
+  "_happyHourFinding": "The HH-prefixed items are live, priced happy hour data, the first this project has had from a source rather than from a design concept. src/_data/happyHour.json currently holds NO times or prices at all because the concept values were pulled on 2026-08-03 as unverified. These are Plaza Bonita only and carry no times, so they do not refill that file, but they are a real source and the first crack in that blocker. NOT auto-applied."
+}

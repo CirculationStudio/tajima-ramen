@@ -59,7 +59,7 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Phone: **(858) 278-5367**
 - GPS / GBP URL / Yelp: CONFIRM
 - Opened 2007. Largest format, roughly 90 seats, three 40-inch TVs. On-site parking.
-- **Sushi: DISPUTED as of 2026-08-04.** This entry previously read "The only location with sushi." **East Village's live Toast menu carries a Sushi Hand Roll section**, so either that claim is stale or East Village added it. Amanda to confirm which. Until then do not publish sushi exclusivity anywhere, and do not publish "no sushi here" on any location page. See `SITE_ARCHITECTURE.md` Open Decision #20.
+- **Sushi: CORRECTED 2026-08-04.** This entry previously read "The only location with sushi." **That was wrong.** East Village's live Toast catalog carries a Salmon Sushi Hand Roll and a Spicy Tuna Sushi Hand Roll, both $6.50. Mercury is **not** the only San Diego location with sushi. What Mercury uniquely has is the full sushi *programme*: four sashimi plates and eleven specialty rolls, against East Village's two hand rolls. Write scale, not exclusivity. Source: `src/_data/toastMenus/mercury.json` and `east-village.json`, pulled 2026-08-04.
 - Full bar, craft cocktails, Japanese whisky, full wine list. Expanded izakaya program.
 - Group reservations accepted by phone. Not walk-in-only in the same sense as the others, but **do not emit `acceptsReservations: true`** (see Booking and Access).
 - Runs Yelp Ads. A performance audit is the decision gate before any rating campaign.
@@ -199,7 +199,7 @@ Signature dishes and confirmed prices (current as of the menu file, **prices dri
 - Garlic Edamame, $5.50. Most-mentioned appetizer in five-star reviews.
 - Matcha Panna Cotta, $6.00. The signature dessert.
 
-**Menus differ by location.** Convoy, Mercury, East Village, and Crown Point run the full menu. **College Heights runs a pared-down ramen-bar menu. Plaza Bonita runs a limited quick-serve menu with no alcohol.** ~~Mercury and Maui are the only locations with sushi.~~ **DISPUTED 2026-08-04: East Village's live Toast menu has a Sushi Hand Roll section. Do not publish sushi exclusivity until Amanda confirms.** Publishing one menu across six locations advertises dishes some of them do not sell, and this finding is the proof: nobody had checked, and the assumption was wrong somewhere.
+**Menus differ by location.** Convoy, Mercury, East Village, and Crown Point run the full menu. **College Heights runs a pared-down ramen-bar menu. Plaza Bonita runs a limited quick-serve menu with no alcohol.** ~~Mercury and Maui are the only locations with sushi.~~ **CORRECTED 2026-08-04: false. East Village carries two sushi hand rolls. Mercury has the only full sushi programme in San Diego; Maui has rolls of its own. Publish scale, never exclusivity.** Publishing one menu across six locations advertises dishes some of them do not sell, and this finding is the proof: nobody had checked, and the assumption was wrong somewhere.
 
 **Lead with:** tonkotsu, the Red/Black/White trio, Spicy Sesame, Vegan, Chicken, Pork Gyoza, Karaage, Garlic Edamame, Matcha Panna Cotta.
 

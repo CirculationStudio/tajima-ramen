@@ -1,0 +1,337 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-college-heights",
+  "_pulledAt": "2026-08-04",
+  "_location": "college-heights",
+  "_locationAddress": "6061 El Cajon Blvd #2, San Diego, CA 92115",
+  "_locationPhone": "(619) 269-0838",
+  "_note": "Live Toast catalog for College Heights.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Drinks - Craft Beer, Hard Cider, and Hard Kombucha on Tap",
+      "items": [
+        {
+          "name": "16oz CRISP APPLE Angry Orchard",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz STUDY BREAK Blast of Baja",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz 2TOWN Pacific Pineapple",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz BOSTON BEER Truly Wild Berry",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz NOVA Sexy Pina Colada",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz ASAHI",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz SAPPORO",
+          "price": "6.50",
+          "description": null
+        },
+        {
+          "name": "16oz MOTHER EARTH Cali Creamin (Nitro)",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz EMBOLDEN Midnight in Tokyo",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz STONE Delicious IPA",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz BLUE MOON Belgium White",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz SOCIETE The Pupil",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz MODERN TIMES Orderville Hazy IPA",
+          "price": "6.50",
+          "description": null
+        },
+        {
+          "name": "16oz HARLAND Japanese Lager",
+          "price": "6.50",
+          "description": null
+        },
+        {
+          "name": "16oz MODELO Pacifico Clara",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz HARLAND Hazy IPA",
+          "price": "7.00",
+          "description": null,
+          "outOfStock": true
+        },
+        {
+          "name": "16oz LATITUDE 33 Blood Orange IPA",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz BALLAST POINT Sculpin",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz ALE SMITH .394",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz STONE Buenaveza Salt and Lime Lager",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "16oz ALPINE Duet",
+          "price": "7.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Sake and Sochu, take out",
+      "items": [
+        {
+          "name": "16oz Filtered Flavored Sake",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "Unfiltered Flavored Sake",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "House Hot Sake",
+          "price": "9.00",
+          "description": null
+        },
+        {
+          "name": "House Cold Sake",
+          "price": "9.00",
+          "description": null
+        },
+        {
+          "name": "House Nigori Sake",
+          "price": "9.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Appetizers",
+      "items": [
+        {
+          "name": "Chili Wontons",
+          "price": "10.50",
+          "description": null
+        },
+        {
+          "name": "Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Garlic Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Crispy Rice Spicy Tuna",
+          "price": "7.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Pork Gyoza",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "Karaage",
+          "price": "8.50",
+          "description": null
+        },
+        {
+          "name": "Cream Cheese Wontons",
+          "price": "8.00",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Crunchy Cucumber Salad",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Spam Musubi",
+          "price": "4.50",
+          "description": "Grilled spam on top of rice with sweet sauce wrapped with nori."
+        },
+        {
+          "name": "Tajima Fries",
+          "price": "10.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "French Fries",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Seaweed Salad",
+          "price": "4.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Red",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Black",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Vegan Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Rice Dishes",
+      "items": [
+        {
+          "name": "Salmon Poke",
+          "price": "16.50",
+          "description": null
+        },
+        {
+          "name": "Spicy Tuna Poke",
+          "price": "15.00",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Fried Rice",
+          "price": "14.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Chashu Fried Rice",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Vegetarian Fried Rice",
+          "price": "13.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Teriyaki",
+          "price": "12.00",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Bowl",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "items": [
+        {
+          "name": "Matcha Panna Cotta",
+          "price": "6.00",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "_ramenDescriptions": "The pull states these descriptions match Convoy's ramen section, same recipes. Descriptions are therefore NOT copied here: they were not observed verbatim in this location's catalog. Read Convoy's file for the wording.",
+  "_paredDownCheck": "CLIENT_FACTS.md describes this location as running a \"pared-down ramen-bar menu, not the full menu\". The ramen section is NOT pared down: all nine San Diego ramens are present at the same prices as Convoy. What is reduced is everything around them, a shorter appetizer list with no Chicken Katsu Bun or Takoyaki, no Chicken Katsu Curry or Karaage Curry, and one dessert. The beer program is the largest of the seven, 21 taps. Flagged, not resolved."
+}

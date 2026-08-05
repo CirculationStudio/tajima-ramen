@@ -1,0 +1,356 @@
+{
+  "_source": "https://order.toasttab.com/online/tajima-east-village",
+  "_pulledAt": "2026-08-04",
+  "_location": "east-village",
+  "_locationAddress": "901 E Street, San Diego, CA 92101",
+  "_locationPhone": "(619) 431-5820",
+  "_note": "Live Toast catalog for East Village.",
+  "_outOfStock": "Captured as observed on 2026-08-04. A live operational state, not a menu fact. Do not render it and do not treat an out-of-stock item as delisted.",
+  "sections": [
+    {
+      "name": "Drinks - Hard Kombucha, Cider, and Beer",
+      "items": [
+        {
+          "name": "JUNESHINE Mango Day Dream (can)",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "JUNESHINE Midnight Painkiller (can)",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "NOVA Sexy Pina Colada (can)",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "NOVA Watermelon Mint (can)",
+          "price": "8.00",
+          "description": null
+        },
+        {
+          "name": "16oz NEWTOPIA Apple Soiree",
+          "price": "8.00",
+          "description": null
+        },
+        {
+          "name": "16oz SAPPORO",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz ELYSIAN Space Dust",
+          "price": "8.00",
+          "description": null
+        },
+        {
+          "name": "16oz EASY RIDER",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz MOTHER EARTH Cali Creamin (Nitro)",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz HARLAND Hazy IPA",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz HARLAND Japanese Lager",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz PIZZA PORT Coastin",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "16oz MODERN TIMES Orderville",
+          "price": "8.00",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Sake, take out",
+      "items": [
+        {
+          "name": "16oz Filtered Flavored Sake",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "16oz Unfiltered Sake",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "16oz House Cold Sake",
+          "price": "9.00",
+          "description": null
+        },
+        {
+          "name": "House Nigori Sake",
+          "price": "9.00",
+          "description": null
+        },
+        {
+          "name": "House Hot Sake",
+          "price": "9.00",
+          "description": null
+        },
+        {
+          "name": "Kikusui Perfect Snow (bottle)",
+          "price": "12.00",
+          "description": null
+        },
+        {
+          "name": "Kurosawa (bottle)",
+          "price": "15.00",
+          "description": null
+        },
+        {
+          "name": "Coconut Nigori Sake",
+          "price": "10.00",
+          "description": "Creamy and smooth sake. 300ml, 10% ABV."
+        }
+      ]
+    },
+    {
+      "name": "Drinks - Bottles and Cans",
+      "items": [
+        {
+          "name": "Matcha Refresher",
+          "price": "3.50",
+          "description": null,
+          "variants": [
+            "Mango",
+            "Melon",
+            "Strawberry",
+            "Passionfruit",
+            "Lychee"
+          ],
+          "variantNote": "Melon out of stock 2026-08-04."
+        },
+        {
+          "name": "Pellegrino Sparkling Water (bottle)",
+          "price": "1.75",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Appetizers",
+      "items": [
+        {
+          "name": "Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Garlic Edamame",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Chicken Katsu Bun",
+          "price": "5.50",
+          "description": null
+        },
+        {
+          "name": "Pork Gyoza",
+          "price": "7.50",
+          "description": null
+        },
+        {
+          "name": "Karaage",
+          "price": "8.50",
+          "description": null
+        },
+        {
+          "name": "Takoyaki",
+          "price": "10.00",
+          "description": null
+        },
+        {
+          "name": "Crispy Rice Spicy Tuna",
+          "price": "7.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Crunchy Cucumber Salad",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Shishito Peppers",
+          "price": "7.00",
+          "description": "Sauteed sweet chili peppers with garlic."
+        },
+        {
+          "name": "Salmon Sushi Hand Roll",
+          "price": "6.50",
+          "description": "Sushi rice, sesame seeds, Japanese seaweed, and salmon.",
+          "isSushi": true
+        },
+        {
+          "name": "Spicy Tuna Sushi Hand Roll",
+          "price": "6.50",
+          "description": "Sushi rice, sesame seeds, Japanese seaweed, and spicy tuna with spicy mayo.",
+          "isSushi": true
+        },
+        {
+          "name": "Tajima Fries",
+          "price": "10.50",
+          "description": null,
+          "doNotFeature": true
+        },
+        {
+          "name": "Kimchi",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Seaweed Salad",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "French Fries",
+          "price": "4.50",
+          "description": null
+        },
+        {
+          "name": "Extra Appetizers Toppings",
+          "price": null,
+          "description": "No price listed in the pull."
+        }
+      ]
+    },
+    {
+      "name": "Ramens",
+      "items": [
+        {
+          "name": "Naruto Miso Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Traditional Tonkotsu Ramen",
+          "price": "16.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Red",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Black",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Tajima Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Spicy Sesame Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Vegan Ramen",
+          "price": "17.50",
+          "description": null
+        },
+        {
+          "name": "Carnitas Ramen",
+          "price": "18.00",
+          "description": null
+        },
+        {
+          "name": "Chicken Ramen",
+          "price": "17.50",
+          "description": "Chicken bone broth, egg noodles, chicken chashu, half a ramen egg, braised takenoko, baby bok choy, green onions, and sesame seeds."
+        },
+        {
+          "name": "Extra Noodles",
+          "price": "3.50",
+          "description": null
+        },
+        {
+          "name": "Extra Broth",
+          "price": "5.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Rice Dishes",
+      "items": [
+        {
+          "name": "Salmon Poke",
+          "price": "16.50",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Fried Rice",
+          "price": "14.50",
+          "description": "Pork chashu, rice, egg, mixed veggies, sesame seeds, and grilled baby bok choy with fried chili oil on the side."
+        },
+        {
+          "name": "Chicken Chashu Fried Rice",
+          "price": "14.00",
+          "description": null
+        },
+        {
+          "name": "Vegetarian Fried Rice",
+          "price": "13.50",
+          "description": null
+        },
+        {
+          "name": "Pork Chashu Bowl",
+          "price": "7.00",
+          "description": null
+        },
+        {
+          "name": "Steam Rice",
+          "price": "3.00",
+          "description": null
+        },
+        {
+          "name": "Sushi Rice",
+          "price": "3.50",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Dessert",
+      "items": [
+        {
+          "name": "Cinnamon Churros",
+          "price": "5.00",
+          "description": null
+        },
+        {
+          "name": "Matcha Panna Cotta",
+          "price": "6.00",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "_ramenDescriptions": "The pull states these descriptions match Convoy's ramen section, same recipes. Descriptions are therefore NOT copied here: they were not observed verbatim in this location's catalog. Read Convoy's file for the wording.",
+  "_sushiFinding": "THIS CATALOG CARRIES SUSHI. Two hand rolls, Salmon and Spicy Tuna, listed under Appetizers rather than a sushi section of their own. Smaller than Mercury's full sashimi and specialty-roll program but it is sushi. This contradicts CLIENT_FACTS.md, which states in two places that Mercury is the only San Diego location with sushi. See SITE_ARCHITECTURE.md Open Decision #20. Not auto-resolved here.",
+  "_chickenRamenVariance": "East Village's Chicken Ramen description differs from Convoy and Mercury: baby bok choy and green onions here, baby spinach and red onions there. Recorded rather than normalised. Whether that is a real recipe difference or a stale catalog entry is for Amanda."
+}
