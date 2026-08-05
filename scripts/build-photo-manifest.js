@@ -150,21 +150,29 @@ const NOTE_EXPAND = {
 };
 
 // ---------------------------------------------------------------------------
-// Narrow allowance, two files only.
+// OFFSITE_KITCHEN_ALLOWLIST REMOVED, 2026-08-05.
 //
-// Steve, build night: `offsite-kitchen` is sanctioned as a Crown Point
-// reference for these two specific files and NOT as a general rule for any
-// future filename containing those words. The reasoning is that CLIENT_FACTS.md
-// confirms exactly one commissary and places it in Crown Point, so this infers
-// from an already-confirmed fact rather than inventing one. That reasoning
-// covers these two files. It does not cover a file nobody has looked at.
+// It mapped two specific `offsite-kitchen` filenames to Crown Point. The
+// reasoning was that CLIENT_FACTS.md confirms exactly one commissary and
+// places it in Crown Point, so the allowance inferred from a confirmed fact
+// rather than inventing one.
 //
-// Any OTHER filename containing `offsite-kitchen` goes to UNMAPPED.
+// That reasoning does not survive the adjacency rule. A fact about the
+// business is not evidence about a photograph, and the same inference was
+// refused for the five commissary photographs added the same day. Keeping a
+// standing carve-out for two files while refusing it for five is two
+// standards, not one.
+//
+// `offsite-kitchen` now behaves like any other filename with no location
+// token: the photo classifies as `process` with a null location and
+// locationStatus UNCONFIRMED-LOCATION, and it is placeable brand-level only
+// where the surrounding page makes no location claim.
+//
+// DO NOT REINSTATE THIS OR ANYTHING LIKE IT. If a photograph's location is
+// ever genuinely confirmed, that is recorded in CLIENT_FACTS.md and in the
+// filename, where it is visible and reviewable. A script-level allowlist puts
+// an unverifiable claim somewhere nobody reads.
 // ---------------------------------------------------------------------------
-const OFFSITE_KITCHEN_ALLOWLIST = new Set([
-  "tajima-ramen-offsite-kitchen-01-portrait",
-  "tajima-ramen-offsite-kitchen-02-landscape",
-]);
 
 // CLIENT_FACTS.md, The menu: "Do not feature: Carnitas Ramen, Tajima Fries,
 // Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeno Bomb.
@@ -362,11 +370,6 @@ for (const file of files) {
     if (hit) {
       location = hit[1];
       locationSource = hit[0];
-    } else if (stem.includes("offsite-kitchen")) {
-      if (OFFSITE_KITCHEN_ALLOWLIST.has(stem)) {
-        location = "crown-point";
-        locationSource = "offsite-kitchen (allowlisted, this file only)";
-      }
     }
   }
 
@@ -441,13 +444,6 @@ for (const file of files) {
       dish: banned[1],
       location,
       reason: `"${banned[1]}" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision.`,
-    });
-    continue;
-  }
-  if (stem.includes("offsite-kitchen") && !location) {
-    unmapped.push({
-      file,
-      reason: "Contains `offsite-kitchen` but is not one of the two allowlisted files. The Crown Point allowance was granted narrowly for those two only and does not extend to new files.",
     });
     continue;
   }
