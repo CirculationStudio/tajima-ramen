@@ -147,39 +147,18 @@ const PLACEHOLDER = {
   caption: null,
 };
 
-// The two frames on /about/.
+// NOTE, 2026-08-05: an ABOUT set lived here and was removed the same day.
 //
-// /about/ wants three photographs it does not have: Convoy in 2001, the
-// commissary, and Sam. None of the three exists. Verified 2026-08-05 against
-// all 205 files: there is no Convoy exterior or interior frame (all 60 Convoy
-// files are food), and no commissary or noodle-production frame either. The
-// /noodle-room/ page's eight kitchen images come off the temp CDN, not the
-// committed manifest.
+// It curated a College Heights frame and a Crown Point frame for /about/.
+// Both were cut from that page on review: they were chosen because they are
+// the only rooms with photography, not because either belongs to Sam's story,
+// and the Crown Point frame sat next to the Noodle Room chapter where it read
+// as a picture of the commissary, which it is not.
 //
-// So this is the honest second-best: the two rooms that HAVE been photographed,
-// each captioned with its own name. The caption is doing real work. Without
-// it, a reader on a page about the founding of Convoy in 2001 would reasonably
-// take an unlabelled interior to be Convoy. With it, the photographs say what
-// they are, which is also the brand-level point the section is making: there
-// is more than one room.
-//
-// Neither frame goes near the Noodle Room narrative as evidence. The Crown
-// Point frame is the dining room, not the commissary, and its caption says so.
-// CLIENT_FACTS.md forbids publishing the Noodle Room's street address, and
-// this does not.
-const ABOUT = [
-  {
-    file: "tajima-college-heights-interior-dining-room-01.webp",
-    caption: "College Heights",
-    tag: "Opened 2020",
-    wide: true,
-  },
-  {
-    file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
-    caption: "Crown Point",
-    tag: "Opened 2025",
-  },
-];
+// Do not re-add a set here for /about/ until the real photographs exist. That
+// page wants Convoy (the founding room), the commissary, and Sam. None of the
+// three is in the manifest. All three are in the photography ask drafted
+// under SITE_ARCHITECTURE.md Open Decision #30.
 
 const DRAFT = "[DRAFT";
 
@@ -221,9 +200,7 @@ export default {
       },
     ]),
   ),
-  // Reserved keys. No location has the id `_placeholder` or `_about`, so
-  // neither can collide with a real entry or be picked up by
-  // roomPhotos[loc.id].
+  // Reserved key. No location has the id `_placeholder`, so this cannot
+  // collide with a real entry or be picked up by roomPhotos[loc.id].
   _placeholder: lookup(PLACEHOLDER),
-  _about: { gallery: ABOUT.map(lookup) },
 };

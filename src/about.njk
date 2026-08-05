@@ -123,8 +123,23 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
         </div>
         <div>
           <h2 class="chapter__title">Twenty-five years. <em>Six rooms.</em></h2>
+          {#
+            TIGHTENED 2026-08-05. This opened "For twenty-five years he has
+            been building the bowl, the broth, the menu, and the house."
+
+            Two problems. It was the most abstract sentence in the sequence:
+            a four-item list of nouns that names nothing specific, in a page
+            whose whole technique is that every sentence is a fact. And it
+            restated the chapter's own title, which already says twenty-five
+            years, so the span was being told twice in three inches.
+
+            Replaced with the plain fact underneath it. Sole owner, still runs
+            the business, per CLIENT_FACTS.md. The paragraph now carries only
+            things that can be pointed at: who runs it, how many rooms, which
+            ones, and what reviews mention.
+          #}
           <p class="chapter__para">
-            For twenty-five years he has been building the bowl, the broth, the menu, and the house. Today there are <a class="sect__link" href="/locations/">six Tajima rooms across San Diego</a>, from the original on Convoy to Crown Point, and the crew gets named in reviews more than the food does.
+            He has run it ever since. Today there are <a class="sect__link" href="/locations/">six Tajima rooms across San Diego</a>, from the original on Convoy to Crown Point, and the crew gets named in reviews more than the food does.
           </p>
         </div>
       </article>
@@ -138,8 +153,27 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
         </div>
         <div>
           <h2 class="chapter__title">The <em>Noodle Room.</em></h2>
+          {#
+            CLOSING LINE MOVED HERE 2026-08-05, from the "What Tajima runs"
+            section that was cut the same day. Of nine sentences in that
+            section this was the only one carrying information the chapters
+            did not already have, so it came here and the rest went.
+
+            It lands after both the noodles and the broth because "both" is
+            what it refers to. Scoped to America deliberately: CLIENT_FACTS.md
+            says "Most American ramen chains buy both" and the approved
+            Noodle Room prose says "like almost every ramen shop in America."
+            Unscoped it becomes a claim about ramen shops everywhere, which
+            nobody has checked.
+
+            Note what it does not do. It does not say we make both. The two
+            sentences before it already showed that, so the reader does the
+            math. CLIENT_FACTS.md on this exact technique: "It says what they
+            were and then says what changed. The reader does the math. That
+            restraint is the voice."
+          #}
           <p class="chapter__para">
-            Sam spent two years building a room in Crown Point with a noodle machine brought over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl. The broth is made in the same building every morning and driven to all six San Diego locations.
+            Sam spent two years building a room in Crown Point with a noodle machine brought over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl. The broth is made in the same building every morning and driven to all six San Diego locations. Most ramen shops in America buy both.
           </p>
           <p class="chapter__para">
             <a class="sect__link" href="/noodle-room/">Step inside the Noodle Room</a>
@@ -151,94 +185,54 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   </div>
 </section>
 
-{# ==================== THE ROOMS ==================== #}
 {#
-  Added 2026-08-05. Real photography, and the first thing on this page that is
-  not the founder.
+  ==================== TWO SECTIONS CUT HERE, 2026-08-05 ====================
 
-  ON WHAT IS NOT HERE. This page wants three photographs and has none of them:
-  Convoy in 2001, the commissary, and Sam. Verified against all 205 files,
-  there is no Convoy exterior or interior frame at all (every one of the 60
-  Convoy files is food) and no commissary frame either. SITE_ARCHITECTURE.md
-  Open Decisions #29 and #30.
+  "The rooms" (two captioned photographs) and "What Tajima runs" (a
+  three-card brand-level block) were both added earlier the same day and both
+  removed after review. Recording why, so neither gets rebuilt by reflex.
 
-  So these are the two rooms that have actually been photographed, each
-  captioned with its own name. The captions are load-bearing: on a page whose
-  fourth chapter is about taking over a room on Convoy Street, an unlabelled
-  interior would reasonably be read as that room. Naming them also makes the
-  brand-level point the next section states outright, that there is more than
-  one room.
+  "WHAT TAJIMA RUNS" TOLD THE SAME STORY TWICE, ONCE WELL AND ONCE FLATTENED.
+  Traced sentence by sentence against the chapters above, its three cards
+  carried two facts that were not already there ("most ramen shops buy both",
+  and walk-in with no reservations) across nine sentences. One whole card,
+  "One owner, since 2001", was chapters 03 and 04 compressed, running about
+  four hundred words after they had already run in full.
 
-  No placeholder and no stand-in. DESIGN_SYSTEM.md forbids imagery that poses
-  as photography it is not, and that is exactly what an unlabelled interior
-  standing in for Convoy would be.
-#}
-{%- set gallery = roomPhotos._about %}
-{%- set galleryEyebrow = "The rooms" %}
-{%- set galleryTitle = "Two of the <em>six.</em>" %}
-{%- set galleryNote = "The rooms differ. College Heights is a ramen bar built around one counter; Crown Point sits under a barrel-vaulted ceiling a few streets from the bay. <a class=\"sect__link\" href=\"/locations/\">All six are here</a>." %}
-{% include "components/location-gallery.njk" %}
+  It also retold the beat that chapter 04 ends on and landed it somewhere
+  weaker. Chapter 04 closes on "He didn't name it. He made it his.", which
+  voice-tone.md calls the strongest line in the research file. The card closed
+  on "Twenty-five years in San Diego, not twenty-five months", which is a
+  comparative boast, and a third card ended on "produced by the floor, not by
+  the marketing". Both break the rule the chapters are built on: every
+  sentence is a fact, no sentence tells the reader what to think about the
+  facts.
 
-{# ==================== THE HOUSE ==================== #}
-{#
-  Brand-level, not founder-level. The brief for this page was to use
-  CLIENT_FACTS.md's approved origin story directly, and that story is already
-  fully deployed above: its first paragraph is spread across chapters 01 to 05
-  almost verbatim, and its second is chapter 06. There was no unused approved
-  prose left to add, so this section is built from the other cleared source,
-  CLIENT_FACTS.md's "The differentiators (three tiers)", which exists to be
-  used "whenever the craft claim needs support."
+  Root cause worth remembering: the copy came from CLIENT_FACTS.md's "three
+  tiers", which is an internal positioning framework for use "whenever the
+  craft claim needs support". It reads fine as an argument and turns into
+  brand-speak the moment it becomes a section of its own. It is a lens for
+  writing page copy, not page copy.
 
-  Every fact below traces. Tier 1: own Noodle Room, machine imported from
-  Japan, broth simmered every morning in the Crown Point commissary and driven
-  to every San Diego location. Tier 2: trained through Japanese kitchens
-  including Matsuhisa, took over Convoy in 2001, still runs the business.
-  Tier 3: walk-in only, no reservations, six neighborhoods, and service named
-  in reviews more often than food (131 of 154).
+  The one line that was doing work moved into chapter 06.
 
-  CLIENT_FACTS.md's own instruction on ordering is followed: "Tier 1 is the
-  news. Tier 2 is why it is credible. Tier 3 is why people come back. Do not
-  lead with Tier 3 and do not let Tier 2 turn into a founder-worship page."
+  "THE ROOMS" WAS DECORATION CHOSEN BY AVAILABILITY. It showed College
+  Heights and Crown Point because those are the only two rooms with
+  photography, not because either belongs to this story. College Heights
+  appears nowhere in the narrative. Crown Point sat immediately after the
+  Noodle Room chapter captioned "Crown Point, Opened 2025", so it read as a
+  picture of the commissary, which it is not: it is the dining room. The
+  heading, "Two of the six", announced the gap rather than showing the brand.
 
-  WHAT IS DELIBERATELY NOT CLAIMED. No cadence on the noodles, only on the
-  broth (Open Decision #3). No "every location" noodle claim (#2). No employee
-  count, which CLIENT_FACTS.md marks an estimate. No review rating, which is a
-  live number. The 131 of 154 figure is a count from the five-star sample and
-  is written as what reviews mention, not as a rating.
-#}
-<section class="sect sect--rule" aria-labelledby="house-title">
-  <div class="sect__inner">
-    <header class="sect__head">
-      <span class="sect__eyebrow">The house</span>
-      <h2 class="sect__title" id="house-title">What Tajima <em>runs.</em></h2>
-    </header>
+  DO NOT PUT AN IMAGE BACK ON THIS PAGE UNTIL THE REAL ONES EXIST. The three
+  this page actually wants are Convoy, the founding room; the commissary; and
+  Sam. None of the three is in the manifest. All three are in the photography
+  ask drafted under SITE_ARCHITECTURE.md Open Decision #30, with #29 covering
+  the wider gap. A page whose whole job is telling Sam's story should not run
+  a photograph of a room he is never mentioned in.
 
-    <div class="bento">
-
-      <article class="cell diff__cell reveal">
-        <h3 class="diff__title">Our own <em>room.</em></h3>
-        <p class="diff__body">
-          The noodles are made in our own Noodle Room, on a machine that came over from Japan. The broth is simmered every morning in our own commissary in Crown Point and driven out to every San Diego location before service. Most ramen shops buy both. <a class="sect__link" href="/noodle-room/">See the room</a>.
-        </p>
-      </article>
-
-      <article class="cell diff__cell reveal">
-        <h3 class="diff__title">One owner, <em>since 2001.</em></h3>
-        <p class="diff__body">
-          Sam worked his way through Japanese kitchens, including a stretch at Matsuhisa under Nobu Matsuhisa, before taking over the room on Convoy Street in 2001. He still runs the business. Twenty-five years in San Diego, not twenty-five months.
-        </p>
-      </article>
-
-      <article class="cell diff__cell reveal">
-        <h3 class="diff__title">Six rooms. <em>Walk in.</em></h3>
-        <p class="diff__body">
-          Six neighborhoods, each with its own character. No reservations, no queue theater. The crew gets named in reviews more often than the food does, and that is produced by the floor, not by the marketing. <a class="sect__link" href="/locations/">Find your Tajima</a>.
-        </p>
-      </article>
-
-    </div>
-  </div>
-</section>
+  Structure is now: hero, chapters 01 to 06, quote pending, noodle band.
+  =========================================================================== #}
 
 {# ==================== QUOTE PENDING ==================== #}
 {#
