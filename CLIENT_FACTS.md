@@ -78,8 +78,10 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Address: **6061 El Cajon Boulevard Suite 2, San Diego, CA 92115** (per the `SITE_ARCHITECTURE.md` NAP table, 2026-08-03)
 - Phone: **(619) 269-0838**
 - GPS / GBP URL / Yelp: CONFIRM
-- Opened 2020. **Pared-down ramen-bar menu, not the full menu.** Open-kitchen layout. 20+ craft beer taps. Street parking.
+- Opened 2020. Open-kitchen layout, built around one long counter. 20+ craft beer taps. Street parking.
 - Languages: English, Spanish.
+- **CORRECTED 2026-08-05.** This entry previously read *"Pared-down ramen-bar menu, not the full menu."* **The ramen list is not pared down.** The live Toast catalog carries 11 ramen items against Convoy's 12, at prices identical to Convoy's, item for item; the only absent ramen is Curry Ramen. It also has **21 beer taps against Convoy's 11, the largest beer program of the seven.** What is genuinely reduced is everything around the bowls: 12 appetisers against 17, 8 rice dishes against 10, 1 dessert against 2. Write the format (ramen bar, open kitchen, counter, the tap list), never "pared-down menu." Source: `src/_data/toastMenus/college-heights.json` and `convoy.json`, pulled 2026-08-04. This is `SITE_ARCHITECTURE.md` Open Decision #23, and `/tajima-college-heights/` now publishes the corrected version.
+- **The manga wall: UNCONFIRMED, do not treat as settled.** A corridor papered floor to ceiling with black and white manga pages between maple slat panels. It appears in four frames of Tajima's own photography of this room and is published on the location page on that basis. Nobody at Tajima has confirmed it in writing. Ask Amanda.
 
 ### Location 5: Crown Point
 - Address: **3782 Ingraham Street, San Diego, CA 92109**

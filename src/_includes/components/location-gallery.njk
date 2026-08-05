@@ -1,0 +1,59 @@
+{# ===========================================================================
+   Component: location-gallery
+
+   The room gallery for a location page. Real photography of this room, which
+   is section 1 of the location page template in SITE_ARCHITECTURE.md and the
+   thing every stub page is still missing.
+
+   USAGE
+     {% set gallery = roomPhotos[loc.id] %}
+     {% if gallery %}{% include "components/location-gallery.njk" %}{% endif %}
+
+   Expects `gallery` (a roomPhotos entry) and `loc` (a locations.json item) in
+   scope. Renders nothing at all if `gallery` is undefined, which is the case
+   for every location whose photography has not been curated yet. That gate is
+   the point: an empty gallery frame reads as a broken page, and a missing
+   section reads as a page that simply does not have that section.
+
+   Photography comes from roomPhotos.js, which throws at build time if a file
+   is missing from the manifest or still carries the generator's draft alt
+   text. So there is no fallback branch here for a missing alt: it cannot get
+   this far.
+
+   Reuses .bento, .cell and .shot from interior.css and location.css rather
+   than introducing a gallery of its own, per CLAUDE.md: never hand-build
+   markup a component covers.
+
+   No lazy loading on the first image. It is the largest element above the
+   fold on a location page and lazy-loading it costs LCP directly.
+   =========================================================================== #}
+
+<section class="sect sect--alt sect--rule" aria-labelledby="room-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">The room</span>
+      <h2 class="sect__title" id="room-title">{{ galleryTitle | safe }}</h2>
+      {%- if galleryNote %}
+      <p class="sect__note">{{ galleryNote | safe }}</p>
+      {%- endif %}
+    </header>
+
+    <div class="bento">
+      {%- for shot in gallery.gallery %}
+      <figure class="cell shot{% if shot.wide %} shot--wide{% endif %} reveal">
+        <img
+          class="shot__img"
+          src="{{ shot.src }}"
+          alt="{{ shot.alt }}"
+          loading="lazy"
+          width="{{ shot.width }}"
+          height="{{ shot.height }}">
+        <figcaption class="shot__caption">
+          <span class="shot__name">{{ shot.caption }}</span>
+          {%- if shot.tag %}<span class="shot__tag">{{ shot.tag }}</span>{% endif %}
+        </figcaption>
+      </figure>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

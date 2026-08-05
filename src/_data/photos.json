@@ -326,7 +326,7 @@
       "proposedUse": [
         "/tajima-college-heights/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "The lit Tajima storefront on El Cajon Boulevard at night. The flame-and-kanji mark sits beside white block letters on a black sign, and the maple-lined dining room is visible through the windows."
     },
     "tajima-college-heights-interior-bar-16.webp": {
       "file": "tajima-college-heights-interior-bar-16.webp",
@@ -386,7 +386,7 @@
       "proposedUse": [
         "/tajima-college-heights/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "The College Heights dining room before service. Long maple communal tables and box stools run down the room under an exposed black ceiling, with the open kitchen visible past the counter at the far end."
     },
     "tajima-college-heights-interior-dining-room-02.webp": {
       "file": "tajima-college-heights-interior-dining-room-02.webp",
@@ -536,7 +536,7 @@
       "proposedUse": [
         "/tajima-college-heights/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "A corridor at College Heights papered floor to ceiling with black and white manga pages, broken up by panels of maple slats."
     },
     "tajima-college-heights-interior-manga-wall-02.webp": {
       "file": "tajima-college-heights-interior-manga-wall-02.webp",
@@ -582,7 +582,7 @@
       "proposedUse": [
         "/tajima-college-heights/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "The ramen bar at College Heights. A row of maple stools runs along a maple counter, with the craft beer tap wall and its row of tap handles behind it."
     },
     "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp": {
       "file": "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
@@ -2772,5 +2772,6 @@
       "location": "maui",
       "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
     }
-  ]
+  ],
+  "_altStatus": "Alt text is hand-written per photo and is the one field the generator cannot produce, so a regenerate must not clobber it. Reviewed alt exists ONLY for photos actually placed on a page; everything else still reads [DRAFT, NEEDS REVIEW] and is not placed. src/_data/roomPhotos.js throws at build time if it is asked for a photo whose alt is still draft, so a photo cannot reach a page without one."
 }

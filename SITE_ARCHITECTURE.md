@@ -596,15 +596,39 @@ Read this plus the individual brief below it.
 **Title:** `Tajima Ramen College Heights | Ramen Bar Near SDSU`
 **H1:** `College Heights`
 
-**What's different here (section 3):** The Ramen Bar format. **Pared-down menu, not the full menu.** Open-kitchen layout. 20+ craft beer taps. Opened 2020. Serves the SDSU community. Street parking. English and Spanish.
+**Status: BUILT 2026-08-05.** `src/tajima-college-heights.njk`. First location page after Convoy, and **the template the other five stubs get upgraded to.** Reusable parts introduced with it: `components/location-gallery.njk` (renders nothing unless the location has curated photography), `_data/roomPhotos.js` (curated per-location photo sets, throws at build time on a missing file or unreviewed alt text), `_lib/fullPageLocations.js` (one list of graduated locations, shared by the stub paginator and the schema graph), and a `heroImage` front-matter field on `layouts/base.njk` that emits the LCP preload.
+
+**What's different here (section 3):** The Ramen Bar format. Open-kitchen layout, built around one long counter. **The biggest tap list of the seven.** Opened 2020. Serves the SDSU community. Street parking. English and Spanish. **The manga wall**, a corridor papered floor to ceiling with black and white manga pages between maple slat panels.
 
 **Nearest neighbour link:** none.
 
-**Schema:** **needs its own `Menu` entity**, not the brand menu. Pointing it at `/menu/#menu` would advertise dishes it does not sell.
+**Schema:** **needs its own `Menu` entity**, not the brand menu. `@id` is `/tajima-college-heights/#menu`, built by `buildMenu()` filtered to this location AND to `feature: true`, which is exactly what the visible menu section renders. **The `featuredOnly` flag is not cosmetic:** without it the first build emitted Carnitas Ramen and Miso Ramen into this page's JSON-LD, neither of which the page displays. That breaks SCHEMA.md rule 2, and for Carnitas it also breaks Open Decision #4's "listed plainly on `/menu/` and nowhere else." Schema is somewhere else. Caught by a banned-word scan of the built HTML, not by reading the template.
+
+Worth recording: **the filtered set is currently identical to the brand menu**, because all thirteen modelled dishes are on the live College Heights catalog. The separate entity earns its keep as a mechanism, not as today's output. When `menu.json` grows to model dishes this room does not carry (Convoy's Curry Ramen, its wider appetiser list), the entity drops them here automatically.
 
 **Constraints:**
-- Current title says "Ramen La Mesa & Near SDSU." **La Mesa is a different city.** Drop it.
-- GBP primary is currently `Japanese restaurant` (Connor's test). Despite that, this location wins `ramen` at ARP 2.06 and **loses `japanese restaurants` at ARP 13.88.** See Open Decisions.
+- ~~Current title says "Ramen La Mesa & Near SDSU." **La Mesa is a different city.** Drop it.~~ **DONE.** Title is `Tajima Ramen College Heights | Ramen Bar Near SDSU`.
+- GBP primary is currently `Japanese restaurant` (Connor's test). Despite that, this location wins `ramen` at ARP 2.06 and **loses `japanese restaurants` at ARP 13.88.** See Open Decision #8. **This did not block the build and should not block it for the other five.** The page is ramen-first under either category, because the brief's title, H1, target and secondary keywords are all ramen and the map data says ramen is the only keyword this room wins. The category is a GBP dropdown, not a build input.
+- **Prices are not printed.** `menu.json`'s prices are stale against every live catalog and vary by location (Open Decision #24). The menu section names bowls, not numbers.
+- **No dish photography.** All 60 Convoy dish photographs stay off this page. `photos.json`'s governing rule is that a photo reaches a location page only if its filename names that location, and a Convoy bowl photographed at Convoy is not evidence about this kitchen. The room lists its bowls in type (`.here-list`) instead of showing them. **Every location page built after this one that lacks its own food photography does the same.**
+
+> ### Correction, 2026-08-05: "pared-down menu" was wrong and is no longer published
+>
+> This brief previously read **"Pared-down menu, not the full menu"** in section 3, matching `CLIENT_FACTS.md`. The live Toast catalog contradicts it on the part that matters most, and this landed on "the one section that must not be templated," so it could not be shipped as written. Resolved on Steve's call: **write to the catalog.**
+>
+> | | College Heights | Convoy |
+> |---|---|---|
+> | Ramens | 11 | 12 |
+> | Beer taps | **21** | 11 |
+> | Appetizers | 12 | 17 |
+> | Rice dishes | 8 | 10 |
+> | Desserts | 1 | 2 |
+>
+> Ramen prices are identical to Convoy's, item for item, and the only absent ramen is Curry Ramen. So **the ramen list is not pared down at all, and the beer list is the largest in the house.** What is reduced is everything around the bowls. This is Open Decision #23, which remains open for `CLIENT_FACTS.md` to be corrected at source.
+>
+> The page says "twenty-plus taps" rather than "twenty-one." A tap list rotates, and a static site should not publish a number that drifts, on the same reasoning `CLIENT_FACTS.md` applies to review counts. `CLIENT_FACTS.md`'s existing "20+ craft beer taps" is the durable form.
+>
+> **Unconfirmed, flagged for Amanda: the manga wall.** It is not in `CLIENT_FACTS.md`. It is plainly visible in four frames of Tajima's own photography of this room, which is different from an invented detail, but it has not been confirmed in writing.
 
 ---
 

@@ -1,0 +1,282 @@
+---
+layout: layouts/base.njk
+permalink: /tajima-college-heights/
+pageKey: collegeHeights
+locationId: college-heights
+heroImage: /images/photo/tajima-college-heights-exterior-night-signage.webp
+title: "Tajima Ramen College Heights | Ramen Bar Near SDSU"
+description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, near San Diego State. Open kitchen, the whole ramen list, and the biggest tap list in the house. Walk in, no reservations."
+---
+{#
+  /tajima-college-heights/. Brief: SITE_ARCHITECTURE.md, plus the shared
+  location page template above it.
+
+  4,066 clicks, 437,199 impressions, position 5.21. Target keyword
+  `tajima college area` earns 76 clicks at 50% CTR and position 1.31.
+  Secondary: `ramen near sdsu`, `tajima ramen college heights`.
+
+  THIS IS THE TEMPLATE THE OTHER LOCATION PAGES GET UPGRADED TO. Crown Point,
+  Mercury, East Village and Plaza Bonita are still noindex stubs rendered from
+  src/location-stub.njk. Everything structural here is meant to be lifted:
+  the seven-section order from the template brief, the roomPhotos gallery, the
+  per-location Menu entity, the plate. Only the "what's different here"
+  section is written from scratch each time, because the brief says that is
+  "the one section that must not be templated."
+
+  NAP comes from locations.json. Hours are absent: Open Decision #9.
+
+  TITLE FIX: the current site's title reads "Ramen La Mesa & Near SDSU."
+  La Mesa is a different city and the brief says drop it. Dropped.
+
+  ON THE MENU COPY, AND WHY IT DOES NOT SAY "PARED DOWN".
+  CLIENT_FACTS.md and this page's own brief both describe College Heights as
+  running a "pared-down ramen-bar menu, not the full menu." The live Toast
+  catalog pulled 2026-08-04 contradicts that on the part that matters most:
+
+    Ramens      11 items here, 12 at Convoy (only Curry Ramen is absent)
+    Beer taps   21 here, 11 at Convoy. The biggest of all seven.
+    Appetizers  12 here, 17 at Convoy
+    Rice        8 here, 10 at Convoy
+    Desserts    1 here, 2 at Convoy
+
+  Ramen prices are identical to Convoy's, item for item. So the ramen list is
+  not pared down at all, and the beer list is the largest in the house. What
+  is reduced is everything around the bowls. This is SITE_ARCHITECTURE.md Open
+  Decision #23, and writing "pared-down menu" would have published a claim the
+  menu on the table contradicts. Resolved on Steve's call 2026-08-05: write to
+  the catalog. CLIENT_FACTS.md and the brief both need the same correction.
+
+  ON THE MANGA WALL. It is not in CLIENT_FACTS.md. It is plainly visible in
+  Tajima's own photography of this room (four frames of it in the manifest),
+  which is a different thing from an invented detail, but it is still a fact
+  this project has not had confirmed in writing. Flagged for Amanda.
+
+  ON PRICES. None are printed here. menu.json's prices are stale against every
+  live catalog and price varies by location (Open Decision #24). The menu
+  section names bowls, not numbers.
+
+  ON PHOTOGRAPHY. Every image on this page is of THIS room. photos.json's
+  governing rule is that a photo reaches a location page only if its filename
+  names that location, so the 60 Convoy dish photographs do not appear here
+  even though College Heights sells those dishes. A Convoy bowl photographed
+  at Convoy is not evidence about this kitchen.
+#}
+{%- set loc = (locations.items | where("id", locationId)) | first %}
+{%- set gallery = roomPhotos[locationId] %}
+
+<section class="page-hero page-hero--split" aria-labelledby="page-title">
+  <div class="page-hero__inner">
+    <div>
+      <p class="page-hero__crumbs">
+        <a href="/">{{ site.name }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="/locations/">Locations</a>
+        <span aria-hidden="true">/</span>
+        <span class="page-hero__crumbs-current">{{ loc.name }}</span>
+      </p>
+      <span class="page-hero__eyebrow">Since {{ loc.opened }} &middot; {{ loc.neighborhood }}</span>
+      <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
+      <p class="page-hero__lede">
+        The ramen bar on El Cajon Boulevard, in the College Area near San Diego State. One long counter, an open kitchen you watch from it, and the biggest tap list in the house.
+      </p>
+
+      {# Every value from locations.json. No Hours row and no placeholder for
+         one: Open Decision #9. #}
+      <address class="plate">
+        <span class="plate__item">
+          <span class="plate__label">Address</span>
+          <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Phone</span>
+          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Hours</span>
+          <span class="plate__value">Being confirmed. Call the room.</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Directions</span>
+          <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Parking</span>
+          <span class="plate__value">{{ loc.parking }}</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Seating</span>
+          <span class="plate__value">Walk in. No reservations.</span>
+        </span>
+        <span class="plate__item">
+          <span class="plate__label">Happy Hour</span>
+          <a class="plate__value" href="/happy-hour/">See times</a>
+        </span>
+      </address>
+    </div>
+
+    {#
+      The LCP element. eager + fetchpriority high here, preload in the head
+      via the heroImage front matter field.
+    #}
+    <figure class="page-hero__photo">
+      <img class="page-hero__photo-img"
+        src="{{ gallery.hero.src }}"
+        alt="{{ gallery.hero.alt }}"
+        loading="eager" fetchpriority="high"
+        width="{{ gallery.hero.width }}" height="{{ gallery.hero.height }}">
+      <figcaption class="page-hero__photo-cap">{{ gallery.hero.caption }}</figcaption>
+    </figure>
+  </div>
+</section>
+
+{# ==================== WHAT'S DIFFERENT HERE ==================== #}
+{#
+  Brief: "the one section that must not be templated." None of this is true of
+  Convoy or Mercury.
+#}
+<section class="sect pattern-section" aria-labelledby="diff-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">This room</span>
+      <h2 class="sect__title" id="diff-title">Built around <em>the counter.</em></h2>
+    </header>
+
+    <div class="diff">
+
+      <article class="cell diff__cell diff__cell--wide reveal">
+        <h3 class="diff__title">The <em>ramen bar.</em></h3>
+        <p class="diff__body">
+          Tajima opened this room in 2020 and built it around one long counter. The kitchen is open to it, so the pass is in front of you while you eat. Every bowl on the list comes out of it: tonkotsu, the Red, the Black and the White, spicy sesame, chicken, and the vegan bowl with our house-made spinach noodles. <a class="sect__link" href="/menu/">See the menu</a>.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Twenty-plus taps.</h3>
+        <p class="diff__body">
+          The biggest tap list of any Tajima room, mostly San Diego breweries, plus sake and shochu to take out.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">The manga wall.</h3>
+        <p class="diff__body">
+          The corridor is papered floor to ceiling with manga, black and white pages set between panels of maple.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Near San Diego State.</h3>
+        <p class="diff__body">
+          On El Cajon Boulevard in the College Area, a short way from campus. {{ loc.parking }}.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Two languages.</h3>
+        <p class="diff__body">
+          {{ loc.languages | join(" and ") }} spoken at this location.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{# ==================== THE ROOM ==================== #}
+{#
+  Section 1 of the template brief, "real photography of this location," placed
+  after the differentiator rather than inside the hero because the hero
+  already carries one frame. Component renders nothing if this location has no
+  curated photography.
+#}
+{%- if gallery %}
+  {%- set galleryTitle = "Maple, concrete, and <em>manga.</em>" %}
+  {%- set galleryNote = "Photographed before service. The counter seats the room, the taps run behind it, and the corridor to the back is papered in manga." %}
+  {% include "components/location-gallery.njk" %}
+{%- endif %}
+
+{# ==================== WHAT'S ON AT THIS ROOM ==================== #}
+{#
+  Section 4 of the template brief: this location's menu, from menu.json
+  filtered by its `locations` column, which was derived from the live Toast
+  catalog rather than assumed.
+
+  No photographs in this section. College Heights has no dish photography of
+  its own, and photos.json forbids borrowing Convoy's.
+#}
+<section class="sect" aria-labelledby="menu-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">From this kitchen</span>
+      <h2 class="sect__title" id="menu-title">What comes out of <em>College Heights.</em></h2>
+      <p class="sect__note">
+        The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with what is in each bowl.
+      </p>
+    </header>
+
+    <ul class="here-list">
+      {%- for dish in menu.items %}
+        {%- if dish.feature and locationId in dish.locations %}
+        <li class="here-list__item">
+          <span class="here-list__name">{{ dish.name }}</span>
+          {%- if dish.romaji %}<span class="here-list__romaji">{{ dish.romaji }}</span>{% endif %}
+        </li>
+        {%- endif %}
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+{# ==================== THE NOODLE ROOM LINE ==================== #}
+{#
+  Universal section 6. Scoped to what is confirmed: noodles are made in our own
+  room, broth is made every morning. No cadence claim on the noodles
+  (Open Decision #3) and no "every location" claim (#2).
+#}
+<section class="noodle-band" aria-labelledby="band-title">
+  <div class="noodle-band__inner">
+    <div>
+      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
+      <p class="noodle-band__body">
+        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
+      </p>
+    </div>
+    <a class="noodle-band__cta" href="/noodle-room/">
+      See the Noodle Room
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+{# ==================== ORDER, AND THE OTHER ROOMS ==================== #}
+{#
+  Section 7: this location's own Toast URL, from locations.json. Verified by
+  click-test 2026-08-05.
+
+  The brief gives this page NO nearest-neighbour link ("Nearest neighbour
+  link: none"), so the close routes to /locations/ instead of naming a room.
+  Linking all six from every location page is how six pages become one
+  undifferentiated blob to a crawler.
+
+  One primary CTA per viewport: the header's Order Online pill is the other
+  red on this page and it is a screen away by the time anyone reaches this.
+#}
+<section class="sect sect--alt sect--rule" aria-labelledby="order-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Takeout</span>
+      <h2 class="sect__title" id="order-title">Order from <em>this kitchen.</em></h2>
+      <p class="sect__note">
+        Straight through to the College Heights order page. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.
+      </p>
+    </header>
+    <a class="noodle-band__cta" href="{{ loc.orderUrl }}" rel="noopener">
+      Order from {{ loc.name }}
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>

@@ -25,6 +25,7 @@
 import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
+import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
 
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
@@ -136,30 +137,65 @@ const MENU_SECTIONS = [
   { id: "dessert", name: "Dessert" },
 ];
 
-const menuEntity = {
-  "@type": "Menu",
-  "@id": `${site.url}/menu/#menu`,
+// Builds a Menu entity over a subset of menu.items. `locationId` null means
+// the brand menu on /menu/; a location id filters to what that room actually
+// sells, using menu.json's `locations` column (derived 2026-08-04 from the
+// seven live Toast catalogs, not assumed).
+//
+// `featuredOnly` mirrors a location page's visible menu section, which renders
+// `dish.feature and locationId in dish.locations`. IT MUST STAY PAIRED WITH
+// THAT TEMPLATE CONDITION. /menu/ renders every dish, featured or not, so it
+// passes false.
+//
+// This is not a cosmetic filter. Without it the College Heights graph listed
+// Carnitas Ramen and Miso Ramen, neither of which the visible page shows,
+// which breaks SCHEMA.md rule 2 outright. Carnitas is worse than a rule-2
+// miss: Open Decision #4 resolved it as "listed plainly on /menu/ and nowhere
+// else," and DESIGN_SYSTEM.md still bans it site-wide. Schema is somewhere
+// else. It shipped into the JSON-LD on the first build of this page and was
+// caught by a banned-word scan of the built HTML, not by reading the template,
+// which is the only place it was visible.
+//
+// MenuItem @ids always point at /menu/#item-<id>, on every menu, because the
+// dish is one entity no matter how many rooms serve it. Only the Menu that
+// contains it is per-location.
+function buildMenu({ id, name, locationId = null, featuredOnly = false }) {
+  const items = menu.items.filter(
+    (item) =>
+      (!locationId || (item.locations || []).includes(locationId)) &&
+      (!featuredOnly || item.feature),
+  );
+
+  return {
+    "@type": "Menu",
+    "@id": id,
+    name,
+    inLanguage: "en-US",
+    hasMenuSection: MENU_SECTIONS.map((section) => ({
+      "@type": "MenuSection",
+      name: section.name,
+      hasMenuItem: items
+        .filter((item) => item.section === section.id)
+        .map((item) => {
+          const entry = {
+            "@type": "MenuItem",
+            "@id": `${site.url}/menu/#item-${item.id}`,
+            name: item.name,
+          };
+          if (item.description) entry.description = item.description;
+          if (item.dietary && item.dietary.includes("vegan")) {
+            entry.suitableForDiet = "https://schema.org/VeganDiet";
+          }
+          return entry;
+        }),
+    })).filter((section) => section.hasMenuItem.length > 0),
+  };
+}
+
+const menuEntity = buildMenu({
+  id: `${site.url}/menu/#menu`,
   name: `${site.name} menu`,
-  inLanguage: "en-US",
-  hasMenuSection: MENU_SECTIONS.map((section) => ({
-    "@type": "MenuSection",
-    name: section.name,
-    hasMenuItem: menu.items
-      .filter((item) => item.section === section.id)
-      .map((item) => {
-        const entry = {
-          "@type": "MenuItem",
-          "@id": `${site.url}/menu/#item-${item.id}`,
-          name: item.name,
-        };
-        if (item.description) entry.description = item.description;
-        if (item.dietary && item.dietary.includes("vegan")) {
-          entry.suitableForDiet = "https://schema.org/VeganDiet";
-        }
-        return entry;
-      }),
-  })),
-};
+});
 
 // Location page Restaurant entities. Built from locations.json so the page and
 // the schema carry the same NAP, which is the point of the citation cleanup.
@@ -169,7 +205,13 @@ const menuEntity = {
 // schema expression, so false is the accurate value.
 //
 // No openingHoursSpecification and no geo: still CONFIRM-blocked.
-function restaurant(id) {
+//
+// `menuId` points the room at its own Menu entity where one exists. A stub
+// still points at the brand menu, which is the honest floor while its page
+// has no menu section to mirror. A full page that renders its own filtered
+// menu must carry its own Menu @id, or the schema would claim the room serves
+// dishes its visible page does not list (SCHEMA.md rule 2).
+function restaurant(id, menuId = `${site.url}/menu/#menu`) {
   const loc = locations.items.find((item) => item.id === id);
   const entity = {
     "@type": "Restaurant",
@@ -180,7 +222,7 @@ function restaurant(id) {
     servesCuisine: ["Japanese", "Ramen"],
     priceRange: "$$",
     acceptsReservations: false,
-    hasMenu: { "@id": `${site.url}/menu/#menu` },
+    hasMenu: { "@id": menuId },
     address: {
       "@type": "PostalAddress",
       streetAddress: loc.address.street,
@@ -199,9 +241,14 @@ function restaurant(id) {
 // paginates and so cannot select a graph by a static pageKey. The Restaurant
 // entity is the same shape the full location pages use, so replacing a stub
 // with a real page does not change its structured data.
+//
+// The exclusion list is imported from locationStubs.js, not written again
+// here. A location that graduates to a full page must drop out of BOTH, and
+// two hand-maintained lists would eventually disagree, leaving a room with
+// two competing JSON-LD graphs at the same @id.
 const locationPages = Object.fromEntries(
   locations.items
-    .filter((loc) => loc.id !== "convoy")
+    .filter((loc) => !HAS_FULL_PAGE.includes(loc.id))
     .map((loc) => [
       loc.id,
       {
@@ -305,6 +352,43 @@ export default {
         ]),
       },
       restaurant("convoy"),
+    ],
+  },
+
+  // /tajima-college-heights/. The brief requires its own Menu entity rather
+  // than a pointer at /menu/#menu, "because pointing it at /menu/#menu would
+  // advertise dishes it does not sell."
+  //
+  // Worth knowing that today the filtered set is identical to the brand menu:
+  // all thirteen modelled dishes are on the live College Heights catalog. The
+  // difference is real but sits in dishes menu.json does not model yet, such
+  // as Convoy's Curry Ramen. The mechanism is what matters, not today's
+  // output: when menu.json grows to model those, this entity drops them here
+  // automatically and the page and its schema stay in agreement.
+  collegeHeights: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${site.url}/tajima-college-heights/#webpage`,
+        url: `${site.url}/tajima-college-heights/`,
+        name: "Tajima Ramen College Heights",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": `${site.url}/tajima-college-heights/#restaurant` },
+        breadcrumb: breadcrumb([
+          { name: "Locations", url: "/locations/" },
+          { name: "College Heights", url: "/tajima-college-heights/" },
+        ]),
+      },
+      restaurant("college-heights", `${site.url}/tajima-college-heights/#menu`),
+      buildMenu({
+        id: `${site.url}/tajima-college-heights/#menu`,
+        name: "Tajima Ramen College Heights menu",
+        locationId: "college-heights",
+        // Paired with the page's `dish.feature and locationId in
+        // dish.locations` loop. Change one and you must change the other.
+        featuredOnly: true,
+      }),
     ],
   },
   locations: {

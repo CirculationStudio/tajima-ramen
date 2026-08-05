@@ -11,6 +11,7 @@
      bodyClass        optional, page-level hook class on <body>
      schema           optional, a JSON-LD object rendered into the head
      noindex          optional, true to suppress indexing
+     heroImage        optional, path to the LCP image, emits a preload
 
    Night mode is permanent: data-mode comes from site.json and there is no
    toggle. See DESIGN_SYSTEM.md.
@@ -43,6 +44,20 @@
     rel="stylesheet">
 
   <link rel="manifest" href="/site.webmanifest">
+
+  {#
+    LCP preload. CLAUDE.md Performance Standards: a hero image gets
+    loading="eager", fetchpriority="high" AND a preload. The first two live on
+    the <img>; only this one needs the document head, which is why it is a
+    front-matter field rather than something a page can do for itself.
+
+    Set `heroImage` only on the one image that is actually the LCP element.
+    Preloading anything below the fold competes with the real LCP for
+    bandwidth and makes the metric worse, not better.
+  #}
+  {%- if heroImage %}
+  <link rel="preload" as="image" href="{{ heroImage }}" fetchpriority="high">
+  {%- endif %}
 
   {# Vite resolves this module entry and the stylesheet it imports, then
      rewrites both to hashed assets. See eleventy.config.js. #}

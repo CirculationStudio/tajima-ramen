@@ -6,10 +6,12 @@
 // silently, and the stub template then also generates /tajima-convoy/, which
 // collides with the real page.
 //
-// Removing an id from this list is how a location graduates: write its full
-// page at src/[slug].njk, drop it here, done.
+// The list of graduated locations lives in src/_lib/fullPageLocations.js, not
+// here, because schema.js needs the same answer and two hand-maintained lists
+// would drift. It is NOT re-exported from this file: a _data module's named
+// exports change what Eleventy hands the paginator, which breaks the build.
+// See the note in that file.
 import locations from "./locations.json" with { type: "json" };
-
-const HAS_FULL_PAGE = ["convoy"];
+import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
 
 export default locations.items.filter((loc) => !HAS_FULL_PAGE.includes(loc.id));
