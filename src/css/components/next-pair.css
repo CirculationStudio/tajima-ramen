@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Component: next-pair
+
+   Two equal cards pointing at the two destinations a page most wants to hand
+   the reader on to. Built for /menu/ (happy hour and the Noodle Room) on
+   2026-08-05. Not ported from a concept; the concepts had no such block.
+
+   THE RED RULE, AND WHY THERE IS NO RED PANEL HERE.
+
+   A solid red background on either card was proposed and rejected against
+   DESIGN_SYSTEM.md, which is unambiguous: red is "a flame inside the kitchen,
+   not a billboard on the freeway," an accent, "never a background field."
+
+   It would also have broken a second rule. DESIGN_SYSTEM.md allows one
+   primary CTA per visible viewport, and the site header already spends that
+   on the Order Online pill. Two filled red panels would have put a third and
+   fourth red in the same screen, all competing.
+
+   What red does instead, all three of them accents:
+     1. a 3px rule along the top edge of each card
+     2. the eyebrow label
+     3. the button outline, which fills red only on hover and focus
+
+   The top rule is the same device .sect__eyebrow already uses with its ::before
+   hairline, scaled up to the width of the card. No new pattern is introduced.
+
+   THE TWO CARDS ARE DELIBERATELY EQUAL. Neither is styled as the winner.
+   Which one a reader wants depends on why they came to the menu, and the
+   design should not answer that for them.
+   ========================================================================== */
+
+.next-pair {
+  padding: var(--space-11) var(--layout-gutter);
+  border-top: 1px solid var(--color-rule);
+  background: var(--color-canvas);
+}
+
+.next-pair__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+.next-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+  /* Accent 1 of 3. The only place red touches the card's own surface. */
+  border-top: 3px solid var(--color-red);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.next-card:hover {
+  border-color: var(--color-rule-strong);
+  border-top-color: var(--color-red);
+}
+
+/* Accent 2 of 3. No ::before hairline here, unlike .sect__eyebrow: the card's
+   own top rule is already doing that job, and two rules would be noise. */
+.next-card__eyebrow {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.next-card__title {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+
+.next-card__title em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+[data-mode="night"] .next-card__title em {
+  text-shadow: var(--glow-text);
+}
+
+.next-card__body {
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-2);
+  max-width: 34rem;
+}
+
+/* Accent 3 of 3. Outlined at rest, filled on hover and focus. An outlined
+   button is not a primary CTA, so neither of these competes with the header's
+   Order Online pill. `margin-top: auto` keeps both buttons on the same
+   baseline when the two bodies run to different lengths. */
+.next-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--color-red);
+  color: var(--color-red);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.next-card__cta:hover,
+.next-card__cta:focus-visible {
+  background: var(--color-red);
+  /* System cream, not --color-ink: this is chrome sitting inside a colored
+     pill, and DESIGN_SYSTEM.md says its color is set by its function rather
+     than by the theme around it. This is the invisible-pill rule. */
+  color: var(--color-system-cream);
+}
+
+@media (max-width: 48rem) {
+  .next-pair__inner {
+    grid-template-columns: 1fr;
+  }
+  .next-card__cta {
+    margin-top: var(--space-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .next-card,
+  .next-card__cta {
+    transition: none;
+  }
+}

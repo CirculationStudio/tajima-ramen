@@ -36,6 +36,7 @@
 @import "./components/curtain-stage.css";
 @import "./components/story.css";
 @import "./components/monolith.css";
+@import "./components/next-pair.css";
 
 /* Page styles, added per template as pages are built. */
 @import "./pages/interior.css";

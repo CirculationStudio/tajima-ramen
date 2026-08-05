@@ -289,3 +289,69 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
 
   </div>
 </section>
+
+{# ==================== NEXT: HAPPY HOUR + THE NOODLE ROOM ==================== #}
+{#
+  Added 2026-08-05. /menu/ was underlinked to both: /happy-hour/ appeared
+  nowhere and /noodle-room/ only as an inline mention in the ramen section
+  note. Both are destinations a reader of the menu plausibly wants next, and
+  the Noodle Room is the P0 growth priority.
+
+  ON THE RED. A solid red panel behind either column was considered and
+  rejected. DESIGN_SYSTEM.md: red is "a flame inside the kitchen, not a
+  billboard on the freeway," an accent and never a full field. It would also
+  break the one-primary-CTA-per-viewport rule, because the header already
+  spends that on the Order Online pill, so two filled red panels would put a
+  third and fourth red in the same screen.
+
+  What red does here instead: a 3px rule along the top edge of each card, the
+  section eyebrow, and a button outline that fills only on hover and focus.
+  Structure and accent, never a field. The top rule is the same device
+  .sect__eyebrow already uses at small scale, so this introduces no new
+  pattern.
+
+  The two columns are deliberately equal. Neither is styled as the winner:
+  which one a reader wants depends on why they came to the menu.
+
+  COPY IS SCOPED TO WHAT IS CONFIRMED. No happy hour times or prices: none are
+  in CLIENT_FACTS.md and happyHour.json had its concept values pulled on
+  2026-08-03 precisely because a published window is the same class of promise
+  as a published opening hour. Padres beer specials are East Village only and
+  are named as such. No price is attached to them: SITE_ARCHITECTURE.md's
+  East Village brief carries "$3.50" but happyHour.json pulled that figure as
+  unverified, so the two disagree and the number stays off.
+#}
+<section class="next-pair" aria-labelledby="next-title">
+  <div class="next-pair__inner">
+    <h2 class="u-visually-hidden" id="next-title">Where to go next</h2>
+
+    <article class="next-card">
+      <span class="next-card__eyebrow">Happy hour</span>
+      <h3 class="next-card__title">Happy hour runs <em>by room.</em></h3>
+      <p class="next-card__body">
+        Each room sets its own window, and Plaza Bonita has no bar at all. East Village runs beer specials on Padres home game nights.
+      </p>
+      <a class="next-card__cta" href="/happy-hour/">
+        See happy hour
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </article>
+
+    <article class="next-card">
+      <span class="next-card__eyebrow">The Noodle Room</span>
+      <h3 class="next-card__title">Where the bowl <em>begins.</em></h3>
+      <p class="next-card__body">
+        Two years to build the room, and a machine that came over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl.
+      </p>
+      <a class="next-card__cta" href="/noodle-room/">
+        Step inside
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </article>
+
+  </div>
+</section>
