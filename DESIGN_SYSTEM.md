@@ -70,17 +70,31 @@ These exist because anything overlaying a photograph or sitting inside a colored
 ### Convoy Red night surface ramp
 
 ```css
-/* PASTE FROM the tajima-home concept :root, do not retype from memory */
---color-canvas: ;        /* base page, near-black warm, approx #0D0D0A family */
---color-surface: ;       /* raised cards and bento cells */
---color-surface-2: ;     /* nested / inset surfaces */
---color-ink: ;           /* primary type on canvas */
---color-ink-muted: ;     /* secondary type, meta, captions */
---color-hairline: ;      /* 1px rules, cell borders */
---color-focus: ;         /* focus ring, derived from --color-red */
+/* The live ramp. Operative source: src/css/base/theme.css, which is committed.
+   Reproduced here for reading, not for pasting: if these two ever disagree,
+   theme.css is right and this block is stale. */
+--color-canvas:      #0a0a07;                      /* base page, warm near-black */
+--color-canvas-2:    #111110;                      /* raised cards and bento cells */
+--color-canvas-3:    #1a1a17;                      /* nested / inset surfaces */
+--color-surface:     #1a1a17;
+--color-surface-2:   #252522;
+--color-ink:         #fffef4;                      /* primary type on canvas */
+--color-ink-2:       rgba(255, 254, 244, 0.78);    /* secondary type */
+--color-ink-3:       rgba(255, 254, 244, 0.55);    /* meta, captions */
+--color-ink-4:       rgba(255, 254, 244, 0.32);    /* faintest, labels */
+--color-rule:        rgba(255, 254, 244, 0.10);    /* 1px rules, cell borders */
+--color-rule-strong: rgba(255, 254, 244, 0.22);
 ```
 
-> **Open item, blocking.** The seven values above are the tuned ramp and live only in the approved `tajima-home.html`. Marco or Steve: open the file, copy the `:root` block, and replace this stub. Everything else in this document is confirmed.
+> ### Resolved 2026-08-05. This was a stale blocker, and it named a file that no longer exists.
+>
+> This block previously held **seven empty stubs** and an open item reading *"the tuned ramp ... live only in the approved `tajima-home.html`. Marco or Steve: open the file, copy the `:root` block, and replace this stub."*
+>
+> **It was already done.** `src/css/base/theme.css` says so in its own header: *"Values below are PASTED from that file's `:root` and theme blocks, not retyped from memory. This closes DESIGN_SYSTEM.md Open Items #1 and #3."* The build has shipped these values the whole time; only this document lagged.
+>
+> That lag became a live hazard on 2026-08-05, when `inspo/` was deleted: the instruction pointed at a file that is gone and is not on the CDN either (see the hosting correction above). Anyone following it would have hit a dead end on a blocker that was not actually blocking.
+>
+> **Same failure shape as the Convoy "Suite A" and Carnitas corrections:** a priority document left asserting something the build had already moved past. `theme.css` is the operative source for these values now. There is nothing left to paste.
 
 ### Rules
 
