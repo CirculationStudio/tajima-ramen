@@ -32,6 +32,58 @@ const OUT = path.join(ROOT, "src/_data/photos.json");
 const menu = JSON.parse(fs.readFileSync(path.join(ROOT, "src/_data/menu.json"), "utf8"));
 
 // ---------------------------------------------------------------------------
+// PRESERVE WHAT THE SCRIPT CANNOT PRODUCE.
+//
+// This file used to write `alt: "[DRAFT, NEEDS REVIEW] "` unconditionally for
+// every photograph on every run, which silently destroyed every hand-written
+// alt string in photos.json. That directly contradicted the manifest's own
+// _note ("Alt text IS hand-edited and is the one field the script cannot
+// produce") and would have wiped 21 reviewed descriptions on the next
+// regenerate. Fixed 2026-08-05.
+//
+// The rule now: the script owns everything it can derive from the filename.
+// A human owns alt text and the hand-authored fields listed below. A
+// regenerate updates the former and never touches the latter.
+//
+// HAND_FIELDS are additive. The script never generates any of them, so
+// carrying them forward cannot conflict with a script improvement. They exist
+// because some photographs need a ruling a filename cannot express, such as
+// the commissary set whose location is deliberately unconfirmed.
+//
+// proposedUse is different: the script DOES generate it, so preserving it
+// wholesale would freeze out future improvements. It is carried forward only
+// when an entry sets `proposedUseLocked: true`, which is an explicit,
+// auditable opt-out for entries where the derived value is actively wrong.
+// The commissary photographs are the case in point: they classify as
+// `process` with a null location, which makes the script propose
+// /noodle-room/, and that page names Crown Point in its own hero.
+//
+// Run `npm run test:photos` to prove a regenerate is non-destructive.
+// ---------------------------------------------------------------------------
+const HAND_FIELDS = [
+  "locationStatus",
+  "duplicateGroup",
+  "duplicateNote",
+  "proposedUseNote",
+  "proposedUseLocked",
+];
+
+const DRAFT_ALT = "[DRAFT, NEEDS REVIEW] ";
+
+let existingPhotos = {};
+try {
+  existingPhotos = JSON.parse(fs.readFileSync(OUT, "utf8")).photos || {};
+} catch {
+  // First run, or the file was deleted on purpose. Nothing to preserve.
+}
+
+// Real alt text is anything a human actually wrote: present, non-empty, and
+// not the placeholder (with or without trailing text after it).
+function hasRealAlt(value) {
+  return typeof value === "string" && value.trim() !== "" && !value.trim().startsWith("[DRAFT");
+}
+
+// ---------------------------------------------------------------------------
 // Location tokens. LITERAL SUBSTRING MATCHES ONLY. No fuzzy matching, no
 // stemming, no partial credit. Confirmed by Steve on build night.
 // ---------------------------------------------------------------------------
@@ -265,7 +317,13 @@ function proposedUse(location, dish, type) {
   // only if the filename says crown-point or names no location at all. Maui is
   // excluded here AND by MAUI_PROCESS_FLAGGED below: whether its process
   // matches Crown Point is unconfirmed (Open Decision #1).
-  if (type === "process" && (location === null || location === "crown-point")) {
+  // Crown Point only, and NOT null. A null-location process photograph must not
+  // be proposed for /noodle-room/: that page names Crown Point in its own hero
+  // subtitle and again in its meta list, so a photograph placed there inherits
+  // a location claim from the page around it even when its own caption makes
+  // none. Same adjacency problem that pulled the Crown Point dining room off
+  // /about/. An unlocated process photo needs a human decision, not a default.
+  if (type === "process" && location === "crown-point") {
     uses.push("/noodle-room/");
   }
   return [...new Set(uses)];
@@ -327,6 +385,7 @@ for (const file of files) {
   // `dish` populated would let a later step treat a Kihei plate as the San
   // Diego menu item of the same name.
   const isMaui = location === "maui";
+  const prior = existingPhotos[file] || {};
   const entry = {
     file,
     src: `/images/photo/${file}`,
@@ -346,8 +405,24 @@ for (const file of files) {
     // is still placeable (its location is known) but nobody can write honest
     // alt text for it without opening it.
     needsEyes: type === null || undefined,
-    alt: "[DRAFT, NEEDS REVIEW] ",
+    // Never clobbers a reviewed description. See PRESERVE block at the top.
+    alt: hasRealAlt(prior.alt) ? prior.alt : DRAFT_ALT,
   };
+
+  // A recognised subject with no location token is brand-level with an
+  // unconfirmed location. Marked so it can never be mistaken for a photo whose
+  // location merely went unrecorded.
+  if (!location && type) {
+    entry.locationStatus = "UNCONFIRMED-LOCATION";
+  }
+
+  // Carry forward the hand-authored fields the script cannot derive.
+  for (const key of HAND_FIELDS) {
+    if (prior[key] !== undefined) entry[key] = prior[key];
+  }
+  if (prior.proposedUseLocked === true && Array.isArray(prior.proposedUse)) {
+    entry.proposedUse = prior.proposedUse;
+  }
 
   if (denied) {
     unmapped.push({ file, reason: denied[1] });
@@ -383,10 +458,19 @@ for (const file of files) {
     });
     continue;
   }
-  if (!location && !dish) {
+  // A photograph with a recognised TYPE is classified even when it has no
+  // location and no dish. The filename said what it shows; it just did not say
+  // where. That is a brand-level asset with an unconfirmed location, which is a
+  // real state, not an unknown one. Only a file whose filename says nothing the
+  // script recognises at all goes to UNMAPPED for a human.
+  //
+  // Added 2026-08-05 for the commissary set. Before this, those five went to
+  // UNMAPPED on every regenerate, which meant their hand-authored entries
+  // disappeared out of `photos` entirely. Caught by npm run test:photos.
+  if (!location && !dish && !type) {
     unmapped.push({
       file,
-      reason: "No recognised location token and no dish match. Could be an unknown abbreviation; expansions are never invented. Needs a human ruling on what this shows.",
+      reason: "No recognised location token, no dish match, and no recognised subject. Could be an unknown abbreviation; expansions are never invented. Needs a human ruling on what this shows.",
     });
     continue;
   }
@@ -395,7 +479,7 @@ for (const file of files) {
 }
 
 const output = {
-  _note: "Generated by scripts/build-photo-manifest.js. Do not hand-edit the mapping; fix the filename or the script's token list and regenerate. Alt text IS hand-edited and is the one field the script cannot produce.",
+  _note: "Generated by scripts/build-photo-manifest.js. Do not hand-edit the mapping; fix the filename or the script's token list and regenerate. Alt text IS hand-edited, and as of 2026-08-05 a regenerate PRESERVES it rather than overwriting it: the script only writes the [DRAFT, NEEDS REVIEW] placeholder for entries that do not already have real alt. The same applies to locationStatus, duplicateGroup, duplicateNote, proposedUseNote and proposedUseLocked, and to proposedUse itself where proposedUseLocked is true. Run `npm run test:photos` to prove a regenerate is non-destructive.",
   _rule: "The filename is the source of truth for what a photo shows. The directory a file arrived in is never read. A photo reaches a location page only if its filename names that location.",
   _generated: files.length,
   _mapped: Object.keys(manifest).length,
