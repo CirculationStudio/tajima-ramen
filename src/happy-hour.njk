@@ -50,79 +50,91 @@ description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and h
   </div>
 </section>
 
-<nav class="hh-jumps" aria-label="Jump to a location">
-  {%- for hh in happyHour.locations %}
-  <a class="hh-jumps__btn" href="#hh-{{ hh.id }}">{{ hh.name }}</a>
-  {%- endfor %}
-</nav>
+{#
+  ============ SELECTOR REMOVED, CARDS REPLACED WITH A FACTS LIST ============
+  2026-08-05.
 
-<section class="hh-grid" aria-label="Happy hour by location">
-  <div class="hh-grid__inner">
-    {%- for hh in happyHour.locations %}
-    {%- set loc = (locations.items | where("id", hh.id)) | first %}
-    <article class="hh-card" id="hh-{{ hh.id }}">
-      <h2 class="hh-card__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h2>
+  This was a six-pill jump nav over a three-column card grid. Five of the six
+  rooms have no confirmed happy hour data, so the selector's entire function
+  was to scroll you to a card reading "Times are being confirmed." A filter
+  over mostly-empty data adds interface without adding information.
 
-      {%- if hh.noAlcohol %}
-      {#
-        Brief section 4: "Plaza Bonita: no alcohol. Say it plainly."
-        This is confirmed, so it is stated outright rather than left as a gap
-        for someone to drive to National City and discover.
-      #}
-      <p class="hh-card__no-alcohol">
-        Plaza Bonita is quick-serve inside the mall and does not serve alcohol, so there is no happy hour here. The bowls are the same bowls.
+  What replaces it states each room's status directly, in one pass, in the
+  order the rooms appear everywhere else on the site. No pills, no anchors,
+  nothing to operate.
+
+  THE CONDITIONAL IS UNCHANGED AND DELIBERATE. Each row still branches three
+  ways: no alcohol, confirmed windows, or pending. The windows / drinks / food
+  markup is intact, so the moment Amanda sends real values into
+  _data/happyHour.json those rooms render their times here with no template
+  change. This is a presentation change, not a capability removal.
+#}
+<section class="sect" aria-labelledby="confirmed-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Room by room</span>
+      <h2 class="sect__title" id="confirmed-title">What we can <em>confirm.</em></h2>
+      <p class="sect__note">
+        Two things are settled and the rest are being checked. Where a time is not up here yet, the room's number is, and they will tell you what is running today.
       </p>
+    </header>
 
-      {%- elif hh.windows | length %}
-      {# Renders only when _data/happyHour.json holds confirmed values. #}
-      <div class="hh-card__hours">
-        {%- for window in hh.windows %}
-        <div class="hh-card__hours-row">
-          <span>{{ window.time }}</span>
-          <span class="hh-card__hours-days">{{ window.days }}</span>
+    <ul class="hh-facts">
+      {%- for hh in happyHour.locations %}
+      {%- set loc = (locations.items | where("id", hh.id)) | first %}
+      <li class="hh-facts__row">
+        <div class="hh-facts__who">
+          <h3 class="hh-facts__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h3>
+          <span class="hh-facts__tag">{{ hh.tag }}</span>
         </div>
-        {%- endfor %}
-      </div>
 
-      <div class="hh-card__lists">
-        {%- if hh.drinks | length %}
-        <div>
-          <p class="hh-card__list-label">Drinks</p>
-          <ul class="hh-card__list">
-            {%- for item in hh.drinks %}
-            <li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>
+        <div class="hh-facts__state">
+          {%- if hh.noAlcohol %}
+          {#
+            Confirmed in CLIENT_FACTS.md. Stated outright rather than left as a
+            gap for someone to drive to National City and discover.
+          #}
+          <p class="hh-facts__no">No happy hour here. Quick-serve inside the mall, and no alcohol. The bowls are the same bowls.</p>
+
+          {%- elif hh.windows | length %}
+          {# Renders only when happyHour.json holds confirmed values. #}
+          <div class="hh-facts__hours">
+            {%- for window in hh.windows %}
+            <div class="hh-facts__hours-row">
+              <span>{{ window.time }}</span>
+              <span class="hh-facts__days">{{ window.days }}</span>
+            </div>
             {%- endfor %}
-          </ul>
-        </div>
-        {%- endif %}
-        {%- if hh.food | length %}
-        <div>
-          <p class="hh-card__list-label">Food</p>
-          <ul class="hh-card__list">
-            {%- for item in hh.food %}
-            <li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>
-            {%- endfor %}
-          </ul>
-        </div>
-        {%- endif %}
-      </div>
+          </div>
+          {%- if hh.drinks | length or hh.food | length %}
+          <div class="hh-facts__lists">
+            {%- if hh.drinks | length %}
+            <div>
+              <p class="hh-facts__list-label">Drinks</p>
+              <ul class="hh-facts__list">
+                {%- for item in hh.drinks %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
+              </ul>
+            </div>
+            {%- endif %}
+            {%- if hh.food | length %}
+            <div>
+              <p class="hh-facts__list-label">Food</p>
+              <ul class="hh-facts__list">
+                {%- for item in hh.food %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
+              </ul>
+            </div>
+            {%- endif %}
+          </div>
+          {%- endif %}
 
-      {%- else %}
-      {#
-        No confirmed times for this room. The card still does the useful half
-        of its job: it names the room, routes to it, and hands over a phone
-        number that IS confirmed. It does not hold space for a value we do not
-        have, and it does not promise one is coming on a date nobody set.
-      #}
-      <p class="hh-card__pending">
-        Times are being confirmed. Call the room and they will tell you what is running today.
-      </p>
-      <a class="hh-card__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
-      {%- endif %}
-
-      <span class="hh-card__tag">{{ hh.tag }}</span>
-    </article>
-    {%- endfor %}
+          {%- else %}
+          <p class="hh-facts__pending">Times are being confirmed.</p>
+          <a class="hh-facts__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 

@@ -47,33 +47,9 @@
 /* ═══════════════════════════════════════════════════════════════════
    QUICK-JUMP PILLS · scroll to card, highlight, never hide content
 ═══════════════════════════════════════════════════════════════════ */
-.hh-jumps{
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-6);
-}
-.hh-jumps__btn{
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  border: var(--stroke-hair) solid var(--color-rule-strong);
-  background: transparent;
-  color: var(--color-ink-2);
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: background var(--duration-fast) var(--ease-smooth), color var(--duration-fast) var(--ease-smooth), border-color var(--duration-fast) var(--ease-smooth);
-}
-.hh-jumps__btn:hover,
-.hh-jumps__btn:focus-visible{
-  border-color: var(--color-red);
-  color: var(--color-ink);
-}
+/* .hh-jumps (six pill jump-links) REMOVED 2026-08-05 with the card grid it
+   navigated. Five of six rooms had no confirmed data, so the selector existed
+   to scroll people to "Times are being confirmed." See happy-hour.njk. */
 
 /* ═══════════════════════════════════════════════════════════════════
    HAPPY HOUR CARD GRID
@@ -242,21 +218,62 @@
   white-space: nowrap;
 }
 
-.loc-close__links{
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  line-height: var(--leading-relaxed);
-  color: var(--color-ink-3);
+/* --------------------------------------------------------------------------
+   CLOSING SECTION ("Pick a room.")
+
+   FIXED 2026-08-05, and it was broken on three pages, not one.
+
+   This block previously defined only `.loc-close__links`, which NO template
+   uses. The templates use `.loc-close`, `.loc-close__inner`, `.loc-close__title`
+   and `.loc-close__sub`, and not one of those four had a single rule anywhere
+   in the stylesheet. The section therefore rendered with no gutter, no
+   max-width, no centring and no type styling: flush to the viewport edge on
+   /happy-hour/, /order-online/ and /menu/vegan-ramen/.
+
+   Cause was a BEM rename in the templates (`__links` became `__sub`) that
+   never reached the CSS. Nothing errors when this happens: the build is green,
+   the markup is valid, and the only symptom is a section that looks wrong.
+   Same silent-drift family as SITE_ARCHITECTURE.md Open Decisions #18 and #19,
+   and now logged as its own standing check.
+
+   Matches the .sect shell it sits beside so the page reads as one system.
+   -------------------------------------------------------------------------- */
+.loc-close{
+  padding: var(--space-10) var(--layout-gutter);
+  border-top: 1px solid var(--color-rule);
+  background: var(--color-canvas);
 }
-.loc-close__links a{
+.loc-close__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.loc-close__title{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+.loc-close__title em{ font-style: normal; color: var(--color-red); }
+.loc-close__sub{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
   color: var(--color-ink-2);
-  font-family: var(--font-body);
-  font-weight: var(--weight-regular);
-  text-transform: none;
-  letter-spacing: normal;
-  font-size: var(--text-small);
+  max-width: 44rem;
 }
-.loc-close__links a:hover{ color: var(--color-red); }
+.loc-close__sub a{
+  color: var(--color-red);
+  border-bottom: 1px solid var(--color-red-line);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+.loc-close__sub a:hover,
+.loc-close__sub a:focus-visible{ border-color: var(--color-red); }
 
 /* --------------------------------------------------------------------------
    Pending state.
@@ -291,4 +308,110 @@
 .hh-card__phone:hover,
 .hh-card__phone:focus-visible {
   border-color: var(--color-red);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   FACTS LIST · replaces the selector + card grid, 2026-08-05
+
+   A stacked list rather than a grid of cards. Each row states one room's
+   status in one line, so the whole picture reads in a single pass without
+   anything to operate. Rows stay legible when most of them say the same
+   thing, which is the state we are actually in.
+═══════════════════════════════════════════════════════════════════ */
+.hh-facts{
+  border-top: 1px solid var(--color-rule);
+}
+.hh-facts__row{
+  display: grid;
+  grid-template-columns: minmax(12rem, 18rem) 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.hh-facts__name{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  color: var(--color-ink);
+}
+.hh-facts__name a{ transition: color var(--duration-fast) var(--ease-smooth); }
+.hh-facts__name a:hover,
+.hh-facts__name a:focus-visible{ color: var(--color-red); }
+.hh-facts__tag{
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-4);
+}
+.hh-facts__no,
+.hh-facts__pending{
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-2);
+  max-width: 42rem;
+}
+/* The phone is the useful half of a pending row: it is a value we actually
+   have, so it is a real target rather than a greyed placeholder. */
+.hh-facts__phone{
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-red);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+.hh-facts__phone:hover,
+.hh-facts__phone:focus-visible{ color: var(--color-red-deep); }
+
+/* Confirmed-window styling. Nothing renders through this today; it exists so
+   real values from happyHour.json land correctly the day they arrive. */
+.hh-facts__hours-row{
+  display: flex;
+  gap: var(--space-4);
+  align-items: baseline;
+  font-family: var(--font-ui);
+  font-size: var(--text-meta);
+  color: var(--color-ink);
+}
+.hh-facts__days{
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-4);
+}
+.hh-facts__lists{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-7);
+  margin-top: var(--space-4);
+}
+.hh-facts__list-label{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-4);
+  margin-bottom: var(--space-2);
+}
+.hh-facts__list li{
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-5);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+  padding: var(--space-1) 0;
+}
+
+@media (max-width: 48rem){
+  .hh-facts__row{ grid-template-columns: 1fr; gap: var(--space-3); }
 }
