@@ -66,7 +66,7 @@
       "proposedUse": [
         "/tajima-mercury/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "A red lacquer bowl of miso soup with sliced scallion and a strip of wakame, on a wooden table."
     },
     "shishito-peppers-large-ev-only.webp": {
       "file": "shishito-peppers-large-ev-only.webp",
@@ -82,7 +82,7 @@
         "/tajima-east-village/"
       ],
       "needsEyes": true,
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Blistered shishito peppers in a square white bowl, glossed with sauce, on a wooden table."
     },
     "shrimp-tempura-large-mercury-only.webp": {
       "file": "shrimp-tempura-large-mercury-only.webp",
@@ -98,7 +98,7 @@
         "/tajima-mercury/"
       ],
       "needsEyes": true,
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Shrimp tempura on a white plate, with a dish of dipping sauce, grated daikon and a lemon wedge."
     },
     "tajima-appetizer-chicken-katsu-01.webp": {
       "file": "tajima-appetizer-chicken-katsu-01.webp",
@@ -2773,5 +2773,6 @@
       "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
     }
   ],
-  "_altStatus": "Alt text is hand-written per photo and is the one field the generator cannot produce, so a regenerate must not clobber it. Reviewed alt exists ONLY for photos actually placed on a page; everything else still reads [DRAFT, NEEDS REVIEW] and is not placed. src/_data/roomPhotos.js throws at build time if it is asked for a photo whose alt is still draft, so a photo cannot reach a page without one."
+  "_altStatus": "Alt text is hand-written per photo and is the one field the generator cannot produce, so a regenerate must not clobber it. Reviewed alt exists ONLY for photos actually placed on a page; everything else still reads [DRAFT, NEEDS REVIEW] and is not placed. src/_data/roomPhotos.js throws at build time if it is asked for a photo whose alt is still draft, so a photo cannot reach a page without one.",
+  "_vegetableTempuraFlag": "DO NOT PLACE vegetable-tempura-large-mercury-only.webp. The filename says vegetable tempura; the photograph plainly contains shrimp alongside the broccoli and green beans. Captioning it as a vegetable dish would publish a dietary claim that the image itself contradicts, and CLAUDE.md says allergen and dietary information comes from verified client data only. Held back 2026-08-05 pending a ruling on what the dish actually is. The other two Mercury photographs were checked the same way and are fine."
 }

@@ -87,6 +87,47 @@ const CURATED = {
   // page of a brand whose Convoy citation audit already scored 25/100. It may
   // well be the neighbouring unit's number. Nobody has checked, so it waits.
   // The neon detail frame carries the exterior instead and shows no number.
+  // Mercury and East Village have no room photography worth placing, but they
+  // do have food of their own. `dishes` is a separate set from `gallery` so a
+  // location can have either, both, or neither.
+  //
+  // These are the only two locations where this applies. Convoy has 60 food
+  // photographs and already shows them in its own gallery; Maui has 54 and is
+  // held for a separate pass because it is a different market with its own
+  // menu; College Heights, Crown Point and Plaza Bonita have no dish
+  // photography at all.
+  //
+  // EXCLUDED, and not for composition:
+  // vegetable-tempura-large-mercury-only.webp is Mercury's third food frame
+  // and it is held back. The filename says vegetable tempura; the photograph
+  // plainly contains shrimp among the broccoli and green beans. Captioning it
+  // as a vegetable dish would publish a dietary claim the image itself
+  // contradicts, and CLAUDE.md says allergen and dietary information comes
+  // from verified client data only. Needs a ruling on what the dish is.
+  mercury: {
+    dishes: [
+      {
+        file: "shrimp-tempura-large-mercury-only.webp",
+        caption: "Shrimp tempura",
+        wide: true,
+      },
+      {
+        file: "miso-soup-large-mercury-only.webp",
+        caption: "Miso soup",
+      },
+    ],
+  },
+
+  "east-village": {
+    dishes: [
+      {
+        file: "shishito-peppers-large-ev-only.webp",
+        caption: "Shishito peppers",
+        wide: true,
+      },
+    ],
+  },
+
   "crown-point": {
     gallery: [
       {
@@ -196,7 +237,8 @@ export default {
       id,
       {
         hero: set.hero ? lookup(set.hero) : null,
-        gallery: set.gallery.map(lookup),
+        gallery: set.gallery ? set.gallery.map(lookup) : null,
+        dishes: set.dishes ? set.dishes.map(lookup) : null,
       },
     ]),
   ),

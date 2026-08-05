@@ -28,20 +28,25 @@
    fold on a location page and lazy-loading it costs LCP directly.
    =========================================================================== #}
 
-<section class="sect sect--alt sect--rule" aria-labelledby="room-title">
+{#- galleryId keeps the heading id unique when a page renders this component
+    more than once. A location page shows rooms AND dishes as two separate
+    calls, and two sections both claiming id="room-title" would make
+    aria-labelledby resolve to whichever the parser saw first. -#}
+{%- set gId = galleryId | default("room-title") %}
+<section class="sect sect--alt sect--rule" aria-labelledby="{{ gId }}">
   <div class="sect__inner">
     <header class="sect__head">
       {#- Defaults to "The room" for a single location. Overridable for a
           caller showing more than one, where the singular would read wrong. -#}
       <span class="sect__eyebrow">{{ galleryEyebrow | default("The room") }}</span>
-      <h2 class="sect__title" id="room-title">{{ galleryTitle | safe }}</h2>
+      <h2 class="sect__title" id="{{ gId }}">{{ galleryTitle | safe }}</h2>
       {%- if galleryNote %}
       <p class="sect__note">{{ galleryNote | safe }}</p>
       {%- endif %}
     </header>
 
     <div class="bento">
-      {%- for shot in gallery.gallery %}
+      {%- for shot in gallerySet %}
       <figure class="cell shot{% if shot.wide %} shot--wide{% endif %} reveal">
         <img
           class="shot__img"

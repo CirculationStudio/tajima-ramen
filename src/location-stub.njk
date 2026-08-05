@@ -109,6 +109,19 @@ eleventyComputed:
         <span class="plate__label">Menu</span>
         <a class="plate__value" href="/menu/">See the menu</a>
       </span>
+      {#
+        Added 2026-08-05. These pages had no ordering link of any kind, on a
+        site whose third-biggest page is /order-online/. Straight to this
+        kitchen's own Toast page, from locations.json, click-tested for all
+        seven. The guard stays because it costs nothing, not because a
+        location is missing one.
+      #}
+      {%- if loc.orderUrl %}
+      <span class="plate__item">
+        <span class="plate__label">Order</span>
+        <a class="plate__value" href="{{ loc.orderUrl }}" rel="noopener">Order online</a>
+      </span>
+      {%- endif %}
     </address>
   </div>
 </section>
@@ -117,10 +130,62 @@ eleventyComputed:
   The room, where we have it. Same component /tajima-college-heights/ uses, so
   a stub that graduates keeps the section it already had.
 #}
-{%- if gallery %}
+{%- if gallery.gallery %}
+  {%- set gallerySet = gallery.gallery %}
+  {%- set galleryId = "room-title" %}
+  {%- set galleryEyebrow = "The room" %}
   {%- set galleryTitle = "The room, <em>photographed.</em>" %}
   {%- set galleryNote = false %}
   {% include "components/location-gallery.njk" %}
+{%- endif %}
+
+{#
+  This kitchen's own food, added 2026-08-05. Separate set from the room
+  photography and separately gated, because Mercury and East Village have food
+  frames but no usable room frames, and the reverse is true at Crown Point.
+  Renders nothing for a location with neither.
+#}
+{%- if gallery.dishes %}
+  {%- set gallerySet = gallery.dishes %}
+  {%- set galleryId = "dishes-title" %}
+  {%- set galleryEyebrow = "From this kitchen" %}
+  {%- set galleryTitle = "What comes out of <em>this room.</em>" %}
+  {%- set galleryNote = 'Photographed at this location. <a class="sect__link" href="/menu/">See the whole menu</a>.' %}
+  {% include "components/location-gallery.njk" %}
+{%- endif %}
+
+{#
+  ==================== HAPPY HOUR, EAST VILLAGE ONLY ====================
+  Added 2026-08-05, and deliberately scoped to one room.
+
+  East Village is the only location with a happy hour fact confirmed in
+  CLIENT_FACTS.md: "Padres game-night beer specials and extended hours on home
+  game nights." That is this room and no other, and it must not be widened.
+
+  The other five rooms are NOT given this block on purpose. They already carry
+  a "Happy Hour / See times" row in the address plate, and adding a second
+  reference on the same page while we have no times to show would be two
+  pointers to the same empty state. When real windows arrive for a room, it
+  gets this block and the plate row keeps its place.
+
+  No price. SITE_ARCHITECTURE.md's East Village brief carries "$3.50" but
+  happyHour.json pulled that figure as unverified, so the two sources disagree
+  and the number stays off.
+
+  No times. Extended hours on game nights is confirmed; how extended is not.
+#}
+{%- if loc.id == "east-village" %}
+<section class="sect sect--rule" aria-labelledby="hh-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">Happy hour</span>
+      <h2 class="sect__title" id="hh-title">Game nights at <em>Petco.</em></h2>
+      <p class="sect__note">
+        This room runs beer specials on Padres home game nights, and stays open later than usual when the game is at home. The window on other days is being confirmed, so call the room and they will tell you what is running. Full picture on <a class="sect__link" href="/happy-hour/">the happy hour page</a>.
+      </p>
+    </header>
+  </div>
+</section>
 {%- endif %}
 
 <section class="sect" aria-labelledby="soon-title">

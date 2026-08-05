@@ -76,9 +76,14 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
           <span class="plate__label">Happy Hour</span>
           <a class="plate__value" href="/happy-hour/">See times</a>
         </span>
+        {#
+          REPOINTED 2026-08-05. This sent people to /order-online/, which then
+          asked them to pick the location they were already reading about.
+          Straight to Convoy's own Toast page now, from locations.json.
+        #}
         <span class="plate__item">
           <span class="plate__label">Order</span>
-          <a class="plate__value" href="/order-online/">Order online</a>
+          <a class="plate__value" href="{{ loc.orderUrl }}" rel="noopener">Order online</a>
         </span>
       </address>
     </div>

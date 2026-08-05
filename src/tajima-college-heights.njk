@@ -189,7 +189,8 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   already carries one frame. Component renders nothing if this location has no
   curated photography.
 #}
-{%- if gallery %}
+{%- if gallery.gallery %}
+  {%- set gallerySet = gallery.gallery %}
   {%- set galleryTitle = "Maple, concrete, and <em>manga.</em>" %}
   {%- set galleryNote = "Photographed before service. The counter seats the room, the taps run behind it, and the corridor to the back is papered in manga." %}
   {% include "components/location-gallery.njk" %}
