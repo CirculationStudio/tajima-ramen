@@ -65,6 +65,39 @@ const DENY_TOKENS = [
 ];
 
 // ---------------------------------------------------------------------------
+// SIGNAL TYPE: a human-written location note inside the filename.
+//
+// The GBP source set contains files named like
+//   "Shishito Peppers Large - EV Only.jpeg"
+//   "Miso Soup Large - Mercury Only.jpeg"
+// Someone at Tajima appended "- <LOCATION> Only" by hand to correct a wrong
+// assignment. Seven files, four unique subjects, one East Village and three
+// Mercury. It is a deliberate, repeated convention, not a one-off.
+//
+// It is matched as a PATTERN, `large - <location> only`, and nowhere else.
+// `ev` is expanded ONLY inside this pattern. A bare `ev` anywhere in a filename
+// still resolves to nothing, which is why "tajima-ev-bar-01" went to UNMAPPED
+// in the dry run and would still go there today. That distinction is the whole
+// point: the note carries a human's intent, a loose abbreviation does not.
+//
+// Independently corroborated by the live Toast catalogs pulled 2026-08-04:
+// Shishito Peppers is on East Village and Maui only; Miso Soup, Shrimp Tempura
+// and Vegetable Tempura are Mercury-only. The handwritten notes and the
+// operational system agree without either knowing about the other.
+const LOCATION_NOTE = /\blarge[\s-]+([a-z]+(?:[\s-][a-z]+)?)[\s-]+only\b/;
+const NOTE_EXPAND = {
+  ev: "east-village",
+  "east-village": "east-village",
+  mercury: "mercury",
+  convoy: "convoy",
+  "crown-point": "crown-point",
+  "college-heights": "college-heights",
+  "plaza-bonita": "plaza-bonita",
+  maui: "maui",
+  kihei: "maui",
+};
+
+// ---------------------------------------------------------------------------
 // Narrow allowance, two files only.
 //
 // Steve, build night: `offsite-kitchen` is sanctioned as a Crown Point
@@ -259,7 +292,15 @@ for (const file of files) {
   let locationSource = null;
 
   if (!denied) {
-    const hit = LOCATION_TOKENS.find(([token]) => stem.includes(token));
+    // The handwritten note wins over a plain token: it exists precisely because
+    // someone knew the plain token was wrong.
+    const note = stem.match(LOCATION_NOTE);
+    const noted = note ? NOTE_EXPAND[note[1].replace(/\s+/g, "-")] : undefined;
+    if (noted) {
+      location = noted;
+      locationSource = `handwritten note "${note[0]}" in the filename`;
+    }
+    const hit = noted ? null : LOCATION_TOKENS.find(([token]) => stem.includes(token));
     if (hit) {
       location = hit[1];
       locationSource = hit[0];
