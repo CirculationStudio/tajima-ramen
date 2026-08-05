@@ -1,5 +1,5 @@
 {
-  "_status": "TIMES AND PRICES PULLED, 2026-08-03. This file previously carried per-location happy hour windows and drink and food prices lifted from the design concept (inspo/happy-hour.html). None of it appears in CLIENT_FACTS.md, which has no happy hour data at all. It was published for roughly one build and then removed on Steve's call.",
+  "_status": "TIMES AND PRICES PULLED, 2026-08-03. This file previously carried per-location happy hour windows and drink and food prices lifted from the happy-hour design concept. None of it appears in CLIENT_FACTS.md, which has no happy hour data at all. It was published for roughly one build and then removed on Steve's call.",
 
   "_whyPulled": "A happy hour window is the same class of promise as an opening hour, and CLIENT_FACTS.md forbids publishing opening hours the door does not honor. The failure mode is identical and it is not abstract: someone reads 11:30am to 6:00pm, drives to Convoy at 5, and the window shut at 4. Prices are worse, because CLAUDE.md says menu prices are never published without explicit client approval and nobody at Tajima has seen these.",
 

@@ -6,7 +6,7 @@
    day/night system). It is a sub-experience inside the site, not a page in
    the main template family. Do not normalize it into Convoy Red."
 
-   Ported from the approved inspo/tajima-noodle-room.html. Two structural
+   Ported from the approved tajima-noodle-room concept. Two structural
    changes:
      - Every selector is scoped to [data-experience="noodle-room"], which the
        page's layout sets on <html>. The concept was a standalone file, so its

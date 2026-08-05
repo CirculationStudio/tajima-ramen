@@ -2,7 +2,7 @@
    Block: site-header
 
    Sticky brand nav for the main template family. Ported from the approved
-   reference implementation inspo/tajima-home.html.
+   reference implementation, the tajima-home concept.
 
    The Noodle Room sub-experience runs its own header (back link + editorial
    mark) and does NOT use this block.

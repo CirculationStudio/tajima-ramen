@@ -5,7 +5,7 @@
    approved interior-page reference, and the bento grid as the layout system
    for interior pages.
 
-   Ported from inspo/tajima-menu.html. One change: `.dish` is already a block
+   Ported from the tajima-menu concept. One change: `.dish` is already a block
    in the component library (the editorial dish list on the home page), and
    here it is the bento cell. Every rule below is scoped under `.bento` so the
    two treatments of the same name cannot overwrite each other.

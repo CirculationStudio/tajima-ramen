@@ -18,7 +18,26 @@ The verbal lane is plainspoken craft specificity. The visual lane is process, ha
 - `tajima-menu.html` (bento-in-Convoy pattern, interior page reference)
 - `tajima-noodle-room.html` (editorial sub-experience)
 
-Hosted at `cdn.circulationstudio.com/tajima-temp/design-concepts/`. Assets served from Bunny.net.
+Assets served from Bunny.net.
+
+> ### Where the concepts actually are, corrected 2026-08-05
+>
+> This section previously said all three were **"Hosted at `cdn.circulationstudio.com/tajima-temp/design-concepts/`."** **That is true of two of them and false of the third.** Checked 2026-08-05 with a request per file:
+>
+> | Concept | CDN |
+> |---|---|
+> | `tajima-menu.html` | **200** |
+> | `tajima-noodle-room.html` | **200** |
+> | `tajima-home.html` | **404** |
+> | `tajima-locations.html`, `tajima-convoy.html`, `tajima-about.html`, `happy-hour.html`, `order-online.html` | **404** (never listed here, but real, and ported from) |
+>
+> **`tajima-home.html` is the one that matters most and it is the one that is missing.** This doc names it the canonical token source, and eleven CSS files were ported from it. There are also five further signed concepts the build was ported from that this section never listed at all.
+>
+> All eight lived only in an untracked `inspo/` directory on one machine. **That directory was deleted on 2026-08-05** (`SITE_ARCHITECTURE.md` Open Decision #27) and the porting notes across the codebase were rewritten to name the concept without a path, since no path resolves for six of the eight.
+>
+> **The tokens themselves are not at risk.** `src/css/base/theme.css` is the live token set and is committed; it is now the operative source, not a port of one. What is gone is the visual record of how a component was originally drawn.
+>
+> **Action: re-upload the six missing concepts to the CDN path above, from the design source, and update this table.** Until then, treat this doc and the shipped CSS as the reference of record and do not expect to compare either against a concept file.
 
 ---
 
@@ -51,7 +70,7 @@ These exist because anything overlaying a photograph or sitting inside a colored
 ### Convoy Red night surface ramp
 
 ```css
-/* PASTE FROM tajima-home.html :root — do not retype from memory */
+/* PASTE FROM the tajima-home concept :root, do not retype from memory */
 --color-canvas: ;        /* base page, near-black warm, approx #0D0D0A family */
 --color-surface: ;       /* raised cards and bento cells */
 --color-surface-2: ;     /* nested / inset surfaces */
