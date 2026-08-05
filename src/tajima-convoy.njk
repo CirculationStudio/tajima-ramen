@@ -180,7 +180,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       {%- for dish in menu.items %}
         {%- if dish.feature and dish.image %}
       <figure class="cell shot reveal">
-        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="800" height="800">
+        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
         <figcaption class="shot__caption">{{ dish.name }}</figcaption>
       </figure>
         {%- endif %}

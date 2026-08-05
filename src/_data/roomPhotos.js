@@ -27,9 +27,22 @@
 // page. Writing alt for all 159 mapped photos up front would be inventing
 // descriptions of images nobody has chosen to use yet.
 //
-// TO ADD A LOCATION: give it a `hero` and a `gallery`, write real alt text
-// into photos.json for each file named, and the build will tell you if you
-// missed one.
+// TO ADD A LOCATION: give it a `gallery`, optionally a `hero`, write real alt
+// text into photos.json for each file named, and the build will tell you if
+// you missed one.
+//
+// `hero` is optional. A full location page has a split hero with a photo slot;
+// a stub page does not, and only renders the gallery. Crown Point is the first
+// entry without one.
+//
+// ONLY THREE LOCATIONS HAVE ROOM PHOTOGRAPHY AT ALL. Of the 205 files,
+// College Heights has 24 and Crown Point has 6. Mercury has exactly two room
+// frames and they are 612x284 and 1000x750, too small to place. East Village
+// has one photograph and it is a plate of shishito peppers, not a room.
+// Convoy has 60 and every one of them is food. So the gate in
+// location-gallery.njk is not defensive coding for a hypothetical: four of the
+// seven rooms genuinely have nothing to show, and the documentary shoot that
+// would fix that is CLIENT_FACTS.md open question #15.
 
 import photos from "./photos.json" with { type: "json" };
 
@@ -55,6 +68,42 @@ const CURATED = {
         file: "tajima-college-heights-interior-manga-wall-01.webp",
         caption: "The manga wall",
         tag: "Corridor",
+      },
+    ],
+  },
+
+  // Crown Point. No `hero`: this is still a stub page (src/location-stub.njk)
+  // and the stub hero has no photo slot. The gallery renders on its own.
+  //
+  // Three of the six, not all six. Dropped: the second arched-ceiling frame
+  // and the second surfboard frame, both near duplicates of the ones kept.
+  //
+  // ALSO DROPPED, AND NOT FOR COMPOSITION:
+  // tajima-crown-point-exterior-night-signage-neon-ramen.webp is the best wide
+  // exterior in the set, and it is held back because the street number on the
+  // wall reads 3784 while every record we publish says 3782 Ingraham Street
+  // (locations.json, CLIENT_FACTS.md, the NAP table, and Toast's own page).
+  // Publishing it would put a visible contradiction of our own NAP on the
+  // page of a brand whose Convoy citation audit already scored 25/100. It may
+  // well be the neighbouring unit's number. Nobody has checked, so it waits.
+  // The neon detail frame carries the exterior instead and shows no number.
+  "crown-point": {
+    gallery: [
+      {
+        file: "tajima-crown-point-exterior-night-neon-ramen-sign-detail.webp",
+        caption: "The neon",
+        tag: "Ingraham Street",
+        wide: true,
+      },
+      {
+        file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
+        caption: "The room",
+        tag: "Barrel ceiling",
+      },
+      {
+        file: "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
+        caption: "The counter",
+        tag: "Red board",
       },
     ],
   },
@@ -94,7 +143,7 @@ export default Object.fromEntries(
   Object.entries(CURATED).map(([id, set]) => [
     id,
     {
-      hero: lookup(set.hero),
+      hero: set.hero ? lookup(set.hero) : null,
       gallery: set.gallery.map(lookup),
     },
   ]),

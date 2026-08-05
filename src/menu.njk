@@ -108,7 +108,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
       <article class="dish {% if dish.feature %}dish--feature{% else %}dish--quiet{% endif %}{% if dish.bento %} dish--{{ dish.bento }}{% endif %} reveal reveal--d{{ loop.index % 4 + 1 }}">
         {%- if dish.image %}
         <div class="dish__photo">
-          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="800" height="800">
+          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
         </div>
         {%- endif %}
         <div class="dish__body">

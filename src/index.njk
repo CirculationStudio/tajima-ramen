@@ -235,7 +235,7 @@ description: "San Diego's craft Japanese ramen house, founder-built since 2001. 
         {%- if dish.feature and dish.image %}
       <article class="dish reveal reveal--d{{ loop.index % 3 + 1 }}">
         <figure class="dish__figure">
-          <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="600" height="600">
+          <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
         </figure>
         <div class="dish__meta">
           <h3 class="dish__name">

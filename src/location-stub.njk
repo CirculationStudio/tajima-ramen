@@ -41,12 +41,24 @@ eleventyComputed:
   and offers the phone number instead of guessing.
 
   What each of these still needs before launch, per the location page template
-  in SITE_ARCHITECTURE.md: real photography of this room, the "what's different
-  here" section (the one section the brief says must not be templated), this
-  location's menu section once menu.json has the availability column, its happy
-  hour block, its Toast ordering URL, its nearest-neighbour link, and its GBP
-  and Yelp URLs for `sameAs`.
+  in SITE_ARCHITECTURE.md: the "what's different here" section (the one section
+  the brief says must not be templated), this location's menu section, its
+  happy hour block, its nearest-neighbour link, and its GBP and Yelp URLs for
+  `sameAs`. Toast ordering URLs landed 2026-08-05 and photography is partly
+  handled, see below.
+
+  PHOTOGRAPHY, added 2026-08-05. The gallery below renders ONLY for locations
+  with a curated set in _data/roomPhotos.js, which today is Crown Point alone
+  among the stubs. That is not a cautious rollout, it is what exists: Mercury
+  has two room frames and both are too small to place, East Village's only
+  photograph is a plate of shishito peppers, and Plaza Bonita and Maui have no
+  room photography at all. The gate means those four render no gallery section
+  rather than an empty frame, which is the difference between a page that does
+  not have a section and a page that looks broken.
+
+  These pages stay `noindex` regardless. A gallery is not a finished page.
 #}
+{%- set gallery = roomPhotos[loc.id] %}
 
 <section class="page-hero" aria-labelledby="page-title">
   <div class="page-hero__inner">
@@ -100,6 +112,16 @@ eleventyComputed:
     </address>
   </div>
 </section>
+
+{#
+  The room, where we have it. Same component /tajima-college-heights/ uses, so
+  a stub that graduates keeps the section it already had.
+#}
+{%- if gallery %}
+  {%- set galleryTitle = "The room, <em>photographed.</em>" %}
+  {%- set galleryNote = false %}
+  {% include "components/location-gallery.njk" %}
+{%- endif %}
 
 <section class="sect" aria-labelledby="soon-title">
   <div class="sect__inner">

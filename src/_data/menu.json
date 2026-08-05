@@ -24,12 +24,14 @@
         "plaza-bonita"
       ],
       "dietary": [],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-traditonal-tonkotsu-04.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-traditonal-tonkotsu-04.webp",
       "alt": "Traditional Tonkotsu Ramen, thin-sliced pork chashu, wood ear mushrooms, green onions and sesame seeds on pork bone broth",
       "bento": "ramen-tonkotsu",
       "tier": "The original, since 2001",
       "romaji": "豚骨 · tonkotsu",
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 854,
+      "imageHeight": 1280
     },
     {
       "id": "tajima-red",
@@ -50,12 +52,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-red-02.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-tajima-red-02.webp",
       "alt": "Tajima Red ramen with red bomb, chashu and baby bok choy on tonkotsu broth",
       "bento": "ramen-red",
       "tier": "Signature trio",
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 853,
+      "imageHeight": 1280
     },
     {
       "id": "tajima-black",
@@ -75,12 +79,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-black-03.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-tajima-black-03.webp",
       "alt": "Tajima Black ramen with black garlic oil and chashu over dark tonkotsu broth",
       "bento": "ramen-black",
       "tier": "Signature trio",
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 1280,
+      "imageHeight": 854
     },
     {
       "id": "tajima-white",
@@ -101,12 +107,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-tajima-white-01.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-tajima-white-01.webp",
       "alt": "Tajima White ramen, clean tonkotsu base with chashu and a ramen egg",
       "bento": "ramen-white",
       "tier": "Signature trio",
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 1280,
+      "imageHeight": 1024
     },
     {
       "id": "spicy-sesame",
@@ -127,12 +135,14 @@
         "maui"
       ],
       "dietary": [],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-spicy-sesame-02.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-spicy-sesame-02.webp",
       "alt": "Spicy Sesame Ramen with sesame paste, ground pork, fried garlic and dried chili",
       "bento": "ramen-sesame",
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 854,
+      "imageHeight": 1280
     },
     {
       "id": "chicken",
@@ -179,12 +189,14 @@
       "dietary": [
         "vegan"
       ],
-      "image": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20SD%20Menu%20Photos/tajima-ramen-convoy-vegan-ramen-01.jpeg",
+      "image": "/images/photo/tajima-ramen-convoy-vegan-ramen-01.webp",
       "alt": "Vegan Ramen with green spinach noodles, marinated tofu and soy-based broth",
       "bento": "ramen-vegan",
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "imageWidth": 1280,
+      "imageHeight": 853
     },
     {
       "id": "miso",
@@ -350,5 +362,6 @@
     }
   ],
   "_bentoNote": "The `bento` value is the grid-cell modifier from the approved inspo/tajima-menu.html layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels.",
-  "_nameConflicts": "menu.json's names do NOT match what Toast calls two of these dishes. Recorded rather than changed, because renaming a menu item is a client decision. (1) `Tajima White` is called `Tajima Ramen` on all six San Diego catalogs and `Tajima WHITE Ramen` on Maui. So the San Diego menu has no item literally called Tajima White, and the site currently prints one. (2) `Miso Ramen` is called `Naruto Miso Ramen` everywhere it appears, and the description names a Naruto fishcake that menu.json does not mention."
+  "_nameConflicts": "menu.json's names do NOT match what Toast calls two of these dishes. Recorded rather than changed, because renaming a menu item is a client decision. (1) `Tajima White` is called `Tajima Ramen` on all six San Diego catalogs and `Tajima WHITE Ramen` on Maui. So the San Diego menu has no item literally called Tajima White, and the site currently prints one. (2) `Miso Ramen` is called `Naruto Miso Ramen` everywhere it appears, and the description names a Naruto fishcake that menu.json does not mention.",
+  "_imageStatus": "REPOINTED 2026-08-05 from cdn.circulationstudio.com/tajima-temp/*.jpeg to the committed local WebP in public/images/photo/. Same photographs, matched by exact basename, verified present in photos.json. Reasons: it drops a third-party origin off the image path on /menu/, /, /tajima-convoy/ and /menu/vegan-ramen/, it serves WebP instead of JPEG, and the temp CDN is temporary by name. imageWidth and imageHeight are the manifest real pixel dimensions and exist so templates can stop hardcoding 800x800, which was wrong for every one of these (they are 3:2, not square). ALT TEXT IS UNCHANGED: it was already hand-written here and is better than the photos.json draft placeholders. Only 6 of 13 items carry an image; the other 7 are deliberately imageless rather than mapped on a guess."
 }
