@@ -84,18 +84,49 @@
                   <article class="loc-card">
                     <a class="loc-card__link" href="{{ loc.url }}">
                       {#
-                        PLACEHOLDER. Real photography is not placed yet. This is
-                        a drawn panel, not a stock or AI image standing in for
-                        one: DESIGN_SYSTEM.md forbids imagery that poses as real
-                        photography, and a nav is the last place to start.
-                        Decorative, so aria-hidden. The card's accessible name
-                        comes from the location name below it.
-                        When photos land, swap this span for an <img> with alt
-                        from the photo manifest.
+                        PLACEHOLDER, and openly one. The same real Tajima
+                        photograph in all seven cards, from roomPhotos._placeholder.
+
+                        Replaced the drawn hatched panel on 2026-08-05. It was
+                        the right call while nothing had been placed, but only
+                        two of the seven rooms have photography of themselves,
+                        so per-location photos would have shown two real rooms
+                        and five holding slots. An inconsistent mix reads as
+                        broken; one generic dish repeated reads as a known
+                        placeholder state. Consistency across the seven is
+                        worth more than any single slot being "correct" right
+                        now.
+
+                        Karaage because menu.json has it at all seven and
+                        CLIENT_FACTS.md calls it the most universally
+                        available izakaya item across all locations. It is a
+                        real Tajima photograph, not stock and not AI, so it
+                        does not touch the DESIGN_SYSTEM.md ban. It is not
+                        location-tagged in the manifest, which is what keeps
+                        it clear of the rule that a location-named photo only
+                        goes on that location's page: no Convoy frame could
+                        sit in the College Heights card.
+
+                        alt="" and aria-hidden because HERE it is decorative.
+                        It says nothing about which room this is, and seven
+                        identical alt strings would be noise in a links list.
+                        The card's accessible name comes from the location
+                        name below. Real alt text lives in photos.json.
+
+                        WHEN THE ROOMS ARE SHOT: give each card its own photo
+                        and its own real alt, and delete this block. Do not
+                        keep it for the stragglers.
                       #}
                       <span class="loc-card__media" aria-hidden="true">
+                        <img
+                          class="loc-card__media-img"
+                          src="{{ roomPhotos._placeholder.src }}"
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          width="{{ roomPhotos._placeholder.width }}"
+                          height="{{ roomPhotos._placeholder.height }}">
                         <span class="loc-card__media-no">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
-                        <span class="loc-card__media-mark">但馬</span>
                       </span>
                       <span class="loc-card__name">{{ loc.name }}</span>
                     </a>

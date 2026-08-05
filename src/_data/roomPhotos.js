@@ -109,6 +109,44 @@ const CURATED = {
   },
 };
 
+// The one photograph the Locations mega menu shows in all seven cards.
+//
+// WHY ONE PHOTO SEVEN TIMES, AND WHY THIS ONE.
+//
+// Only two of the seven rooms have photography of themselves, so a nav that
+// showed each location its own photo would show two real rooms and five
+// holding slots. An inconsistent mix reads as broken. One deliberately
+// generic dish, repeated, reads as a known placeholder state, which is what
+// this is until the other five rooms are shot.
+//
+// It is NOT location-specific on purpose, and that is what keeps it inside
+// photos.json's governing rule: a photo reaches a *location page* only if its
+// filename names that location. This file names no location (`location: null`
+// in the manifest), so putting it in the Convoy card is not a claim that it
+// was taken at Convoy. A Convoy-tagged dish photo in the College Heights slot
+// would have broken that rule outright, which rules out all 60 Convoy frames
+// and all 54 Maui frames.
+//
+// Karaage rather than gyoza or edamame: menu.json has it at all seven
+// locations (edamame is at six), and CLIENT_FACTS.md independently calls it
+// "the most universally available izakaya item across all locations." The one
+// dish that is true everywhere is the right dish for the slot that appears
+// everywhere. It is also shot on a wooden table rather than on seamless,
+// which keeps it clear of the DESIGN_SYSTEM.md ban on "glossy studio bowl
+// shots with no environmental context."
+//
+// The card renders it with alt="" because in that context it is decorative:
+// it identifies nothing about the location, and seven identical alt strings
+// in a links list is noise. Real alt text still exists in photos.json, both
+// because the guard below requires it and because alt is a property of the
+// context, not of the file.
+//
+// REPLACE THIS PER LOCATION, do not extend it, once the rooms are shot.
+const PLACEHOLDER = {
+  file: "tajima-appetizer-karaage-02.webp",
+  caption: null,
+};
+
 const DRAFT = "[DRAFT";
 
 function lookup(entry) {
@@ -139,12 +177,17 @@ function lookup(entry) {
   };
 }
 
-export default Object.fromEntries(
-  Object.entries(CURATED).map(([id, set]) => [
-    id,
-    {
-      hero: set.hero ? lookup(set.hero) : null,
-      gallery: set.gallery.map(lookup),
-    },
-  ]),
-);
+export default {
+  ...Object.fromEntries(
+    Object.entries(CURATED).map(([id, set]) => [
+      id,
+      {
+        hero: set.hero ? lookup(set.hero) : null,
+        gallery: set.gallery.map(lookup),
+      },
+    ]),
+  ),
+  // Reserved key. No location has the id `_placeholder`, so this cannot
+  // collide with a real entry or be picked up by roomPhotos[loc.id].
+  _placeholder: lookup(PLACEHOLDER),
+};
