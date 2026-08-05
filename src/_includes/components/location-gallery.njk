@@ -31,7 +31,9 @@
 <section class="sect sect--alt sect--rule" aria-labelledby="room-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">The room</span>
+      {#- Defaults to "The room" for a single location. /about/ overrides it,
+          since it shows two rooms and the singular would read as a mistake. -#}
+      <span class="sect__eyebrow">{{ galleryEyebrow | default("The room") }}</span>
       <h2 class="sect__title" id="room-title">{{ galleryTitle | safe }}</h2>
       {%- if galleryNote %}
       <p class="sect__note">{{ galleryNote | safe }}</p>

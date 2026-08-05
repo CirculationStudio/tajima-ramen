@@ -151,6 +151,95 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   </div>
 </section>
 
+{# ==================== THE ROOMS ==================== #}
+{#
+  Added 2026-08-05. Real photography, and the first thing on this page that is
+  not the founder.
+
+  ON WHAT IS NOT HERE. This page wants three photographs and has none of them:
+  Convoy in 2001, the commissary, and Sam. Verified against all 205 files,
+  there is no Convoy exterior or interior frame at all (every one of the 60
+  Convoy files is food) and no commissary frame either. SITE_ARCHITECTURE.md
+  Open Decisions #29 and #30.
+
+  So these are the two rooms that have actually been photographed, each
+  captioned with its own name. The captions are load-bearing: on a page whose
+  fourth chapter is about taking over a room on Convoy Street, an unlabelled
+  interior would reasonably be read as that room. Naming them also makes the
+  brand-level point the next section states outright, that there is more than
+  one room.
+
+  No placeholder and no stand-in. DESIGN_SYSTEM.md forbids imagery that poses
+  as photography it is not, and that is exactly what an unlabelled interior
+  standing in for Convoy would be.
+#}
+{%- set gallery = roomPhotos._about %}
+{%- set galleryEyebrow = "The rooms" %}
+{%- set galleryTitle = "Two of the <em>six.</em>" %}
+{%- set galleryNote = "The rooms differ. College Heights is a ramen bar built around one counter; Crown Point sits under a barrel-vaulted ceiling a few streets from the bay. <a class=\"sect__link\" href=\"/locations/\">All six are here</a>." %}
+{% include "components/location-gallery.njk" %}
+
+{# ==================== THE HOUSE ==================== #}
+{#
+  Brand-level, not founder-level. The brief for this page was to use
+  CLIENT_FACTS.md's approved origin story directly, and that story is already
+  fully deployed above: its first paragraph is spread across chapters 01 to 05
+  almost verbatim, and its second is chapter 06. There was no unused approved
+  prose left to add, so this section is built from the other cleared source,
+  CLIENT_FACTS.md's "The differentiators (three tiers)", which exists to be
+  used "whenever the craft claim needs support."
+
+  Every fact below traces. Tier 1: own Noodle Room, machine imported from
+  Japan, broth simmered every morning in the Crown Point commissary and driven
+  to every San Diego location. Tier 2: trained through Japanese kitchens
+  including Matsuhisa, took over Convoy in 2001, still runs the business.
+  Tier 3: walk-in only, no reservations, six neighborhoods, and service named
+  in reviews more often than food (131 of 154).
+
+  CLIENT_FACTS.md's own instruction on ordering is followed: "Tier 1 is the
+  news. Tier 2 is why it is credible. Tier 3 is why people come back. Do not
+  lead with Tier 3 and do not let Tier 2 turn into a founder-worship page."
+
+  WHAT IS DELIBERATELY NOT CLAIMED. No cadence on the noodles, only on the
+  broth (Open Decision #3). No "every location" noodle claim (#2). No employee
+  count, which CLIENT_FACTS.md marks an estimate. No review rating, which is a
+  live number. The 131 of 154 figure is a count from the five-star sample and
+  is written as what reviews mention, not as a rating.
+#}
+<section class="sect sect--rule" aria-labelledby="house-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <span class="sect__eyebrow">The house</span>
+      <h2 class="sect__title" id="house-title">What Tajima <em>runs.</em></h2>
+    </header>
+
+    <div class="bento">
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Our own <em>room.</em></h3>
+        <p class="diff__body">
+          The noodles are made in our own Noodle Room, on a machine that came over from Japan. The broth is simmered every morning in our own commissary in Crown Point and driven out to every San Diego location before service. Most ramen shops buy both. <a class="sect__link" href="/noodle-room/">See the room</a>.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">One owner, <em>since 2001.</em></h3>
+        <p class="diff__body">
+          Sam worked his way through Japanese kitchens, including a stretch at Matsuhisa under Nobu Matsuhisa, before taking over the room on Convoy Street in 2001. He still runs the business. Twenty-five years in San Diego, not twenty-five months.
+        </p>
+      </article>
+
+      <article class="cell diff__cell reveal">
+        <h3 class="diff__title">Six rooms. <em>Walk in.</em></h3>
+        <p class="diff__body">
+          Six neighborhoods, each with its own character. No reservations, no queue theater. The crew gets named in reviews more often than the food does, and that is produced by the floor, not by the marketing. <a class="sect__link" href="/locations/">Find your Tajima</a>.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 {# ==================== QUOTE PENDING ==================== #}
 {#
   The concept got this right and it is kept as-is. Brief section 7.
