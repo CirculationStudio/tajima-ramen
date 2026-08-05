@@ -35,7 +35,7 @@
       ],
       "summary": "The room Sam took over in 2001. Communal tables, the full menu, the expanded izakaya. Japanese, English, and Spanish spoken.",
       "businessName": "Tajima Ramen Convoy",
-      "orderUrl": "https://www.toasttab.com/tajima-convoy/v2/online-order",
+      "orderUrl": "https://order.toasttab.com/online/tajima-convoy",
       "orderUrlNote": null
     },
     {
@@ -64,7 +64,7 @@
       "sameAs": [],
       "summary": "The biggest room. Full bar, Japanese whisky, sushi, around ninety seats. The one that takes group reservations by phone.",
       "businessName": "Tajima Ramen Mercury",
-      "orderUrl": "https://www.toasttab.com/tajima-mercury/v2/online-order",
+      "orderUrl": "https://order.toasttab.com/online/tajima-mercury",
       "orderUrlNote": null
     },
     {
@@ -93,7 +93,7 @@
       "sameAs": [],
       "summary": "Walking distance from Petco Park. Six taps of local craft beer, and longer hours on Padres home game nights.",
       "businessName": "Tajima Ramen East Village",
-      "orderUrl": "https://www.toasttab.com/tajima-east-village/v2/online-order",
+      "orderUrl": "https://order.toasttab.com/online/tajima-east-village",
       "orderUrlNote": null
     },
     {
@@ -125,8 +125,8 @@
       "sameAs": [],
       "summary": "The ramen bar near SDSU. Pared-down menu, open kitchen, twenty-plus taps.",
       "businessName": "Tajima Ramen College Heights",
-      "orderUrl": "https://www.toasttab.com/tajima-college-heights/v3",
-      "orderUrlNote": "PATTERN MISMATCH: /v3, while Convoy, Mercury, and East Village use /v2/online-order. SITE_ARCHITECTURE.md: pick one pattern and verify all seven resolve."
+      "orderUrl": "https://order.toasttab.com/online/tajima-college-heights",
+      "orderUrlNote": null
     },
     {
       "id": "crown-point",
@@ -154,8 +154,8 @@
       "sameAs": [],
       "summary": "The room next to the Noodle Room. The broth for every San Diego location is made in this building each morning.",
       "businessName": "Tajima Ramen Crown Point",
-      "orderUrl": "https://www.toasttab.com/tajima-pacific-beach-3782-ingraham-street",
-      "orderUrlNote": "SLUG MISMATCH, DO NOT SILENTLY FIX. The Toast slug says `tajima-pacific-beach`, not crown-point. SITE_ARCHITECTURE.md flags this explicitly and says flag it rather than fixing it, because the slug may be the real one inside Toast and changing it breaks the cart."
+      "orderUrl": "https://order.toasttab.com/online/tajima-pacific-beach-3782-ingraham-street",
+      "orderUrlNote": "SLUG MISMATCH, VERIFIED AND DELIBERATELY KEPT. The slug reads tajima-pacific-beach, not crown-point. The destination IS Crown Point: the Toast page title, breadcrumb and address (3782 Ingraham Street, San Diego, CA 92109) all confirm it, per the 2026-08-04 catalog pull recorded in toastMenus/crown-point.json, and the 2026-08-05 click-test. The slug is stale, not a different restaurant. Do not edit it: it is what Toast actually uses and changing it breaks the cart. SITE_ARCHITECTURE.md says flag it, do not silently fix it."
     },
     {
       "id": "plaza-bonita",
@@ -187,8 +187,8 @@
       "sameAs": [],
       "summary": "Quick-serve inside Westfield Plaza Bonita. A focused menu, and no alcohol. Mall hours.",
       "businessName": "Tajima Ramen Plaza Bonita",
-      "orderUrl": "https://toasttakeout.page.link/hJi7",
-      "orderUrlNote": "SHORTLINK, not a toasttab.com URL. A page.link shortener is a single point of failure and cannot be verified by reading it. Needs a click test and probably a real URL."
+      "orderUrl": "https://order.toasttab.com/online/tajima-plaza-bonita-3030-plaza-bonita-rd-suite-2075",
+      "orderUrlNote": "SLUG MISMATCH, VERIFIED AND DELIBERATELY KEPT. The slug says suite 2075. The real suite is 2445, which is what the Toast page own address, the SITE_ARCHITECTURE.md NAP table and CLIENT_FACTS.md all say, and it is what this file publishes. Publish 2445, link 2075. Do not edit the slug. This replaces the former toasttakeout.page.link shortlink, which is now retired."
     },
     {
       "id": "maui",
@@ -219,10 +219,10 @@
       "summary": "Our only Hawaii room. Full ramen menu, sushi, and izakaya plates, with dishes of its own.",
       "noodleNote": "Do NOT extend any 'our noodles' claim here. Crown Point supplies San Diego and Maui is 2,500 miles away. SITE_ARCHITECTURE.md Open Decision #1.",
       "businessName": "Tajima Ramen Maui",
-      "orderUrl": null,
-      "orderUrlNote": "NO ORDERING URL. Not present in the design concept and not in CLIENT_FACTS.md. The card renders without an order button rather than guessing one."
+      "orderUrl": "https://order.toasttab.com/online/tajima-ramen-maui-1819-south-kihei-road-d105",
+      "orderUrlNote": null
     }
   ],
   "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim.",
-  "_orderUrlStatus": "UNVERIFIED. LAUNCH BLOCKER. These came from the approved design concept (inspo/order-online.html), not from Tajima. CLIENT_FACTS.md lists per-location ordering URLs as CONFIRM. SITE_ARCHITECTURE.md flags three specific problems, recorded per-location in orderUrlNote: two competing URL patterns (/v2/online-order vs /v3), Crown Point's slug reading tajima-pacific-beach, and Plaza Bonita using a page.link shortlink. Every one of the seven needs a click test before launch. A dead ordering link on the third-biggest page on the site (5,648 clicks) costs more than a missing one."
+  "_orderUrlStatus": "VERIFIED 2026-08-05 by click-test, all seven. Formerly the biggest launch blocker on the build. Every URL now uses ONE pattern, order.toasttab.com/online/<slug>, which resolves the two-competing-patterns problem (/v2/online-order versus /v3) SITE_ARCHITECTURE.md flagged. It is the same set the 2026-08-04 live catalog pull used, recorded as _source in each src/_data/toastMenus/*.json. Two slugs are knowingly wrong and knowingly kept, see orderUrlNote on crown-point and plaza-bonita: the slug is Toast internal routing, not a NAP value, and editing either one breaks the cart. Maui now has a URL; it previously had none. The Locations mega menu links these directly. /order-online/ remains a real page and reads the same field, so there is still one place to change a URL."
 }

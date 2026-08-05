@@ -14,27 +14,25 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
   page's only job is not to be in the way." So there is no hero video, no
   story, no noodle band. Cards and out.
 
-  THE ORDERING URLS ARE UNVERIFIED AND THIS IS THE BIGGEST OPEN RISK ON THE
-  PAGE. They came from the design concept, not from Tajima. CLIENT_FACTS.md
-  lists per-location ordering URLs as CONFIRM. SITE_ARCHITECTURE.md flags three
-  specific problems and all three are still present, recorded per location in
-  locations.json under orderUrlNote:
+  ORDERING URLS: VERIFIED 2026-08-05 by click-test, all seven. This was the
+  biggest open risk on the page and it is closed. All three problems the brief
+  flagged are resolved:
 
-    - Two competing URL patterns. Convoy, Mercury, and East Village use
-      /v2/online-order. College Heights uses /v3. The brief says pick one and
-      verify all seven resolve. Neither has happened.
-    - Crown Point's Toast slug reads `tajima-pacific-beach-3782-ingraham-street`.
-      Left exactly as found. The brief says flag it, do not silently fix it,
-      because the slug may be what Toast actually uses and editing it breaks
-      the cart.
-    - Plaza Bonita is a `toasttakeout.page.link` shortlink rather than a
-      toasttab.com URL.
+    - The two competing URL patterns (/v2/online-order versus /v3) are settled
+      on one, order.toasttab.com/online/<slug>, across all seven.
+    - Crown Point's slug still reads `tajima-pacific-beach-3782-ingraham-street`
+      and is deliberately kept. The destination is Crown Point; the slug is
+      stale Toast routing, and editing it breaks the cart.
+    - Plaza Bonita's `toasttakeout.page.link` shortlink is retired for a real
+      toasttab URL. Its slug says suite 2075 while the real suite is 2445;
+      we publish 2445 and link 2075, same reasoning as Crown Point.
 
-  Maui has no ordering URL at all. Its card renders without an order button
-  rather than inventing one.
+  Maui now has a URL too, so every card renders an order button. The `if
+  loc.orderUrl` guard below stays as a guard, not because a location is
+  missing one.
 
-  A dead ordering link on this page costs more than a missing one. Click-test
-  all seven before launch.
+  The Locations mega menu now links Toast directly rather than routing through
+  this page. Both surfaces read loc.orderUrl, so they cannot drift.
 #}
 
 <section class="order-hero" aria-labelledby="page-title">
@@ -50,13 +48,12 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
   <div class="order-grid__inner">
     {%- for loc in locations.items %}
     {#
-      The id is the anchor target for /order-online/#<slug>, which is where the
-      Locations mega menu's per-location "Order online" buttons point. Those do
-      NOT link straight to Toast: every ordering URL is still unverified
-      (two competing URL patterns, Crown Point's slug reading
-      tajima-pacific-beach, Plaza Bonita on a page.link shortlink). Routing
-      through this page means one place to fix when the click-test happens,
-      instead of seven links scattered through the nav.
+      The id was the anchor target for /order-online/#<slug>, which is where
+      the mega menu's order buttons used to point. As of 2026-08-05 they link
+      Toast directly, so nothing on the site depends on these anchors any more.
+      They are kept because the URLs are live: /order-online/#convoy may exist
+      in a bookmark, a GBP post, or an old email, and an anchor that silently
+      stops resolving is a broken link nobody reports.
     #}
     <article class="order-card" id="{{ loc.id }}">
       <div>

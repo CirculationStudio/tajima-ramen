@@ -234,7 +234,7 @@ Schema must mirror the visible page, so "does the menu page list it" is one deci
 - **Walk-in only at all locations. No reservations.** Mercury accepts group reservations by phone.
 - **Do not emit `acceptsReservations: true` or any ReserveAction anywhere.** Schema has no honest way to express "phone only, groups only, one location," so the accurate value is `false`.
 - Takeout at all locations. Delivery via third-party platforms (Grubhub, DoorDash, UberEats), varies by location.
-- Online ordering via the official site. **Per-location ordering URLs CONFIRM.**
+- Online ordering via Toast. **Per-location ordering URLs RESOLVED 2026-08-05**, click-tested, all seven, one pattern (`order.toasttab.com/online/<slug>`). Recorded in `locations.json` and tabulated in `SITE_ARCHITECTURE.md` under `/order-online/`. Two slugs are knowingly stale and deliberately unedited (Crown Point routes through `tajima-pacific-beach`, Plaza Bonita through `suite-2075` while the real suite is 2445). A Toast slug is internal routing, not a NAP value: **never reconcile a slug against an address.**
 - Catering: CONFIRM.
 - Private dining and events: Mercury is the largest format and the appropriate venue. No formal private dining program confirmed.
 
@@ -397,7 +397,7 @@ Note what the second story does not do: it does not call the old noodles bad. It
 5. **Carnitas decision.** Blocks the menu page and its schema.
 6. ~~**Convoy suite number.**~~ **RESOLVED 2026-08-03: STE H.** See the correction note under Location 1.
 7. ~~**Exact addresses** for Mercury, East Village, College Heights, Plaza Bonita.~~ **RESOLVED 2026-08-03** from the `SITE_ARCHITECTURE.md` NAP table. All seven are filled in above.
-8. **GPS, GBP URLs, Yelp URLs, and ordering URLs**, all seven. Still blocks the `sameAs` and `geo` blocks. **Phones are resolved** (2026-08-03, same table).
+8. **GPS, GBP URLs, and Yelp URLs**, all seven. Still blocks the `sameAs` and `geo` blocks. **Phones are resolved** (2026-08-03, NAP table). **Ordering URLs are resolved** (2026-08-05, click-test); see Booking and access.
 9. **Authoritative hours** per location. Blocks `openingHoursSpecification`.
 10. **Tijuana operating count** and **Tijuana / Maui site scope.** Blocks the schema graph and the locations index.
 11. **US legal entity name.** Blocks `Organization.legalName`.

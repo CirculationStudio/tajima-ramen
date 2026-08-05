@@ -101,11 +101,22 @@
                     </a>
 
                     {#
-                      Routes to /order-online/#<slug>, NOT to Toast. Every
-                      ordering URL is still unverified: two competing URL
-                      patterns, Crown Point's slug reading tajima-pacific-beach,
-                      Plaza Bonita on a page.link shortlink. One place to fix
-                      after the click-test beats seven links buried in the nav.
+                      Routes STRAIGHT TO TOAST as of 2026-08-05, no longer via
+                      /order-online/#<slug>. The click-test that unblocked this
+                      confirmed all seven destinations and settled the two
+                      competing URL patterns on one: order.toasttab.com/online/
+                      <slug>. See locations.json _orderUrlStatus.
+
+                      Still one place to change a URL: the href is
+                      loc.orderUrl, and /order-online/ reads the same field, so
+                      the two surfaces cannot drift. /order-online/ stays a real
+                      page (5,648 clicks); it is simply no longer a waypoint.
+
+                      Two slugs are knowingly wrong and knowingly kept, Crown
+                      Point's reading tajima-pacific-beach and Plaza Bonita's
+                      reading suite-2075. Both are Toast's internal routing, not
+                      NAP. Do not tidy them here; see orderUrlNote.
+
                       The visually-hidden span gives each of the seven buttons a
                       distinct accessible name, since "Order online" seven times
                       is useless in a links list.
@@ -144,8 +155,10 @@
                       </a>
                     </p>
 
-                    {# The one button in the card. #}
-                    <a class="loc-card__order" href="/order-online/#{{ loc.id }}">
+                    {# The one button in the card. Straight to that kitchen's
+                       Toast page. All seven have a URL, so there is no
+                       fallback branch to write. #}
+                    <a class="loc-card__order" href="{{ loc.orderUrl }}" rel="noopener">
                       Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
                     </a>
                   </article>

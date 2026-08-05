@@ -796,9 +796,34 @@ Read this plus the individual brief below it.
 **Schema:** `WebPage`. `OrderAction` lives on each `Restaurant` entity, not here.
 
 **Constraints:**
-- **The current site has two different Toast URL patterns**, one in the nav (`/tajima-convoy/v2/online-order`) and one in the body (`/tajima-convoy/v3/?mode=fulfillment`). Pick one. Verify all seven resolve.
-- Crown Point's Toast URL says `tajima-pacific-beach`. Flag, do not silently fix.
-- Plaza Bonita uses a `toasttakeout.page.link` shortlink, not a `toasttab.com` URL.
+- ~~**The current site has two different Toast URL patterns**, one in the nav (`/tajima-convoy/v2/online-order`) and one in the body (`/tajima-convoy/v3/?mode=fulfillment`). Pick one. Verify all seven resolve.~~ **RESOLVED 2026-08-05, see below.**
+- ~~Plaza Bonita uses a `toasttakeout.page.link` shortlink, not a `toasttab.com` URL.~~ **RESOLVED 2026-08-05, retired for a real toasttab URL.**
+- Crown Point's Toast URL says `tajima-pacific-beach`. **Still true, still flagged, deliberately not fixed.** See below.
+
+### Toast ordering URLs: RESOLVED 2026-08-05
+
+**Click-tested, all seven.** This was the largest open risk on the site's third-biggest page and it is closed. It never had a numbered row in the Open Decisions table; it lived here, in `CLIENT_FACTS.md` open question #8, and in `locations.json` `_orderUrlStatus`. All three now record the resolution.
+
+**One pattern for all seven,** which settles the pick-one constraint:
+
+| Location | Toast URL |
+|---|---|
+| Convoy | `order.toasttab.com/online/tajima-convoy` |
+| Mercury | `order.toasttab.com/online/tajima-mercury` |
+| East Village | `order.toasttab.com/online/tajima-east-village` |
+| College Heights | `order.toasttab.com/online/tajima-college-heights` |
+| Crown Point | `order.toasttab.com/online/tajima-pacific-beach-3782-ingraham-street` |
+| Plaza Bonita | `order.toasttab.com/online/tajima-plaza-bonita-3030-plaza-bonita-rd-suite-2075` |
+| Maui | `order.toasttab.com/online/tajima-ramen-maui-1819-south-kihei-road-d105` |
+
+This is the same set the 2026-08-04 catalog pull used, recorded as `_source` in each `src/_data/toastMenus/*.json`. **Maui now has an ordering URL**; it previously had none and its card rendered a phone number instead.
+
+**Two slugs are wrong, verified wrong, and deliberately kept.** In both cases the slug is Toast's internal routing, not a NAP value, and editing it breaks the cart:
+
+- **Crown Point** routes through `tajima-pacific-beach`. The destination is confirmed Crown Point: the Toast page title, breadcrumb, and address (3782 Ingraham Street, San Diego, CA 92109) all agree, per the 2026-08-04 pull and the 2026-08-05 click-test. The slug is stale, not a different restaurant. This is also why `pacific-beach` is a hard deny token in the photo manifest.
+- **Plaza Bonita** routes through `suite-2075`. The real suite is **2445**, which is what the Toast page's own address, the NAP table above, and `CLIENT_FACTS.md` all say, and it is what the site publishes. **Publish 2445, link 2075.**
+
+**The Locations mega menu now links Toast directly**, no longer routing through `/order-online/#<slug>`. `/order-online/` stays a real page and reads the same `locations.json` field, so the two surfaces cannot drift, and its anchors are kept live for bookmarks and old GBP posts.
 
 ---
 
