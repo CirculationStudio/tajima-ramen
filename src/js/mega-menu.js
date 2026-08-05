@@ -1,4 +1,4 @@
-// Locations mega menu: disclosure behavior.  UNDER REVIEW, preview only.
+// Locations mega menu: disclosure behavior.
 //
 // Progressive enhancement. With JS off the panel stays `hidden` and the
 // trigger does nothing, which is why the trigger is not the only route to the
@@ -8,11 +8,30 @@
 // Behavior:
 //   click / Enter / Space   toggle
 //   ArrowDown on trigger    open and land on the first card
-//   hover                   opens, but only on a fine pointer at desktop
-//                           width, so touch and phones are click-only
 //   Escape                  close, focus back to the trigger
 //   Tab / Shift+Tab         cycles inside the panel (focus trap, see note)
 //   click outside           close
+//
+// CLICK TO TOGGLE ONLY, decided 2026-08-05. This previously also opened on
+// hover after 90ms and closed on a 220ms mouseleave grace period, on a fine
+// pointer at desktop width only. Hover-open and click-toggle were fighting:
+// hover opened the panel, and then clicking the trigger, which is a real
+// button and looks like one, closed it again. Hover-then-click read as the
+// menu refusing the click.
+//
+// Why click won rather than hover-intent with a longer delay:
+//   - The trigger already ships aria-expanded and aria-controls, which is the
+//     ARIA disclosure pattern. Opening on hover contradicts the semantics the
+//     markup already declares.
+//   - It is the one behavior that is identical on touch, trackpad, mouse and
+//     keyboard, so the DESKTOP and FINE_POINTER media queries that existed
+//     only to paper over that difference are gone.
+//   - The panel is a seven-card grid with fifteen-plus focusable targets, and
+//     "Order Online" sits immediately next to the trigger in the nav. The
+//     cursor crosses this trigger on the way to the site's highest-value CTA.
+//     A delay narrows that window; it does not close it.
+//
+// Do not reintroduce a hover handler here without revisiting all three.
 //
 // ON THE FOCUS TRAP: this was asked for explicitly and is implemented. Worth
 // knowing that the WAI-ARIA Authoring Practices pattern for a *disclosure
@@ -22,8 +41,9 @@
 // switch to the APG behavior, delete trapTab() and its keydown branch: the
 // close-on-focus-out handler already does the rest.
 
+// Still needed: crossing this boundary while the panel is open leaves it in a
+// layout it was not opened for. See the change handler at the end.
 const DESKTOP = window.matchMedia("(min-width: 48.0625rem)");
-const FINE_POINTER = window.matchMedia("(pointer: fine)");
 
 function focusableIn(root) {
   return [...root.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')].filter(
@@ -36,13 +56,9 @@ function setupMega(root) {
   const panel = root.querySelector("[data-mega-panel]");
   if (!trigger || !panel) return;
 
-  let openTimer = null;
-  let closeTimer = null;
-
   const isOpen = () => trigger.getAttribute("aria-expanded") === "true";
 
   function open({ focusFirst = false } = {}) {
-    window.clearTimeout(closeTimer);
     if (isOpen()) {
       if (focusFirst) focusableIn(panel)[0]?.focus();
       return;
@@ -53,7 +69,6 @@ function setupMega(root) {
   }
 
   function close({ returnFocus = false } = {}) {
-    window.clearTimeout(openTimer);
     if (!isOpen()) return;
     panel.hidden = true;
     trigger.setAttribute("aria-expanded", "false");
@@ -61,26 +76,10 @@ function setupMega(root) {
   }
 
   // --- pointer ------------------------------------------------------------
+  // The only way to open with a pointer. Enter and Space fire click on a
+  // <button> natively, so the keyboard gets this for free and there is no
+  // separate key handler for them.
   trigger.addEventListener("click", () => (isOpen() ? close() : open()));
-
-  // Hover only where hovering is meaningful. On a coarse pointer the first tap
-  // would open and the second would immediately close, which reads as broken.
-  root.addEventListener("mouseenter", () => {
-    if (!DESKTOP.matches || !FINE_POINTER.matches) return;
-    window.clearTimeout(closeTimer);
-    openTimer = window.setTimeout(open, 90);
-  });
-
-  root.addEventListener("mouseleave", () => {
-    if (!DESKTOP.matches || !FINE_POINTER.matches) return;
-    window.clearTimeout(openTimer);
-    // Grace period: the pointer has to cross a gap between the trigger and the
-    // panel, and closing on that gap makes the menu feel like it is running
-    // away. Not applied if focus is inside, since that means keyboard use.
-    closeTimer = window.setTimeout(() => {
-      if (!root.contains(document.activeElement)) close();
-    }, 220);
-  });
 
   // --- keyboard -----------------------------------------------------------
   trigger.addEventListener("keydown", (event) => {
