@@ -47,3 +47,9 @@
 @import "./pages/menu.css";
 @import "./pages/menu-vegan-ramen.css";
 @import "./pages/noodle-room.css";
+
+/* Review surface, not a shipping page. /internal/home-concepts/ only. Every
+   selector is namespaced `hc-` or scoped under `.hc-light`, so nothing here
+   reaches another template. Delete this import and the file together when the
+   home direction is chosen. */
+@import "./pages/home-concepts.css";

@@ -8,6 +8,14 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
 
+# Internal review pages. Unlinked from every nav and already carrying
+# <meta name="robots" content="noindex,nofollow"> in the template. This is the
+# belt to that pair of braces: a header cannot be lost in a template refactor
+# the way a meta tag can, and it also covers any non-HTML asset served under
+# the prefix. /internal/home-concepts/ is the only page here today.
+/internal/*
+  X-Robots-Tag: noindex, nofollow
+
 # Cache static assets
 /css/*
   Cache-Control: public, max-age=31536000, immutable

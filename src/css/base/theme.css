@@ -29,6 +29,18 @@
   --color-system-ink-90: rgba(13, 13, 10, 0.92);
   --color-system-ink-70: rgba(13, 13, 10, 0.7);
 
+  /* Theme-independent Fire Red and Sesame Gold.
+     NOT new colors. Same two hex values as --color-red and --color-gold below,
+     which the night ramp deliberately lifts (#e03c31 becomes #ff4d40) so they
+     hold contrast against a near-black canvas. Anything drawn on a light field
+     needs the guideline value rather than the lifted one, and the lifted one is
+     what --color-red resolves to everywhere under <html data-mode="night">.
+     Same reasoning as the cream and ink constants above: chrome's color is
+     determined by its function, not by the theme around it.
+     First consumer: pages/home-concepts.css, the light-canvas review scope. */
+  --color-system-red: #e03c31;
+  --color-system-gold: #ffc658;
+
   /* --- Brand constants (Tajima Brand Guidelines, October 2025) -------------
      Fire Red is an accent only, never a background field. Sesame Gold is
      capped at under 10% of any visual element. Note: the night ramp below

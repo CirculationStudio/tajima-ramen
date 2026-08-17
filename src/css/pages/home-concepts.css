@@ -1,0 +1,746 @@
+/* ==========================================================================
+   Page: /internal/home-concepts/
+
+   REVIEW SURFACE. Not a shipping page, not linked from any nav, noindexed.
+   Three alternate home page directions on one document, switched by a fixed
+   control, so Andy and Sam can put them side by side in one conversation.
+
+   The live `/` is untouched. Nothing in this file is loaded by any other
+   template: every selector is namespaced `hc-` or scoped under `.hc-light`.
+
+   WHAT THE THREE CONCEPTS ISOLATE
+
+   The client note was "simpler, less crowded, clean look" plus "repetitive
+   information." Two different complaints hide inside that, density and canvas
+   colour, and we do not know which one is doing the work. So:
+
+     A  light canvas + hardest cut          (both levers pulled)
+     B  banded light/dark + fewer sections  (both levers, halfway)
+     C  night canvas unchanged + cut only   (density lever only)
+
+   Whichever one lands tells us which lever mattered.
+
+   THE LIGHT CANVAS IS NOT A NEW THEME AND NOT A THEME TOGGLE.
+
+   DESIGN_SYSTEM.md bans a theme toggle and night mode stays permanent. This
+   is a scoped review scope on a review page, not a user-facing switch, and it
+   ships no new colour: Off-White #FFFEF4, near-black ink #0D0D0A, Fire Red
+   #E03C31 and Sesame Gold #FFC658 are all already in the token table. Client
+   DNA A4 lists Off-White as an approved web canvas, which has never shipped
+   here. Every value below is a var() or an alpha of one of those four, so the
+   "zero hex outside :root" rule holds with nothing to grep.
+
+   HOW THE LIGHT SCOPE WORKS, AND WHY IT NEEDS ALMOST NO NEW MARKUP.
+
+   Every component in this build reads its colour from the surface ramp
+   (--color-canvas, --color-ink, --color-rule, ...) which the night block sets
+   on <html>. Custom properties inherit, so redefining that ramp on a wrapper
+   element re-skins everything inside it. .locations, .menu, .dish and
+   .site-header come across intact with no markup change at all.
+
+   The glow rules are the same trick in reverse. They are written
+   `text-shadow: var(--glow-text)`, so setting --glow-* to `none` in the light
+   scope switches them all off at once. The handful written as literal rgba
+   rather than as a token are turned off explicitly at the bottom of the scope
+   block; there is a list, and it is short.
+   ========================================================================== */
+
+/* ==========================================================================
+   The light scope
+   ========================================================================== */
+
+.hc-light {
+  /* Surfaces. Off-White is the field; the two raised steps are alphas of the
+     ink constant rather than new greys, so nothing here invents a tone. */
+  --color-canvas: var(--color-system-cream);
+  --color-canvas-2: var(--color-system-cream);
+  --color-canvas-3: rgba(13, 13, 10, 0.04);
+  --color-surface: rgba(13, 13, 10, 0.04);
+  --color-surface-2: rgba(13, 13, 10, 0.07);
+
+  /* Ink. Same ramp shape as the night block, inverted. */
+  --color-ink: var(--color-system-ink);
+  --color-ink-2: rgba(13, 13, 10, 0.78);
+  --color-ink-3: rgba(13, 13, 10, 0.58);
+  --color-ink-4: rgba(13, 13, 10, 0.36);
+
+  --color-rule: rgba(13, 13, 10, 0.12);
+  --color-rule-strong: rgba(13, 13, 10, 0.28);
+
+  /* Fire Red at its guideline value, not the night-lifted one. On Off-White
+     the lifted #ff4d40 reads orange and loses the brand. Accent only: rules,
+     one CTA, key callouts. Never a background field. */
+  --color-red: var(--color-system-red);
+  --color-red-deep: var(--color-system-red);
+  --color-red-soft: rgba(224, 60, 49, 0.08);
+  --color-red-line: rgba(224, 60, 49, 0.32);
+  --color-gold: var(--color-system-gold);
+
+  --color-header-bg: rgba(255, 254, 244, 0.92);
+
+  /* Glow is a dark-mode device. On a light canvas it renders as a smear and
+     reads as a bug. Off, everywhere, in one place. */
+  --glow-red: none;
+  --glow-text: none;
+  --glow-pink: none;
+
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+/* The literal-rgba glows the token switch above cannot reach. Full list.
+   Each one is a `[data-mode="night"] .x` rule that still matches inside this
+   scope because data-mode lives on <html>. */
+.hc-light .monolith__atmosphere,
+.hc-light .hero__panel::after {
+  background: none;
+}
+
+.hc-light .monolith__wordmark,
+.hc-light .monolith__spec-num {
+  color: var(--color-ink);
+  text-shadow: none;
+}
+
+.hc-light .monolith__crest {
+  color: var(--color-red);
+}
+
+.hc-light .story__quote {
+  box-shadow: none;
+}
+
+/* Night lifts saturation and drops brightness on dish photography to hold it
+   against the near-black canvas. On Off-White that reads heavy. */
+.hc-light .dish__img,
+.hc-light .loc-card__media-img {
+  filter: none;
+}
+
+/* THE LOGO, and why a light canvas forces the question.
+
+   site.json points at the red-mark / WHITE-text lockup, which is correct and
+   is the only version DESIGN_SYSTEM.md expects to ship, because night mode is
+   permanent: "Logo images are theme-independent in this build, so the
+   dark-surface version is the only one that ships."
+
+   On Off-White that lockup loses its wordmark entirely. White type on a cream
+   field is not a styling problem to work around, it is the logo rules saying
+   "use the correct color version for the background."
+
+   So the light concepts use the black-text lockup, which is already committed
+   at public/images/brand/ and is an approved brand asset, not a recolour of
+   the shipped one. Nothing is altered: same mark, same relationship, same
+   clear space, different colour version for a different ground.
+
+   Swapped with `content:` rather than by editing site-header.njk, because the
+   header component is shared by every page and this is a review scope. The
+   alt attribute stays on the element and is unaffected.
+
+   IF A LIGHT DIRECTION IS CHOSEN this stops being a CSS override and becomes
+   a real decision: site.json needs a second logo entry and DESIGN_SYSTEM.md's
+   "do not wire theme-conditional logo swaps" line needs revisiting, since it
+   was written on the assumption that there would only ever be one ground. */
+.hc-light .site-header__logo-img {
+  content: url("/images/brand/tajima-logo-horizontal-red-mark-black-text.png");
+  height: 2.5rem;
+}
+
+/* THE HEADER CTA, and why it changes shape on a light canvas.
+
+   nav.json spends the site's one red CTA on the header's Order Online pill,
+   and its own note says page heroes must not put a second red beside it. On
+   the night canvas that works: the home hero's primary is cream-on-red inside
+   an already-red panel, so it is not a second red fill.
+
+   A light-canvas hero has no red panel to sit in, and the brief for these
+   concepts asks Fire Red to carry one CTA. Two red fills would then be in the
+   same viewport, which DESIGN_SYSTEM.md does not allow.
+
+   So in the light concepts the header CTA becomes a hairline outline and the
+   hero CTA is the page's single red fill. This is a concept-level proposal
+   for Andy to react to, not a change to the shipped header: nav.json and
+   site-header.njk are untouched and every other page is unaffected. */
+.hc-light .site-header__nav-link--cta {
+  background: none;
+  color: var(--color-ink);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  box-shadow: none;
+}
+
+.hc-light .site-header__nav-link--cta:hover,
+.hc-light .site-header__nav-link--cta:focus-visible {
+  color: var(--color-red);
+  border-color: var(--color-red);
+}
+
+/* ==========================================================================
+   Block: hc-switch, the concept switcher
+
+   Fixed, always reachable, first in the tab order. Uses the system constants
+   rather than the surface ramp on purpose: it floats over three different
+   canvases and its colour is a function of what it is, not of what is behind
+   it. Same rule the caption pills follow.
+
+   Three plain <button>s with aria-pressed inside a labelled group. Not a
+   tablist: the panels are whole pages, and nothing here removes an element
+   from the tab order or holds focus, so there is no trap to escape.
+   ========================================================================== */
+
+.hc-switch {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  transform: translateX(-50%);
+  z-index: calc(var(--z-grain) + 2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: calc(100vw - var(--space-8));
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-system-ink-90);
+  border: var(--stroke-hair) solid var(--color-system-cream-70);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hc-switch__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-system-cream-70);
+  padding-left: var(--space-2);
+  white-space: nowrap;
+}
+
+.hc-switch__set {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.hc-switch__btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-system-cream-70);
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-switch__btn:hover {
+  color: var(--color-system-cream);
+}
+
+.hc-switch__btn[aria-pressed="true"] {
+  background: var(--color-system-cream);
+  color: var(--color-system-ink);
+  font-weight: var(--weight-bold);
+}
+
+.hc-switch__note {
+  font-family: var(--font-ui);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-system-cream-70);
+  padding-right: var(--space-2);
+  white-space: nowrap;
+}
+
+@media (max-width: 64rem) {
+  .hc-switch {
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .hc-switch__label,
+  .hc-switch__note {
+    display: none;
+  }
+}
+
+/* Keeps the last section clear of the fixed bar. */
+.hc-concept {
+  padding-bottom: var(--space-11);
+}
+
+/* ==========================================================================
+   Block: hc-hero
+
+   A quieter hero than the shipped .hero for concepts A and B. Reused rather
+   than rebuilt where it can be: concept C uses the real .hero component
+   untouched, because C's whole job is to change nothing about the canvas.
+
+   One photograph, one H1, one lede, one CTA. No video, no stripe field, no
+   stat bar under it.
+   ========================================================================== */
+
+.hc-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: var(--space-10);
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-11) var(--layout-gutter) var(--space-12);
+}
+
+.hc-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+.hc-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+/* Accent 1 of 3: a short Fire Red rule, the same device .next-card already
+   uses along its top edge. */
+.hc-hero__eyebrow::before {
+  content: "";
+  width: var(--space-8);
+  height: var(--stroke-rule);
+  background: var(--color-red);
+}
+
+.hc-hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  /* Same clamp reasoning as .hero__display: the slogan is three full lines
+     and the longest ("weren't for sale.") runs about 6.7em in this face. This
+     column is wider than the red panel, so the ceiling can go a little
+     higher. */
+  font-size: clamp(2.75rem, 6vw, 6rem);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+
+.hc-hero__title span {
+  display: block;
+}
+
+/* Accent 2 of 3. */
+.hc-hero__title em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+.hc-hero__lede {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 34rem;
+}
+
+.hc-hero__figure {
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-canvas-3);
+}
+
+.hc-hero__figure--wide {
+  aspect-ratio: 4 / 3;
+}
+
+.hc-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 64rem) {
+  .hc-hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-7);
+    padding: var(--space-8) var(--layout-gutter) var(--space-9);
+  }
+
+  .hc-hero__figure,
+  .hc-hero__figure--wide {
+    aspect-ratio: 16 / 10;
+    order: -1;
+  }
+}
+
+/* ==========================================================================
+   Block: hc-cta
+
+   Accent 3 of 3. The one red fill on a light concept, and the only one: the
+   header CTA is outlined inside .hc-light so these never stack.
+   ========================================================================== */
+
+.hc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-red);
+  color: var(--color-system-cream);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-cta:hover,
+.hc-cta:focus-visible {
+  transform: translateY(-1px);
+  color: var(--color-system-cream);
+}
+
+/* Secondary: hairline outline, never a second red. */
+.hc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-link:hover,
+.hc-link:focus-visible {
+  color: var(--color-ink);
+  border-color: var(--color-red);
+}
+
+/* ==========================================================================
+   Block: hc-note
+
+   The "one line and a link out" row. This is the whole answer to "repetitive
+   information": a subject that used to own a full section inline now gets one
+   sentence and a door to its real page.
+   ========================================================================== */
+
+.hc-note {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-10) var(--layout-gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-7);
+  border-top: var(--stroke-hair) solid var(--color-rule);
+}
+
+.hc-note__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hc-note__eyebrow {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.hc-note__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.hc-note__body {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+  max-width: 46rem;
+}
+
+@media (max-width: 64rem) {
+  .hc-note {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    padding: var(--space-8) var(--layout-gutter);
+  }
+}
+
+/* Stacked notes: concept C's three doors in a row. */
+.hc-notes .hc-note + .hc-note {
+  padding-top: var(--space-8);
+}
+
+/* ==========================================================================
+   Block: hc-band
+
+   Concept B's printed-spread banding. A band owns its own full-bleed canvas
+   and holds the layout inside a normal measure.
+   ========================================================================== */
+
+.hc-band {
+  padding: var(--space-11) 0;
+  background: var(--color-canvas);
+}
+
+.hc-band--flush {
+  padding: 0;
+}
+
+.hc-band__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter);
+}
+
+/* The single dark band. No .hc-light scope on it, so it inherits the night
+   ramp from <html> exactly as the rest of the site has it, glows included.
+   That is the point: the Noodle Room already runs a darker identity, so a
+   dark band here reads as continuity rather than as a second theme. */
+.hc-band--dark {
+  padding: var(--space-12) 0;
+  border-block: var(--stroke-hair) solid var(--color-rule);
+}
+
+.hc-band__lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-9);
+  align-items: end;
+}
+
+.hc-band__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.hc-band__title em {
+  font-style: normal;
+  color: var(--color-red);
+}
+
+.hc-band__body {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+}
+
+.hc-band__foot {
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 64rem) {
+  .hc-band {
+    padding: var(--space-9) 0;
+  }
+
+  .hc-band--dark {
+    padding: var(--space-10) 0;
+  }
+
+  .hc-band__lead {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* ==========================================================================
+   Block: hc-close
+
+   The stripped footer concepts A and B use instead of .monolith.
+
+   .monolith is reused verbatim by concept C and it is the right footer for
+   the night canvas. It is not the right footer for these two, for a reason
+   that is the client's note rather than a taste call: its spec strip prints
+   the same four figures as the home stat bar (25 / 6 / 2 / 1, from
+   site.json), which is the one literally duplicated block on the current
+   page. A and B cut the stat bar, so repeating it in the footer would put the
+   duplication straight back.
+
+   Everything here still comes from nav.json and site.json. No new data.
+   ========================================================================== */
+
+.hc-close {
+  border-top: var(--stroke-hair) solid var(--color-rule);
+  background: var(--color-canvas);
+  padding: var(--space-9) var(--layout-gutter) var(--space-10);
+}
+
+.hc-close__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.hc-close__crest {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--color-red);
+}
+
+.hc-close__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4) var(--space-7);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.hc-close__nav a {
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-close__nav a:hover,
+.hc-close__nav a:focus-visible {
+  color: var(--color-red);
+}
+
+.hc-close__sub {
+  font-family: var(--font-ui);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-4);
+}
+
+/* ==========================================================================
+   Concept-scoped adjustments
+
+   Small, and each one has a reason tied to that concept's brief.
+   ========================================================================== */
+
+/* A drops the price and description from the menu teaser in the markup. It is
+   the hardest cut of the three and the bowl names carry it; /menu/ has the
+   rest. No rule is needed here, and there must not be one.
+
+   REMOVED, and worth the note. This block used to carry
+   `.hc-a .menu__grid { grid-template-columns: repeat(3, 1fr) }`, which was a
+   no-op at desktop (it restated menu.css's own default) and a real bug
+   everywhere else: at 0,2,0 it outranked the 0,1,0 selectors inside
+   menu.css's own `max-width: 64rem` and `max-width: 40rem` queries, so the
+   teaser stayed three across on a phone and pushed the page into horizontal
+   overflow. A concept-scoped selector silently outranking a component's own
+   breakpoints is the failure mode to watch for in this whole file. */
+
+/* B leads with photography, so its bowls run larger and keep their
+   descriptions. The note drops under the title instead of sitting opposite
+   it, and has to give up .menu__note's right-alignment and 22rem cap when it
+   does: those exist to hold a right-hand column, and left over from one they
+   render as a ragged block floating in the left third. */
+.hc-b .menu__head {
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.hc-b .menu__note {
+  text-align: left;
+  max-width: 46rem;
+}
+
+/* B's hero and its first band both bring their own vertical padding, which
+   stacked to roughly 200px of nothing between the H1 block and "The bowls."
+   The hero gives up its bottom half. */
+.hc-b .hc-hero {
+  padding-bottom: var(--space-9);
+}
+
+/* C: the location finder has to clear the fold. The shipped .hero is
+   min-height calc(100vh - 7rem) by design, which puts anything after it a
+   full screen down. This is the only change C makes to the night canvas, and
+   it is a size, not a colour.
+
+   TWO rules, not one, and the second is the one that actually does it.
+   min-height is a floor, and .hero__display's own clamp (5.5vw, so ~79px at
+   1440) breaks the slogan across FIVE lines inside a panel that is half the
+   viewport minus 160px of padding. The hero's intrinsic height then exceeds
+   62vh and the floor never binds. Dropping the display to --text-h2 (~58px at
+   1440) lands the same three lines the copy is written as, the hero comes in
+   under the floor, and the first location row clears a 900px fold.
+
+   --text-h2 is the existing token. No new size, no new clamp. */
+.hc-c .hero {
+  min-height: 62vh;
+}
+
+.hc-c .hero__display {
+  font-size: var(--text-h2);
+}
+
+@media (max-width: 64rem) {
+  .hc-c .hero {
+    min-height: auto;
+  }
+}
+
+/* Both light concepts drop the "Since <year>" column from the location rows.
+   Convoy's value is 2001, which the hero lede already states, and a stat that
+   appears twice on one page is the thing being fixed here. */
+.hc-locations--plain .locations__row {
+  grid-template-columns: auto 1fr 1fr;
+}
+
+@media (max-width: 64rem) {
+  .hc-locations--plain .locations__row {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* The locations head carries its own link out to /locations/ in every
+   concept, so the two-column head needs its right cell to sit on the
+   baseline of the title rather than stretch. */
+.locations__head .hc-link {
+  justify-self: end;
+}
