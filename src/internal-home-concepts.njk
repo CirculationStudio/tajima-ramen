@@ -46,9 +46,16 @@ description: "Internal review page. Three alternate home page directions on one 
 
   WHAT THIS PAGE IS. Three directions, all simpler, switchable in place so
   they can be compared in one conversation rather than across three links.
-  They isolate two variables deliberately: A changes canvas AND density, C
-  changes density only, B sits between them. Whichever one Andy reacts to
-  tells us which lever was doing the work.
+  A changes canvas AND density. C changes density only, the control. B keeps
+  the night canvas and answers the crowding with scale: the biggest type,
+  the fewest moves. Whichever one Andy reacts to tells us which lever was
+  doing the work.
+
+  ROUND 2, per Steve's review of the first build: A read poorly (its note
+  rows floated as unanchored text, fixed with the card treatment), the first
+  B was a light/dark banded scroll that sat too close to A (replaced
+  entirely with the bold night take), and C was closest to the target
+  (touched least). See each concept's own comment.
 
   WHAT THIS PAGE DOES NOT TOUCH: src/index.njk, its route, nav.json,
   site.json, DESIGN_SYSTEM.md, voice-tone.md. The live home page is exactly
@@ -136,7 +143,7 @@ description: "Internal review page. Three alternate home page directions on one 
     <span class="hc-switch__label">Concept</span>
     <div class="hc-switch__set">
       <button type="button" class="hc-switch__btn" data-hc-btn="a" aria-pressed="true">A &middot; Quiet craft</button>
-      <button type="button" class="hc-switch__btn" data-hc-btn="b" aria-pressed="false">B &middot; Editorial</button>
+      <button type="button" class="hc-switch__btn" data-hc-btn="b" aria-pressed="false">B &middot; Bold</button>
       <button type="button" class="hc-switch__btn" data-hc-btn="c" aria-pressed="false">C &middot; Direct</button>
     </div>
     <span class="hc-switch__note">Internal review</span>
@@ -317,127 +324,86 @@ description: "Internal review page. Three alternate home page directions on one 
 
 
   {# =======================================================================
-     CONCEPT B. Long Editorial Scroll, banded.
+     CONCEPT B. Bigger, Bolder, Simpler, on the night canvas.
 
-     The middle path. Off-White and near-black alternate band by band like a
-     printed spread, so neither canvas has to win outright.
+     ROUND 2, rebuilt after Steve's review. The first B was a light/dark
+     banded editorial scroll; his read was that it sat too close to A, with C
+     closest to what the client wants. This B answers his note directly:
+     night canvas kept, and the crowding complaint answered with SCALE, not
+     with banding. Five moves:
 
-     Banding: Off-White hero, Off-White menu, ONE dark band for the Noodle
-     Room, Off-White locations, Off-White close. The dark band carries no
-     .hc-light scope, so it inherits the shipped night ramp from <html>,
-     glows and all. That is deliberate: the Noodle Room already runs its own
-     darker identity, so a dark band there reads as continuity.
+       1. A full-bleed photographic poster hero, slogan at --text-display,
+          one CTA, no video.
+       2. The Noodle Room as a display-size statement, one sentence, one
+          link. The growth priority gets the same scale as the hero.
+       3. Three bowls, names and prices only.
+       4. The location index: seven names at --text-h1, the list itself as
+          the page's interface. The / brief says the visitor already knows
+          Tajima and wants routing; B makes the routing the biggest thing
+          on the page after the slogan.
+       5. One line for Sam, then the monolith.
 
-     CUT AGAINST THE CURRENT HOME: the stat bar, both background videos, the
-     curtain-stage film, the pattern overlay, the monolith stat strip. Five
-     bands instead of seven sections, each one larger.
+     CUT AGAINST THE CURRENT HOME: the stat bar, all three videos, the
+     curtain-stage film, the pattern overlay, the story section, addresses in
+     the location list (NAP lives on the location pages and /locations/).
 
-     FACT LEDGER, each appears exactly once:
-       2001 and Convoy Street ... hero lede
+     FACT LEDGER, each appears exactly once. B ends on the real monolith
+     footer, so the footer holds the numbers and the hero holds none:
+       25 / 6 / 2 / 1 ... the monolith spec strip
+       Convoy, 2001 ... the monolith epitaph
+       Crown Point, the machine from Japan ... Noodle Room statement
        every morning, before service ... menu note
-       twenty-five years, two years, the machine from Japan ... Noodle Room band
-       Sam still runs it ... close band
-     "Six" is not stated anywhere in B; the seven-row location list carries
-     the geography instead.
+       Sam still runs it ... the house card
+     The hero is the slogan alone. No lede, same reasoning as C.
      ======================================================================= #}
-  <section class="hc-concept hc-b" data-hc-concept="b" aria-label="Concept B, long editorial scroll" hidden>
+  <section class="hc-concept hc-b" data-hc-concept="b" aria-label="Concept B, bigger and bolder on the night canvas" hidden>
 
-    <div class="hc-light">
-      {% set megaInstance = "b-" %}
+    {% set megaInstance = "b-" %}
     {% include "components/site-header.njk" %}
-    </div>
 
     <main id="hc-main-b" hidden>
 
-      {# ---------- Band 1, Off-White. Photography-led hero. ---------- #}
-      <div class="hc-light">
-        <div class="hc-hero">
-          <div class="hc-hero__copy">
-            <span class="hc-hero__eyebrow">San Diego, California</span>
+      {# ---------- The poster. One photograph, the slogan, one CTA. ----------
+         Tajima Black: the darkest bowl in the featured set, shot in the
+         room, so the night canvas reads as continuous with the photograph.
+         Type on the photo uses system constants per the overlay rule.
+         loading="lazy" because B is hidden on first paint and must not
+         compete with A's LCP preload. #}
+      <section class="hc-poster" aria-labelledby="hc-b-title">
+        <figure class="hc-poster__media">
+          <img
+            class="hc-poster__img"
+            src="/images/photo/tajima-ramen-convoy-tajima-black-03.webp"
+            alt="Tajima Black ramen with black garlic oil and chashu over dark tonkotsu broth"
+            width="1280"
+            height="854"
+            loading="lazy"
+            decoding="async">
+        </figure>
+        <div class="hc-poster__scrim" aria-hidden="true"></div>
 
-            <h1 class="hc-hero__title">
-              <span>Better noodles</span>
-              <span>weren't for sale.</span>
-              <span><em>So we made them.</em></span>
-            </h1>
+        <div class="hc-poster__inner">
+          <span class="hc-poster__eyebrow">San Diego, California</span>
 
-            <p class="hc-hero__lede">
-              Tajima has been on Convoy Street since 2001.
-            </p>
+          <h1 class="hc-poster__title" id="hc-b-title">
+            <span>Better noodles</span>
+            <span>weren't for sale.</span>
+            <span><em>So we made them.</em></span>
+          </h1>
 
-            <a class="hc-cta" href="/locations/">Find your Tajima</a>
-          </div>
-
-          <figure class="hc-hero__figure hc-hero__figure--wide">
-            <img
-              class="hc-hero__img"
-              src="/images/photo/tajima-ramen-convoy-tajima-white-01.webp"
-              alt="Tajima White ramen, clean tonkotsu base with chashu and a ramen egg"
-              width="1280"
-              height="1024"
-              loading="lazy">
-          </figure>
+          {# Cream pill, red type: the shipped hero__order pattern. The
+             header's Order Online pill is this viewport's one red fill. #}
+          <a class="hc-poster__cta" href="/locations/">Find your Tajima</a>
         </div>
-      </div>
+      </section>
 
-      {# ---------- Band 2, Off-White. The bowls, larger, with descriptions. ---------- #}
-      <div class="hc-light">
-        <section class="menu" aria-labelledby="hc-b-menu">
-          <div class="menu__inner">
-            <header class="menu__head">
-              <h2 class="menu__title" id="hc-b-menu">The <em>bowls.</em></h2>
-              {# TRIMMED. src/index.njk reads "Broth simmered every morning in
-                 the Crown Point commissary and driven out before service."
-                 Crown Point is named in the Noodle Room band below, so the
-                 place comes out of this line rather than being said twice. #}
-              <p class="menu__note">
-                Broth simmered every morning and driven out before service.
-              </p>
-            </header>
-
-            <div class="menu__grid">
-              {%- for dish in featuredRamen %}
-                {%- if loop.index <= 3 %}
-              <article class="dish">
-                <figure class="dish__figure">
-                  <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-                </figure>
-                <div class="dish__meta">
-                  <h3 class="dish__name">
-                    {%- if dish.emphasis -%}
-                      {{ dish.shortName | replace(dish.emphasis, "") }}<em>{{ dish.emphasis }}</em>
-                    {%- else -%}
-                      {{ dish.shortName }}
-                    {%- endif -%}
-                  </h3>
-                  <span class="dish__price">${{ dish.price }}</span>
-                </div>
-                {%- if dish.description %}
-                <p class="dish__desc">{{ dish.description }}</p>
-                {%- endif %}
-              </article>
-                {%- endif %}
-              {%- endfor %}
-            </div>
-
-            <p class="menu__more">
-              <a class="menu__more-link" href="/menu/">See the whole menu</a>
-            </p>
-          </div>
-        </section>
-      </div>
-
-      {# ---------- Band 3, DARK. The Noodle Room moment. ----------
-         No .hc-light scope here on purpose. Three sentences, lifted verbatim
-         from the Noodle Room card on src/index.njk, and one link. No video:
-         the card's background clip is one of the two copies of the same file
-         this concept removes. #}
+      {# ---------- The Noodle Room, at display size. ---------- #}
       <section class="hc-band hc-band--dark" aria-labelledby="hc-b-nr">
         <div class="hc-band__inner">
           <div class="hc-band__lead">
-            <h2 class="hc-band__title" id="hc-b-nr">The<br><em>Noodle Room</em></h2>
+            <h2 class="hc-band__title hc-band__title--big" id="hc-b-nr">The<br><em>Noodle Room</em></h2>
             <p class="hc-band__body">
-              For twenty-five years Tajima bought its noodles. Sam spent two years building a room in Crown Point so that would stop being true. There is a machine in it that came over from Japan.
+              The noodles are made in our own room in Crown Point, on a machine we brought over from Japan.
             </p>
           </div>
           <p class="hc-band__foot">
@@ -446,64 +412,87 @@ description: "Internal review page. Three alternate home page directions on one 
         </div>
       </section>
 
-      {# ---------- Band 4, Off-White. Locations. ---------- #}
-      <div class="hc-light">
-        <section class="locations hc-locations--plain" aria-labelledby="hc-b-loc">
-          <div class="locations__inner">
-            <header class="locations__head">
-              <h2 class="locations__title" id="hc-b-loc">Where to <em>find us.</em></h2>
-              <a class="hc-link" href="/locations/">All locations</a>
-            </header>
+      {# ---------- Three bowls, names and prices only. ---------- #}
+      <section class="menu" aria-labelledby="hc-b-menu">
+        <div class="menu__inner">
+          <header class="menu__head">
+            <h2 class="menu__title" id="hc-b-menu">The <em>bowls.</em></h2>
+            {# TRIMMED from index.njk's note. Crown Point is named in the
+               statement above, "six" lives in the monolith, so neither
+               repeats here. #}
+            <p class="menu__note">
+              Broth simmered every morning and driven out before service.
+            </p>
+          </header>
 
-            {%- for loc in locations.items %}
-            <article class="locations__row">
-              <span class="locations__row-no">&#8470;&nbsp;{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
-              <h3 class="locations__row-name">
-                <a href="{{ loc.url }}">{{ loc.name }} <em>{{ loc.descriptor }}</em></a>
-              </h3>
-              <address class="locations__row-addr">
-                {%- if loc.address.street %}{{ loc.address.street }}, {% endif -%}
-                {%- if loc.neighborhood and loc.neighborhood != loc.address.locality %}{{ loc.neighborhood }}, {% endif -%}
-                {{ loc.address.locality }}, {{ loc.address.region }}
-              </address>
+          <div class="menu__grid">
+            {%- for dish in featuredRamen %}
+              {%- if loop.index <= 3 %}
+            <article class="dish">
+              <figure class="dish__figure">
+                <img class="dish__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+              </figure>
+              <div class="dish__meta">
+                <h3 class="dish__name">
+                  {%- if dish.emphasis -%}
+                    {{ dish.shortName | replace(dish.emphasis, "") }}<em>{{ dish.emphasis }}</em>
+                  {%- else -%}
+                    {{ dish.shortName }}
+                  {%- endif -%}
+                </h3>
+                <span class="dish__price">${{ dish.price }}</span>
+              </div>
             </article>
+              {%- endif %}
             {%- endfor %}
           </div>
-        </section>
-      </div>
 
-      {# ---------- Band 5, Off-White. The close. ---------- #}
-      <div class="hc-light">
-        <section class="hc-band" aria-labelledby="hc-b-house">
-          <div class="hc-band__inner">
-            <div class="hc-band__lead">
-              <h2 class="hc-band__title" id="hc-b-house">One <em>owner.</em></h2>
-              <p class="hc-band__body">
-                Sam Morikizono took it over, and has run it ever since.
-              </p>
-            </div>
-            <p class="hc-band__foot">
-              <a class="hc-link" href="/about/">Read how Sam got here</a>
-            </p>
-          </div>
-        </section>
-      </div>
+          <p class="menu__more">
+            <a class="menu__more-link" href="/menu/">See the whole menu</a>
+          </p>
+        </div>
+      </section>
+
+      {# ---------- The index. Seven names, giant, each row one link. ----------
+         No addresses on purpose: the name and descriptor route, NAP lives on
+         the location pages. The head label is the smallest type in the
+         section because the rows are the headline. #}
+      <section class="hc-index" aria-labelledby="hc-b-loc">
+        <div class="hc-index__inner">
+          <header class="hc-index__head">
+            <h2 class="hc-index__label" id="hc-b-loc">Where to find us</h2>
+            <a class="hc-link" href="/locations/">All locations</a>
+          </header>
+
+          {%- for loc in locations.items %}
+          <article class="hc-index__row">
+            <a class="hc-index__link" href="{{ loc.url }}">
+              <span class="hc-index__no">&#8470;&nbsp;{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+              <span class="hc-index__name">{{ loc.name }}</span>
+              <span class="hc-index__tag">{{ loc.descriptor }}</span>
+            </a>
+          </article>
+          {%- endfor %}
+        </div>
+      </section>
+
+      {# ---------- One line for Sam. ---------- #}
+      <section class="hc-note" aria-labelledby="hc-b-house">
+        <div class="hc-note__head">
+          <span class="hc-note__eyebrow">The house</span>
+          <h2 class="hc-note__title" id="hc-b-house">One owner</h2>
+          <p class="hc-note__body">
+            Sam Morikizono took it over, and has run it ever since.
+          </p>
+        </div>
+        <a class="hc-link" href="/about/">Read how Sam got here</a>
+      </section>
 
     </main>
 
-    <div class="hc-light">
-      <footer class="hc-close" aria-label="{{ site.name }} footer">
-        <div class="hc-close__inner">
-          <p class="hc-close__crest" aria-hidden="true">但馬</p>
-          <nav class="hc-close__nav" aria-label="Footer">
-            {%- for item in nav.footer %}
-            <a href="{{ item.url }}"{% if item.external %} rel="noopener"{% endif %}>{{ item.label }}</a>
-            {%- endfor %}
-          </nav>
-          <p class="hc-close__sub">{{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}</p>
-        </div>
-      </footer>
-    </div>
+    {# The shipped footer. Its spec strip is the only place the 25 / 6 / 2 / 1
+       figures appear in this concept, and the epitaph the only Convoy/2001. #}
+    {% include "components/monolith.njk" %}
 
   </section>
 

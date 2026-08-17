@@ -15,10 +15,21 @@
    colour, and we do not know which one is doing the work. So:
 
      A  light canvas + hardest cut          (both levers pulled)
-     B  banded light/dark + fewer sections  (both levers, halfway)
+     B  night canvas + biggest type         (scale as the answer)
      C  night canvas unchanged + cut only   (density lever only)
 
    Whichever one lands tells us which lever mattered.
+
+   ROUND 2, after Steve's review: the first B was a light/dark banded middle
+   path and read as a weaker A. Rebuilt per his note ("bigger, bolder,
+   simpler"): B now keeps the night canvas and answers the crowding complaint
+   with scale instead of banding. A full-bleed photographic poster hero with
+   the slogan at --text-display, and the seven location names set as giant
+   type, the list itself becoming the page's interface. Five moves total:
+   poster, Noodle Room statement, three bowls, the index, one line for Sam.
+   A and C got a small pass in the same round: the floating .hc-note rows
+   became anchored cards (the next-card red top rule, an existing device) and
+   A's sections band faintly so the cream page has rhythm.
 
    THE LIGHT CANVAS IS NOT A NEW THEME AND NOT A THEME TOGGLE.
 
@@ -51,9 +62,15 @@
 
 .hc-light {
   /* Surfaces. Off-White is the field; the two raised steps are alphas of the
-     ink constant rather than new greys, so nothing here invents a tone. */
+     ink constant rather than new greys, so nothing here invents a tone.
+
+     canvas-2 carries a 3% ink tint rather than staying flat cream (round 2).
+     .menu and .locations both paint canvas-2, so this single value is what
+     gives concept A its section banding: the page reads as composed surfaces
+     instead of one uninterrupted cream void, which was the first round's
+     legibility problem. */
   --color-canvas: var(--color-system-cream);
-  --color-canvas-2: var(--color-system-cream);
+  --color-canvas-2: rgba(13, 13, 10, 0.03);
   --color-canvas-3: rgba(13, 13, 10, 0.04);
   --color-surface: rgba(13, 13, 10, 0.04);
   --color-surface-2: rgba(13, 13, 10, 0.07);
@@ -288,10 +305,13 @@
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: center;
-  gap: var(--space-10);
+  gap: var(--space-9);
   max-width: var(--layout-max);
   margin-inline: auto;
-  padding: var(--space-11) var(--layout-gutter) var(--space-12);
+  /* Round 2: bottom came down from space-12. The Noodle Room card below now
+     brings its own space-9 margin, and 8rem + 6rem of stacked nothing was
+     part of what made the first round read as unstructured. */
+  padding: var(--space-11) var(--layout-gutter) var(--space-9);
 }
 
 .hc-hero__copy {
@@ -446,17 +466,29 @@
    The "one line and a link out" row. This is the whole answer to "repetitive
    information": a subject that used to own a full section inline now gets one
    sentence and a door to its real page.
+
+   ROUND 2: card, not row. The first round drew these as full-width text
+   separated by hairlines, and on A's cream field they floated: no edge, no
+   anchor, the ugliest thing on the page. Now they are the next-card pattern
+   at full width: a surface one step off the canvas, a hairline border, and
+   the 3px Fire Red top rule. That rule is an existing accent device
+   (next-pair uses it on /menu/), not a new one, and it works identically on
+   the cream canvas and the night canvas, so A and C share the fix.
    ========================================================================== */
 
 .hc-note {
-  max-width: var(--layout-max);
+  max-width: min(var(--layout-max), calc(100% - (2 * var(--layout-gutter))));
   margin-inline: auto;
-  padding: var(--space-10) var(--layout-gutter);
+  margin-block: var(--space-9);
+  padding: var(--space-8);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-7);
-  border-top: var(--stroke-hair) solid var(--color-rule);
+  background: var(--color-canvas-2);
+  border: var(--stroke-hair) solid var(--color-rule);
+  /* The one place red touches the card's own surface. Accent, not field. */
+  border-top: var(--stroke-thick) solid var(--color-red);
 }
 
 .hc-note__head {
@@ -497,20 +529,31 @@
   .hc-note {
     grid-template-columns: 1fr;
     gap: var(--space-5);
-    padding: var(--space-8) var(--layout-gutter);
+    margin-block: var(--space-8);
+    padding: var(--space-6);
   }
 }
 
-/* Stacked notes: concept C's three doors in a row. */
-.hc-notes .hc-note + .hc-note {
-  padding-top: var(--space-8);
+/* Stacked notes: concept C's three doors. The stack owns the vertical
+   rhythm so the cards can sit at a tighter, deliberate interval instead of
+   each bringing its own section-sized margin. */
+.hc-notes {
+  display: grid;
+  gap: var(--space-5);
+  margin-block: var(--space-9);
+}
+
+.hc-notes .hc-note {
+  margin-block: 0;
 }
 
 /* ==========================================================================
    Block: hc-band
 
-   Concept B's printed-spread banding. A band owns its own full-bleed canvas
-   and holds the layout inside a normal measure.
+   Full-bleed section with its own canvas, holding the layout inside a
+   normal measure. Round 2: only the --dark variant survives in use, as B's
+   Noodle Room statement. The light banding it was built for went with the
+   first B; the base block stays because the dark variant extends it.
    ========================================================================== */
 
 .hc-band {
@@ -589,7 +632,8 @@
 /* ==========================================================================
    Block: hc-close
 
-   The stripped footer concepts A and B use instead of .monolith.
+   The stripped footer concept A uses instead of .monolith. (Round 2: B now
+   ends on the real monolith, like C, since B repeats no stats in its body.)
 
    .monolith is reused verbatim by concept C and it is the right footer for
    the night canvas. It is not the right footer for these two, for a reason
@@ -675,26 +719,252 @@
    overflow. A concept-scoped selector silently outranking a component's own
    breakpoints is the failure mode to watch for in this whole file. */
 
-/* B leads with photography, so its bowls run larger and keep their
-   descriptions. The note drops under the title instead of sitting opposite
-   it, and has to give up .menu__note's right-alignment and 22rem cap when it
-   does: those exist to hold a right-hand column, and left over from one they
-   render as a ragged block floating in the left third. */
-.hc-b .menu__head {
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
+/* ==========================================================================
+   Blocks: hc-poster and hc-index. Concept B only, round 2.
+
+   B's thesis: the page's job is routing (the / brief: the visitor already
+   knows Tajima and wants a room), so the two biggest things on the page are
+   the slogan and the seven location names. Everything else is one move each.
+
+   THE POSTER. One photograph, full bleed, the slogan at --text-display, one
+   CTA. Type on the photo uses the system constants exclusively, per the
+   photo-overlay rule in theme.css. The scrim is an alpha of system ink, a
+   sanctioned transparency variation, not a new colour. No video: the file
+   the old hero streamed is one of the things being cut.
+   ========================================================================== */
+
+.hc-poster {
+  position: relative;
+  min-height: calc(100vh - 7rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--color-canvas);
 }
 
-.hc-b .menu__note {
-  text-align: left;
-  max-width: 46rem;
+.hc-poster__media {
+  position: absolute;
+  inset: 0;
+  margin: 0;
 }
 
-/* B's hero and its first band both bring their own vertical padding, which
-   stacked to roughly 200px of nothing between the H1 block and "The bowls."
-   The hero gives up its bottom half. */
-.hc-b .hc-hero {
-  padding-bottom: var(--space-9);
+.hc-poster__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hc-poster__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 10, 0.2) 0%,
+    rgba(13, 13, 10, 0.45) 55%,
+    rgba(13, 13, 10, 0.84) 100%
+  );
+}
+
+.hc-poster__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-10) var(--layout-gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.hc-poster__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-system-cream-70);
+}
+
+.hc-poster__eyebrow::before {
+  content: "";
+  width: var(--space-8);
+  height: var(--stroke-rule);
+  background: var(--color-red);
+}
+
+.hc-poster__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-system-cream);
+}
+
+.hc-poster__title span {
+  display: block;
+}
+
+/* Gold line with the shipped hero's own gold glow, a night-canvas device.
+   One line of three keeps Sesame Gold far under its 10% budget. */
+.hc-poster__title em {
+  font-style: normal;
+  color: var(--color-gold);
+  text-shadow:
+    0 0 12px rgba(255, 210, 94, 0.6),
+    0 0 32px rgba(255, 210, 94, 0.35);
+}
+
+/* Cream pill, red type: the shipped hero__order pattern. NOT a red fill,
+   because the header's Order Online pill is this viewport's one red CTA. */
+.hc-poster__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-system-cream);
+  color: var(--color-red-deep);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  box-shadow: var(--glow-red);
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-poster__cta:hover,
+.hc-poster__cta:focus-visible {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 64rem) {
+  .hc-poster {
+    min-height: 72vh;
+  }
+
+  .hc-poster__inner {
+    padding: var(--space-8) var(--layout-gutter);
+  }
+}
+
+/* ==========================================================================
+   Block: hc-index. The location list as the interface.
+
+   Seven rows, each one a single link, the name at --text-h1. The № numbering
+   is carried over from the shipped .locations block, where it is already a
+   signed device, and here the order genuinely is information: the brief's
+   routing order, San Diego rooms then Maui, oldest room first.
+
+   No addresses. This is B being simpler: the name and the descriptor route,
+   and every address, phone number and map link lives one click away on the
+   location's own page, which is where NAP belongs anyway.
+   ========================================================================== */
+
+.hc-index {
+  padding: var(--space-11) var(--layout-gutter);
+  background: var(--color-canvas-2);
+}
+
+.hc-index__inner {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+.hc-index__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--stroke-rule) solid var(--color-rule);
+}
+
+/* The head is deliberately the smallest type in the section. The rows are
+   the headline; a second display-size title above them would compete. */
+.hc-index__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.hc-index__row {
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
+}
+
+.hc-index__link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
+}
+
+.hc-index__no {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-4);
+}
+
+.hc-index__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.hc-index__tag {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  text-align: right;
+}
+
+.hc-index__link:hover .hc-index__name,
+.hc-index__link:focus-visible .hc-index__name {
+  color: var(--color-red);
+  text-shadow: var(--glow-text);
+}
+
+@media (max-width: 64rem) {
+  .hc-index {
+    padding: var(--space-9) var(--layout-gutter);
+  }
+
+  .hc-index__link {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+
+  .hc-index__tag {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+
+/* B's Noodle Room statement runs at display size: it is the growth priority
+   and in this concept it gets the same scale as the hero, not a card. */
+.hc-band__title--big {
+  font-size: var(--text-display);
 }
 
 /* C: the location finder has to clear the fold. The shipped .hero is

@@ -51,6 +51,12 @@ const PARAM = "concept";
       if (main) main.hidden = !isActive;
     }
 
+    // Retarget the skip link at the visible concept's main. It ships pointing
+    // at concept A's, and a skip link that jumps to a hidden element is a
+    // no-op for exactly the keyboard user it exists for.
+    const skip = document.querySelector(".skip-link");
+    if (skip) skip.setAttribute("href", `#hc-main-${key}`);
+
     for (const button of buttons) {
       button.setAttribute("aria-pressed", String(button.dataset.hcBtn === key));
     }
@@ -76,4 +82,19 @@ const PARAM = "concept";
   const requested = new URL(window.location.href).searchParams.get(PARAM);
   const initial = CONCEPTS.includes(requested) ? requested : CONCEPTS[0];
   show(initial, { updateUrl: false });
+
+  // Honor a fragment once the concept is visible. The browser's own
+  // scroll-to-fragment runs before this script unhides anything, so a link
+  // like ?concept=b#hc-b-loc lands at the top instead of the section it
+  // names. Re-run the jump now that the target can be laid out. This is what
+  // lets a review comment point at one section of one concept.
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target && !target.closest("[hidden]")) {
+      // "instant", not the page's smooth default: native fragment navigation
+      // jumps, and a load-time jump that animates over a full-viewport hero
+      // reads as the page scrolling itself.
+      target.scrollIntoView({ behavior: "instant" });
+    }
+  }
 })();
