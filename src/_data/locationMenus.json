@@ -1,0 +1,76 @@
+{
+  "_note": "Per-location printable food menus, downloaded into the repo 2026-09-09. Keyed by locations.json id. A room with no entry renders no printable link, which is Maui: no file was supplied for it.",
+  "_source": "Source: tajimaramen.com/wp-content/uploads/2026/07/, downloaded 2026-09-09. The sourceUrl on each entry is the exact URL each file came from.",
+  "_whyLocal": "DOWNLOADED, NOT HOTLINKED, AND THIS IS NOT A PREFERENCE. tajimaramen.com is the live WordPress site this project replaces. Hotlinking six menus from it would create six more launch blockers of exactly the kind DESIGN_SYSTEM.md open item 7 already describes for the Convoy hero photograph: the new site cannot go live and the old one be taken down in either order without breaking pages. These files are served from our own origin and the old site can go dark the day it is replaced.",
+  "_freshness": "THE FILENAME DATE IS THE ONLY VERSION SIGNAL THESE FILES CARRY. Dated 2026-07. Keep the dated filenames on purpose: when a new set arrives it lands beside these under a new date rather than overwriting them, and this file is the one place the pointer changes. If the client reprints without changing the date, nothing here will notice, so re-download when a menu change is announced.",
+  "_prices": "THESE FILES CARRY PER-LOCATION PRICES AND ARE PROBABLY THE ANSWER TO THE PRICING QUESTION menu.json _priceStatus describes. NOTHING WAS TRANSCRIBED IN THIS PASS AND NO PRICE IS PUBLISHED ON ANY PAGE. Do not read prices out of these files into menu.json without a decision on what /menu/ prints: one room's prices, a range, or none. See the report and menu.json _priceStatus.",
+  "_type": "Five are single-subject PDFs at 8.5x11. Mercury is a two-page PDF (page 2 is its izakaya, monthly specials and sushi). Plaza Bonita is NOT a PDF: it is a landscape JPG, and it is labelled as an image on the page rather than being called a PDF.",
+  "college-heights": {
+    "file": "2026-07_tajima-college-heights_food-menu_8.5x11.pdf",
+    "href": "/menus/2026-07_tajima-college-heights_food-menu_8.5x11.pdf",
+    "type": "pdf",
+    "typeLabel": "PDF",
+    "bytes": 280364,
+    "sizeLabel": "274 KB",
+    "pages": 1,
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-college-heights_food-menu_8.5x11.pdf",
+    "downloaded": "2026-09-09"
+  },
+  "convoy": {
+    "file": "2026-07_tajima-convoy_food-menu_8.5x11.pdf",
+    "href": "/menus/2026-07_tajima-convoy_food-menu_8.5x11.pdf",
+    "type": "pdf",
+    "typeLabel": "PDF",
+    "bytes": 306050,
+    "sizeLabel": "299 KB",
+    "pages": 1,
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-convoy_food-menu_8.5x11.pdf",
+    "downloaded": "2026-09-09"
+  },
+  "crown-point": {
+    "file": "2026-07_tajima-cp_food-menu_8.5x11.pdf",
+    "href": "/menus/2026-07_tajima-cp_food-menu_8.5x11.pdf",
+    "type": "pdf",
+    "typeLabel": "PDF",
+    "bytes": 279784,
+    "sizeLabel": "273 KB",
+    "pages": 1,
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-cp_food-menu_8.5x11.pdf",
+    "downloaded": "2026-09-09"
+  },
+  "east-village": {
+    "file": "2026-07_tajima-ev_food-menu_8.5x11.pdf",
+    "href": "/menus/2026-07_tajima-ev_food-menu_8.5x11.pdf",
+    "type": "pdf",
+    "typeLabel": "PDF",
+    "bytes": 283935,
+    "sizeLabel": "277 KB",
+    "pages": 1,
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-ev_food-menu_8.5x11.pdf",
+    "downloaded": "2026-09-09"
+  },
+  "mercury": {
+    "file": "2026-07_tajima-mercury_food-menu_8.5x11.pdf",
+    "href": "/menus/2026-07_tajima-mercury_food-menu_8.5x11.pdf",
+    "type": "pdf",
+    "typeLabel": "PDF",
+    "bytes": 803358,
+    "sizeLabel": "785 KB",
+    "pages": 2,
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-mercury_food-menu_8.5x11.pdf",
+    "downloaded": "2026-09-09"
+  },
+  "plaza-bonita": {
+    "file": "2026-07_tajima-pb_food-menu_1920x1080.jpg",
+    "href": "/menus/2026-07_tajima-pb_food-menu_1920x1080.jpg",
+    "type": "jpg",
+    "typeLabel": "JPG",
+    "bytes": 265540,
+    "sizeLabel": "259 KB",
+    "sourceUrl": "https://tajimaramen.com/wp-content/uploads/2026/07/2026-07_tajima-pb_food-menu_1920x1080.jpg",
+    "downloaded": "2026-09-09",
+    "dimensions": "2048x1152",
+    "_filenameNote": "The filename says 1920x1080 and the actual image is 2048x1152. The file is what it is; the name is wrong. Kept as supplied rather than renamed, because the filename is how this file is identified on the client's own server, but do not trust it for dimensions."
+  },
+  "_maui": "NO FILE. Maui was not in the supplied set, so its page gets the /menu/ link only and no printable link at all rather than a broken one or a San Diego menu standing in for it. Maui runs its own menu and its own prices; borrowing a San Diego file would be worse than having none."
+}

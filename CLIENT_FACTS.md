@@ -29,6 +29,23 @@ Source: Tajima Client DNA v1 (May 19, 2026), Tajima Brand Positioning v1 (May 20
 
 ---
 
+## The 2026-07 printed menus
+
+**Six per-location printable food menus, downloaded into the repo 2026-09-09** from tajimaramen.com and served from our own origin (never hotlinked, see `src/_data/locationMenus.json`). They are the client's own current print collateral and the most recent primary source on this project.
+
+**They carry per-location prices.** That is probably the answer to the pricing question that has blocked `/menu/` since 2026-08-04. **Nothing was transcribed and no price was published**, because the open question was never what the numbers are, it is what `/menu/` should print: one room's prices, a range, or none. See `menu.json` `_priceStatus`.
+
+**What they corroborate.** The per-location availability derived from the Toast catalogs holds up against the print at every point checked, including Curry Ramen being Convoy-only, Plaza Bonita carrying no Tajima Black, East Village's sushi hand roll, and Mercury being the only full sushi programme. Plaza Bonita's beverage list contains no alcohol, which independently supports the no-alcohol fact under Location 6. Carnitas Ramen is on all six.
+
+**Two things on them are evidence for questions we have been holding open, and neither is yet an answer.**
+
+1. **Every one of the six prints "Fresh noodles crafted daily."** That is the client publishing a noodle cadence claim in their own print collateral, and the cadence is open question 3 and `SITE_ARCHITECTURE.md` Open Decision #3, which the site currently honours by saying nothing. **This does not unblock it.** "Crafted daily" on a menu is marketing register, it does not say where or by whom, and it cannot distinguish made-that-morning-in-Crown-Point from delivered-daily, which is the exact distinction the claim turns on. It is worth putting to Sam in the interview as "your own menu says this, is it literally true and at which rooms."
+2. **Mercury prints a monthly specials section.** The GBP description's "rotating specials" was rejected as unverified marketing copy; for Mercury specifically, there is now print evidence that a rotating special exists. Still not confirmed for any other room, and still not publishable as written.
+
+**What they do NOT answer.** They are food menus. No beer list, no drinks, no happy hour, no tap counts. The tap counts stay unpublished (see Location 4) and the happy hour windows stay unconfirmed.
+
+**Client-side quality issues visible on the print**, worth passing back with the pricing question: typographic errors on Plaza Bonita ("COMBA B" for Combo B) and Mercury ("soy-based sauc", and a kids line reading "For guests under 12 & under"), and missing spaces after commas on three of them. Plaza Bonita's filename claims 1920x1080 and the file is 2048x1152.
+
 ## The GBP export, and what may not come out of it
 
 **Source: Connor, Google Business Profile export, 2026-09-09.** It closed `geo` and `sameAs` (open question 8), independently corroborated the hours and the full NAP at all six San Diego locations, and raised four conflicts recorded as open questions 16 to 19.

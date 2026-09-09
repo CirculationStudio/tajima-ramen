@@ -243,6 +243,12 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         {%- endif %}
       {%- endfor %}
     </div>
+
+    {#- Convoy does not render components/location-menu.njk (it shows its own
+        food photography instead of the type list), so it includes the menu
+        links directly. -#}
+    {%- set menuLinksLoc = locationId %}
+    {% include "components/menu-links.njk" %}
   </div>
 </section>
 

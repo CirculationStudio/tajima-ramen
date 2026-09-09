@@ -313,3 +313,61 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   line-height: var(--leading-normal);
   color: var(--ink-3);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   MENU LINKS · the full menu, and this room's printable one
+
+   Outlined, not filled. The header CTA is red and spends the page's one
+   primary CTA, so a second red button here would break DESIGN_SYSTEM.md's
+   one-per-viewport rule. Same hairline treatment as the phone buttons on
+   /happy-hour/, so the two read as one family of secondary actions.
+
+   Cards and controls take the radius scale; --radius-sm here because these
+   are small controls, not cards.
+═══════════════════════════════════════════════════════════════════ */
+.menu-links{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.menu-links__link{
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+.menu-links__link:hover,
+.menu-links__link:focus-visible{
+  border-color: var(--accent);
+  color: var(--accent);
+}
+/* The file type and weight. Quieter than the label because it is a warning,
+   not the offer, but it stays on the button rather than in a tooltip: the
+   point is that nobody starts a download without seeing it. */
+.menu-links__meta{
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: none;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.menu-links__link:hover .menu-links__meta,
+.menu-links__link:focus-visible .menu-links__meta{ color: inherit; }
+
+@media (max-width: 30rem){
+  .menu-links{ flex-direction: column; align-items: stretch; }
+  .menu-links__link{ justify-content: space-between; }
+}

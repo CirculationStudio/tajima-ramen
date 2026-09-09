@@ -83,5 +83,10 @@
     </div>
       {%- endif %}
     {%- endfor %}
+
+    {#- The full menu and this room's printable one, under the list they
+        belong to rather than stranded in the section note. -#}
+    {%- set menuLinksLoc = menuLoc %}
+    {% include "components/menu-links.njk" %}
   </div>
 </section>
