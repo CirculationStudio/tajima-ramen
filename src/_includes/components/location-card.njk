@@ -13,6 +13,10 @@
 <article class="cell loc loc--{{ modifier | default('std') }} reveal">
   <div>
     <div class="loc__top">
+      {# One consistent mark rather than a different icon per room: assigning
+         icons to locations would be arbitrary, and the shared bowl reads as a
+         card-type marker. Same mark on the happy hour rows. #}
+      <span class="mark mark--sm" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <span class="loc__no">&#8470;&nbsp;{{ "0" if index < 10 }}{{ index }}</span>
       {%- if loc.opened %}
       <span class="loc__since">Since {{ loc.opened }}</span>

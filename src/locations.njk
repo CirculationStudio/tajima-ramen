@@ -23,6 +23,9 @@ description: "Six Tajima Ramen locations across San Diego, from the Convoy origi
 {%- set sanDiego = locations.items | where("region", "san-diego") %}
 {%- set hawaii = locations.items | where("region", "hawaii") %}
 
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 <section class="page-hero" aria-labelledby="page-title">
   <div class="page-hero__inner">
     <p class="page-hero__crumbs">

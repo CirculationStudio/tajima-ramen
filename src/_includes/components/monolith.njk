@@ -10,23 +10,18 @@
    site.shortName via the `chars` filter, which is exactly what .neon__word
    needs. The one genuinely new element is the gold hairline rule.
 
-   WHAT THE REFERENCE DROPS AND THIS KEEPS. _reference/tajima-home-v2.html has
-   no epitaph and no spec strip: its footer is a nav and a copyright line. That
-   would delete content this footer already publishes, so those blocks move
-   into .ftr rather than disappearing.
+   TRIMMED. The footer used to stack five blocks: neon slogan, epitaph, spec
+   strip, nav, colophon. That is the repeated-information pattern the client
+   flagged, and the epitaph and the slogan were two taglines doing one job. The
+   epitaph and the spec strip are gone; the slogan, nav and colophon stay,
+   which is also what the reference file ships.
 
-   Every figure in the spec strip comes from site.json, which traces to
-   CLIENT_FACTS.md. Two of them deliberately differ from the reference concept
-   and must not be reverted:
-
-     "6 / San Diego"    was "8 Houses". CLIENT_FACTS.md forbids publishing a
-                        global location total until the live site's
-                        location-count contradiction is fixed.
-     "2 / Noodle Types" was "12h Tonkotsu". No simmer time is confirmed
-                        anywhere in CLIENT_FACTS.md. That number is invented.
-
-   See the _specNote key in site.json. Do not add a figure without a confirmed
-   source.
+   Nothing unique was lost. All four spec figures are stated in body copy
+   elsewhere: twenty-five years and 2001 on six pages, six San Diego rooms on
+   ten, the two noodle types on six, and the Noodle Room on sixteen.
+   site.json still holds footer.spec and footer.epitaph, with their provenance
+   notes, so the facts and their sourcing survive even though nothing renders
+   them now.
    =========================================================================== #}
 
 <section class="neon" aria-label="{{ site.name }}">
@@ -51,19 +46,6 @@
 
 <footer class="ftr" aria-label="{{ site.name }} footer">
   <div class="ftr__in">
-
-    <p class="ftr__epitaph">
-      {{ site.footer.epitaph.before }}<em>{{ site.footer.epitaph.emphasis }}</em>{{ site.footer.epitaph.after }}
-    </p>
-
-    <ul class="ftr__spec" aria-label="{{ site.name }} at a glance">
-      {%- for item in site.footer.spec %}
-        <li>
-          <span class="ftr__spec-num">{{ item.num }}</span>
-          <span class="ftr__spec-label">{{ item.label }}</span>
-        </li>
-      {%- endfor %}
-    </ul>
 
     <nav class="ftr__nav" aria-label="Footer">
       {%- for item in nav.footer %}

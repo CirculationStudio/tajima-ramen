@@ -43,6 +43,22 @@
   opacity: 0.14;
 }
 
+/* LONG-FORM VARIANT. The same opacity that reads as texture behind short card
+   blocks reads as interference behind running paragraphs, because the eye has
+   to hold a line across it rather than glance at a heading. /about/ is six
+   chapters of body copy and was the page where this showed.
+
+   Scoped rather than lowered globally, so /locations/, /tajima-convoy/ and
+   /menu/vegan-ramen/, which are short bento blocks, keep the texture at full
+   strength. Apply --quiet to any section whose main content is paragraphs. */
+[data-mode="day"][data-pattern="on"] .pattern-section--quiet::before{
+  opacity: 0.05;
+}
+
+[data-mode="night"][data-pattern="on"] .pattern-section--quiet::before{
+  opacity: 0.045;
+}
+
 [data-mode="night"][data-pattern="on"] .pattern-section::before{
   opacity: 0.11;
   mix-blend-mode: lighten;

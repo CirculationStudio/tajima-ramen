@@ -39,6 +39,7 @@
     "emphasis": "crafted daily."
   },
 
+  "_footerRenderNote": "footer.epitaph and footer.spec are NO LONGER RENDERED. The footer was trimmed to slogan, nav and colophon because the epitaph and the slogan were two taglines doing one job and the spec strip repeated facts stated in body copy elsewhere (all four verified present on other pages before removal). The data and its provenance notes are kept deliberately: the figures are hard-won and _specNote records why two of them differ from the concept. Do not delete them, and do not re-add the blocks without a reason to.",
   "footer": {
     "epitaph": {
       "before": "Built in ",

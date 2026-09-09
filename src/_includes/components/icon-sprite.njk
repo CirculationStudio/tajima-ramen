@@ -18,18 +18,24 @@
 
    To add one: drop a <symbol id="i-name" viewBox="..."> fragment into
    src/_includes/icons/ and add a line below.
+
+   SUBSET. Set `spriteIcons` to a list of names before including this, and only
+   those symbols are emitted. The full set is about 84KB of traced path data,
+   so a page that uses two marks should not ship twelve. Omit it to emit all.
    =========================================================================== #}
+{%- set _all = ["broth-pot","chili","chopsticks-noodles","egg","garlic","naruto-small","naruto","noodle-wordmark","onigiri","ramen-bowl","steam","toppings"] %}
+{%- set _want = spriteIcons | default(_all) %}
 <svg class="icon-sprite" aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
-  {% include "icons/broth-pot.svg" %}
-  {% include "icons/chili.svg" %}
-  {% include "icons/chopsticks-noodles.svg" %}
-  {% include "icons/egg.svg" %}
-  {% include "icons/garlic.svg" %}
-  {% include "icons/naruto-small.svg" %}
-  {% include "icons/naruto.svg" %}
-  {% include "icons/noodle-wordmark.svg" %}
-  {% include "icons/onigiri.svg" %}
-  {% include "icons/ramen-bowl.svg" %}
-  {% include "icons/steam.svg" %}
-  {% include "icons/toppings.svg" %}
+  {% if "broth-pot" in _want %}{% include "icons/broth-pot.svg" %}{% endif %}
+  {% if "chili" in _want %}{% include "icons/chili.svg" %}{% endif %}
+  {% if "chopsticks-noodles" in _want %}{% include "icons/chopsticks-noodles.svg" %}{% endif %}
+  {% if "egg" in _want %}{% include "icons/egg.svg" %}{% endif %}
+  {% if "garlic" in _want %}{% include "icons/garlic.svg" %}{% endif %}
+  {% if "naruto-small" in _want %}{% include "icons/naruto-small.svg" %}{% endif %}
+  {% if "naruto" in _want %}{% include "icons/naruto.svg" %}{% endif %}
+  {% if "noodle-wordmark" in _want %}{% include "icons/noodle-wordmark.svg" %}{% endif %}
+  {% if "onigiri" in _want %}{% include "icons/onigiri.svg" %}{% endif %}
+  {% if "ramen-bowl" in _want %}{% include "icons/ramen-bowl.svg" %}{% endif %}
+  {% if "steam" in _want %}{% include "icons/steam.svg" %}{% endif %}
+  {% if "toppings" in _want %}{% include "icons/toppings.svg" %}{% endif %}
 </svg>

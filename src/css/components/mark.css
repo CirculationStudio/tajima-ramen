@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Block: mark
+
+   A single brand icon used as a standalone visual anchor, not as pattern
+   fill. One per heading or per list row, never inside body copy.
+
+   Inline SVG through the sprite, so `fill: currentColor` inherits and the
+   mark follows the accent in both themes. Never an <img>.
+
+   Sizes are held between 1.5rem and 2.5rem. Below that the traced line work
+   closes up and reads as a smudge; above it the mark starts competing with
+   the heading it is anchoring.
+   ========================================================================== */
+
+.mark {
+  display: block;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  color: var(--accent);
+}
+
+.mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.mark--sm { width: 1.5rem; height: 1.5rem; }
+.mark--lg { width: 2.5rem; height: 2.5rem; }
+
+[data-mode="night"] .mark {
+  filter: drop-shadow(0 0 8px rgba(255, 77, 64, .3));
+}

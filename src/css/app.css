@@ -34,6 +34,7 @@
 @import "./base/base.css";
 
 /* Component styles, added per block as the library grows. */
+@import "./components/mark.css";
 @import "./components/hdr.css";
 /* site-header.css now serves ONLY the Noodle Room's own header, which reuses
    the .site-header block name for entirely different markup. Retired in

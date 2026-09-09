@@ -37,6 +37,30 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   point; that is Open Decision #21, not a bug here.
 #}
 
+{# Only the two marks this page actually uses, so it does not ship the whole
+   84KB sprite. Dessert has no honest icon in the current twelve; see the note
+   at the Dessert heading. #}
+{#
+  EMPTY CELLS, and why they stay empty. Checked photos.json for unused local
+  photography on 2026-09-08; nothing placeable was found.
+
+    Miso Ramen      No photo of the bowl exists locally. The only "miso" files
+                    are miso SOUP, an izakaya appetizer, and photos.json's
+                    _rule makes the filename the source of truth for what a
+                    photo shows. Needs a shot of the bowl. Note _nameConflicts:
+                    Toast calls this "Naruto Miso Ramen".
+    Carnitas Ramen  Five local photos exist and genuinely show the dish, and it
+                    still gets none. menu.json _carnitasNote and Brand
+                    Positioning: listed plainly, "no photo, no card, no
+                    callout, no hero". Deliberately empty. Do not fill.
+    Legend + next   Text and navigation by design. The only unused reviewed
+                    photos are four commissary broth-tank frames, and the
+                    Noodle Room card's copy is about the noodle machine, so
+                    they would be off-subject.
+#}
+{%- set spriteIcons = ["ramen-bowl", "onigiri"] %}
+{% include "components/icon-sprite.njk" %}
+
 {%- set ramen = menu.items | where("section", "ramen") %}
 {%- set izakaya = menu.items | where("section", "izakaya") %}
 {%- set dessert = menu.items | where("section", "dessert") %}
@@ -92,6 +116,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
+      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <h2 class="menu-section__title" id="ramen-title">
         {{ ramen | length }} bowls. <em>The trio</em> is the house.
       </h2>
@@ -154,6 +179,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
+      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-onigiri"></use></svg></span>
       <h2 class="menu-section__title" id="izakaya-title">Small <em>plates.</em></h2>
       <p class="menu-section__note">
         Izakaya plates run alongside the bowls. What is on offer varies by room.
@@ -191,6 +217,10 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
+      {# NO MARK. None of the twelve extracted icons depicts anything sweet, and
+         the nearest shapes are a fishcake swirl and a steam curl, both of which
+         would misrepresent what the section holds. Left bare until the rest of
+         the 32-icon library arrives. #}
       <h2 class="menu-section__title" id="dessert-title">To <em>finish.</em></h2>
     </header>
 

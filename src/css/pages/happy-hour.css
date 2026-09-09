@@ -330,6 +330,18 @@
   padding: var(--space-6) 0;
   border-bottom: 1px solid var(--color-rule);
 }
+/* Had no rule before the v2 port: its children simply stacked. Now a two
+   column grid so the brand mark sits beside the name instead of adding a row
+   to each of the six, with the tag tucked under the name in column two. */
+.hh-facts__who{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.hh-facts__who .hh-facts__tag{ grid-column: 2; }
+
 .hh-facts__name{
   font-family: var(--font-cond);
   font-weight: var(--weight-semibold);

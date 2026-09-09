@@ -40,6 +40,22 @@ description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and h
       the concept's "$3.50 every tap beer, all locations" is gone with the rest.
 #}
 
+{#
+  NO IMAGERY, and not for want of looking. Checked photos.json on 2026-09-08.
+
+  There is no unused local photograph of a drink, a bar or a happy hour plate.
+  The nearest candidates are room photographs, and every one is location-scoped
+  by photos.json's _rule: a photo reaches a page only if its filename names
+  that location. Only Mercury and College Heights have room photography, so
+  putting a photo in each row would give two real rooms and four holding slots.
+  That is the same call already made and documented for the mega-menu cards in
+  components/site-header.njk: an inconsistent mix reads as broken.
+
+  What this page needs: the documentary shoot, DESIGN_SYSTEM.md open item 3.
+#}
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 <section class="hh-hero" aria-labelledby="page-title">
   <div class="hh-hero__inner">
     <h1 class="hh-hero__title" id="page-title">Happy Hour</h1>
@@ -82,6 +98,10 @@ description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and h
       {%- set loc = (locations.items | where("id", hh.id)) | first %}
       <li class="hh-facts__row">
         <div class="hh-facts__who">
+          {# The bowl mark reads as "this is a Tajima room", the same anchor the
+             location cards use. Happy hour would really want a glass, and there
+             is no drink icon among the twelve extracted so far. #}
+          <span class="mark mark--sm" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
           <h3 class="hh-facts__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h3>
           <span class="hh-facts__tag">{{ hh.tag }}</span>
         </div>
