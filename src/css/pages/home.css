@@ -77,6 +77,13 @@
 }
 
 .page-home .hero__logo {
+  /* align-self is required, not redundant. components/hero.css still carries
+     the v1 rule `.hero__logo{align-self:flex-start}` from the old split-panel
+     hero, where the mark sat top left. On a flex item align-self beats the
+     parent's align-items, so the lockup centred itself while the logo stayed
+     pinned to the left edge. Scoping this file under .page-home keeps our
+     rules off other pages, but it does not keep their rules off this one. */
+  align-self: center;
   width: clamp(9rem, 26vw, 20rem);
   height: auto;
   filter: drop-shadow(0 4px 28px rgba(0, 0, 0, .55));
