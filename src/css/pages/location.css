@@ -123,15 +123,30 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--color-rule);
   display: flex;
+  /* Wraps because captions now say what is in the frame rather than naming a
+     generic part of a restaurant, so a caption and its tag no longer always
+     fit one line together. */
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-3);
 }
 .shot__name{
   font-family: var(--font-cond);
   font-weight: var(--weight-semibold);
   font-size: var(--text-small);
+  line-height: var(--leading-tight);
   color: var(--color-ink);
+  min-width: 0;
+}
+/* Convoy only: the dish description under the dish name, so the food gallery
+   reads as a menu rather than as a row of pictures with labels. Takes the
+   whole line rather than sitting beside the name. */
+.shot__desc{
+  flex-basis: 100%;
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
 }
 .shot__tag{
   font-family: var(--font-ui);
@@ -186,13 +201,16 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   border-top: 1px solid var(--color-rule);
 }
 .here-list__item{
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-rule);
+  margin-right: var(--space-6);
+}
+/* Name and romaji share a baseline; the description sits under both. */
+.here-list__head{
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--color-rule);
-  margin-right: var(--space-6);
 }
 .here-list__name{
   font-family: var(--font-cond);
@@ -213,6 +231,31 @@ a.plate__value:focus-visible{ color: var(--color-red); }
 @media (max-width: 40rem) {
   .here-list__item{ margin-right: 0; }
 }
+
+/* --------------------------------------------------------------------------
+   HERE GROUP. The three menu sections, in the order /menu/ prints them, each
+   heading linking into that section's anchor there. Grouping is what turns a
+   run of eleven names into something a reader parses as a menu, and the link
+   means "see the whole menu" lands on the part they were already reading.
+   -------------------------------------------------------------------------- */
+.here-group + .here-group{ margin-top: var(--space-8); }
+.here-group__title{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--space-3);
+}
+.here-group__link{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: var(--stroke-hair) solid var(--rule-2);
+  padding-bottom: .15em;
+}
+.here-group__link:hover,
+.here-group__link:focus-visible{ color: var(--accent); border-bottom-color: currentColor; }
 
 /* --------------------------------------------------------------------------
    FAQ. A definition list, because that is what it is: questions and their
@@ -242,4 +285,31 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--ink-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PLACE · the neighborhood, in prose
+
+   Running copy, so it takes a reading measure rather than the section's full
+   width. The NAP line repeats the address and phone from the plate on
+   purpose: the plate is a scannable table and this is the sentence a person
+   reads, and both come from locations.json so they cannot disagree.
+═══════════════════════════════════════════════════════════════════ */
+.place{
+  max-width: 36rem;
+}
+.place__para{
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-2);
+}
+.place__para + .place__para{ margin-top: var(--space-4); }
+.place__nap{
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: var(--stroke-hair) solid var(--rule);
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
 }

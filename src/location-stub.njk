@@ -104,6 +104,26 @@ eleventyComputed:
         <a class="plate__value" href="/menu/">See the menu</a>
       </span>
       {#
+        HAPPY HOUR ROW, added 2026-09-09, and gated on whether the room has a
+        bar at all. SITE_ARCHITECTURE.md requires /happy-hour/ as a universal
+        internal link on every location page, and four of these five were
+        missing it. Plaza Bonita is the exception and stays without one:
+        CLIENT_FACTS.md says quick-serve, no alcohol, so pointing that room at
+        a page about drinking would be the link contradicting the room. Maui
+        is not in happyHour.json at all, and its brief forbids cross-linking
+        it into the San Diego set.
+
+        The row links, it does not state a time. Windows are unconfirmed
+        everywhere, which is what /happy-hour/ itself says.
+      #}
+      {%- set hh = (happyHour.locations | where("id", loc.id)) | first %}
+      {%- if hh and hh.servesAlcohol %}
+      <span class="plate__item">
+        <span class="plate__label">Happy Hour</span>
+        <a class="plate__value" href="/happy-hour/">See times</a>
+      </span>
+      {%- endif %}
+      {#
         Added 2026-08-05. These pages had no ordering link of any kind, on a
         site whose third-biggest page is /order-online/. Straight to this
         kitchen's own Toast page, from locations.json, click-tested for all
@@ -119,6 +139,8 @@ eleventyComputed:
     </address>
   </div>
 </section>
+
+{% include "components/location-place.njk" %}
 
 {# ==================== WHAT'S DIFFERENT HERE ====================
    The section SITE_ARCHITECTURE.md calls "the one section that must not be
@@ -175,11 +197,27 @@ eleventyComputed:
 {%- if gallery.dishes %}
   {%- set gallerySet = gallery.dishes %}
   {%- set galleryId = "dishes-title" %}
-  {%- set galleryTitle = "What comes out of <em>this room.</em>" %}
-  {%- set galleryIcon = "ramen-bowl" %}
-  {%- set galleryNote = 'Photographed at this location. <a class="sect__link" href="/menu/">See the whole menu</a>.' %}
+  {#- Retitled 2026-09-09. This said "What comes out of this room", which is
+      now the heading of the menu section below it, and the bowl icon moved
+      there with it: one mark per page, on the section that carries the list
+      rather than the photographs of it. -#}
+  {%- set galleryTitle = "From this kitchen, <em>photographed.</em>" %}
+  {%- set galleryIcon = false %}
+  {%- set galleryNote = 'Shot at this location, not borrowed from another room.' %}
   {% include "components/location-gallery.njk" %}
 {%- endif %}
+
+{# ==================== WHAT THIS ROOM SERVES ====================
+   Section 4 of the location page template, which these five pages did not
+   have at all. Rows come from menu.json filtered by this room's `locations`,
+   derived from the live Toast catalogs, so Plaza Bonita shows the seven
+   dishes it actually carries and not the eleven the standalone rooms do.
+   See components/location-menu.njk for why there are no prices here. #}
+{%- set menuLoc = loc.id %}
+{%- set menuTitle = "What comes out of <em>" + loc.name + ".</em>" %}
+{%- set menuNote = 'From this room\'s own list. <a class="sect__link" href="/menu/">See the whole menu</a>, with prices.' %}
+{%- set menuTitleId = "menu-title" %}
+{% include "components/location-menu.njk" %}
 
 {#
   ==================== HAPPY HOUR, EAST VILLAGE ONLY ====================
@@ -228,9 +266,9 @@ eleventyComputed:
       <p class="sect__note">
         Address, phone and hours are right, and they are the same everywhere we publish them.
         {%- if diffCells %}
-        What this room still needs is its own photographs{% if not gallery.dishes %} and its own menu{% endif %}.
+        What this room still needs is its own photographs.
         {%- else %}
-        The rest of this room, its photographs, what is different about it, and its own menu, is being written.
+        The rest of this room, its photographs and what is different about it, is being written.
         {%- endif %}
         In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
       </p>

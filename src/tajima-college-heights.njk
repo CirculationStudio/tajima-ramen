@@ -128,6 +128,8 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   </div>
 </section>
 
+{% include "components/location-place.njk" %}
+
 {# ==================== WHAT'S DIFFERENT HERE ==================== #}
 {#
   Brief: "the one section that must not be templated." None of this is true of
@@ -202,29 +204,17 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 
   No photographs in this section. College Heights has no dish photography of
   its own, and photos.json forbids borrowing Convoy's.
-#}
-<section class="sect" aria-labelledby="menu-title">
-  <div class="sect__inner">
-    <header class="sect__head">
-      <span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
-      <h2 class="sect__title" id="menu-title">What comes out of <em>College Heights.</em></h2>
-      <p class="sect__note">
-        The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with what is in each bowl.
-      </p>
-    </header>
 
-    <ul class="here-list">
-      {%- for dish in menu.items %}
-        {%- if dish.feature and locationId in dish.locations %}
-        <li class="here-list__item">
-          <span class="here-list__name">{{ dish.name }}</span>
-          {%- if dish.romaji %}<span class="here-list__romaji">{{ dish.romaji }}</span>{% endif %}
-        </li>
-        {%- endif %}
-      {%- endfor %}
-    </ul>
-  </div>
-</section>
+  MOVED INTO components/location-menu.njk, 2026-09-09, and now shared with the
+  five stub pages, which had no menu section at all. The rows also carry the
+  dish description now, grouped under the three sections /menu/ uses, each
+  heading linking to that section's anchor there. Names alone were an index of
+  what exists here, not a menu.
+#}
+{%- set menuLoc = locationId %}
+{%- set menuTitle = "What comes out of <em>College Heights.</em>" %}
+{%- set menuNote = 'The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with prices.' %}
+{% include "components/location-menu.njk" %}
 
 {# ==================== THE NOODLE ROOM LINE ==================== #}
 {#

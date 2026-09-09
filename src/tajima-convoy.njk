@@ -115,6 +115,8 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   </div>
 </section>
 
+{% include "components/location-place.njk" %}
+
 {# ==================== WHAT'S DIFFERENT HERE ==================== #}
 {#
   Brief: "the one section that must not be templated." Everything here is
@@ -188,6 +190,23 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
   The bowls shown are filtered from menu.json, so this gallery cannot drift
   from the menu page or from schema.
+
+  READS AS A MENU, 2026-09-09. Each figure carries the dish description under
+  the name now, from the same menu.json field /menu/ prints. Convoy keeps its
+  photographs rather than taking the type-only list the other six use
+  (components/location-menu.njk), because Convoy is the one room with its own
+  food photography and every featured dish here is photographed. Printing the
+  same eleven names again as a list underneath would repeat the section, not
+  deepen it.
+
+  No prices. menu.json `_priceStatus`: the brand prices are stale against the
+  live catalogs and vary by location, so no single price is right for all
+  seven. /menu/ prints them; a location page does not.
+
+  NOW FILTERED BY LOCATION. This looped every featured dish with an image,
+  which happened to equal Convoy's eleven, so the page was right by
+  coincidence rather than by rule. The other two templates already filtered on
+  `dish.locations`.
 #}
 <section class="sect sect--alt sect--rule" aria-labelledby="kitchen-title">
   <div class="sect__inner">
@@ -201,10 +220,17 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
     <div class="bento">
       {%- for dish in menu.items %}
-        {%- if dish.feature and dish.image %}
+        {%- if dish.feature and dish.image and locationId in dish.locations %}
       <figure class="cell shot reveal">
-        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-        <figcaption class="shot__caption">{{ dish.name }}</figcaption>
+        {#- See components/location-gallery.njk: without .shot__figure the
+            absolutely positioned image covers its own caption. #}
+        <div class="shot__figure">
+          <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        </div>
+        <figcaption class="shot__caption">
+          <span class="shot__name">{{ dish.name }}</span>
+          {%- if dish.description %}<span class="shot__desc">{{ dish.description }}</span>{% endif %}
+        </figcaption>
       </figure>
         {%- endif %}
       {%- endfor %}

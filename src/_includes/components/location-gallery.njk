@@ -48,13 +48,20 @@
     <div class="bento">
       {%- for shot in gallerySet %}
       <figure class="cell shot{% if shot.wide %} shot--wide{% endif %} reveal">
-        <img
-          class="shot__img"
-          src="{{ shot.src }}"
-          alt="{{ shot.alt }}"
-          loading="lazy"
-          width="{{ shot.width }}"
-          height="{{ shot.height }}">
+        {#- .shot__figure is not optional. .shot__img is position:absolute with
+            inset:0, and its nearest positioned ancestor without this wrapper is
+            .cell, which means the photograph covered the whole cell and painted
+            over its own caption. The captions were in the markup and in the
+            accessibility tree and invisible on screen. Fixed 2026-09-09. -#}
+        <div class="shot__figure">
+          <img
+            class="shot__img"
+            src="{{ shot.src }}"
+            alt="{{ shot.alt }}"
+            loading="lazy"
+            width="{{ shot.width }}"
+            height="{{ shot.height }}">
+        </div>
         <figcaption class="shot__caption">
           <span class="shot__name">{{ shot.caption }}</span>
           {%- if shot.tag %}<span class="shot__tag">{{ shot.tag }}</span>{% endif %}

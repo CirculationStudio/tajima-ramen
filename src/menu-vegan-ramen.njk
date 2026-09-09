@@ -59,7 +59,11 @@ description: "Tajima's Vegan Ramen, built on house-made spinach noodles from our
 
     <div class="bento">
       <figure class="cell shot reveal">
-        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="eager" fetchpriority="high" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        {#- See components/location-gallery.njk: without .shot__figure the
+            absolutely positioned image covers its own caption. #}
+        <div class="shot__figure">
+          <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="eager" fetchpriority="high" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        </div>
         <figcaption class="shot__caption">{{ dish.name }} &middot; ${{ dish.price }}</figcaption>
       </figure>
 

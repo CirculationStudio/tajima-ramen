@@ -62,7 +62,20 @@
      red-soft .18, red-line .5. */
   --color-canvas-3: var(--surface);
   --color-surface-2: color-mix(in srgb, var(--ink) 7%, var(--surface));
-  --color-ink-4: color-mix(in srgb, var(--ink) 32%, transparent);
+  /* --color-ink-4 IS NOW --ink-3, AND THIS IS A CONTRAST FIX, 2026-09-09.
+     It reproduced the legacy 32% alpha faithfully, and the legacy value fails
+     WCAG AA: measured off real renders at 2.10 to 1 in day and 2.87 at night,
+     against the 4.5 that 13px text needs. Every one of its twelve call sites
+     is text at --text-micro, and one of them is .plate__label, the word
+     "Phone" beside the phone number on all seven location pages.
+
+     There is no fourth ink step that both passes AA and stays visibly lighter
+     than the third: the lightest passing alpha in day is about .60 and --ink-3
+     is .62, so the ramp has three text weights, not four. The token stays
+     rather than being renamed across twelve files, and resolves to the step
+     that passes. Hierarchy still reads: a label at 5.2 against its value at
+     18.7 is a clear step down. Renaming is issue #3. */
+  --color-ink-4: var(--ink-3);
   --color-rule-strong: color-mix(in srgb, var(--accent) 40%, transparent);
   --color-red-soft: color-mix(in srgb, var(--accent) 18%, transparent);
   --color-red-line: color-mix(in srgb, var(--accent) 50%, transparent);

@@ -46,6 +46,18 @@
 
 import photos from "./photos.json" with { type: "json" };
 
+// CAPTIONS SAY WHAT IS IN THE FRAME, 2026-09-09. These used to read "The
+// room", "The counter", "The neon". A caption that names a generic part of a
+// restaurant tells a reader nothing they cannot see, and tells a reader who
+// cannot see it nothing at all. Each one now names what is actually in the
+// photograph, drawn from the reviewed alt in photos.json rather than written
+// separately, so the two cannot contradict each other. The `tag` carries the
+// one detail worth pulling out of the frame.
+//
+// The College Heights tap tag reads "Twenty-plus taps", not "21". The 21 is a
+// count of the live Toast catalog, not a number Tajima publishes, and the
+// approved way to say it is twenty-plus. See CLIENT_FACTS.md, Location 4.
+
 const CURATED = {
   "college-heights": {
     hero: {
@@ -55,19 +67,19 @@ const CURATED = {
     gallery: [
       {
         file: "tajima-college-heights-interior-dining-room-01.webp",
-        caption: "The room",
-        tag: "Open kitchen",
+        caption: "Long maple tables, the open kitchen at the far end",
+        tag: "Before service",
         wide: true,
       },
       {
         file: "tajima-college-heights-ramen-bar-counter-craft-beer-taps.webp",
-        caption: "The counter",
-        tag: "21 taps",
+        caption: "The counter, and the tap wall behind it",
+        tag: "Twenty-plus taps",
       },
       {
         file: "tajima-college-heights-interior-manga-wall-01.webp",
-        caption: "The manga wall",
-        tag: "Corridor",
+        caption: "The corridor papered in manga pages",
+        tag: "Maple slats",
       },
     ],
   },
@@ -108,12 +120,12 @@ const CURATED = {
     dishes: [
       {
         file: "shrimp-tempura-large-mercury-only.webp",
-        caption: "Shrimp tempura",
+        caption: "Shrimp tempura, with grated daikon and a lemon wedge",
         wide: true,
       },
       {
         file: "miso-soup-large-mercury-only.webp",
-        caption: "Miso soup",
+        caption: "Miso soup, scallion and wakame, in a red lacquer bowl",
       },
     ],
   },
@@ -122,7 +134,7 @@ const CURATED = {
     dishes: [
       {
         file: "shishito-peppers-large-ev-only.webp",
-        caption: "Shishito peppers",
+        caption: "Blistered shishito peppers, glossed with sauce",
         wide: true,
       },
     ],
@@ -132,19 +144,19 @@ const CURATED = {
     gallery: [
       {
         file: "tajima-crown-point-exterior-night-neon-ramen-sign-detail.webp",
-        caption: "The neon",
+        caption: "The red neon arrow on the corner, at night",
         tag: "Ingraham Street",
         wide: true,
       },
       {
         file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
-        caption: "The room",
-        tag: "Barrel ceiling",
+        caption: "The dining room under its barrel-vaulted ceiling",
+        tag: "Before service",
       },
       {
         file: "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
-        caption: "The counter",
-        tag: "Red board",
+        caption: "The counter, with the red surfboard above it",
+        tag: "Cedar wall",
       },
     ],
   },
