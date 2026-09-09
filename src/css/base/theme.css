@@ -112,7 +112,7 @@
   --text-lead: 1.375rem;
   --text-h4: clamp(1.375rem, 2vw, 1.75rem);
   --text-h3: clamp(1.75rem, 2.6vw, 2.5rem);
-  --text-h2: clamp(2.5rem, 4vw, 3.75rem);
+  --text-h2: clamp(2.25rem, 3.6vw, 3.25rem); /* v2 */
   --text-h1: clamp(3.5rem, 5.6vw, 5.5rem);
   --text-display: clamp(4.5rem, 10vw, 10rem);
   --text-mega: clamp(5rem, 12vw, 13rem);
@@ -128,10 +128,10 @@
   --tracking-display: 0.02em;
 
   /* --- Leading ------------------------------------------------------------- */
-  --leading-display: 0.88;
-  --leading-tight: 1.05;
-  --leading-snug: 1.2;
-  --leading-normal: 1.55;
+  --leading-display: 0.9; /* v2 */
+  --leading-tight: 1.1; /* v2 */
+  --leading-snug: 1.25; /* v2 */
+  --leading-normal: 1.6; /* v2 */
   --leading-relaxed: 1.7;
 
   /* --- Spacing (8px baseline grid) -----------------------------------------
@@ -147,7 +147,7 @@
   --space-9: 4rem;
   --space-10: 5rem;
   --space-11: 6rem;
-  --space-12: 8rem;
+  --space-12: 11rem; /* v2. The gap between major sections. */
   --space-13: 10rem;
   --space-14: 12rem;
 
@@ -163,7 +163,7 @@
   --duration-slow: 800ms;
 
   /* --- Layout -------------------------------------------------------------- */
-  --layout-max: 90rem; /* 1440px */
+  --layout-max: 82rem; /* v2, 1312px */
   --layout-gutter: var(--space-6);
 
   /* --- Z-index ------------------------------------------------------------- */

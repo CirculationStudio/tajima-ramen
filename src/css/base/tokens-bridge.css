@@ -1,37 +1,49 @@
 /* ==========================================================================
-   TEMPORARY. DELETE THIS FILE AND ITS IMPORT IN app.css IN PHASE 5.
+   TEMPORARY. Scaffolding for the v1 -> v2 token migration.
 
-   Two jobs, both scaffolding for the v1 -> v2 port:
+   PHASE 5 STATUS: partly retired, and the rest is gated, not forgotten.
 
-   1. LEGACY ALIASES. base/tokens.css replaced the old surface ramps, which
-      orphaned ~250 var() references across 20 component and page stylesheets.
-      These aliases re-point the legacy names at the v2 ramp so every existing
-      page keeps resolving and simply follows the new tokens.
+   RETIRED. The seven tokens where v2 reused a legacy name with a different
+   value (--layout-max, --space-12, --text-h2, four --leading-*) are promoted
+   into theme.css's @theme and carry the v2 values for every page. The
+   [data-tokens="v2"] opt-in shim and the front-matter flag it read are gone.
+   Only the frozen A/B/C route still pins the v1 numerics, at the bottom of
+   this file.
 
-      Retirement: as each page is rebuilt in Phase 4, its declarations move to
-      the v2 names. After each batch, re-run the consumer count and delete any
-      alias that has reached zero, in the same commit as the batch:
+   NOT RETIRED. The legacy-name aliases below stay, because the gate for
+   removing them does not pass: the shipping component and page stylesheets
+   still make 297 references across 18 stylesheets to the names this
+   file aliases. Phase 4 restyled the pages (eyebrows, radius, day-mode fixes,
+   CTA rules) but did not rewrite token names in the shared component layer.
+   That is a mechanical follow-up, not part of the port, and it is invisible
+   to users because every alias resolves to the v2 ramp already.
 
-        find src/css -name '*.css' ! -name 'noodle-room.css' \
-          ! -name 'home-concepts.css' ! -name 'tokens*.css' -print0 \
-          | xargs -0 grep -hoE 'var\(--[a-z0-9-]+' | sort | uniq -c
+   THE GATE. When this returns nothing, move the alias block from :root down to
+   the .hc-concept scope at the bottom, next to the numerics pin, and this file
+   holds only the frozen route's tokens:
 
-   2. THE COLLIDING NUMERICS. Seven tokens where v2 reuses a legacy name with
-      a different value. Gated behind [data-tokens="v2"] so a page opts in.
+     find src/css -name '*.css' ! -name 'noodle-room.css' \
+       ! -name 'home-concepts.css' ! -name 'tokens*.css' -print0 \
+       | xargs -0 grep -hoE 'var\(--(color-(canvas|ink|rule|surface|red|header-bg)[a-z0-9-]*|hero-[a-z0-9-]+)\)' \
+       | sort | uniq -c | sort -rn
+
+   Note that --color-system-*, --color-cream, --color-gold and --color-black
+   are NOT aliases: they are @theme constants and stay. Only the names listed
+   below are the bridge.
 
    Two files are out of scope and need no bridge:
      pages/noodle-room.css   redefines every token it uses inside
                              [data-experience="noodle-room"], and that page
                              carries no data-mode at all.
      pages/home-concepts.css superseded internal A/B/C route. Concepts B and C
-                             read the GLOBAL legacy names, which is why this
-                             file cannot simply be deleted in Phase 5. See the
-                             note at the bottom.
+                             read the GLOBAL legacy names, which is why the
+                             aliases cannot simply be deleted even once the
+                             shipping pages stop using them. See the note at
+                             the bottom.
 
    HEX RULE: this is a sanctioned token block. Derivations use color-mix() off
    a v2 token rather than a literal, so no new hex enters the codebase.
    ========================================================================== */
-
 :root {
   /* --- Direct aliases, semantically clean -------------------------------- */
   --color-canvas: var(--canvas);
@@ -85,40 +97,26 @@
 }
 
 /* ==========================================================================
-   PHASE 1-4 SHIM. The seven tokens where v2 reuses a legacy name with a new
-   value. The legacy values stay in theme.css's @theme so unmigrated pages are
-   untouched; a page opts in to the v2 values with `tokens: v2` in its front
-   matter, which layouts/base.njk renders as data-tokens="v2" on <html>.
+   THE FROZEN A/B/C ROUTE, pinned to the v1 numerics.
 
-   Not renamed and not prefixed on purpose: every rule pasted from the
-   reference file uses the plain names, and a --v2- prefix would mean
-   hand-editing each paste, which is how a "copy verbatim" instruction gets
-   violated.
+   PHASE 5: the seven tokens where v2 reused a legacy name with a new value are
+   now promoted into @theme, the [data-tokens="v2"] shim is gone, and every
+   shipping page simply gets the v2 values. /internal/home-concepts/ bypasses
+   layouts/base.njk and was designed against the v1 scale, so it keeps it here
+   rather than silently reflowing. .hc-concept wraps all three concepts,
+   including the header and footer each one renders.
 
-   Specificity: [data-tokens="v2"] is unlayered, @theme's :root is inside
-   @layer theme, and unlayered always beats layered. No !important needed.
-
-   This also keeps the Phase 2 header aligned with the page body. The v2
-   header reads --layout-max, so without this shim it would render at 82rem
-   on top of a 90rem legacy body and visibly misalign on every unmigrated
-   page.
-
-   pages/noodle-room.css is immune: it sets --layout-max inside
-   [data-experience="noodle-room"], which outranks this on the same element,
-   on a page that never carries the attribute.
-
-   PHASE 5: promote these seven into @theme, replacing the legacy values;
-   delete this block; drop data-tokens from base.njk; drop `tokens: v2` from
-   front matter.
+   This block dies with that route. pages/home-concepts.css itself is
+   untouched, as required.
    ========================================================================== */
-[data-tokens="v2"] {
-  --layout-max: 82rem;
-  --space-12: 11rem;
-  --text-h2: clamp(2.25rem, 3.6vw, 3.25rem);
-  --leading-display: .9;
-  --leading-tight: 1.1;
-  --leading-snug: 1.25;
-  --leading-normal: 1.6;
+.hc-concept {
+  --layout-max: 90rem;
+  --space-12: 8rem;
+  --text-h2: clamp(2.5rem, 4vw, 3.75rem);
+  --leading-display: .88;
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.55;
 }
 
 /* ==========================================================================

@@ -13,24 +13,19 @@
      noindex          optional, true to suppress indexing
      heroImage        optional, path to the LCP image, emits a preload
      mode             optional, pins this page's theme, overriding site.json
-     tokens           optional, "v2" to opt this page into the v2 token values
 
    v2: light and dark both ship, day is the default, and the toggle is manual
    (no clock, no prefers-color-scheme). site.theme.mode is the server-rendered
    default and the no-JS answer; components/theme-init.njk corrects it from
    localStorage before first paint. See DESIGN_SYSTEM.md.
 
-   `mode` pins a page that has not been migrated to the v2 ramp yet. The
-   legacy stylesheets layer night-only enhancements over base rules authored
-   for a near-black field, so rendering them on the day canvas produces
-   cream-on-cream invisible text. Each pin is removed in the Phase 4 batch
-   that restyles that page, alongside adding `tokens: v2`.
+   `mode` pins a page to one theme. Nothing uses it now that every page runs
+   the v2 ramp; it stays because a page may legitimately need to pin one.
    =========================================================================== #}
 <!DOCTYPE html>
 <html
   lang="{{ site.locale }}"
   data-mode="{{ mode | default(site.theme.mode) }}"
-  data-tokens="{{ tokens | default('') }}"
   data-fonts="{{ site.theme.fonts }}"
   data-pattern="{{ site.theme.pattern }}">
 <head>
