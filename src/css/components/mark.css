@@ -62,6 +62,21 @@
   height: 100%;
 }
 
+/* THE DISC HAS A FLOOR, AND IT IS 2rem. Re-tested on /happy-hour/ at 1.5, 2
+   and 2.5rem against the plain mark, rendered at 3x and read back:
+
+     1.5rem  disc WORSE than plain. The fill swallows the strokes and the
+             mark reads as a red dot with noise in it.
+     2rem    disc better than plain, and legible.
+     2.5rem  disc clearly legible.
+
+   So the disc rescues the silhouette, it does not rescue the stroke, and
+   below 2rem there is not enough silhouette left to rescue. It is also
+   icon-dependent: ramen-bowl holds at 2rem, chopsticks-noodles loses its
+   noodle strand there and only reads at 2.5.
+
+   Every disc in the build is --lg, which is 2.5rem. Do not pair --disc with
+   --sm. If a mark has to sit at 1.5rem, use the plain line art. */
 [data-mode="night"] .mark--disc {
   filter: none;
 }

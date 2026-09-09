@@ -784,8 +784,9 @@ Worth recording: **the filtered set is currently identical to the brand menu**, 
 **Section plan:**
 1. One line: happy hour runs at most locations and the details vary.
 2. Per-location happy hour, from data. Days, times, what's on it.
-3. Padres game nights: every tap beer $3.50, all day, at participating SD locations, excludes Plaza Bonita.
-4. Plaza Bonita: no alcohol. Say it plainly.
+3. Padres game nights. **CORRECTED 2026-09-09. This brief used to read "every tap beer $3.50, all day, at participating SD locations, excludes Plaza Bonita." The price and the all-locations scope are pulled and do not come back.** Neither appears in `CLIENT_FACTS.md`. What that file confirms is one sentence, under Location 3: "Padres game-night beer specials and extended hours on home game nights." That is East Village and no other room, it carries no price, and how extended the hours are is not confirmed either. `happyHour.json` `_padresNote` records the same. Restoring the $3.50 needs Amanda in writing, not this line.
+4. Plaza Bonita: no alcohol. Say it plainly. **Do not write "no happy hour at all."** That phrasing is not in `CLIENT_FACTS.md`, and `src/_data/toastMenus/plaza-bonita.json` carries a priced Happy Hours section from the room's own live catalog, so the two contradict each other and the negative was the one being published. Publish the confirmed fact, which is no alcohol. See `happyHour.json` `_plazaReconciliation`.
+5. What each room pours. Added 2026-09-09. The page's whole answer used to be "being confirmed", which is honest and useless: a reader arriving from "tajima happy hour" learned only that we could not help them. The bar programmes are confirmed per room in `CLIENT_FACTS.md` and are the reason the page is worth reading before the windows arrive.
 
 **Internal links (required):** all six SD location pages, `/menu/`, `/locations/`
 

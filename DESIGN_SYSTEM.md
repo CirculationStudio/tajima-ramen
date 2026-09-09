@@ -28,7 +28,7 @@ The reference implementation is `_reference/tajima-home-v2.html`. When this docu
 |---|---|---|---|
 | `--color-red` | `#E03C31` | Fire Red / Convoy Red | Logo, CTA fills, the locations field. |
 | `--color-red-deep` | `#B5261C` | Fire Red deep | CTA hover only. |
-| `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view. |
+| `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view on an editorial page. See The gold field for the one exception. |
 | `--color-cream` | `#FFFEF4` | Off-White | Light canvas, type on dark. |
 | `--color-black` | `#000000` | Black | Logo lockup and pure-black contexts only. |
 
@@ -170,6 +170,26 @@ Never recolor the logo with CSS. A filter-based fake was shipped in an earlier d
 
 ### CTAs
 One red CTA per viewport. The header CTA is red, so any CTA in view alongside it is hairline-outlined or cream. Red on the red field is invisible; use `--color-cream`.
+
+### The gold field
+
+**Corrected 2026-09-09, and the correction goes the other way from the usual one: the guidelines authorise more than this document did.**
+
+The line above, "rules, marks, small fills, never more than 10% of a view", describes the editorial surfaces and it is right for them. It is not what the brand guidelines show. October 2025 guidelines, Section 5.1 Digital Application, page 18, runs **Sesame Gold as a full-bleed field carrying black body type**, at roughly 17% of that layout, and again as dish panels with black brush headings and a red button. The same spread also shows the black header band, thin full-bleed red stripes between bands, the starburst badge in red with a white stroke and white brush type, and a red field carrying the ghosted line-art pattern with a gold hairline.
+
+This document's own brand constants derive from those guidelines, so where the two disagree the guidelines win and this document changes.
+
+**Scope: `/happy-hour/` and nothing else.** That is the only promotional page in the build, and page 18 is a promotional application (an email campaign), not an editorial one. A location page or the home page taking a gold field is a decision, not a licence this section grants.
+
+**Rules that come with it.**
+- Black on Sesame Gold measures **12.49 to 1** for the title and **10.91** for body copy, off a real render. It is the highest-contrast pairing in the build.
+- **Red on gold is 2.24 to 1 and fails at any size.** On a gold field, emphasis is weight and rule, never colour. The `<em>` inside a title on this field stays ink and takes a red underline.
+- **Gold as type on the red field is 3.33 to 1 and fails.** Gold on red is for rules and marks. Type on red is cream, which measures 5.09.
+- Cream on Fire Red is **4.27 to 1**, which clears AA for large text and fails it for normal text, so the starburst's brush type has a hard 1.5rem (24px) floor.
+- The field is full-bleed and therefore **sharp**. Cards take the radius scale; colour fields do not.
+- The field does not change between day and night. A brand colour field is the same colour in both, the way the red locations field is.
+
+**The guidelines' content is not in scope and this is not negotiable.** That artifact features North Park, which is closed, Tijuana as a peer location, Carnitas Ramen with a hero photograph, "ALL SLURPS WELCOME", which is retired voice, and "Authentic Japanese roots", which is banned copy. Colour, field and badge treatment only.
 
 ### The red locations field
 The one place red is a background rather than an accent. Cream icon pattern behind at 9-11% opacity, neutral dark wash over it so type stays readable, gold accents, cream CTA. Icons are individually positioned elements, not a repeating `<pattern>`, so each can animate independently and the field always covers full width.

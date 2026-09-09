@@ -12,7 +12,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": true
+      "servesAlcohol": true,
+      "bar": "Six taps of local craft beer, and beer specials on Padres home game nights.",
+      "_barSource": "CLIENT_FACTS.md Location 3: 'Six taps of local craft beer. Padres game-night beer specials and extended hours on home game nights.' No price and no window: both are unconfirmed."
     },
     {
       "id": "convoy",
@@ -21,7 +23,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": true
+      "servesAlcohol": true,
+      "bar": "Eleven taps, and the deepest izakaya list in the house to go with them.",
+      "_barSource": "TAP COUNT IS A DERIVED NUMBER, NOT A CLIENT FIGURE. CLIENT_FACTS.md states it only inside the College Heights correction, as 'Convoy's 11', counted off the live Toast catalog on 2026-08-04. It is published here on Steve's explicit instruction. It is the one number on this page whose only source is a catalog count, and it can come out in one edit if Amanda disagrees. The izakaya half is the /tajima-convoy/ brief."
     },
     {
       "id": "mercury",
@@ -30,7 +34,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": true
+      "servesAlcohol": true,
+      "bar": "The full bar. Craft cocktails, Japanese whisky, and a full wine list.",
+      "_barSource": "CLIENT_FACTS.md Location 2: 'Full bar, craft cocktails, Japanese whisky, full wine list.'"
     },
     {
       "id": "college-heights",
@@ -39,7 +45,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": true
+      "servesAlcohol": true,
+      "bar": "Twenty-plus taps, the largest beer program of the seven.",
+      "_barSource": "CLIENT_FACTS.md Location 4: '20+ craft beer taps' and 'the largest beer program of the seven'. WRITE TWENTY-PLUS, NEVER 21. The 21 is a catalog count, not a figure Tajima publishes."
     },
     {
       "id": "crown-point",
@@ -48,7 +56,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": true
+      "servesAlcohol": true,
+      "bar": "Local craft, and a matcha-forward list for anyone not drinking.",
+      "_barSource": "CLIENT_FACTS.md Location 5: 'Strong local craft beer focus. Matcha-forward non-alcoholic program.' Written as a list rather than a programme, which is an internal word."
     },
     {
       "id": "plaza-bonita",
@@ -58,7 +68,9 @@
       "windows": [],
       "drinks": [],
       "food": [],
-      "servesAlcohol": false
+      "servesAlcohol": false,
+      "bar": "No alcohol. Quick-serve inside the mall, and the bowls are the same bowls.",
+      "_barSource": "CLIENT_FACTS.md Location 6: 'Quick-serve, food court format. Limited menu. No alcohol.' The 'no happy hour at all' phrasing this file used to carry is NOT in CLIENT_FACTS.md and contradicts the room's own live Toast catalog, which has a priced Happy Hours section. Publish only the no-alcohol fact and let Amanda reconcile the rest."
     }
   ],
   "padres": {
@@ -66,5 +78,8 @@
     "body": "East Village runs beer specials and stays open later on Padres home game nights. It is the walk to Petco.",
     "location": "east-village"
   },
-  "_servesAlcohol": "Added 2026-09-09. The one alcohol fact CLIENT_FACTS.md states outright is that Plaza Bonita is quick-serve with no alcohol. The other five San Diego rooms each have a confirmed beer or bar programme in CLIENT_FACTS.md: Mercury a full bar with craft cocktails, Japanese whisky and a full wine list, College Heights twenty-plus taps, Convoy eleven, East Village six of local craft, Crown Point a strong local craft list beside a matcha-forward non-alcoholic programme. This flag exists so a template can decide whether to point a room at /happy-hour/ at all, rather than linking a room with no bar to a page about drinking. Maui is not in this file: it is a different market and SITE_ARCHITECTURE.md forbids cross-linking it into the San Diego set."
+  "_servesAlcohol": "Added 2026-09-09. The one alcohol fact CLIENT_FACTS.md states outright is that Plaza Bonita is quick-serve with no alcohol. The other five San Diego rooms each have a confirmed beer or bar programme in CLIENT_FACTS.md: Mercury a full bar with craft cocktails, Japanese whisky and a full wine list, College Heights twenty-plus taps, Convoy eleven, East Village six of local craft, Crown Point a strong local craft list beside a matcha-forward non-alcoholic programme. This flag exists so a template can decide whether to point a room at /happy-hour/ at all, rather than linking a room with no bar to a page about drinking. Maui is not in this file: it is a different market and SITE_ARCHITECTURE.md forbids cross-linking it into the San Diego set.",
+  "_barNote": "Added 2026-09-09. The page needed a reason to exist beyond the times, and this is it: what each room actually pours. Every line traces to CLIENT_FACTS.md and the per-room source is on the entry. No prices anywhere, no windows, and no claim that any of this is discounted at happy hour, because that is the part nobody has confirmed.",
+  "_plazaReconciliation": "OPEN, FOR AMANDA. This file used to publish 'no happy hour at all' for Plaza Bonita. src/_data/toastMenus/plaza-bonita.json carries a priced Happy Hours section from that room's own live catalog, so the two cannot both be true and the negative was the one we were publishing. The page now publishes only what CLIENT_FACTS.md states: quick-serve, inside the mall, no alcohol. Whether the room runs a food happy hour is a question, not an answer.",
+  "_badgeNote": "OPEN DAILY is the brand guidelines' own badge copy (page 18) and it is now a confirmed fact rather than a borrowed graphic: the hours Connor supplied on 2026-09-09 cover all seven days at all six San Diego rooms. It is scoped to the six. Maui is not on this page."
 }

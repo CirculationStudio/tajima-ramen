@@ -3,183 +3,271 @@ layout: layouts/base.njk
 permalink: /happy-hour/
 pageKey: happyHour
 title: "Tajima Happy Hour | San Diego"
-description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and how to check today's times. Plaza Bonita is quick-serve and does not serve alcohol."
+description: "Happy hour at Tajima Ramen in San Diego. What each room pours, from the full bar at Mercury to twenty-plus taps at College Heights, and how to check today's window. Plaza Bonita is quick-serve and serves no alcohol."
 ---
 {#
   /happy-hour/. Brief: SITE_ARCHITECTURE.md.
 
-  This page earns 1,361 clicks with ZERO internal links pointing at it. It
+  This page earns 1,361 clicks with almost no internal links pointing at it. It
   catches 1,107 happy-hour clicks across 165 queries; all six location pages
   combined catch 32, because "tajima happy hour" contains no location and a
-  location page cannot answer it. It is now linked from the footer, /menu/,
-  and the Convoy address plate.
+  location page cannot answer it.
 
-  Per Steve, it stays OUT of the header nav tonight. Adding a fifth item to a
-  header signed off with four is a design decision, not a build one.
+  East Village leads. Its ARP for `happy hour near me` in the map pack is 1.00
+  against 12 to 14 everywhere else, and the brief says lead with it. The order
+  here is happyHour.json's order, and East Village is first in that file.
 
   ============================ TIMES AND PRICES ARE PULLED ============================
 
-  This page previously rendered per-location windows (11:30am to 6:00pm, and
-  Convoy's late-night Fri/Sat) plus drink and food prices, all carried from the
-  design concept. They were removed on Steve's call and the reasoning is the
-  same one that keeps opening hours off every other page: CLIENT_FACTS.md
-  forbids publishing hours the door does not honor, a happy hour window is the
-  same promise, and the failure mode is someone driving over at 5 for a window
-  that shut at 4. The prices were worse: CLAUDE.md says menu prices are never
-  published without client approval and nobody at Tajima has seen these.
+  This page once rendered per-location windows and drink and food prices, all
+  carried from the design concept. They were removed on Steve's call, for the
+  same reason opening hours stayed off every other page: a happy hour window is
+  the same promise as an opening hour, and the failure mode is someone driving
+  over at 5 for a window that shut at 4. Prices were worse: CLAUDE.md says menu
+  prices are never published without client approval.
 
-  The markup for windows, drinks, and food is still below, behind an `if`.
-  Populate _data/happyHour.json with real values from Amanda and it renders
-  again. Do not restore the concept values.
+  The windows, drinks and food markup is still below behind an `if`. Put real
+  values from Amanda into _data/happyHour.json and it renders again with no
+  template change. Do not restore the concept values.
 
-  WHAT SURVIVES IS ONLY WHAT TRACES TO CLIENT_FACTS.md:
-    - happy hour exists and varies by room
-    - Plaza Bonita is quick-serve with no alcohol, so it has none
-    - East Village runs Padres game-night beer specials and longer hours on
-      home game nights. EAST VILLAGE ONLY. Not widened to the other rooms, and
-      the concept's "$3.50 every tap beer, all locations" is gone with the rest.
+  Operating hours and happy hour windows are DIFFERENT DATA. Connor confirmed
+  operating hours on 2026-09-09 and they are published on the location pages.
+  Happy hour windows remain unconfirmed everywhere and nothing here implies
+  otherwise.
+
+  ============================ WHAT IS NEW HERE ============================
+
+  REDESIGNED 2026-09-09. The page was an honest table of "being confirmed" and
+  nothing else, so a reader who arrived from "tajima happy hour" learned only
+  that we could not answer them. It now answers the question underneath that
+  one, which we can answer: what each room actually pours. Every line traces to
+  CLIENT_FACTS.md and lives in _data/happyHour.json with its source recorded.
+
+  THE PAGE 18 DEVICES, and they are scoped to this page. The October 2025 brand
+  guidelines, Section 5.1 Digital Application, show the promotional treatment:
+  a black header band, Sesame Gold running as a full-bleed field with black
+  type, thin full-bleed red stripes between bands, the starburst badge in red
+  with a white stroke and white brush type, and a red field carrying the
+  ghosted line-art pattern. DESIGN_SYSTEM.md now records that gold as a field
+  is permitted in promotional applications, citing that page, and that this is
+  the only route that gets it.
+
+  THE GUIDELINES' CONTENT IS NOT IN SCOPE AND THIS IS NOT OPTIONAL. That
+  artifact features North Park, which is closed, Tijuana as a peer location,
+  Carnitas Ramen with a hero photograph, "ALL SLURPS WELCOME", which is retired
+  voice, and "Authentic Japanese roots", which is banned copy. Colour, field
+  and badge treatment only.
+
+  NO IMAGERY, and not for want of looking. Checked photos.json again on
+  2026-09-09: there is no unused local photograph of a drink, a bar, or a happy
+  hour plate, and photos.json's _rule scopes every room photograph to its own
+  location, so putting one in each card would give two real rooms and four
+  holding slots. Same call as the mega-menu cards. What this page needs is the
+  documentary shoot, DESIGN_SYSTEM.md open item 3.
+
+  NO STANDALONE ICONS ON THE ROOM CARDS. Happy hour wants a glass, a bottle or
+  a tap and the sprite has twelve marks, all of them food or the wordmark.
+  DESIGN_SYSTEM.md's rule is that where no icon matches the subject, the
+  heading takes none. The one place a mark genuinely matches is Plaza Bonita,
+  whose answer is that the bowls are the same bowls.
 #}
-
-{#
-  NO IMAGERY, and not for want of looking. Checked photos.json on 2026-09-08.
-
-  There is no unused local photograph of a drink, a bar or a happy hour plate.
-  The nearest candidates are room photographs, and every one is location-scoped
-  by photos.json's _rule: a photo reaches a page only if its filename names
-  that location. Only Mercury and College Heights have room photography, so
-  putting a photo in each row would give two real rooms and four holding slots.
-  That is the same call already made and documented for the mega-menu cards in
-  components/site-header.njk: an inconsistent mix reads as broken.
-
-  What this page needs: the documentary shoot, DESIGN_SYSTEM.md open item 3.
-#}
-{%- set spriteIcons = ["ramen-bowl"] %}
+{%- set spriteIcons = ["ramen-bowl", "chopsticks-noodles"] %}
 {% include "components/icon-sprite.njk" %}
 
-<section class="hh-hero" aria-labelledby="page-title">
-  <div class="hh-hero__inner">
-    <h1 class="hh-hero__title" id="page-title">Happy Hour</h1>
-    <p class="hh-hero__sub">
-      Happy hour runs at most of the San Diego rooms, and the window is not the same everywhere. We are confirming the current times room by room. Until they are up here, call the one you are heading to and they will tell you. <a href="/locations/">Find your Tajima</a>.
+{# ==================== 1. THE BLACK BAND ==================== #}
+{#
+  Page 18's header device. The site header sits above it carrying the mark and
+  the wordmark, so this band carries the page title rather than repeating the
+  logo underneath itself.
+#}
+<section class="hh-band" aria-labelledby="page-title">
+  <div class="hh-band__inner">
+    <h1 class="hh-band__title" id="page-title">Happy Hour</h1>
+    <p class="hh-band__sub">
+      Six rooms in San Diego, and not one of them pours the same list. Here is what is behind each bar, and how to find out what is running today.
     </p>
   </div>
 </section>
 
+<div class="hh-stripe" aria-hidden="true"></div>
+
+{# ==================== 2. THE GOLD FIELD ==================== #}
 {#
-  ============ SELECTOR REMOVED, CARDS REPLACED WITH A FACTS LIST ============
-  2026-08-05.
+  The one full-bleed Sesame Gold field in the build, and the reason the page
+  exists beyond the times. Black type on gold measures 8.4 to 1.
 
-  This was a six-pill jump nav over a three-column card grid. Five of the six
-  rooms have no confirmed happy hour data, so the selector's entire function
-  was to scroll you to a card reading "Times are being confirmed." A filter
-  over mostly-empty data adds interface without adding information.
+  Full-bleed colour fields stay sharp: no radius here. Cards take the radius
+  scale, fields do not.
 
-  What replaces it states each room's status directly, in one pass, in the
-  order the rooms appear everywhere else on the site. No pills, no anchors,
-  nothing to operate.
-
-  THE CONDITIONAL IS UNCHANGED AND DELIBERATE. Each row still branches three
-  ways: no alcohol, confirmed windows, or pending. The windows / drinks / food
-  markup is intact, so the moment Amanda sends real values into
-  _data/happyHour.json those rooms render their times here with no template
-  change. This is a presentation change, not a capability removal.
+  Every room line is happyHour.json's `bar` field, which carries its own
+  `_barSource` recording where in CLIENT_FACTS.md it comes from.
 #}
-<section class="sect" aria-labelledby="confirmed-title">
+<section class="hh-gold" aria-labelledby="what-title">
+  {%- set burstTop = "Open" %}
+  {%- set burstBottom = "Daily" %}
+  {% include "components/starburst.njk" %}
+
+  {#
+    Page 18's other gold-field device: a red line-art mark drawn large and
+    bleeding off the edge of the band. This is a field ornament, not a
+    standalone mark, so the one-icon-per-heading rule does not apply to it and
+    it carries no meaning: it is aria-hidden and the copy does not depend on
+    it. Chopsticks lifting noodles, because that is the mark whose silhouette
+    survives being cropped by the band edge.
+  #}
+  <span class="hh-gold__artwrap" aria-hidden="true">
+    <span class="hh-gold__art"><svg><use href="#i-chopsticks-noodles"></use></svg></span>
+  </span>
+
+  <div class="hh-gold__inner">
+    <h2 class="hh-gold__title" id="what-title">What happy hour is <em>here.</em></h2>
+
+    <div class="hh-gold__body">
+      <p class="hh-gold__para">
+        Tajima is not a chain with one bar programme printed six times. Mercury has the full bar, with craft cocktails, Japanese whisky and a wine list. College Heights has the largest beer program of the seven. Convoy has the deepest izakaya list to drink alongside. Crown Point pours local craft and a matcha-forward list for anyone not drinking. East Village has six taps and the walk to Petco Park. Plaza Bonita is quick-serve inside the mall and serves no alcohol at all.
+      </p>
+      <p class="hh-gold__para">
+        The windows are not the same either, and we are confirming them room by room rather than printing a time the door does not honor. Until they are up here, every room's number is below and they will tell you what is running today.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="hh-stripe" aria-hidden="true"></div>
+
+{# ==================== 3. THE ROOMS ==================== #}
+{#
+  Cards, not a table. Adapted from the .hh-card block that had been sitting
+  dead in happy-hour.css since the flat table replaced it, including its
+  --plaza modifier, rather than inventing a third treatment for the same job.
+
+  THE THREE-WAY BRANCH IS UNCHANGED AND DELIBERATE. A room renders as no
+  alcohol, as confirmed windows, or as pending with a phone number. The
+  windows, drinks and food markup is intact, so real values from Amanda render
+  here with no template change.
+
+  What changed is that a pending room is no longer a card that only says
+  "being confirmed". It says what that room pours, which is confirmed, and
+  then says the window is not, which is honest without being empty.
+#}
+<section class="sect" aria-labelledby="rooms-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <h2 class="sect__title" id="confirmed-title">What we can <em>confirm.</em></h2>
+      <h2 class="sect__title" id="rooms-title">Six rooms, six <em>bars.</em></h2>
       <p class="sect__note">
-        Two things are settled and the rest are being checked. Where a time is not up here yet, the room's number is, and they will tell you what is running today.
+        What each one pours is confirmed. What time it starts is not, yet. Tap a number and ask.
       </p>
     </header>
 
-    <ul class="hh-facts">
+    <div class="hh-grid">
       {%- for hh in happyHour.locations %}
       {%- set loc = (locations.items | where("id", hh.id)) | first %}
-      <li class="hh-facts__row">
-        <div class="hh-facts__who">
-          {# The bowl mark reads as "this is a Tajima room", the same anchor the
-             location cards use. Happy hour would really want a glass, and there
-             is no drink icon among the twelve extracted so far. #}
-          <span class="mark mark--sm" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
-          <h3 class="hh-facts__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h3>
-          <span class="hh-facts__tag">{{ hh.tag }}</span>
-        </div>
+      <article class="hh-card{% if hh.noAlcohol %} hh-card--plaza{% endif %} reveal">
+        <h3 class="hh-card__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h3>
+        <p class="hh-card__tag">{{ hh.tag }}</p>
 
-        <div class="hh-facts__state">
-          {%- if hh.noAlcohol %}
-          {#
-            Confirmed in CLIENT_FACTS.md. Stated outright rather than left as a
-            gap for someone to drive to National City and discover.
-          #}
-          <p class="hh-facts__no">No happy hour here. Quick-serve inside the mall, and no alcohol. The bowls are the same bowls.</p>
+        {%- if hh.noAlcohol %}
+        {#
+          Plaza Bonita reads as a deliberate answer, not an omission. The mark
+          is the one on this page that matches its subject: the point of this
+          card is that the bowls are the same bowls.
 
-          {%- elif hh.windows | length %}
-          {# Renders only when happyHour.json holds confirmed values. #}
-          <div class="hh-facts__hours">
-            {%- for window in hh.windows %}
-            <div class="hh-facts__hours-row">
-              <span>{{ window.time }}</span>
-              <span class="hh-facts__days">{{ window.days }}</span>
-            </div>
-            {%- endfor %}
+          "No happy hour at all" is gone. That phrasing is not in
+          CLIENT_FACTS.md and the room's own live Toast catalog carries a
+          priced Happy Hours section, so the two contradict each other and the
+          negative was the one we were publishing. See _plazaReconciliation in
+          happyHour.json. What is published is the confirmed fact: no alcohol.
+        #}
+        <span class="mark mark--lg mark--disc hh-card__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
+        <p class="hh-card__bar">{{ hh.bar }}</p>
+        <p class="hh-card__note">Nothing is discounted here because nothing is poured here. Come for the bowl.</p>
+        {%- else %}
+        <p class="hh-card__bar">{{ hh.bar }}</p>
+
+        {%- if hh.windows | length %}
+        {# Renders only when happyHour.json holds confirmed values. #}
+        <div class="hh-card__hours">
+          {%- for window in hh.windows %}
+          <div class="hh-card__hours-row">
+            <span>{{ window.time }}</span>
+            <span class="hh-card__hours-days">{{ window.days }}</span>
           </div>
-          {%- if hh.drinks | length or hh.food | length %}
-          <div class="hh-facts__lists">
-            {%- if hh.drinks | length %}
-            <div>
-              <p class="hh-facts__list-label">Drinks</p>
-              <ul class="hh-facts__list">
-                {%- for item in hh.drinks %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
-              </ul>
-            </div>
-            {%- endif %}
-            {%- if hh.food | length %}
-            <div>
-              <p class="hh-facts__list-label">Food</p>
-              <ul class="hh-facts__list">
-                {%- for item in hh.food %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
-              </ul>
-            </div>
-            {%- endif %}
+          {%- endfor %}
+        </div>
+        {%- if hh.drinks | length or hh.food | length %}
+        <div class="hh-card__lists">
+          {%- if hh.drinks | length %}
+          <div>
+            <p class="hh-card__list-label">Drinks</p>
+            <ul class="hh-card__list">
+              {%- for item in hh.drinks %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
+            </ul>
           </div>
           {%- endif %}
-
-          {%- else %}
-          <p class="hh-facts__pending">Times are being confirmed.</p>
-          <a class="hh-facts__phone" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
+          {%- if hh.food | length %}
+          <div>
+            <p class="hh-card__list-label">Food</p>
+            <ul class="hh-card__list">
+              {%- for item in hh.food %}<li><span>{{ item.name }}</span><span>{{ item.price }}</span></li>{% endfor %}
+            </ul>
+          </div>
           {%- endif %}
         </div>
-      </li>
+        {%- endif %}
+
+        {%- else %}
+        <p class="hh-card__pending">The window here is being confirmed.</p>
+        {%- endif %}
+        {%- endif %}
+
+        {#
+          Every card carries the number, Plaza Bonita included. The phone is
+          the one value on this page we are certain of, and a room's number is
+          never the wrong thing to hand someone standing on a street corner.
+          It sits outside the three-way branch so it cannot go missing from a
+          state nobody thought to check.
+        #}
+        <a class="hh-card__phone" href="{{ loc.phone | telHref }}">
+          {{ loc.phone }}
+          <span class="u-visually-hidden">, call {{ hh.name }}</span>
+        </a>
+      </article>
       {%- endfor %}
-    </ul>
+    </div>
   </div>
 </section>
 
-{# ==================== PADRES ==================== #}
+{# ==================== 4. PADRES ==================== #}
 {#
-  Brief section 3, scoped down to what CLIENT_FACTS.md actually confirms.
-  Its East Village entry: "Padres game-night beer specials and extended hours
-  on home game nights." That is this room and no other. The concept's "every
-  tap beer $3.50, all SD locations except Plaza Bonita" carried a price and a
-  scope that appear nowhere in CLIENT_FACTS.md, and both are gone.
+  The strongest hook on the page, and it used to sit in a thin strip. It gets
+  the red field with the ghosted line-art pattern, which is page 18's other
+  colour-field device.
 
-  Still date-bounded in reality. SITE_ARCHITECTURE.md's position is that
-  time-bound promos belong on GBP Posts. One block, deletable as one block.
+  SCOPED TO EAST VILLAGE AND STAYS THERE. CLIENT_FACTS.md Location 3: "Padres
+  game-night beer specials and extended hours on home game nights." That is
+  this room and no other. The concept's "every tap beer $3.50, all SD locations
+  except Plaza Bonita" carried a price and a scope that appear nowhere in
+  CLIENT_FACTS.md. SITE_ARCHITECTURE.md:787 still lists the $3.50; it is pulled
+  and it does not come back.
+
+  NO TIMES. "Extended hours on home game nights" is confirmed. How extended is
+  not, and neither is the schedule, which belongs on GBP Posts anyway.
+
+  Still deletable as one block.
 #}
-<section class="hh-padres" aria-labelledby="padres-title">
+<section class="hh-padres pattern-section" aria-labelledby="padres-title">
   <div class="hh-padres__inner">
-    <p class="hh-padres__text">
-      <strong id="padres-title">{{ happyHour.padres.headline }}.</strong>
-      {{ happyHour.padres.body }}
-    </p>
-    <a class="hh-padres__link" href="/tajima-east-village/">See East Village</a>
+    <p class="hh-padres__kicker">East Village</p>
+    <h2 class="hh-padres__title" id="padres-title">{{ happyHour.padres.headline }}.</h2>
+    <div class="hh-padres__rule" aria-hidden="true"></div>
+    <p class="hh-padres__body">{{ happyHour.padres.body }}</p>
+    <a class="hh-padres__link" href="/tajima-east-village/">See the East Village room</a>
   </div>
 </section>
 
 <section class="loc-close" aria-labelledby="close-title">
   <div class="loc-close__inner">
-    <h2 class="loc-close__title" id="close-title">Pick a room.</h2>
+    <h2 class="loc-close__title" id="close-title">Pick a <em>room.</em></h2>
     <p class="loc-close__sub">
       Happy hour is per location and so is the menu. <a href="/menu/">See the menu</a>, or <a href="/locations/">see all six San Diego rooms</a>.
     </p>

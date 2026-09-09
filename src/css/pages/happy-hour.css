@@ -1,107 +1,326 @@
 /* ==========================================================================
    Page: /happy-hour/
 
-   Ported from the happy-hour concept.
+   REDESIGNED 2026-09-09 against the October 2025 brand guidelines, Section
+   5.1 Digital Application (page 18). That artifact is the only place in the
+   signed brand material where the promotional treatment is shown: a black
+   header band, Sesame Gold as a full-bleed field carrying black type, thin
+   full-bleed red stripes between bands, a starburst badge in red with a white
+   stroke and white brush type, and a red field carrying the ghosted line-art
+   pattern.
+
+   SCOPED TO THIS PAGE. DESIGN_SYSTEM.md's palette rules describe the editorial
+   surfaces, where gold is rules and marks and red is an accent. The guidelines
+   authorise more than that in promotional applications, and this is the only
+   promotional page in the build. Nothing in this file is a general licence.
+
+   The colour fields are full-bleed and therefore sharp. Cards take the radius
+   scale. That split is the system's rule and this page follows it.
    ========================================================================== */
 
 /* ═══════════════════════════════════════════════════════════════════
-   HAPPY HOUR HERO/INTRO · slim, matches menu-hero pattern
+   1. THE BLACK BAND · page 18's header device
+
+   The site header sits directly above this carrying the circle mark and the
+   wordmark, so the band holds the page title rather than repeating the logo
+   under itself.
+
+   Night uses --surface rather than the system ink. The band's job is to read
+   as a black field, and at night the canvas is already #0B0A0C: an ink band on
+   it would be a black rectangle on a black page. Lifting to #17151A keeps the
+   band a band, and the red stripe underneath does the rest.
 ═══════════════════════════════════════════════════════════════════ */
-.hh-hero{
-  padding: var(--space-9) var(--layout-gutter) var(--space-7);
-  border-bottom: var(--stroke-hair) solid var(--color-rule);
+.hh-band{
+  padding: clamp(var(--space-9), 7vw, var(--space-11)) var(--layout-gutter) clamp(var(--space-8), 5vw, var(--space-9));
+  background: var(--color-system-ink);
 }
-.hh-hero__inner{
+[data-mode="night"] .hh-band{ background: var(--surface); }
+
+.hh-band__inner{
   max-width: var(--layout-max);
   margin: 0 auto;
 }
-.hh-hero__eyebrow{
-  display: block;
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-  margin-bottom: var(--space-4);
-}
-.hh-hero__title{
+.hh-band__title{
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
   font-size: var(--text-display);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
-  color: var(--color-ink);
+  color: var(--color-system-cream);
   margin-bottom: var(--space-5);
 }
-.hh-hero__sub{
+.hh-band__sub{
   font-family: var(--font-cond);
   font-weight: var(--weight-light);
   font-size: var(--text-lead);
   line-height: var(--leading-snug);
-  color: var(--color-ink-2);
+  /* Cream at 82 per cent on the ink band, the same step the system uses for
+     secondary type on a dark field. */
+  color: var(--color-system-cream-70);
   max-width: 42rem;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   QUICK-JUMP PILLS · scroll to card, highlight, never hide content
+   2. THE RED STRIPE · the thin full-bleed rule between bands
+
+   Page 18 puts a thin red stripe between every band. Here it carries a gold
+   hairline along its top edge, which is the "red and gold stripe" the brief
+   asks for, built as one element rather than two stacked ones.
+
+   Decorative and aria-hidden in the markup: it separates bands visually and
+   says nothing.
 ═══════════════════════════════════════════════════════════════════ */
-/* .hh-jumps (six pill jump-links) REMOVED 2026-08-05 with the card grid it
-   navigated. Five of six rooms had no confirmed data, so the selector existed
-   to scroll people to "Times are being confirmed." See happy-hour.njk. */
+.hh-stripe{
+  height: var(--space-3);
+  background: var(--color-system-red);
+  border-top: var(--stroke-rule) solid var(--color-gold);
+}
 
 /* ═══════════════════════════════════════════════════════════════════
-   HAPPY HOUR CARD GRID
+   3. THE GOLD FIELD · the one full-bleed Sesame Gold field in the build
+
+   Black type on Sesame Gold measures 8.39 to 1, which is the highest contrast
+   on the page. The field does not change between day and night: a brand colour
+   field is the same colour field in both, the way the red field on the home
+   page is.
+
+   No radius. Full-bleed colour fields stay sharp.
 ═══════════════════════════════════════════════════════════════════ */
-.hh-grid{
-  padding: var(--space-9) var(--layout-gutter) var(--space-10);
+.hh-gold{
+  position: relative;
+  padding: clamp(var(--space-9), 7vw, var(--space-11)) var(--layout-gutter);
+  background: var(--color-system-gold);
 }
-.hh-grid__inner{
+.hh-gold__inner{
   max-width: var(--layout-max);
   margin: 0 auto;
+}
+.hh-gold__title{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-system-ink);
+  margin-bottom: var(--space-6);
+  max-width: 24ch;
+}
+/* Red on gold is 2.24 to 1 and fails at any size, so the emphasis on this
+   field is weight and not colour. Everywhere else in the build a title's <em>
+   turns red; here it stays ink and the gold does the shouting. */
+.hh-gold__title em{
+  font-style: normal;
+  color: var(--color-system-ink);
+  border-bottom: var(--stroke-thick) solid var(--color-system-red);
+  padding-bottom: .06em;
+}
+.hh-gold__body{
+  display: grid;
+  gap: var(--space-5);
+  max-width: 44rem;
+}
+.hh-gold__para{
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-system-ink-90);
+}
+
+/* THE LINE-ART ORNAMENT. Page 18 draws the red marks large and lets them run
+   off the edge of the band rather than sitting inside it, which is what stops
+   a flat colour field reading as a coloured box. Cropped by the field's own
+   overflow, sits under the copy, and never narrows the text column: the copy
+   is capped at 44rem and the art starts past it.
+
+   Hidden below 64rem. At that width the text column reaches the full band and
+   the art would be behind the paragraphs rather than beside them.
+
+   THE CROP LIVES ON __artwrap, NOT ON THE SECTION. Putting overflow:hidden on
+   .hh-gold clipped the starburst, whose whole job is to straddle the band's
+   top edge. The wrapper crops the art to the field and leaves the badge alone. */
+.hh-gold__artwrap{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.hh-gold__art{
+  position: absolute;
+  right: -7%;
+  bottom: -30%;
+  width: min(30rem, 36%);
+  color: var(--color-system-red);
+  opacity: .92;
+  rotate: -10deg;
+  transform-origin: bottom right;
+}
+/* The outer <svg> carries no viewBox of its own (the viewBox lives on the
+   <symbol> the <use> points at), so height:auto has no aspect ratio to work
+   from and Chrome falls back to a default box that squashed the drawing.
+   aspect-ratio restates the symbol's own 1119 by 1272. */
+.hh-gold__art svg{
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1119 / 1272;
+  display: block;
+  fill: currentColor;
+}
+.hh-gold__inner{ position: relative; z-index: 1; }
+
+@media (max-width: 64rem){
+  .hh-gold__artwrap{ display: none; }
+}
+@media (max-width: 40rem){
+  .hh-gold{ padding-top: clamp(var(--space-10), 16vw, var(--space-11)); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. THE STARBURST · page 18's badge
+
+   Red fill, white stroke, white brush type, two lines, overlapping the top
+   edge of the band it sits on. The shape is an SVG polygon so it scales
+   cleanly and needs no image request; the words are real text on top of it, so
+   they are read, selected, translated and zoomed like any other type.
+
+   White on Fire Red measures 5.34 to 1, which passes at any size. The stroke
+   is white as well, so the badge holds its edge against both the gold field
+   and the cream canvas.
+
+   The rotation is the guidelines': the badge sits slightly off-square so it
+   reads as applied rather than laid out.
+═══════════════════════════════════════════════════════════════════ */
+.burst{
+  position: absolute;
+  top: 0;
+  right: var(--layout-gutter);
+  translate: 0 -42%;
+  rotate: -8deg;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(7.5rem, 12vw, 10rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+.burst__shape{
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.burst__shape polygon{
+  fill: var(--color-system-red);
+  stroke: var(--color-system-cream);
+  stroke-width: 7;
+  stroke-linejoin: round;
+}
+.burst__text{
+  grid-area: 1 / 1;
+  display: grid;
+  gap: .04em;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  /* 1.5rem FLOOR, AND IT IS A CONTRAST FLOOR, NOT A TASTE ONE. Cream on Fire
+     Red measures 4.27 to 1 off a real render. That clears AA for large text,
+     which WCAG defines as 24px or 18.66px bold, and fails it for normal text
+     at 4.5. The badge is a brand device and its fill stays Fire Red, so the
+     type clears the threshold instead: 1.5rem is 24px, so every viewport is
+     inside large text. It also clears the system's own 1.25rem floor on the
+     brush face. Do not lower this. */
+  font-size: clamp(1.5rem, 2.4vw, 1.75rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-system-cream);
+}
+
+@media (max-width: 40rem){
+  .burst{
+    right: auto;
+    left: var(--layout-gutter);
+    translate: 0 -46%;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. THE ROOM CARDS
+
+   Cards, not a table. This block sat dead in this file from the day the flat
+   facts list replaced it; it is adapted rather than replaced, including its
+   --plaza modifier, so the page is not carrying a third treatment for a job
+   two have already been written for.
+
+   REMOVED with the redesign: .hh-card__photo, which had no photograph to hold
+   and never will until the documentary shoot; .hh-card.is-highlighted, which
+   belonged to the six-pill jump nav deleted on 2026-08-05; and the entire
+   .hh-facts block, which was the flat list these cards replace.
+═══════════════════════════════════════════════════════════════════ */
+.hh-grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-5);
 }
 .hh-card{
-  scroll-margin-top: var(--space-8);
+  position: relative;
   border: var(--stroke-hair) solid var(--color-rule);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  transition: border-color var(--duration-base) var(--ease-smooth), box-shadow var(--duration-base) var(--ease-smooth);
+  gap: var(--space-3);
+  background: var(--canvas-2);
+  transition: border-color var(--duration-base) var(--ease-smooth);
 }
-.hh-card.is-highlighted{
-  border-color: var(--color-red);
-  box-shadow: 0 0 0 1px var(--color-red);
-}
-.hh-card__photo{
-  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-5);
-  aspect-ratio: 16/9;
-  overflow: hidden;
-}
-.hh-card__photo img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.hh-card:hover{ border-color: var(--color-red-line); }
+
 .hh-card__name{
-  font-family: var(--font-display);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-h3);
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
   color: var(--color-ink);
-  margin-bottom: var(--space-4);
 }
+.hh-card__name a{ transition: color var(--duration-fast) var(--ease-smooth); }
+.hh-card__name a:hover,
+.hh-card__name a:focus-visible{ color: var(--accent); }
+
+.hh-card__tag{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+/* The confirmed half of the card, and the reason the page is worth reading
+   before the times arrive. */
+.hh-card__bar{
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--ink);
+}
+.hh-card__note{
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+.hh-card__mark{
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}
+/* The phone sits at the foot of every card regardless of how much sits above
+   it, so the six line up rather than floating at six different heights. */
+.hh-card__phone{ margin-top: auto; }
+
+/* Confirmed-window styling. Nothing renders through this today; it exists so
+   real values from happyHour.json land correctly the day they arrive. */
 .hh-card__hours{
   font-family: var(--font-cond);
   font-weight: var(--weight-medium);
   font-size: var(--text-body);
   color: var(--color-ink);
-  margin-bottom: var(--space-4);
 }
 .hh-card__hours-row{
   display: flex;
@@ -111,12 +330,11 @@
   border-bottom: var(--stroke-hair) solid var(--color-rule);
 }
 .hh-card__hours-row:last-child{ border-bottom: none; }
-.hh-card__hours-days{ color: var(--color-ink-3); font-size: var(--text-small); }
+.hh-card__hours-days{ color: var(--ink-3); font-size: var(--text-small); }
 .hh-card__lists{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
-  margin-top: 0;
 }
 .hh-card__list-label{
   font-family: var(--font-ui);
@@ -124,7 +342,7 @@
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-ink-3);
+  color: var(--ink-3);
   margin-bottom: var(--space-2);
 }
 .hh-card__list{
@@ -136,87 +354,172 @@
   display: flex;
   justify-content: space-between;
   gap: var(--space-2);
-  font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-ink-2);
+  color: var(--ink-2);
   padding: var(--space-1) 0;
 }
-.hh-card__list li span:last-child{ color: var(--color-ink-3); white-space: nowrap; }
-.hh-card__tag{
-  display: inline-block;
-  margin-top: auto;
-  padding-top: var(--space-4);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--color-ink-3);
-}
+.hh-card__list li span:last-child{ color: var(--ink-3); white-space: nowrap; }
 
-/* Plaza Bonita, deliberately distinct, not a sixth copy of the others */
+/* Plaza Bonita, deliberately distinct, not a sixth copy of the others.
+   The gold rule along the top says "this one is different" without the card
+   having to be a warning. */
 .hh-card--plaza{
-  background: var(--color-canvas-2);
-  border-color: var(--color-rule-strong);
-}
-.hh-card--plaza .hh-card__no-alcohol{
-  display: inline-block;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--color-gold);
-  color: var(--color-canvas);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-bold);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  margin-top: var(--space-3);
+  background: var(--canvas);
+  border-color: var(--rule-2);
+  border-top: var(--stroke-thick) solid var(--color-gold);
 }
 
-@media (max-width: 1000px){
-  .hh-grid__inner{ grid-template-columns: 1fr 1fr; }
+@media (max-width: 64rem){
+  .hh-grid{ grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 640px){
-  .hh-grid__inner{ grid-template-columns: 1fr; }
+@media (max-width: 40rem){
+  .hh-grid{ grid-template-columns: 1fr; }
   .hh-card__lists{ grid-template-columns: 1fr; gap: var(--space-4); }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   PADRES · compact highlight strip, deletable as one block
-═══════════════════════════════════════════════════════════════════ */
-.hh-padres{
-  margin: 0 var(--layout-gutter) var(--space-9);
-}
-.hh-padres__inner{
-  max-width: var(--layout-max);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  padding: var(--space-4) var(--space-6);
-  border-left: var(--stroke-thick) solid var(--color-red);
-  background: var(--color-red-soft);
-}
-.hh-padres__text{
-  font-family: var(--font-body);
+/* --------------------------------------------------------------------------
+   Pending state.
+
+   Shown when a room has no confirmed happy hour window. It is a real state,
+   not a skeleton: the card hands over a phone number that works instead of a
+   grey bar implying a value is loading.
+   -------------------------------------------------------------------------- */
+.hh-card__pending {
   font-size: var(--text-small);
-  color: var(--color-ink-2);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-3);
+  margin-bottom: var(--space-3);
 }
-.hh-padres__text strong{
-  color: var(--color-ink);
-  font-weight: var(--weight-semibold);
-}
-.hh-padres__link{
+
+.hh-card__phone {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: var(--stroke-hair) solid var(--color-rule-strong);
+  border-radius: var(--radius-sm);
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-red);
-  white-space: nowrap;
+  color: var(--color-ink);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
 }
+
+.hh-card__phone:hover,
+.hh-card__phone:focus-visible {
+  border-color: var(--color-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. PADRES · the red field with the ghosted pattern
+
+   The strongest hook on the page, and it used to sit in a thin strip with a
+   left border. Page 18's other colour-field device is a red field carrying the
+   line-art pattern ghosted behind white type, with a gold hairline. That is
+   what it gets.
+
+   The ghosting reuses components/pattern-section.css rather than duplicating
+   the home page's twenty individually positioned icons. That component's day
+   rule swaps to the black-outline plate and multiplies, which is correct on a
+   cream canvas and wrong on a red field, so the day treatment is overridden
+   here to the same screen blend night uses. One override, on one page.
+
+   Deletable as one block, which is the point: it is a promo and promos end.
+═══════════════════════════════════════════════════════════════════ */
+.hh-padres{
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(var(--space-9), 7vw, var(--space-11)) var(--layout-gutter);
+  background: var(--color-system-red);
+}
+/* The red field is the same field in both modes, so day takes night's plate
+   and blend rather than the cream-canvas treatment. */
+[data-mode="day"][data-pattern="on"] .hh-padres.pattern-section::before{
+  background-image: var(--pattern-red);
+  mix-blend-mode: screen;
+  opacity: .10;
+}
+/* A neutral wash over the pattern so the type stays on a steady field, the
+   same device the home page's red section uses. */
+.hh-padres::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .06), rgba(0, 0, 0, .14) 50%, rgba(0, 0, 0, .06));
+}
+.hh-padres__inner{
+  position: relative;
+  z-index: 1;
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+/* CREAM, NOT GOLD, AND THIS WAS MEASURED. Sesame Gold on the composited red
+   field is 3.33 to 1 off a real render, which fails AA at 13px. It is the same
+   finding that moved the home page's red-field accents to cream, and the same
+   rule the system already states for gold: gold is rules, marks and fills, and
+   gold as TYPE needs --gold-ink, which is a dark gold built for the cream
+   canvas and wrong on red. The gold on this band stays where it passes, on the
+   hairline rule below the title, which is a rule and not text. */
+.hh-padres__kicker{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-system-cream);
+}
+.hh-padres__title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-system-cream);
+}
+/* The gold hairline from page 18's footer band. */
+.hh-padres__rule{
+  width: min(18rem, 55%);
+  height: var(--stroke-rule);
+  background: var(--color-gold);
+}
+.hh-padres__body{
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  /* Cream at full strength. Cream on the composited red field is 4.80 to 1;
+     dropping it to 82 per cent would put body copy under 4.5. */
+  color: var(--color-system-cream);
+  max-width: 40rem;
+}
+.hh-padres__link{
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  background: var(--color-system-cream);
+  color: var(--color-system-ink);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.hh-padres__link:hover,
+.hh-padres__link:focus-visible{ background: var(--color-gold); }
+/* The global focus ring is Fire Red at 2px, which is the right colour on a
+   cream canvas and close to invisible drawn on a red field. Cream reads at
+   4.27 against the composited field, so the ring on this one button is cream.
+   This is the only focusable element in the build sitting on red. */
+.hh-padres__link:focus-visible{ outline-color: var(--color-system-cream); }
 
 /* --------------------------------------------------------------------------
    CLOSING SECTION ("Pick a room.")
@@ -274,156 +577,3 @@
 }
 .loc-close__sub a:hover,
 .loc-close__sub a:focus-visible{ border-color: var(--color-red); }
-
-/* --------------------------------------------------------------------------
-   Pending state.
-
-   Shown when a room has no confirmed happy hour window. It is a real state,
-   not a skeleton: the card hands over a phone number that works instead of a
-   grey bar implying a value is loading.
-   -------------------------------------------------------------------------- */
-.hh-card__pending {
-  font-size: var(--text-small);
-  line-height: var(--leading-normal);
-  color: var(--color-ink-3);
-  margin-bottom: var(--space-3);
-}
-
-.hh-card__phone {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border: var(--stroke-hair) solid var(--color-rule-strong);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-ink);
-  transition: border-color var(--duration-fast) var(--ease-smooth);
-}
-
-.hh-card__phone:hover,
-.hh-card__phone:focus-visible {
-  border-color: var(--color-red);
-}
-
-
-/* ═══════════════════════════════════════════════════════════════════
-   FACTS LIST · replaces the selector + card grid, 2026-08-05
-
-   A stacked list rather than a grid of cards. Each row states one room's
-   status in one line, so the whole picture reads in a single pass without
-   anything to operate. Rows stay legible when most of them say the same
-   thing, which is the state we are actually in.
-═══════════════════════════════════════════════════════════════════ */
-.hh-facts{
-  border-top: 1px solid var(--color-rule);
-}
-.hh-facts__row{
-  display: grid;
-  grid-template-columns: minmax(12rem, 18rem) 1fr;
-  gap: var(--space-6);
-  align-items: start;
-  padding: var(--space-6) 0;
-  border-bottom: 1px solid var(--color-rule);
-}
-/* Had no rule before the v2 port: its children simply stacked. Now a two
-   column grid so the brand mark sits beside the name instead of adding a row
-   to each of the six, with the tag tucked under the name in column two. */
-.hh-facts__who{
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  column-gap: var(--space-3);
-}
-
-.hh-facts__who .hh-facts__tag{ grid-column: 2; }
-
-.hh-facts__name{
-  font-family: var(--font-cond);
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-h4);
-  line-height: var(--leading-tight);
-  color: var(--color-ink);
-}
-.hh-facts__name a{ transition: color var(--duration-fast) var(--ease-smooth); }
-.hh-facts__name a:hover,
-.hh-facts__name a:focus-visible{ color: var(--color-red); }
-.hh-facts__tag{
-  display: block;
-  margin-top: var(--space-2);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-ink-4);
-}
-.hh-facts__no,
-.hh-facts__pending{
-  font-size: var(--text-small);
-  line-height: var(--leading-normal);
-  color: var(--color-ink-2);
-  max-width: 42rem;
-}
-/* The phone is the useful half of a pending row: it is a value we actually
-   have, so it is a real target rather than a greyed placeholder. */
-.hh-facts__phone{
-  display: inline-block;
-  margin-top: var(--space-2);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-red);
-  transition: color var(--duration-fast) var(--ease-smooth);
-}
-.hh-facts__phone:hover,
-.hh-facts__phone:focus-visible{ color: var(--color-red-deep); }
-
-/* Confirmed-window styling. Nothing renders through this today; it exists so
-   real values from happyHour.json land correctly the day they arrive. */
-.hh-facts__hours-row{
-  display: flex;
-  gap: var(--space-4);
-  align-items: baseline;
-  font-family: var(--font-ui);
-  font-size: var(--text-meta);
-  color: var(--color-ink);
-}
-.hh-facts__days{
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--color-ink-4);
-}
-.hh-facts__lists{
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-7);
-  margin-top: var(--space-4);
-}
-.hh-facts__list-label{
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-ink-4);
-  margin-bottom: var(--space-2);
-}
-.hh-facts__list li{
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-5);
-  font-size: var(--text-small);
-  color: var(--color-ink-2);
-  padding: var(--space-1) 0;
-}
-
-@media (max-width: 48rem){
-  .hh-facts__row{ grid-template-columns: 1fr; gap: var(--space-3); }
-}
