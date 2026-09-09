@@ -20,6 +20,20 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   which is right.
 #}
 
+{#
+  NO ICONS ON THIS PAGE, and it is a deliberate result rather than an oversight.
+
+  Two chapters have an honest subject match (01 the mother's kitchen, 06 the
+  Noodle Room) and the other four are biography beats with no food subject at
+  all, which DESIGN_SYSTEM.md already answers: use no icon rather than force
+  one. The two that did match were built and then removed. The traced icons are
+  fine-stroked line art drawn for large pattern use, and at 2 to 3rem in a
+  narrow rail column they render as a smudge, not a mark. Sizing up past 3rem
+  breaks the brief's own ceiling and would compete with the numeral.
+
+  The rail carries the anchoring instead: station dot, display numeral, place
+  label. That is what makes the six beats read as a journey.
+#}
 <section class="page-hero" aria-labelledby="page-title">
   <div class="page-hero__inner">
     <p class="page-hero__crumbs">
@@ -42,7 +56,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
     <div class="chapters">
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">01</span>
           <span class="chapter__place">Amagasaki, Japan</span>
         </div>
@@ -60,7 +74,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">02</span>
           <span class="chapter__place">Rockford, Illinois</span>
         </div>
@@ -79,7 +93,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">03</span>
           <span class="chapter__place">The kitchens</span>
         </div>
@@ -98,7 +112,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">04</span>
           <span class="chapter__place">Convoy Street, 2001</span>
         </div>
@@ -107,19 +121,43 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
           <p class="chapter__para">
             In 2001 he took over a small, struggling Japanese restaurant on <a class="sect__link" href="/tajima-convoy/">Convoy Street</a>. The name was already on the door.
           </p>
-          {#
-            The line. voice-tone.md: "the strongest line in the research file.
-            It belongs somewhere on the new site, once, probably on About. Do
-            not overuse it and do not put it in a hero."
-            This is the one place it appears. It was removed from the home page
-            story block to keep that true. Do not add it anywhere else.
-          #}
-          <p class="keyline">He didn't name it. <em>He made it his.</em></p>
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+{#
+  THE ONE BREAK. The page ran six chapters with nothing between them.
+
+  This line was inside chapter 04's body; it is lifted out rather than
+  duplicated, so it still appears exactly once. voice-tone.md: "the strongest
+  line in the research file. It belongs somewhere on the new site, once,
+  probably on About. Do not overuse it and do not put it in a hero." A band
+  between the founding and the twenty-five years is not a hero, and it is the
+  natural hinge: everything above is how he got there, everything below is
+  what he did with it.
+
+  Type only, no photograph. The statement device on the homepage is a
+  full-bleed photo behind display type, and the three photographs this page
+  actually wants (Convoy, the commissary, Sam) are covered by the note further
+  down. The gold hairline is the one sanctioned gradient in the system.
+#}
+<section class="keyline-band" aria-label="He didn't name it">
+  <div class="keyline-band__inner">
+    <div class="keyline-band__rule" aria-hidden="true"></div>
+    <p class="keyline-band__line">He didn't name it. <em>He made it his.</em></p>
+    <div class="keyline-band__rule" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="sect pattern-section pattern-section--quiet" aria-label="The story, continued">
+  <div class="sect__inner">
+    <div class="chapters">
+
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">05</span>
           <span class="chapter__place">San Diego</span>
         </div>
@@ -147,7 +185,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">06</span>
           {# CORRECTED. The concept read "Crown Point, 2026". The room opened
              January 2025 per the 2025 Japanese corporate filing. #}
@@ -245,6 +283,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
 <section class="sect sect--alt sect--rule" aria-label="Founder quote, pending interview">
   <div class="sect__inner">
     <div class="pending reveal">
+      <div class="pending__rule" aria-hidden="true"></div>
       <span class="pending__tag">[Quote pending interview]</span>
       <p class="pending__note">
         Sam's words go here, verbatim, once the founder interview is recorded. Per the voice rules, no quote is written for him. This block is a deliberate launch blocker.
