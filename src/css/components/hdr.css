@@ -161,7 +161,7 @@
   transform: translateY(-1px);
 }
 
-/* CONTRAST. Cream on the night accent (#FF4D40) is 3.25:1, and this label is
+/* CONTRAST. Cream on the lifted night accent is 3.25:1, and this label is
    13px semibold, which is not large text, so it failed AA. Night rests on
    --color-red-deep instead (6.36:1) and darkens further on hover, mirroring
    the day pattern of rest-then-darker rather than flattening the state
