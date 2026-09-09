@@ -77,7 +77,7 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
       {%- else %}
       {# No ordering URL on record. Offer the phone, which is confirmed, rather
          than a button that goes nowhere. #}
-      <a class="order-card__cta order-card__cta--quiet" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">
+      <a class="order-card__cta order-card__cta--quiet" href="{{ loc.phone | telHref }}">
         Call {{ loc.phone }}
       </a>
       {%- endif %}

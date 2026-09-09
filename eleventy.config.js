@@ -87,6 +87,26 @@ export default function (eleventyConfig) {
    * hours table reads. Nothing here invents a day: it only formats the array
    * locations.json already holds.
    */
+  /**
+   * tel: href for a location's phone.
+   *
+   * Replaces a replace().replace().replace() chain that was duplicated
+   * verbatim in three templates and is the kind of thing that rots in one
+   * copy and not the others. The current site already ships the failure this
+   * guards against: Plaza Bonita's tel: href renders as "tel:+1%20" while the
+   * number displays fine.
+   *
+   * Strips every non-digit and prefixes +1. Returns null for a missing or
+   * unusable number so the template can omit the link rather than render a
+   * dead one. US numbers only, which is every location we have.
+   */
+  eleventyConfig.addFilter("telHref", (phone) => {
+    if (!phone) return null;
+    const digits = String(phone).replace(/\D/g, "");
+    if (digits.length !== 10) return null;
+    return `tel:+1${digits}`;
+  });
+
   eleventyConfig.addFilter("dayRange", (days) => {
     if (!Array.isArray(days) || !days.length) return "";
     const ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

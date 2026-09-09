@@ -239,6 +239,15 @@ function restaurant(id, menuId = `${site.url}/menu/#menu`) {
       addressCountry: "US",
     },
   };
+  // areaServed per room, not the Organization's county-wide value. A location
+  // page's catchment is its own city, and for the San Diego rooms the
+  // neighborhood is what the query actually says ("ramen kearny mesa").
+  entity.areaServed = [
+    { "@type": "City", name: loc.address.locality },
+    ...(loc.neighborhood && loc.neighborhood !== loc.address.locality
+      ? [{ "@type": "Place", name: loc.neighborhood }]
+      : []),
+  ];
   if (loc.phone) entity.telephone = loc.phone;
   if (loc.sameAs && loc.sameAs.length) entity.sameAs = loc.sameAs;
   if (loc.hours && loc.hours.length) {

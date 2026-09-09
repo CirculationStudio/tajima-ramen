@@ -147,7 +147,7 @@ description: "Happy hour at Tajima Ramen in San Diego. Which rooms run it, and h
 
           {%- else %}
           <p class="hh-facts__pending">Times are being confirmed.</p>
-          <a class="hh-facts__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          <a class="hh-facts__phone" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
           {%- endif %}
         </div>
       </li>

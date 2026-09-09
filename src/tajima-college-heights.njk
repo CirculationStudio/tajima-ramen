@@ -88,7 +88,7 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
         </span>
         <span class="plate__item">
           <span class="plate__label">Phone</span>
-          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
         </span>
         {% include "components/plate-hours.njk" %}
         <span class="plate__item">

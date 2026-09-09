@@ -34,3 +34,34 @@
 [data-mode="night"] .mark {
   filter: drop-shadow(0 0 8px rgba(255, 77, 64, .3));
 }
+
+/* --------------------------------------------------------------------------
+   DISC. The icon knocked out white inside a filled red circle, which is the
+   one small-scale icon treatment in the October 2025 guidelines (the social
+   application uses it for highlight covers). Everywhere else the guidelines
+   draw these icons large and let them crop off the edge.
+
+   The reason it may be the only viable small treatment: these are autotraced
+   line drawings with hairline strokes. Set as accent-coloured line art at
+   2rem on a cream field they close up and read as a smudge, which is what
+   killed them on /about/. A filled disc gives the strokes a field to sit on
+   and reverses them out, so what carries at small size is the silhouette
+   rather than the line weight.
+   -------------------------------------------------------------------------- */
+.mark--disc {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--color-system-cream);
+  padding: .42em;
+}
+
+.mark--disc svg {
+  width: 100%;
+  height: 100%;
+}
+
+[data-mode="night"] .mark--disc {
+  filter: none;
+}

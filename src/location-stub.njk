@@ -79,7 +79,7 @@ eleventyComputed:
       </span>
       <span class="plate__item">
         <span class="plate__label">Phone</span>
-        <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+        <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
       </span>
       {% include "components/plate-hours.njk" %}
       <span class="plate__item">
@@ -151,11 +151,14 @@ eleventyComputed:
   CLIENT_FACTS.md: "Padres game-night beer specials and extended hours on home
   game nights." That is this room and no other, and it must not be widened.
 
-  The other five rooms are NOT given this block on purpose. They already carry
-  a "Happy Hour / See times" row in the address plate, and adding a second
-  reference on the same page while we have no times to show would be two
-  pointers to the same empty state. When real windows arrive for a room, it
-  gets this block and the plate row keeps its place.
+  The other five rooms are NOT given this block on purpose: there is nothing
+  confirmed to put in one, and a section that only says "being confirmed"
+  earns nothing. When real windows arrive for a room, it gets this block.
+
+  CORRECTED 2026-09-09. This used to justify the omission by saying the other
+  rooms "already carry a Happy Hour / See times row in the address plate".
+  They do not. Only the two full location templates carry that row; the stub
+  plate never has. The reasoning above stands without it.
 
   No price. SITE_ARCHITECTURE.md's East Village brief carries "$3.50" but
   happyHour.json pulled that figure as unverified, so the two sources disagree

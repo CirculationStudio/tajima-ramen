@@ -58,7 +58,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         </span>
         <span class="plate__item">
           <span class="plate__label">Phone</span>
-          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
         </span>
         {% include "components/plate-hours.njk" %}
 
@@ -68,7 +68,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         </span>
         <span class="plate__item">
           <span class="plate__label">Parking</span>
-          <span class="plate__value">{{ loc.parking }} on Convoy Street</span>
+          <span class="plate__value">{{ loc.parking }}</span>
         </span>
         <span class="plate__item">
           <span class="plate__label">Seating</span>
@@ -166,9 +166,11 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       </article>
 
       <article class="cell diff__cell reveal">
-        <h3 class="diff__title">Three languages.</h3>
+        {# From locations.json, not written out. College Heights already did it
+           this way; Convoy was the copy that could drift. #}
+        <h3 class="diff__title">{{ loc.languages | length }} languages.</h3>
         <p class="diff__body">
-          Japanese, English, and Spanish spoken at this location.
+          {{ loc.languages | join(", ") }} spoken at this location.
         </p>
       </article>
 

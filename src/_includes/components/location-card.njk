@@ -37,7 +37,7 @@
       {{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}
     </span>
     {%- if loc.phone %}
-    <a class="loc__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+    <a class="loc__phone" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
     {%- endif %}
     {# Same filter, same data as every other Directions link on the site. #}
     <a class="loc__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
