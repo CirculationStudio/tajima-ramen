@@ -155,6 +155,8 @@
   transition:
     border-color var(--duration-fast) var(--ease-smooth),
     transform var(--duration-fast) var(--ease-smooth);
+  /* v2: bento cells take --radius (6px). */
+  border-radius: var(--radius);
 }
 .sect--alt .cell{ background: var(--color-canvas-3); }
 .cell:hover{

@@ -4,10 +4,7 @@ permalink: /about/
 pageKey: about
 title: "About Tajima Ramen | Founder-Built in San Diego Since 2001"
 description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitchens including Matsuhisa, and took over a small restaurant on Convoy Street in 2001. It was already called Tajima."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /about/. Brief: SITE_ARCHITECTURE.md.
@@ -31,7 +28,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
       <span aria-hidden="true">/</span>
       <span class="page-hero__crumbs-current">About</span>
     </p>
-    <span class="page-hero__eyebrow">The house &middot; Since {{ site.founded }}</span>
     <h1 class="page-hero__title" id="page-title">About</h1>
     <p class="page-hero__lede">
       One owner, one city, twenty-five years. This is the story in order.

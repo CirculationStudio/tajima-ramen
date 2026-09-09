@@ -4,10 +4,7 @@ permalink: /menu/
 pageKey: menu
 title: "Tajima Ramen Menu | Ramen, Izakaya, and Rice Dishes"
 description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White, spicy sesame, and vegan ramen on house-made spinach noodles, plus izakaya plates."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /menu/. Brief: SITE_ARCHITECTURE.md.
@@ -32,9 +29,13 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
     RICE DISHES AND DRINKS (brief sections 5 and 7) have no confirmed items in
     CLIENT_FACTS.md. Sections render from data, so they simply do not appear.
 
-  Carnitas Ramen is absent pending Open Decision #4. The recommendation on
-  record is to list it plainly with feature: no. It is a data change, not a
-  template change: add the row and it renders as a quiet line.
+  Carnitas Ramen IS listed, and deliberately. Open Decision #4 resolved on
+  2026-08-04: it is active at all seven locations per the live Toast menus, so
+  it appears here plainly with feature: false, no photo, no callout and no
+  fusion framing, and nowhere else on the site. See menu.json `_carnitasNote`.
+  Do not remove it as a violation. DESIGN_SYSTEM.md and voice-tone.md still
+  carry blanket bans that predate the decision and are stale on this one
+  point; that is Open Decision #21, not a bug here.
 #}
 
 {%- set ramen = menu.items | where("section", "ramen") %}
@@ -53,7 +54,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   <div class="menu-hero__inner">
 
     <div class="menu-hero__lead">
-      <span class="menu-hero__eyebrow">The Menu</span>
       <h1 class="menu-hero__title" id="page-title">
         {{ ramen | length }} bowls.<br><em>One room.</em>
       </h1>
@@ -93,7 +93,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">01 &middot; Ramen</span>
       <h2 class="menu-section__title" id="ramen-title">
         {{ ramen | length }} bowls. <em>The trio</em> is the house.
       </h2>
@@ -156,7 +155,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">02 &middot; Izakaya</span>
       <h2 class="menu-section__title" id="izakaya-title">Small <em>plates.</em></h2>
       <p class="menu-section__note">
         Izakaya plates run alongside the bowls. What is on offer varies by room.
@@ -194,7 +192,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">03 &middot; Dessert</span>
       <h2 class="menu-section__title" id="dessert-title">To <em>finish.</em></h2>
     </header>
 
@@ -233,7 +230,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   <div class="menu-end__inner">
 
     <div class="menu-end__lead">
-      <span class="menu-end__eyebrow">Menus vary by room</span>
       <h2 class="menu-end__title" id="menu-end-title">
         Find the room <em>closest to you.</em>
       </h2>
@@ -309,11 +305,10 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
   spends that on the Order Online pill, so two filled red panels would put a
   third and fourth red in the same screen.
 
-  What red does here instead: a 3px rule along the top edge of each card, the
-  section eyebrow, and a button outline that fills only on hover and focus.
-  Structure and accent, never a field. The top rule is the same device
-  .sect__eyebrow already uses at small scale, so this introduces no new
-  pattern.
+  What red does here instead: a 3px rule along the top edge of each card, and
+  a button outline that fills only on hover and focus. Structure and accent,
+  never a field. (This used to also say "the section eyebrow". v2 bans eyebrow
+  labels outright, so those are gone and the top rule carries it alone.)
 
   The two columns are deliberately equal. Neither is styled as the winner:
   which one a reader wants depends on why they came to the menu.
@@ -331,7 +326,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
     <h2 class="u-visually-hidden" id="next-title">Where to go next</h2>
 
     <article class="next-card">
-      <span class="next-card__eyebrow">Happy hour</span>
       <h3 class="next-card__title">Happy hour runs <em>by room.</em></h3>
       <p class="next-card__body">
         Each room sets its own window, and Plaza Bonita has no bar at all. East Village runs beer specials on Padres home game nights.
@@ -345,7 +339,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
     </article>
 
     <article class="next-card">
-      <span class="next-card__eyebrow">The Noodle Room</span>
       <h3 class="next-card__title">Where the bowl <em>begins.</em></h3>
       <p class="next-card__body">
         Two years to build the room, and a machine that came over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl.

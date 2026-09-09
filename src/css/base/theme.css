@@ -173,6 +173,13 @@
   --z-grain: 1000;
 
   /* --- Pattern assets ------------------------------------------------------ */
+  /* Day plate. Black line art on white, from the local brand tile, downscaled
+     and recompressed to 100KB for use as a background texture (the source is
+     9288px and 1.5MB). The three CDN plates below are red-, white- and
+     yellow-ground and none of them reads on a cream canvas: --pattern-red
+     screens to a pink wash and --pattern-white has no usable contrast. */
+  --pattern-outline: url("/images/brand/tajima-pattern-day.webp");
+
   --pattern-red: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-red-background-print.png.png");
   --pattern-white: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-white-background-print.png.png");
   --pattern-yellow: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-yellow-background-print.png");

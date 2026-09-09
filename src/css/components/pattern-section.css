@@ -30,6 +30,19 @@
    ONE component, used on five pages (/, /about/, /locations/,
    /tajima-convoy/, /menu/vegan-ramen/), so this cannot drift between them. */
 [data-pattern="on"] .pattern-section::before{ opacity: 0.08; }
+
+/* DAY needs a different plate and a different blend, not just a lower number.
+   --pattern-red is red-ground artwork and `screen` lightens, so on the cream
+   canvas it rendered as a pink wash competing with the type rather than a
+   texture under it. The local black-outline plate multiplied at a low
+   opacity puts the line art down as tone instead: cream stays cream, only the
+   drawing darkens. */
+[data-mode="day"][data-pattern="on"] .pattern-section::before{
+  background-image: var(--pattern-outline);
+  mix-blend-mode: multiply;
+  opacity: 0.14;
+}
+
 [data-mode="night"][data-pattern="on"] .pattern-section::before{
   opacity: 0.11;
   mix-blend-mode: lighten;
