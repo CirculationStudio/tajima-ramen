@@ -161,6 +161,20 @@
   transform: translateY(-1px);
 }
 
+/* CONTRAST. Cream on the night accent (#FF4D40) is 3.25:1, and this label is
+   13px semibold, which is not large text, so it failed AA. Night rests on
+   --color-red-deep instead (6.36:1) and darkens further on hover, mirroring
+   the day pattern of rest-then-darker rather than flattening the state
+   change. The hover value is derived off the token, so no new hex. */
+[data-mode="night"] .hdr__nav-link--cta {
+  background: var(--color-red-deep);
+}
+
+[data-mode="night"] .hdr__nav-link--cta:hover,
+[data-mode="night"] .hdr__nav-link--cta:focus-visible {
+  background: color-mix(in srgb, var(--color-red-deep) 82%, var(--color-system-ink));
+}
+
 /* Day has no glow (glow is a night-only device and --glow-red resolves to
    none), so the CTA gets a real drop shadow instead to keep it sitting above
    the cream field. The accent half is derived with color-mix rather than

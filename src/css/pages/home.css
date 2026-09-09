@@ -588,7 +588,12 @@
 }
 
 .page-home .red .h2 { color: var(--color-cream); }
-.page-home .red .h2 em { color: var(--color-gold); text-shadow: none; }
+/* CONTRAST. This was Sesame Gold, which measures 3.12:1 against the
+   composited field: it clears large text but not normal text, and it is the
+   weakest thing in the section. Cream is 4.80:1 and passes at any size. The
+   emphasis still reads, through the display face and the surrounding weight
+   rather than through hue. */
+.page-home .red .h2 em { color: var(--color-cream); text-shadow: none; }
 .page-home .red .lede { color: rgba(255, 254, 244, .86); }
 
 .page-home .red__grid {
@@ -628,13 +633,15 @@
   color: var(--color-gold);
 }
 
+/* CONTRAST. Was cream at .92 alpha, which is 4.28:1 against the composited
+   field at 14px, just under AA. Full cream is 4.80:1. */
 .page-home .red__hood {
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);
   font-size: var(--text-meta);
   line-height: 1.35;
   letter-spacing: var(--tracking-wide);
-  color: rgba(255, 254, 244, .92);
+  color: var(--color-cream);
 }
 
 .page-home .red__foot {
@@ -662,10 +669,12 @@
   transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
 }
 
+/* CONTRAST. Gold here is 16px body text at 3.12:1, which fails AA. The hover
+   affordance is the border going solid cream instead of the hue changing. */
 .page-home .red__beyond a:hover,
 .page-home .red__beyond a:focus-visible {
-  color: var(--color-gold);
-  border-bottom-color: var(--color-gold);
+  color: var(--color-cream);
+  border-bottom-color: var(--color-cream);
 }
 
 /* --------------------------------------------------------------------------

@@ -125,7 +125,12 @@
   --surface: #FFFFFF;
   --ink: #141210;
   --ink-2: rgba(20, 18, 16, .74);
-  --ink-3: rgba(20, 18, 16, .5);
+  /* CONTRAST. The reference sets .5, which is 3.50:1 on the day canvas. This
+     token carries roughly 25 small-text elements (captions, labels, meta
+     lines, breadcrumb current), none of which is large text, so .5 failed AA.
+     Raised to .62, which is 5.20:1. The night value is untouched: .5 there is
+     already 5.28:1 against the dark canvas. */
+  --ink-3: rgba(20, 18, 16, .62);
   --accent: #D8352A;
   --rule: rgba(20, 18, 16, .14);
   --rule-2: rgba(20, 18, 16, .26);
