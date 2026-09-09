@@ -73,17 +73,35 @@
   justify-content: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-5);
-  background: var(--color-red);
-  color: var(--color-system-cream);
-  border-radius: 999px;
+  /* HAIRLINE, NOT FILLED. Seven of these are in view at once and the header
+     spends the page's one red on Order Online, so filling them put eight
+     competing primary CTAs in a single viewport. DESIGN_SYSTEM.md: one red
+     CTA per viewport, and anything in view alongside the header's is outlined
+     or cream. The fill moves to hover and focus, which is the same device
+     /menu/ already uses for its two end cards. */
+  background: none;
+  color: var(--accent);
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-radius: var(--radius-sm);
   font-family: var(--font-ui);
   font-weight: var(--weight-bold);
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  transition: transform var(--duration-fast) var(--ease-smooth);
+  transition:
+    transform var(--fast) var(--ease),
+    background var(--fast) var(--ease),
+    border-color var(--fast) var(--ease),
+    color var(--fast) var(--ease);
 }
-.order-card__cta:hover{ transform: translateY(-1px); }
+
+.order-card__cta:hover,
+.order-card__cta:focus-visible{
+  transform: translateY(-1px);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--color-system-cream);
+}
 .order-card__note{
   margin-top: var(--space-3);
   font-family: var(--font-body);

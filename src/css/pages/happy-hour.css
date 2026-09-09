@@ -67,7 +67,7 @@
 .hh-card{
   scroll-margin-top: var(--space-8);
   border: var(--stroke-hair) solid var(--color-rule);
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
@@ -154,7 +154,7 @@
   color: var(--color-ink-3);
 }
 
-/* Plaza Bonita — deliberately distinct, not a sixth copy of the others */
+/* Plaza Bonita, deliberately distinct, not a sixth copy of the others */
 .hh-card--plaza{
   background: var(--color-canvas-2);
   border-color: var(--color-rule-strong);
@@ -162,7 +162,7 @@
 .hh-card--plaza .hh-card__no-alcohol{
   display: inline-block;
   padding: var(--space-1) var(--space-3);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: var(--color-gold);
   color: var(--color-canvas);
   font-family: var(--font-ui);
@@ -296,7 +296,7 @@
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
   border: var(--stroke-hair) solid var(--color-rule-strong);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);
   font-size: var(--text-meta);
