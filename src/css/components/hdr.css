@@ -49,14 +49,10 @@
 }
 
 /* --------------------------------------------------------------------------
-   Logo, and (for now) the theme toggle. See the TODO in site-header.njk and
-   DESIGN_SYSTEM.md Open Item 2.
+   Logo. Links home. The theme toggle lives in the footer, next to the
+   colophon; DESIGN_SYSTEM.md Open Item 2 is closed.
    -------------------------------------------------------------------------- */
 .hdr__logo {
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
   display: block;
   min-height: 2.9rem;
   min-width: 6rem;

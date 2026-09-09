@@ -12,12 +12,12 @@
    Every glow here comes from a token or a night-scoped rule; nothing glows in
    day. See DESIGN_SYSTEM.md, "NO glow in day mode".
 
-   TWO ANIMATIONS REMOVED IN THE V2 PORT. The v1 monolith idled: a 7s
-   per-letter rise on the wordmark and a 6s "breath" on the crest. Both were
-   already covered by the global prefers-reduced-motion catch-all in
-   base/base.css, so this is not an accessibility fix. They are gone because
-   the approved reference has no idle motion on this block. A deliberate
-   deletion, not an oversight.
+   THE TWO IDLE ANIMATIONS ARE KEPT. A 7s per-letter rise on the wordmark and
+   a 6s "breath" on the crest, both carried over from the v1 footer. The v2
+   reference has no idle motion here, but it is a standalone prototype and
+   that is an absence rather than a decision, so the repo is the better source.
+   Both are covered by the global prefers-reduced-motion catch-all in
+   base/base.css, which zeroes animation-duration and iteration-count.
    ========================================================================== */
 
 .neon {
@@ -36,6 +36,12 @@
   color: var(--accent);
   letter-spacing: .12em;
   margin-bottom: clamp(var(--space-4), 2.5vw, var(--space-6));
+  animation: neon-breath 6s ease-in-out infinite;
+}
+
+@keyframes neon-breath {
+  0%, 100% { opacity: .85; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.02); }
 }
 
 [data-mode="night"] .neon__kanji {
@@ -44,8 +50,6 @@
     0 0 34px rgba(255, 77, 64, .3);
 }
 
-/* The site's only remaining link home while the header logo is the theme
-   toggle. See monolith.njk and DESIGN_SYSTEM.md Open Item 2. */
 .neon__word {
   display: flex;
   justify-content: center;
@@ -55,12 +59,27 @@
 }
 
 .neon__word-letter {
+  display: inline-block;
+  transform-origin: 50% 90%;
+  animation: neon-letter 7s ease-in-out infinite;
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
   font-size: clamp(3.5rem, 15vw, 14rem);
   color: var(--color-cream);
   /* No negative tracking on the brush face, ever: the glyphs collide.
      DESIGN_SYSTEM.md, tracking tokens are positive only. */
+}
+
+.neon__word-letter:nth-child(1) { animation-delay: 0ms; }
+.neon__word-letter:nth-child(2) { animation-delay: 180ms; }
+.neon__word-letter:nth-child(3) { animation-delay: 360ms; }
+.neon__word-letter:nth-child(4) { animation-delay: 540ms; }
+.neon__word-letter:nth-child(5) { animation-delay: 720ms; }
+.neon__word-letter:nth-child(6) { animation-delay: 900ms; }
+
+@keyframes neon-letter {
+  0%, 100% { opacity: .92; transform: translateY(0) scaleY(1); }
+  50%      { opacity: 1;   transform: translateY(-4px) scaleY(1.01); }
 }
 
 [data-mode="night"] .neon__word-letter {

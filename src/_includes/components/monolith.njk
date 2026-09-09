@@ -32,19 +32,12 @@
 <section class="neon" aria-label="{{ site.name }}">
   <p class="neon__kanji" aria-hidden="true">但馬</p>
 
-  {#
-    The wordmark is the site's only remaining link home. The header logo is
-    currently the theme toggle (DESIGN_SYSTEM.md Open Item 2) and nav.json
-    carries no Home item in either list, so without this there is no route back
-    to "/" from any page. When the toggle moves off the logo, this can go back
-    to being a plain <p>.
-
-    Per-letter spans are aria-hidden and the accessible name comes from the
-    link, so a screen reader reads "Tajima, link" rather than six letters.
-  #}
-  <a class="neon__word" href="/" aria-label="{{ site.name }} home">
+  {# Per-letter spans so the wordmark can be styled and animated letter by
+     letter. They are aria-hidden and the accessible name comes from the
+     aria-label, so a screen reader reads "Tajima" and not six letters. #}
+  <p class="neon__word" aria-label="{{ site.shortName }}">
     {%- for letter in site.shortName | upper | chars %}<span class="neon__word-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
-  </a>
+  </p>
 
   {# The one sanctioned gradient in the system: transparent to gold to
      transparent. DESIGN_SYSTEM.md bans gradients as a brand device and lists
@@ -85,9 +78,38 @@
       {%- endfor %}
     </nav>
 
-    <p class="ftr__sub">
-      {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
-    </p>
+    <div class="ftr__colophon">
+      <p class="ftr__sub">
+        {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
+      </p>
+
+      {#
+        Theme toggle. Moved here from the header logo, which closes
+        DESIGN_SYSTEM.md Open Item 2: the logo is a link home again.
+
+        Light and dark both ship and day is the default. This is a MANUAL
+        control: no clock, no prefers-color-scheme.
+
+        Rendered `hidden`. js/theme.js unhides it and sets aria-pressed on
+        init. Without JS it would be a control that does nothing, so it should
+        not be in the accessibility tree at all. The visible label is the
+        accessible name, so nothing overrides it and WCAG 2.5.3 holds; the
+        icons carry the current state and are decorative.
+
+        js/theme.js binds to [data-theme-toggle], so this can move again
+        without touching the script.
+      #}
+      <button class="tgl" type="button" data-theme-toggle hidden>
+        <svg class="tgl__day" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="3.1"/>
+          <path d="M8 .9v2.1M8 13v2.1M15.1 8H13M3 8H.9M13 3l-1.5 1.5M4.5 11.5 3 13M13 13l-1.5-1.5M4.5 4.5 3 3"/>
+        </svg>
+        <svg class="tgl__night" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M13.5 9.9A5.9 5.9 0 0 1 6.1 2.5a5.9 5.9 0 1 0 7.4 7.4Z"/>
+        </svg>
+        Night mode
+      </button>
+    </div>
 
   </div>
 </footer>

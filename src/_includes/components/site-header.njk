@@ -36,21 +36,6 @@
 <header class="hdr hdr--mega">
   <div class="hdr__in">
     {#
-      TODO, DESIGN_SYSTEM.md Open Item 2: the theme toggle is bound to the logo
-      click. That is a prototype affordance carried over from
-      _reference/tajima-home-v2.html. Before launch it moves to the footer and
-      the logo goes back to linking home.
-
-      Consequence while it stands: there is no header link to "/". nav.json
-      carries no Home item in either list, so the footer wordmark is currently
-      the only route home. See monolith.njk.
-
-      Rendered as a plain visible button with no aria-pressed. js/theme.js adds
-      the pressed state and the state-named label on init. The server cannot
-      know the stored preference, so a server-rendered aria-pressed would be
-      announced wrongly on every second load. Without JS this is a control that
-      does nothing, which is why it is not named as a toggle until JS arrives.
-
       Two assets, one per theme, swapped by CSS in hdr.css. NEVER a filter: a
       filter-based fake was shipped in an earlier draft and turned the mark
       pink. Both files are horizontal lockups at 2.25:1 and 2.34:1, so the swap
@@ -60,7 +45,7 @@
       hides the inactive one, so two alt strings would announce the brand name
       twice. The hidden one is decorative by definition.
     #}
-    <button class="hdr__logo" type="button" data-theme-toggle aria-label="{{ site.name }}">
+    <a class="hdr__logo" href="/" aria-label="{{ site.name }} home">
       <img
         class="hdr__logo-img hdr__logo-dark"
         src="/images/brand/tajima-logo-header-dark.png"
@@ -75,7 +60,7 @@
         width="800"
         height="342"
         fetchpriority="high">
-    </button>
+    </a>
 
     <nav class="hdr__nav" aria-label="Primary">
       {%- for item in nav.primary | nonEmpty("nav.primary") %}

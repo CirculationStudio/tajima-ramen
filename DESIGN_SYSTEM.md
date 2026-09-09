@@ -156,10 +156,10 @@ The approved homepage order, and the reason for it:
 
 ## Components
 
-Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`, `ftr`.
+Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`, `ftr`, `tgl`.
 
 ### Header
-Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. **The theme toggle is currently bound to the logo click.** This is a prototype affordance. Before launch it moves to the footer and the logo returns to linking home.
+Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. The logo links home. **The theme toggle lives in the footer**, next to the colophon, as the `tgl` block. It was bound to the logo click in the reference file; that was a prototype affordance and it is resolved.
 
 ### Logo
 Two assets, swapped by theme, no filters:
@@ -233,7 +233,7 @@ WCAG 2.1 AA.
 ## Open Items
 
 1. **Bright Sunshine Caps licensing.** Still unresolved, and now load-bearing: hero slogan, all section headings, dish names, location names, the neon wordmark. Confirm the Demo file clears for commercial web embedding before launch. This is the largest single risk in the build.
-2. **Move the theme toggle off the logo** before launch.
+2. ~~**Move the theme toggle off the logo** before launch.~~ **CLOSED.** The toggle is the `tgl` block in the footer, beside the colophon; the logo links home. It is a real `<button>` with `aria-pressed`, ships `hidden` and is revealed by `js/theme.js`, so it is absent from the accessibility tree when it would not work. Its visible label is its accessible name.
 3. **Documentary photography.** Current imagery is GBP and menu photography. The Noodle Room and commissary shoot is still the asset every page depends on.
 4. **Homepage word count.** Approximately 270 words after the simplification pass. Target 700+ for the ranking goals in `AEO.md`. Add as copy inside existing sections, not as new sections.
 5. **No schema on the homepage yet.** See `SCHEMA.md`. Highest-leverage remaining SEO task.

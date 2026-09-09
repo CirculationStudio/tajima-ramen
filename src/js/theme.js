@@ -9,11 +9,9 @@
 // is the default, and this is a MANUAL toggle: no clock, and deliberately no
 // prefers-color-scheme. See DESIGN_SYSTEM.md, "What changed in v2".
 //
-// TODO, DESIGN_SYSTEM.md Open Item 2: the control is currently the logo, a
-// prototype affordance carried over from _reference/tajima-home-v2.html.
-// Before launch it moves to the footer and the logo goes back to linking home.
-// This file does not care which element it is bound to: it binds to
-// [data-theme-toggle], so that move is a markup change only.
+// The control is the footer toggle, next to the colophon. This file does not
+// care which element it is bound to: it binds to [data-theme-toggle], so
+// moving it again is a markup change only.
 
 const KEY = "tajima:mode"; // must match components/theme-init.njk
 const MODES = ["day", "night"];
@@ -22,15 +20,16 @@ const root = document.documentElement;
 const toggles = document.querySelectorAll("[data-theme-toggle]");
 
 if (toggles.length) {
-  // Upgrade the control now that we know JS is running.
+  // Reveal the control now that we know JS is running, and only now.
   //
-  // The button ships from the server with only the brand name as its label and
-  // no aria-pressed, because the server cannot know the stored preference: a
+  // It ships `hidden` with no aria-pressed: without JS it would be a button
+  // that does nothing, and the server cannot know the stored preference, so a
   // server-rendered pressed state would be announced wrongly on every second
-  // load. Name it after the state it controls, not the action, so "Night mode,
-  // toggle button, pressed" reads correctly in both directions.
+  // load. The visible label ("Night mode") is the accessible name and nothing
+  // here overrides it, so it names the state it controls and reads correctly
+  // in both directions.
   for (const el of toggles) {
-    el.setAttribute("aria-label", "Night mode");
+    el.hidden = false;
     el.addEventListener("click", toggle);
   }
   sync();
