@@ -62,6 +62,10 @@
 @import "./pages/menu-vegan-ramen.css";
 @import "./pages/noodle-room.css";
 
+/* Home is imported last so its .page-home scope lands after interior.css,
+   whose .sect / .sect__title it deliberately overrides on this one page. */
+@import "./pages/home.css";
+
 /* Review surface, not a shipping page. /internal/home-concepts/ only. Every
    selector is namespaced `hc-` or scoped under `.hc-light`, so nothing here
    reaches another template. Delete this import and the file together when the

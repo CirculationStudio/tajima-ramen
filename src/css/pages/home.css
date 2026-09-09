@@ -1,0 +1,687 @@
+/* ==========================================================================
+   Page: / (home)
+
+   v2. Values ported from _reference/tajima-home-v2.html.
+
+   EVERYTHING HERE IS SCOPED UNDER .page-home. Four of the reference's block
+   names already exist in this codebase for other work: `.hero` (components/
+   hero.css, still used by the frozen A/B/C route and, scoped, by the Noodle
+   Room), `.sect` and `.sect__title` (pages/interior.css, used by every
+   interior page), and `.card`. Scoping by page is what lets the reference's
+   own names be used verbatim without reaching any of them. The scope comes
+   off in Phase 4/5 as those pages migrate and the older rules retire.
+
+   SECTION ORDER, and why. Hero, intro, trio, statement, bowls, locations
+   field, then the neon block and footer from the layout. The reference file
+   also contains `craft` and `feed` sections; both were rejected in review
+   after the client saw them and were never removed from the prototype, so
+   they are deliberately not built here. DESIGN_SYSTEM.md "Page composition"
+   is correct on this point and the file is stale.
+
+   ALTERNATE THE WEIGHT. Never two full-bleed heavyweight sections in a row:
+   hero (heavy), intro (calm), trio (calm), statement (heavy), bowls (calm),
+   red field (heavy). A photo section butting straight into a color field was
+   rejected in review, and the fix is a calm section between them, never a
+   gradient fade. There are no gradient fades between sections here.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HERO. Brand guidelines p19: full-bleed video, logo lockup centred, slogan
+   beneath. No nav overlay, no stat bar, nothing else in frame.
+   -------------------------------------------------------------------------- */
+.page-home .hero {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 0;
+  height: clamp(30rem, 88vh, 54rem);
+  overflow: hidden;
+  background: var(--color-system-black);
+}
+
+.page-home .hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A scrim, not a brand gradient. Type over video needs both this and a text
+   shadow; stripping either was proposed in review and rejected because it
+   broke legibility on the hero. Both are load-bearing. */
+.page-home .hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, .28) 0%,
+    rgba(0, 0, 0, .52) 55%,
+    rgba(0, 0, 0, .68) 100%);
+}
+
+.page-home .hero__mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--gutter);
+}
+
+.page-home .hero__lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.page-home .hero__logo {
+  width: clamp(9rem, 26vw, 20rem);
+  height: auto;
+  filter: drop-shadow(0 4px 28px rgba(0, 0, 0, .55));
+}
+
+.page-home .hero__slogan {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(1.35rem, 2.9vw, 2.6rem);
+  margin-top: clamp(var(--space-5), 2.4vw, var(--space-7));
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-cream);
+  /* Faux-bold. Bright Sunshine Caps ships one weight, so emphasis is a stroke,
+     never font-weight:bold on the display face. */
+  -webkit-text-stroke: .012em currentColor;
+  paint-order: stroke fill;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .7);
+}
+
+.page-home .hero__slogan em {
+  font-style: normal;
+  color: var(--accent-on-media);
+  -webkit-text-stroke: .022em currentColor;
+  paint-order: stroke fill;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, .55),
+    0 0 22px rgba(255, 77, 64, .5),
+    0 0 46px rgba(255, 77, 64, .28);
+}
+
+.page-home .hero__cue {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-6);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  line-height: 1;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  text-shadow: var(--glow-gold);
+}
+
+.page-home .hero__cue span {
+  width: 1px;
+  height: 2rem;
+  background: linear-gradient(var(--color-gold), transparent);
+  opacity: .7;
+}
+
+/* --------------------------------------------------------------------------
+   SECTIONS
+   -------------------------------------------------------------------------- */
+.page-home .sect {
+  padding: clamp(var(--space-10), 9vw, var(--space-12)) var(--gutter);
+  background: var(--canvas);
+}
+
+.page-home .sect--alt {
+  background: var(--canvas-2);
+  transition: background var(--base) var(--ease);
+}
+
+.page-home .sect__in {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+/* NO eyebrow labels. A small uppercase kicker with a dash rule above every
+   headline was removed in review as the single most templated element on the
+   page. Headlines carry themselves. Do not reintroduce one. */
+.page-home .h2 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.page-home .h2 em {
+  font-style: normal;
+  color: var(--accent);
+  text-shadow: var(--glow-text);
+}
+
+.page-home .lede {
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: var(--ink-2);
+  max-width: 44rem;
+  margin-top: var(--space-5);
+}
+
+.page-home .lede + .lede {
+  margin-top: var(--space-5);
+}
+
+.page-home .link {
+  color: var(--accent);
+  border-bottom: var(--stroke-hair) solid transparent;
+  transition: border-color var(--fast) var(--ease);
+}
+
+.page-home .link:hover,
+.page-home .link:focus-visible {
+  border-color: currentColor;
+}
+
+/* --------------------------------------------------------------------------
+   INTRO. Copy left, photo right in a gold offset frame.
+   -------------------------------------------------------------------------- */
+.page-home .intro {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(var(--space-6), 5vw, var(--space-10));
+  align-items: center;
+}
+
+.page-home .intro__photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--surface);
+  margin: 0 clamp(.75rem, 1.6vw, 1.5rem) clamp(.75rem, 1.6vw, 1.5rem) 0;
+  border-radius: var(--radius-lg);
+}
+
+.page-home .intro__photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(clamp(.75rem, 1.6vw, 1.5rem), clamp(.75rem, 1.6vw, 1.5rem));
+  border: var(--stroke-rule) solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  z-index: 0;
+  pointer-events: none;
+  transition: transform var(--base) var(--ease);
+}
+
+.page-home .intro__photo:hover::before {
+  transform: translate(clamp(1.1rem, 2.2vw, 2rem), clamp(1.1rem, 2.2vw, 2rem));
+}
+
+.page-home .intro__photo img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-lg);
+}
+
+[data-mode="night"] .page-home .intro__photo img {
+  filter: saturate(1.1) brightness(.9);
+}
+
+/* --------------------------------------------------------------------------
+   TRIO. Cards take --radius (6px). Icons come from the brand family and are
+   inlined through the sprite so currentColor works.
+   -------------------------------------------------------------------------- */
+.page-home .trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-7);
+  margin-top: var(--space-9);
+}
+
+.page-home .card {
+  border-radius: var(--radius);
+  border: var(--stroke-hair) solid transparent;
+  background: var(--surface);
+  padding: var(--space-7) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    border-color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.page-home .card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+[data-mode="night"] .page-home .card {
+  border-color: var(--rule);
+}
+
+.page-home .card__ico {
+  width: 3.25rem;
+  height: 3.25rem;
+  color: var(--accent);
+}
+
+.page-home .card__ico svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+[data-mode="night"] .page-home .card__ico {
+  filter: drop-shadow(0 0 10px rgba(255, 77, 64, .35));
+}
+
+.page-home .card__t {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.page-home .card__b {
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   STATEMENT. One full-bleed type moment over photography.
+   -------------------------------------------------------------------------- */
+.page-home .stmt {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(28rem, 72vh, 44rem);
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  background: var(--color-system-black);
+}
+
+.page-home .stmt__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) brightness(.62);
+}
+
+[data-mode="night"] .page-home .stmt__media {
+  filter: saturate(1.1) brightness(.52);
+}
+
+.page-home .stmt__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, .72) 0%,
+    rgba(0, 0, 0, .5) 45%,
+    rgba(0, 0, 0, .22) 100%);
+}
+
+.page-home .stmt__in {
+  position: relative;
+  z-index: 2;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  width: 100%;
+  padding: clamp(var(--space-9), 8vw, var(--space-12)) var(--gutter);
+}
+
+.page-home .stmt__line {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(2.5rem, 6.4vw, 6.5rem);
+  line-height: .94;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-cream);
+  max-width: 18ch;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, .55);
+}
+
+.page-home .stmt__line em {
+  font-style: normal;
+  color: var(--accent-on-media-strong);
+  text-shadow:
+    0 0 12px rgba(255, 77, 64, .5),
+    0 0 36px rgba(255, 77, 64, .28);
+}
+
+[data-mode="day"] .page-home .stmt__line em {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .5);
+}
+
+.page-home .stmt__sub {
+  margin-top: var(--space-6);
+  max-width: 34rem;
+  font-size: var(--text-lead);
+  line-height: var(--leading-snug);
+  color: rgba(255, 254, 244, .82);
+}
+
+.page-home .stmt__cta {
+  margin-top: var(--space-7);
+}
+
+/* --------------------------------------------------------------------------
+   BOWLS. Exactly three: the house trio is Red, Black, White.
+   -------------------------------------------------------------------------- */
+.page-home .bowls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-9);
+}
+
+.page-home .bowl {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: var(--stroke-hair) solid transparent;
+  transition:
+    border-color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.page-home .bowl:hover,
+.page-home .bowl:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.page-home .bowl__img {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform var(--base) var(--ease),
+    filter var(--base) var(--ease);
+}
+
+[data-mode="night"] .page-home .bowl__img {
+  filter: saturate(1.12) brightness(.92);
+}
+
+.page-home .bowl:hover .bowl__img {
+  transform: scale(1.05);
+}
+
+/* A scrim under the caption, not decoration: the name sits on photography and
+   needs both this and a text shadow to stay legible. */
+.page-home .bowl__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-9) var(--space-5) var(--space-5);
+  background: linear-gradient(transparent, rgba(0, 0, 0, .55) 42%, rgba(0, 0, 0, .9));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.page-home .bowl__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.1vw, 1.9rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-system-cream);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
+}
+
+/* --------------------------------------------------------------------------
+   BUTTONS
+   -------------------------------------------------------------------------- */
+.page-home .btn {
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  white-space: nowrap;
+  background: var(--accent);
+  color: var(--color-system-cream);
+  padding: var(--space-4) var(--space-7);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  line-height: 1;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  box-shadow: var(--glow-red);
+  transition:
+    background var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.page-home .btn:hover,
+.page-home .btn:focus-visible {
+  background: var(--color-red-deep);
+  transform: translateY(-1px);
+}
+
+/* Red on the red field is invisible, so the field's CTA is cream. */
+.page-home .btn--cream {
+  background: var(--color-cream);
+  color: var(--color-system-red);
+  box-shadow: none;
+}
+
+.page-home .btn--cream:hover,
+.page-home .btn--cream:focus-visible {
+  background: var(--color-gold);
+  color: var(--color-system-ink);
+}
+
+/* --------------------------------------------------------------------------
+   LOCATIONS. The one place red runs as a field rather than an accent.
+   Full-bleed, so it never takes a radius.
+   -------------------------------------------------------------------------- */
+.page-home .red {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(var(--space-9), 7vw, var(--space-11)) var(--gutter);
+  background: var(--color-system-red);
+}
+
+[data-mode="night"] .page-home .red {
+  background: var(--hero-bg);
+}
+
+/* INDIVIDUALLY POSITIONED ELEMENTS, NOT A REPEATING <pattern>. A <pattern>
+   renders every tile identically, cannot animate per icon, and failed to span
+   full width. Each icon carries its own --rot, --dur and --delay so nothing
+   pulses in unison; amplitude is a few pixels, so it reads as ambient rather
+   than animated. Do not "simplify" this into a pattern fill. */
+.page-home .red__pattern {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--color-cream);
+  opacity: .095;
+}
+
+.page-home .red__pattern .ic {
+  position: absolute;
+  display: block;
+  transform: rotate(var(--rot));
+}
+
+.page-home .red__pattern .ic svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  fill: currentColor;
+}
+
+.page-home .ic--a { animation: floatA var(--dur) var(--delay) ease-in-out infinite alternate; }
+.page-home .ic--b { animation: floatB var(--dur) var(--delay) ease-in-out infinite alternate; }
+.page-home .ic--c { animation: floatC var(--dur) var(--delay) ease-in-out infinite alternate; }
+
+@keyframes floatA {
+  from { transform: rotate(var(--rot)) translate3d(0, 0, 0); }
+  to   { transform: rotate(calc(var(--rot) + 2.5deg)) translate3d(6px, -11px, 0); }
+}
+@keyframes floatB {
+  from { transform: rotate(var(--rot)) translate3d(0, 0, 0); }
+  to   { transform: rotate(calc(var(--rot) - 3deg)) translate3d(-8px, -7px, 0); }
+}
+@keyframes floatC {
+  from { transform: rotate(var(--rot)) translate3d(0, 0, 0); }
+  to   { transform: rotate(calc(var(--rot) + 1.5deg)) translate3d(4px, 9px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-home .red__pattern .ic { animation: none !important; }
+}
+
+/* A neutral wash over the pattern so type stays readable on the field. */
+.page-home .red::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .07), rgba(0, 0, 0, .15) 45%, rgba(0, 0, 0, .07));
+}
+
+[data-mode="day"] .page-home .red::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .12) 45%, rgba(0, 0, 0, .05));
+}
+
+.page-home .red__in {
+  position: relative;
+  z-index: 1;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+}
+
+.page-home .red .h2 { color: var(--color-cream); }
+.page-home .red .h2 em { color: var(--color-gold); text-shadow: none; }
+.page-home .red .lede { color: rgba(255, 254, 244, .86); }
+
+.page-home .red__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8) var(--space-6);
+  align-items: start;
+  margin-top: var(--space-9);
+  padding-top: var(--space-8);
+  border-top: var(--stroke-hair) solid rgba(255, 254, 244, .32);
+}
+
+.page-home .red__loc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  color: var(--color-cream);
+  transition: transform var(--fast) var(--ease);
+}
+
+.page-home .red__loc:hover,
+.page-home .red__loc:focus-visible {
+  transform: translateY(-2px);
+}
+
+.page-home .red__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .28);
+}
+
+.page-home .red__loc:hover .red__name,
+.page-home .red__loc:focus-visible .red__name {
+  color: var(--color-gold);
+}
+
+.page-home .red__hood {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  line-height: 1.35;
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 254, 244, .92);
+}
+
+.page-home .red__foot {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Beyond San Diego. Maui is a card's worth of content but sits outside the
+   heading's claim, and Tijuana is a different company on a different domain:
+   SITE_ARCHITECTURE.md says outbound link, not a card. */
+.page-home .red__beyond {
+  margin-top: var(--space-6);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: rgba(255, 254, 244, .92);
+}
+
+.page-home .red__beyond a {
+  color: var(--color-cream);
+  border-bottom: var(--stroke-hair) solid rgba(255, 254, 244, .5);
+  transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.page-home .red__beyond a:hover,
+.page-home .red__beyond a:focus-visible {
+  color: var(--color-gold);
+  border-bottom-color: var(--color-gold);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 60rem) {
+  .page-home .red__pattern { opacity: .11; }
+  .page-home .red__pattern .ic { transform: rotate(var(--rot)) scale(.6); }
+  .page-home .red__grid { grid-template-columns: repeat(2, 1fr); }
+  .page-home .trio { grid-template-columns: 1fr; gap: var(--space-4); }
+  .page-home .bowls { grid-template-columns: repeat(2, 1fr); }
+  .page-home .intro { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 40rem) {
+  .page-home .red__grid { grid-template-columns: 1fr; gap: var(--space-4); }
+  .page-home .stmt__line { max-width: 14ch; }
+  .page-home .bowls { grid-template-columns: 1fr; }
+}

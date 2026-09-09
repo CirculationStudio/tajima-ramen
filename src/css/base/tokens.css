@@ -86,6 +86,18 @@
   --radius: 6px;
   --radius-lg: 8px;
 
+  /* Type over photography. Neither ramp's accent, and deliberately outside
+     the [data-mode] blocks: these sit on a black-scrimmed photo or video in
+     BOTH themes, so they must not follow data-mode the way --accent does.
+     Both are lifted reds that hold contrast on dark media where Fire Red and
+     the day accent go muddy. Values are the reference file's own, at L140
+     (hero slogan) and L342 (statement line).
+
+     Same reasoning as --color-system-* in theme.css: an element's color is
+     determined by what it sits on, not by the theme around it. */
+  --accent-on-media: #FF7A6D;
+  --accent-on-media-strong: #FF6A5E;
+
   --gutter: clamp(1.25rem, 4vw, 3rem);
   /* --layout-max (82rem) collides with the legacy 90rem. See tokens-bridge. */
 }

@@ -1556,7 +1556,7 @@
         "/",
         "/tajima-convoy/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Tajima Black, two slices of pork chashu with minced garlic and sesame, half a seasoned egg, baby bok choy, sweetcorn and shredded scallion on dark black garlic broth, in a red bowl"
     },
     "tajima-ramen-convoy-tajima-red-01.webp": {
       "file": "tajima-ramen-convoy-tajima-red-01.webp",
@@ -1573,7 +1573,7 @@
         "/",
         "/tajima-convoy/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Tajima Red, a slab of pork chashu under sesame seeds and fried garlic, half a seasoned egg, baby bok choy, sweetcorn and shredded scallion on chili-red broth with ramen noodles"
     },
     "tajima-ramen-convoy-tajima-red-02.webp": {
       "file": "tajima-ramen-convoy-tajima-red-02.webp",
@@ -1607,7 +1607,7 @@
         "/",
         "/tajima-convoy/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Tajima White, pork chashu under minced garlic and sesame, half a seasoned egg, baby bok choy, sweetcorn and shredded scallion on pale tonkotsu broth with wavy ramen noodles, in a red bowl"
     },
     "tajima-ramen-convoy-takoyaki-01.webp": {
       "file": "tajima-ramen-convoy-takoyaki-01.webp",
@@ -1704,7 +1704,7 @@
         "/",
         "/tajima-convoy/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Traditional Tonkotsu, sliced pork chashu, shredded scallion, seasoned wood ear mushroom and a spoon of red chili paste on pale tonkotsu broth with ramen noodles, in a red bowl"
     },
     "tajima-ramen-convoy-traditonal-tonkotsu-04.webp": {
       "file": "tajima-ramen-convoy-traditonal-tonkotsu-04.webp",
@@ -2863,7 +2863,7 @@
       "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
     }
   ],
-  "_altStatus": "Alt text is hand-written per photo and is the one field the generator cannot produce, so a regenerate must not clobber it. Reviewed alt exists ONLY for photos actually placed on a page; everything else still reads [DRAFT, NEEDS REVIEW] and is not placed. src/_data/roomPhotos.js throws at build time if it is asked for a photo whose alt is still draft, so a photo cannot reach a page without one.",
+  "_altStatus": "Alt text is hand-written per photo and is the one field the generator cannot produce, so a regenerate must not clobber it. Reviewed alt exists ONLY for photos actually placed on a page; everything else still reads [DRAFT, NEEDS REVIEW] and is not placed. src/_data/roomPhotos.js throws at build time if it is asked for a photo whose alt is still draft, so a photo cannot reach a page without one. 2026-09-08: four Convoy bowl photos reviewed and written for the v2 homepage (traditional tonkotsu 03, Tajima Red 01, Tajima Black 03, Tajima White 01). Each was opened and described from what is actually in the frame; dish names and the black garlic reference match menu.json rather than asserting anything new.",
   "_vegetableTempuraFlag": "DO NOT PLACE vegetable-tempura-large-mercury-only.webp. The filename says vegetable tempura; the photograph plainly contains shrimp alongside the broccoli and green beans. Captioning it as a vegetable dish would publish a dietary claim that the image itself contradicts, and CLAUDE.md says allergen and dietary information comes from verified client data only. Held back 2026-08-05 pending a ruling on what the dish actually is. The other two Mercury photographs were checked the same way and are fine.",
   "UNCONFIRMED_LOCATION_FLAGGED": [
     {
