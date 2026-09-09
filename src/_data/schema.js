@@ -204,7 +204,14 @@ const menuEntity = buildMenu({
 // walk-in only and Mercury's phone-only group reservations have no honest
 // schema expression, so false is the accurate value.
 //
-// No openingHoursSpecification and no geo: still CONFIRM-blocked.
+// openingHoursSpecification is emitted for the six locations that have hours,
+// confirmed 2026-09-09 by Connor. Maui was not supplied and stays null, so it
+// emits none at all rather than a guess: a wrong opening hour in schema is the
+// failure CLIENT_FACTS.md warns about, someone driving to a closed door.
+// Emitted from locations.json only, never from a default or a sibling's
+// pattern, so the page and the graph cannot drift.
+//
+// geo is still CONFIRM-blocked: null on all seven.
 //
 // `menuId` points the room at its own Menu entity where one exists. A stub
 // still points at the brand menu, which is the honest floor while its page
@@ -234,6 +241,14 @@ function restaurant(id, menuId = `${site.url}/menu/#menu`) {
   };
   if (loc.phone) entity.telephone = loc.phone;
   if (loc.sameAs && loc.sameAs.length) entity.sameAs = loc.sameAs;
+  if (loc.hours && loc.hours.length) {
+    entity.openingHoursSpecification = loc.hours.map((rule) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: rule.days,
+      opens: rule.opens,
+      closes: rule.closes,
+    }));
+  }
   return entity;
 }
 

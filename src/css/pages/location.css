@@ -38,6 +38,29 @@
   color: var(--color-ink-2);
   font-style: normal;
 }
+
+/* Hours can carry more than one rule (Convoy runs later Fri and Sat, Plaza
+   Bonita runs a mall pattern with three), so the value stacks rows rather
+   than running them together on one line. Days and time are separate spans so
+   the days column stays scannable down the stack on a phone, which is the
+   whole point of this strip. */
+.plate__value--hours{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.plate__hours-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+.plate__hours-days{
+  min-width: 5.5rem;
+  color: var(--ink-3);
+}
+.plate__hours-time{
+  font-variant-numeric: tabular-nums;
+}
 a.plate__value{ transition: color var(--duration-fast) var(--ease-smooth); }
 a.plate__value:hover,
 a.plate__value:focus-visible{ color: var(--color-red); }

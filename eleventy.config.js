@@ -74,6 +74,32 @@ export default function (eleventyConfig) {
   // Universal link format works on iOS, Android, and desktop, handing off to
   // the native Maps app where one exists and falling back to the browser where
   // it does not. No app-specific scheme, no platform sniffing.
+  /**
+   * Day range for an hours rule, for display only. Schema gets the raw
+   * dayOfWeek array; this is what a human reads in the NAP strip.
+   *
+   *   all seven          -> "Every day"
+   *   one day            -> "Sun"
+   *   a contiguous run   -> "Sun to Thu"
+   *   anything else      -> "Mon, Wed and Fri"
+   *
+   * Contiguity is tested in Sunday-first order, which is how a US opening
+   * hours table reads. Nothing here invents a day: it only formats the array
+   * locations.json already holds.
+   */
+  eleventyConfig.addFilter("dayRange", (days) => {
+    if (!Array.isArray(days) || !days.length) return "";
+    const ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const short = (d) => d.slice(0, 3);
+    const idx = days.map((d) => ORDER.indexOf(d)).sort((a, b) => a - b);
+    if (idx.length === 7) return "Every day";
+    if (idx.length === 1) return short(ORDER[idx[0]]);
+    const contiguous = idx.every((n, i) => i === 0 || n === idx[i - 1] + 1);
+    if (contiguous) return `${short(ORDER[idx[0]])} to ${short(ORDER[idx[idx.length - 1]])}`;
+    const names = idx.map((n) => short(ORDER[n]));
+    return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  });
+
   eleventyConfig.addFilter("mapsUrl", (loc) => {
     if (!loc || !loc.address || !loc.address.street) return null;
     const parts = [

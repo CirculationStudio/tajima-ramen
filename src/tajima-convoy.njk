@@ -21,7 +21,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   lists Convoy at Mercury's address, frankiapp puts Convoy in Los Angeles).
   Everything below is specific to this room.
 
-  NAP comes from locations.json. Hours are absent: Open Decision #9.
+  NAP comes from locations.json, hours included: confirmed 2026-09-09.
 #}
 {%- set loc = (locations.items | where("id", locationId)) | first %}
 
@@ -48,7 +48,8 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
       {#
         The address plate. Every value from locations.json, none hardcoded.
-        There is no Hours row, and no placeholder for one.
+        The Hours row is components/plate-hours.njk, shared with the other two
+        location templates so the three cannot drift again.
       #}
       <address class="plate">
         <span class="plate__item">
@@ -59,6 +60,8 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
           <span class="plate__label">Phone</span>
           <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
         </span>
+        {% include "components/plate-hours.njk" %}
+
         <span class="plate__item">
           <span class="plate__label">Directions</span>
           <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>

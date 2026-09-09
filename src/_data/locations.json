@@ -1,6 +1,6 @@
 {
   "_note": "Single source of truth for location NAP, per SITE_ARCHITECTURE.md 'Data sources (never hardcode)'. Feeds the location pages, /locations/, the home router, and all location schema. Facts trace to CLIENT_FACTS.md. NEVER add a value here that is not in CLIENT_FACTS.md as confirmed. Anything unconfirmed stays null with a `tbc` string explaining what unblocks it, and templates must render null as a visible [TO BE CONFIRMED] rather than inventing a fallback.",
-  "_hoursNote": "Every hours value in the Client DNA is marked verify and CLIENT_FACTS.md says do NOT populate openingHoursSpecification from it. Hours are null across the board on purpose and remain the one NAP field still blocked. The reference concept hardcoded '11:00 to 22:00' on every row; that is invented and must not come back. SITE_ARCHITECTURE.md Open Decision #9.",
+  "_hoursNote": "CONFIRMED 2026-09-09 by Connor. Operating hours are populated for six of seven and openingHoursSpecification is emitted for those six. Maui was not supplied and stays null, so it emits no hours at all rather than a guess. This replaces the previous note, which recorded hours as the one NAP field still blocked and forbade populating openingHoursSpecification; that block is lifted. The reference concept's hardcoded '11:00 to 22:00' on every row is still wrong and must not come back: four rooms run 11:30 to 22:00, Convoy runs later on Friday and Saturday, and Plaza Bonita runs a different pattern entirely. SITE_ARCHITECTURE.md Open Decision #9 is closed for six locations. SEPARATE DATA: happy hour windows remain unconfirmed everywhere and are NOT unblocked by this. See happyHour.json _status.",
   "_addressNote": "NAP is from the SITE_ARCHITECTURE.md 'NAP (GBP is the source of truth)' table, which is byte-identical to GBP and is the operative source for the build. IT CONTRADICTS CLIENT_FACTS.md, WHICH IS STALE: CLIENT_FACTS.md records Convoy as 'Suite A' and marks it CONFIRM. SITE_ARCHITECTURE.md resolves it with the tracking evidence: 'Suite A' appears on zero of 84 tracked Convoy listings and was never real, the live conflict is STE H (GBP, data-axle with matching ZIP+4, and four others) versus Ste I (three low-authority directories), and the instruction is 'Publish STE H.' CLIENT_FACTS.md needs updating to match. Do not reintroduce Suite A.",
   "items": [
     {
@@ -21,7 +21,27 @@
       },
       "phone": "(858) 576-7244",
       "geo": null,
-      "hours": null,
+      "hours": [
+        {
+          "days": [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        },
+        {
+          "days": [
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "11:30",
+          "closes": "23:30"
+        }
+      ],
       "parking": "Lot parking",
       "seating": "Communal table seating",
       "menuScope": "full",
@@ -56,7 +76,21 @@
       },
       "phone": "(858) 278-5367",
       "geo": null,
-      "hours": null,
+      "hours": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        }
+      ],
       "parking": "On-site parking",
       "seating": "Roughly 90 seats",
       "menuScope": "full",
@@ -85,7 +119,21 @@
       },
       "phone": "(619) 431-5820",
       "geo": null,
-      "hours": null,
+      "hours": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        }
+      ],
       "parking": "Street parking and nearby paid lots",
       "seating": "Roughly 64 seats",
       "menuScope": "full",
@@ -114,7 +162,21 @@
       },
       "phone": "(619) 269-0838",
       "geo": null,
-      "hours": null,
+      "hours": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        }
+      ],
       "parking": "Street parking",
       "seating": "Open-kitchen layout",
       "menuScope": "ramen-bar",
@@ -146,7 +208,21 @@
       },
       "phone": "(858) 203-3674",
       "geo": null,
-      "hours": null,
+      "hours": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        }
+      ],
       "parking": "Street parking",
       "seating": "Roughly 2,000 square feet",
       "menuScope": "full",
@@ -175,8 +251,34 @@
       },
       "phone": "(619) 773-6164",
       "geo": null,
-      "hours": null,
-      "hoursNote": "Mall hours. CLIENT_FACTS.md: mall hours are not restaurant hours and must not be copied from the Convoy pattern.",
+      "hours": [
+        {
+          "days": [
+            "Sunday"
+          ],
+          "opens": "11:00",
+          "closes": "19:00"
+        },
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "10:00",
+          "closes": "20:00"
+        },
+        {
+          "days": [
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "21:00"
+        }
+      ],
+      "hoursNote": "Mall hours, and the supplied hours corroborate CLIENT_FACTS.md rather than contradicting it: Plaza Bonita opens earlier and closes earlier than the standalone rooms (10:00 to 20:00 midweek against 11:30 to 22:00), which is the mall pattern the file describes. Confirmed 2026-09-09 by Connor. The warning it replaces still holds in principle: never copy the Convoy pattern here.",
       "parking": "Mall parking",
       "seating": null,
       "menuScope": "quick-serve",

@@ -90,10 +90,7 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
           <span class="plate__label">Phone</span>
           <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
         </span>
-        <span class="plate__item">
-          <span class="plate__label">Hours</span>
-          <span class="plate__value">Being confirmed. Call the room.</span>
-        </span>
+        {% include "components/plate-hours.njk" %}
         <span class="plate__item">
           <span class="plate__label">Directions</span>
           <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>

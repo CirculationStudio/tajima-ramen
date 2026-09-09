@@ -1,0 +1,33 @@
+{# ===========================================================================
+   Component: the Hours row of the NAP plate.
+
+   One implementation for all three location templates. The row used to be
+   written out separately in each, which is how Convoy ended up with no Hours
+   row at all while the other two carried "Being confirmed. Call the room."
+
+   Expects `loc` in scope.
+
+   Hours confirmed 2026-09-09 by Connor for six of seven. Maui was not
+   supplied, so it keeps the honest fallback rather than borrowing a sibling's
+   pattern: CLIENT_FACTS.md's rule is do not publish hours the door does not
+   honor, and that has not changed for Maui.
+
+   Days come from the `dayRange` filter, times straight from locations.json.
+   The same array feeds openingHoursSpecification in _data/schema.js, so the
+   visible row and the graph cannot drift.
+   =========================================================================== #}
+<span class="plate__item">
+  <span class="plate__label">Hours</span>
+  {%- if loc.hours and loc.hours.length %}
+  <span class="plate__value plate__value--hours">
+    {%- for rule in loc.hours %}
+    <span class="plate__hours-row">
+      <span class="plate__hours-days">{{ rule.days | dayRange }}</span>
+      <span class="plate__hours-time">{{ rule.opens }} to {{ rule.closes }}</span>
+    </span>
+    {%- endfor %}
+  </span>
+  {%- else %}
+  <span class="plate__value">Call the room</span>
+  {%- endif %}
+</span>
