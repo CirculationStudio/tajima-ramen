@@ -5,10 +5,7 @@ pageKey: veganRamen
 bodyClass: page-vegan
 title: "Vegan Ramen in San Diego | Tajima"
 description: "Tajima's Vegan Ramen, built on house-made spinach noodles from our own Noodle Room, with a soy-based broth and marinated tofu. Runner-Up for Best Vegan Ramen in Vegan in San Diego's Best of 2017."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /menu/vegan-ramen/. Brief: SITE_ARCHITECTURE.md.
@@ -44,7 +41,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
       <span aria-hidden="true">/</span>
       <span class="page-hero__crumbs-current">Vegan Ramen</span>
     </p>
-    <span class="page-hero__eyebrow">On the menu &middot; ${{ dish.price }}</span>
     <h1 class="page-hero__title" id="page-title">Vegan Ramen</h1>
     <p class="page-hero__lede">
       A soy-based broth, marinated tofu, and green noodles we make ourselves. The spinach noodle is one of the two noodles the Noodle Room produces, and this is the bowl it was made for.
@@ -56,7 +52,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect pattern-section" aria-labelledby="bowl-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">The bowl</span>
       <h2 class="sect__title" id="bowl-title">What's in <em>it.</em></h2>
       {# Ingredients from menu.json only. CLAUDE.md: menu descriptions are
          never generated. #}
@@ -97,7 +92,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect sect--alt sect--rule" aria-labelledby="noodle-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">The noodle</span>
       <h2 class="sect__title" id="noodle-title">Green, and <em>ours.</em></h2>
       <p class="sect__note">
         The Noodle Room in Crown Point makes two noodles right now. One is the ramen noodle. The other is this one, the spinach noodle, and it exists for this bowl. Sam spent two years building that room, and there is a machine in it that came over from Japan. <a class="sect__link" href="/noodle-room/">Step inside the Noodle Room</a>.
@@ -118,7 +112,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect" aria-labelledby="more-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Also on the menu</span>
       <h2 class="sect__title" id="more-title">Other vegan and <em>vegetarian.</em></h2>
     </header>
 

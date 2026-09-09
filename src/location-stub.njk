@@ -14,10 +14,7 @@ noindex: true
 eleventyComputed:
   title: "Tajima Ramen {{ loc.name }} | {{ loc.address.locality }}, {{ loc.address.region }}"
   description: "Tajima Ramen {{ loc.name }}, {{ loc.address.street }}, {{ loc.address.locality }}. Address and phone. Walk in, no reservations."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   ============================ STUB PAGES ============================
@@ -73,10 +70,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
       <span aria-hidden="true">/</span>
       <span class="page-hero__crumbs-current">{{ loc.name }}</span>
     </p>
-    <span class="page-hero__eyebrow">
-      {%- if loc.opened %}Since {{ loc.opened }} &middot; {% endif -%}
-      {{ loc.neighborhood }}
-    </span>
     <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
     <p class="page-hero__lede">{{ loc.summary }}</p>
 
@@ -137,7 +130,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 {%- if gallery.gallery %}
   {%- set gallerySet = gallery.gallery %}
   {%- set galleryId = "room-title" %}
-  {%- set galleryEyebrow = "The room" %}
   {%- set galleryTitle = "The room, <em>photographed.</em>" %}
   {%- set galleryNote = false %}
   {% include "components/location-gallery.njk" %}
@@ -152,7 +144,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 {%- if gallery.dishes %}
   {%- set gallerySet = gallery.dishes %}
   {%- set galleryId = "dishes-title" %}
-  {%- set galleryEyebrow = "From this kitchen" %}
   {%- set galleryTitle = "What comes out of <em>this room.</em>" %}
   {%- set galleryNote = 'Photographed at this location. <a class="sect__link" href="/menu/">See the whole menu</a>.' %}
   {% include "components/location-gallery.njk" %}
@@ -182,7 +173,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect sect--rule" aria-labelledby="hh-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Happy hour</span>
       <h2 class="sect__title" id="hh-title">Game nights at <em>Petco.</em></h2>
       <p class="sect__note">
         This room runs beer specials on Padres home game nights, and stays open later than usual when the game is at home. The window on other days is being confirmed, so call the room and they will tell you what is running. Full picture on <a class="sect__link" href="/happy-hour/">the happy hour page</a>.
@@ -195,7 +185,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect" aria-labelledby="soon-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">This page</span>
       <h2 class="sect__title" id="soon-title">The full page is <em>coming.</em></h2>
       <p class="sect__note">
         Address and phone are right, and they are the same everywhere we publish them. The rest of this room, its photographs, what is different about it, and its own menu, is being written. In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.

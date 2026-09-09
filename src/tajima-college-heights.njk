@@ -6,10 +6,7 @@ locationId: college-heights
 heroImage: /images/photo/tajima-college-heights-exterior-night-signage.webp
 title: "Tajima Ramen College Heights | Ramen Bar Near SDSU"
 description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, near San Diego State. Open kitchen, the whole ramen list, and the biggest tap list in the house. Walk in, no reservations."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /tajima-college-heights/. Brief: SITE_ARCHITECTURE.md, plus the shared
@@ -78,7 +75,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
         <span aria-hidden="true">/</span>
         <span class="page-hero__crumbs-current">{{ loc.name }}</span>
       </p>
-      <span class="page-hero__eyebrow">Since {{ loc.opened }} &middot; {{ loc.neighborhood }}</span>
       <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
       <p class="page-hero__lede">
         The ramen bar on El Cajon Boulevard, in the College Area near San Diego State. One long counter, an open kitchen you watch from it, and the biggest tap list in the house.
@@ -141,7 +137,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect pattern-section" aria-labelledby="diff-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">This room</span>
       <h2 class="sect__title" id="diff-title">Built around <em>the counter.</em></h2>
     </header>
 
@@ -212,7 +207,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect" aria-labelledby="menu-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">From this kitchen</span>
       <h2 class="sect__title" id="menu-title">What comes out of <em>College Heights.</em></h2>
       <p class="sect__note">
         The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with what is in each bowl.
@@ -271,7 +265,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect sect--alt sect--rule" aria-labelledby="order-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Takeout</span>
       <h2 class="sect__title" id="order-title">Order from <em>this kitchen.</em></h2>
       <p class="sect__note">
         Straight through to the College Heights order page. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.

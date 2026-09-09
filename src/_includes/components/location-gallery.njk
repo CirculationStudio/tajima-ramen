@@ -38,7 +38,6 @@
     <header class="sect__head">
       {#- Defaults to "The room" for a single location. Overridable for a
           caller showing more than one, where the singular would read wrong. -#}
-      <span class="sect__eyebrow">{{ galleryEyebrow | default("The room") }}</span>
       <h2 class="sect__title" id="{{ gId }}">{{ galleryTitle | safe }}</h2>
       {%- if galleryNote %}
       <p class="sect__note">{{ galleryNote | safe }}</p>

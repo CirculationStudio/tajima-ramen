@@ -70,7 +70,7 @@
 }
 [data-mode="night"] .curtain-stage__title em{ text-shadow: var(--glow-text); }
 
-/* The house — the framed video stage */
+/* The house: the framed video stage */
 .curtain-stage__house{
   position: relative;
   max-width: 72rem;
