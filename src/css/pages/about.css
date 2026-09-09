@@ -88,7 +88,9 @@
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
-  color: var(--color-gold);
+  /* Gold as TYPE reads --gold-ink, not Sesame Gold, which sits at about 1.4:1
+     on cream. True Sesame Gold stays for rules, marks and fills. */
+  color: var(--gold-ink);
 }
 .pending__note{
   font-size: var(--text-small);

@@ -1,19 +1,29 @@
 /* ==========================================================================
-   Tajima Ramen design tokens.
+   Tajima Ramen design tokens: Tailwind constants and the type-set switch.
 
-   Source of truth: the approved, client-signed reference implementation
-   the tajima-home concept (canonical token source per DESIGN_SYSTEM.md).
-   Values below are PASTED from that file's :root and theme blocks, not
-   retyped from memory. This closes DESIGN_SYSTEM.md Open Items #1 and #3.
+   THE SURFACE RAMPS ARE NOT IN THIS FILE. As of the v2 port they live in
+   base/tokens.css, pasted from _reference/tajima-home-v2.html. Three files
+   answer "where is a token defined":
 
-   Night mode is permanent for this build. The <html> element carries
-   data-mode="night" from site.json and there is no theme toggle. The day
-   token set is retained in the cascade (as DESIGN_SYSTEM.md requires) but is
-   not a shipping surface.
+     base/theme.css         THIS FILE. @theme (Tailwind constants, type scale,
+                            spacing, motion, layout) plus the [data-fonts]
+                            type-set assignment.
+     base/tokens.css        The v2 day/night ramps and the v2-only tokens
+                            (radius, --gutter, --accent, --gold-ink, glows).
+     base/tokens-bridge.css Temporary legacy-name aliases. Deleted in Phase 5.
 
-   HEX RULE: DESIGN_SYSTEM.md says zero hex outside :root. The [data-mode]
-   and [data-fonts] blocks below are theme root scopes, the sanctioned
-   exception. No hex may appear in any component or page stylesheet.
+   Light and dark both ship, day is the default, and the toggle is manual. The
+   v1 "night is permanent, there is no toggle" rule is reversed; see
+   DESIGN_SYSTEM.md, "What changed in v2".
+
+   @theme cannot hold theme-varying values: it emits a static :root and
+   generates utilities from namespaced names. Anything that changes with
+   data-mode belongs in base/tokens.css, not here.
+
+   HEX RULE: DESIGN_SYSTEM.md says zero hex outside the token blocks. This
+   file, base/tokens.css and base/tokens-bridge.css are those blocks, the
+   sanctioned exception. No hex may appear in any component or page
+   stylesheet.
    ========================================================================== */
 
 @theme {
@@ -30,21 +40,25 @@
   --color-system-ink-70: rgba(13, 13, 10, 0.7);
 
   /* Theme-independent Fire Red and Sesame Gold.
-     NOT new colors. Same two hex values as --color-red and --color-gold below,
-     which the night ramp deliberately lifts (#e03c31 becomes #ff4d40) so they
-     hold contrast against a near-black canvas. Anything drawn on a light field
-     needs the guideline value rather than the lifted one, and the lifted one is
-     what --color-red resolves to everywhere under <html data-mode="night">.
+     NOT new colors. Same two hex values as --color-red and --color-gold below.
+     v2 splits the two jobs the old --color-red did: these two stay constant
+     for FILLS, while base/tokens.css's --accent and --gold-ink carry TYPE and
+     shift per theme (Fire Red with white text is 4.32:1 and fails AA, and
+     Sesame Gold on cream is about 1.4:1).
      Same reasoning as the cream and ink constants above: chrome's color is
      determined by its function, not by the theme around it.
-     First consumer: pages/home-concepts.css, the light-canvas review scope. */
+     Phase 4 moves the remaining fill sites here off the bridge alias. */
   --color-system-red: #e03c31;
   --color-system-gold: #ffc658;
 
   /* --- Brand constants (Tajima Brand Guidelines, October 2025) -------------
-     Fire Red is an accent only, never a background field. Sesame Gold is
-     capped at under 10% of any visual element. Note: the night ramp below
-     lifts --color-red for contrast against the darker canvas. */
+     Sesame Gold is capped at under 10% of any visual element. Fire Red is an
+     accent, with exactly one sanctioned exception in v2: the full-bleed red
+     locations field on the homepage.
+
+     These five are also restated in base/tokens.css, which is the verbatim
+     paste of the reference file's :root and therefore the auditable copy.
+     Identical values, so the duplication is harmless. */
   --color-red: #e03c31; /* Fire Red / Convoy Red */
   --color-red-deep: #b5261c;
   --color-red-soft: rgba(224, 60, 49, 0.12);
@@ -162,81 +176,6 @@
   --pattern-red: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-red-background-print.png.png");
   --pattern-white: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-white-background-print.png.png");
   --pattern-yellow: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-yellow-background-print.png");
-}
-
-/* ==========================================================================
-   Surface ramp: DAY
-
-   Retained in the cascade per DESIGN_SYSTEM.md. Not user-switchable, not a
-   shipping surface. Do not build a theme toggle against it.
-   ========================================================================== */
-[data-mode="day"] {
-  --color-canvas: #0a0a07;
-  --color-canvas-2: #111110;
-  --color-canvas-3: #1a1a17;
-  --color-surface: #1a1a17;
-  --color-surface-2: #252522;
-
-  --color-ink: #fffef4;
-  --color-ink-2: rgba(255, 254, 244, 0.78);
-  --color-ink-3: rgba(255, 254, 244, 0.55);
-  --color-ink-4: rgba(255, 254, 244, 0.32);
-
-  --color-rule: rgba(255, 254, 244, 0.1);
-  --color-rule-strong: rgba(255, 254, 244, 0.22);
-
-  --hero-bg: var(--color-red);
-  --hero-stripe: rgba(0, 0, 0, 0.085);
-  --hero-stripe-2: rgba(0, 0, 0, 0.045);
-
-  --color-header-bg: rgba(255, 254, 244, 0.9);
-
-  --glow-red: none;
-  --glow-text: none;
-  --glow-pink: none;
-}
-
-/* ==========================================================================
-   Surface ramp: NIGHT (permanent, the shipping surface)
-   ========================================================================== */
-[data-mode="night"] {
-  --color-canvas: #050308;
-  --color-canvas-2: #0c0814;
-  --color-canvas-3: #15101e;
-  --color-surface: #0f0a16;
-  --color-surface-2: #1a1226;
-
-  --color-ink: #fff1f4;
-  --color-ink-2: rgba(255, 241, 244, 0.82);
-  --color-ink-3: rgba(255, 241, 244, 0.55);
-  --color-ink-4: rgba(255, 241, 244, 0.32);
-
-  /* Fire Red lifted for contrast against the darker night canvas. */
-  --color-red: #ff4d40;
-  --color-red-deep: #d02418;
-  --color-red-soft: rgba(255, 77, 64, 0.18);
-  --color-red-line: rgba(255, 77, 64, 0.5);
-  --color-gold: #ffd25e;
-
-  --color-rule: rgba(255, 241, 244, 0.14);
-  --color-rule-strong: rgba(255, 77, 64, 0.4);
-
-  --hero-bg: #c0241a;
-  --hero-stripe: rgba(255, 77, 64, 0.16);
-  --hero-stripe-2: rgba(255, 77, 64, 0.08);
-
-  --color-header-bg: rgba(5, 3, 8, 0.82);
-
-  --glow-red:
-    0 0 12px rgba(255, 77, 64, 0.55),
-    0 0 38px rgba(255, 77, 64, 0.32),
-    0 0 80px rgba(255, 77, 64, 0.18);
-  --glow-text:
-    0 0 8px rgba(255, 77, 64, 0.55),
-    0 0 24px rgba(255, 77, 64, 0.35);
-  --glow-pink:
-    0 0 16px rgba(255, 110, 196, 0.45),
-    0 0 40px rgba(255, 110, 196, 0.22);
 }
 
 /* ==========================================================================

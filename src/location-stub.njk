@@ -14,6 +14,10 @@ noindex: true
 eleventyComputed:
   title: "Tajima Ramen {{ loc.name }} | {{ loc.address.locality }}, {{ loc.address.region }}"
   description: "Tajima Ramen {{ loc.name }}, {{ loc.address.street }}, {{ loc.address.locality }}. Address and phone. Walk in, no reservations."
+mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
+            # stylesheets layer night-only rules over dark-authored base rules,
+            # so this page is not readable on the day canvas yet. Remove this
+            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
 ---
 {#
   ============================ STUB PAGES ============================

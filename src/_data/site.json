@@ -18,8 +18,9 @@
     "instagram": "https://www.instagram.com/tajimaramen/"
   },
 
+  "_themeNote": "v2 reverses the v1 'night is permanent' rule: light and dark both ship, day is the default, and the toggle is manual (no clock, no prefers-color-scheme). `mode` here is the server-rendered default and the no-JS answer; _includes/components/theme-init.njk corrects it from localStorage before first paint. Pages not yet migrated to the v2 ramp pin `mode: night` in their own front matter; those pins come off per Phase 4 batch.",
   "theme": {
-    "mode": "night",
+    "mode": "day",
     "fonts": "brand",
     "pattern": "on"
   },

@@ -1,0 +1,28 @@
+{# ===========================================================================
+   Theme init. Must run BEFORE first paint, so it is a blocking, non-module
+   inline script and it sits above the stylesheet links in the head.
+
+   /src/js/main.js cannot do this job: type="module" is deferred by spec, so
+   it runs after parse and can only correct the attribute after first paint,
+   which is a visible flash of the wrong theme for anyone who chose night.
+
+   The whole job is: read the stored preference, validate it against an
+   allowlist, correct the attribute. Deliberately NOT here: no matchMedia
+   / prefers-color-scheme (v2 is a manual toggle only, no system trigger),
+   no clock, no write, no aria work (the toggle button is not parsed yet).
+
+   try/catch because localStorage throws in Safari private mode and under some
+   storage-partitioning settings. The catch leaves the server-rendered value
+   from site.json in place, which is the correct degradation.
+
+   The writer half lives in /src/js/theme.js (Phase 2). These two share only
+   the storage key string.
+   =========================================================================== #}
+<script>
+  (function () {
+    try {
+      var m = localStorage.getItem("tajima:mode");
+      if (m === "day" || m === "night") document.documentElement.dataset.mode = m;
+    } catch (e) {}
+  })();
+</script>

@@ -173,7 +173,8 @@
 .hero__display-line{ display: block; }
 .hero__display-line em{
   font-style: normal;
-  color: var(--color-gold);
+  /* Gold as TYPE reads --gold-ink, not Sesame Gold. See about.css. */
+  color: var(--gold-ink);
 }
 [data-mode="night"] .hero__display-line em{
   text-shadow:
