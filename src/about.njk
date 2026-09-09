@@ -274,6 +274,78 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   Structure is now: hero, chapters 01 to 06, quote pending, noodle band.
   =========================================================================== #}
 
+{# ==================== THE FILM ==================== #}
+{#
+  Added 2026-09-09. The brand film, between the chapters and the close.
+
+  RUNTIME IS 1:20, NOT 60 SECONDS. The mvhd atom on
+  tajima-brand-video-web-1080p.mp4 reads timescale 1000 / duration 80447, so
+  the file is exactly 80.45 seconds. /noodle-room/ already records the same
+  measurement. The label says 1:20 because that is what the file is.
+
+  NO CLAIM ABOUT WHAT IS IN IT. Nobody on this project has watched it end to
+  end and the only metadata it carries is a title atom reading "TAJIMA Brand
+  Video 3". /noodle-room/ pulled "with Sam" from its own heading for exactly
+  this reason: a claim about a named person appearing in a film does not get
+  published on an inference. So this section names the film, its runtime and
+  its controls, and asserts nothing about its contents. When somebody watches
+  it, the heading and the caption can say more.
+
+  NOT AUTOPLAY, and that is the difference between this and the two other
+  videos in the build. Both of those are decorative background loops that
+  autoplay muted. This one is a film someone chooses to watch, so it has real
+  controls and starts only when asked. Muted and playsinline are still set:
+  muted so an unmuting browser cannot surprise anyone, playsinline so iOS
+  plays it in place rather than hijacking the screen.
+
+  preload="none" IS LOAD-BEARING. The file is 46.8 MB. preload="metadata"
+  would pull headers from a 46.8 MB asset on every visit to this page for the
+  majority of readers who never press play. Nothing is fetched until the
+  control is used.
+
+  NO POSTER. There is no local poster frame: public/images/ has brand/ and
+  photo/ and neither holds a still from this film. /noodle-room/ posters its
+  copy with a CDN image, and pointing at that would add a second remote
+  dependency to fix rather than one. Without a poster the element renders the
+  first frame once metadata loads, which with preload="none" means it renders
+  as a black panel with a play control until pressed. That is honest and it
+  costs nothing; a real poster frame belongs in the shoot deliverables.
+
+  CDN DEPENDENCY, and it is now on the launch-blocker list beside the Convoy
+  hero photograph. This is the same tajima-temp bucket that already serves two
+  videos and five images on /noodle-room/. See DESIGN_SYSTEM.md open item 7.
+
+  REDUCED MOTION: nothing here moves on its own. There is no autoplay, no
+  loop, and no animation on the block, so the preference has nothing to
+  suppress. The global reduce rule in base.css still covers the reveal.
+#}
+<section class="sect sect--rule" aria-labelledby="film-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="film-title">The <em>film.</em></h2>
+      <p class="sect__note">
+        One minute and twenty seconds. It starts muted and it does not start on its own, so the controls are yours.
+      </p>
+    </header>
+
+    <figure class="film reveal">
+      <video
+        class="film__media"
+        src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
+        controls
+        muted
+        playsinline
+        preload="none"
+        width="1920"
+        height="1080"></video>
+      <figcaption class="film__caption">
+        Tajima brand film
+        <span class="film__meta">1:20</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 {# ==================== QUOTE PENDING ==================== #}
 {#
   The concept got this right and it is kept as-is. Brief section 7.

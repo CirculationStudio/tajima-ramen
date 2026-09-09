@@ -272,3 +272,17 @@ WCAG 2.1 AA.
    There is no local fix available. The file is not in `photos.json`, has no local copy, and **`public/images/photo/` contains no Convoy room photograph at all**, only Convoy dishes. The only room photography in the repo is Mercury's and College Heights'. This is item 3 with a deadline attached: the documentary shoot has to produce a Convoy room frame, with reviewed alt, before launch.
 
    (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part is fixed. The dependency is not.)
+
+8. **LAUNCH BLOCKER: eight media assets load from `cdn.circulationstudio.com/tajima-temp/`.** Separate from item 7 and a different owner: that one is the client's old WordPress site, this one is ours, and "temp" is in the path.
+
+   | Page | Asset |
+   |---|---|
+   | `/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | `videos/tajima-brand-video-web-1080p.mp4` |
+   | `/noodle-room/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | five images, including the poster frame for the brand film |
+   | `/about/` | `videos/tajima-brand-video-web-1080p.mp4`, added 2026-09-09 |
+
+   **The brand film is 46.8 MB.** That is why `/about/` sets `preload="none"`: nothing is fetched until a reader presses play, verified as zero mp4 requests on page load. Its real runtime is **1:20** (80.45s by the mvhd atom), not the 60 seconds it is often described as, and nobody on this project has watched it end to end, so no page asserts what is in it.
+
+   **What resolves this:** the videos need a permanent home, either committed to `public/` or served from a stable production bucket rather than one named temp. Committing 46.8 MB to git is not obviously right, so this needs a decision, not just a copy. Until then, every one of these pages depends on a bucket whose name says it is going away.

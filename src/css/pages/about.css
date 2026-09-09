@@ -203,3 +203,46 @@
   .chapter__rail::after{ display: none; }
   .chapter__mark{ margin-top: var(--space-4); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FILM · the brand video, between the chapters and the close
+
+   Not a background loop. The two videos already in the build are decorative
+   autoplaying loops behind other content; this one is the content, so it gets
+   a frame, a caption and the browser's own controls rather than a custom
+   player. Native controls are keyboard operable and screen-reader labelled
+   for free, and a hand-built player on this page would be a worse one.
+
+   Media takes --radius like every other framed media in the system. Full
+   bleed colour fields stay sharp; this is a card, so it takes the scale.
+═══════════════════════════════════════════════════════════════════ */
+.film{
+  margin: 0;
+  max-width: 60rem;
+}
+.film__media{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  border: var(--stroke-hair) solid var(--rule);
+  background: var(--color-system-ink);
+}
+.film__caption{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.film__meta{
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
