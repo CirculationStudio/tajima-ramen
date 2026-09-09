@@ -47,3 +47,12 @@ coverage/
 
 # OS files
 Thumbs.db
+
+# Brand reference PDFs.
+# _reference/tajima-brand-guidelines-oct-2025.pdf is REQUIRED for brand work:
+# page 18 is the Email Campaign application the starburst, black header bar and
+# gold field come from, page 19 is the Website application the homepage hero
+# composition follows, and page 21 is Merchandise. It is 12MB, so it lives in
+# the shared drive rather than in git. Fetch it before doing design work that
+# touches a colour field or a badge.
+_reference/*.pdf
