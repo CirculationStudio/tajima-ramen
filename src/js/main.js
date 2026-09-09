@@ -13,6 +13,11 @@ import "/src/css/app.css";
 // Locations mega menu. Global: the header is on every page.
 import "/src/js/mega-menu.js";
 
+// Theme toggle. Global for the same reason. Deferred is fine: the blocking
+// inline script in _includes/components/theme-init.njk has already settled
+// data-mode before first paint, and this only upgrades the control.
+import "/src/js/theme.js";
+
 // Scroll reveal, progressive enhancement.
 //
 // Content is visible by default in CSS. We only add the `js-reveal` hook (which

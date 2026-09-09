@@ -34,6 +34,10 @@
 @import "./base/base.css";
 
 /* Component styles, added per block as the library grows. */
+@import "./components/hdr.css";
+/* site-header.css now serves ONLY the Noodle Room's own header, which reuses
+   the .site-header block name for entirely different markup. Retired in
+   Phase 5 once that layout is re-pointed. */
 @import "./components/site-header.css";
 @import "./components/mega-menu.css";
 @import "./components/hero.css";
@@ -44,7 +48,8 @@
 @import "./components/menu.css";
 @import "./components/curtain-stage.css";
 @import "./components/story.css";
-@import "./components/monolith.css";
+@import "./components/neon.css";
+@import "./components/ftr.css";
 @import "./components/next-pair.css";
 
 /* Page styles, added per template as pages are built. */

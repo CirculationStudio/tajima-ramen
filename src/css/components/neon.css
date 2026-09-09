@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Block: neon (the monolith above the footer)
+
+   v2. Values ported from _reference/tajima-home-v2.html L371-389.
+
+   TAJIMA at architectural scale, as a TYPE treatment, not the logo. The logo
+   lockup stays in the header, so brand equity is intact and this stays a
+   display device.
+
+   Glow is a night device. In day it is dimmed to a painted-sign look, because
+   neon on a cream field reads as a rendering artifact rather than a sign.
+   Every glow here comes from a token or a night-scoped rule; nothing glows in
+   day. See DESIGN_SYSTEM.md, "NO glow in day mode".
+
+   TWO ANIMATIONS REMOVED IN THE V2 PORT. The v1 monolith idled: a 7s
+   per-letter rise on the wordmark and a 6s "breath" on the crest. Both were
+   already covered by the global prefers-reduced-motion catch-all in
+   base/base.css, so this is not an accessibility fix. They are gone because
+   the approved reference has no idle motion on this block. A deliberate
+   deletion, not an oversight.
+   ========================================================================== */
+
+.neon {
+  padding: clamp(var(--space-10), 9vw, var(--space-12)) var(--gutter) var(--space-9);
+  text-align: center;
+  background: var(--canvas);
+  transition: background var(--duration-slow) var(--ease);
+}
+
+/* 但馬, the kanji from the logo lockup. Decorative: the wordmark below carries
+   the accessible name. No font-family on purpose, so the system CJK face
+   renders it rather than a Latin brand face with no coverage. */
+.neon__kanji {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: .12em;
+  margin-bottom: clamp(var(--space-4), 2.5vw, var(--space-6));
+}
+
+[data-mode="night"] .neon__kanji {
+  text-shadow:
+    0 0 12px rgba(255, 77, 64, .6),
+    0 0 34px rgba(255, 77, 64, .3);
+}
+
+/* The site's only remaining link home while the header logo is the theme
+   toggle. See monolith.njk and DESIGN_SYSTEM.md Open Item 2. */
+.neon__word {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: clamp(.15rem, .9vw, .85rem);
+  line-height: .82;
+}
+
+.neon__word-letter {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(3.5rem, 15vw, 14rem);
+  color: var(--color-cream);
+  /* No negative tracking on the brush face, ever: the glyphs collide.
+     DESIGN_SYSTEM.md, tracking tokens are positive only. */
+}
+
+[data-mode="night"] .neon__word-letter {
+  text-shadow:
+    0 0 14px rgba(255, 254, 244, .5),
+    0 0 46px rgba(255, 77, 64, .42),
+    0 0 96px rgba(255, 77, 64, .22);
+}
+
+[data-mode="day"] .neon__word-letter {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+/* The one sanctioned gradient in the system. DESIGN_SYSTEM.md bans gradients
+   as a brand device and names this hairline and photo scrims as the only two
+   exceptions. */
+.neon__rule {
+  width: min(52rem, 72vw);
+  height: var(--stroke-rule);
+  margin: clamp(var(--space-5), 3vw, var(--space-7)) auto 0;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Brush display type has a hard floor of 1.25rem. The reference sets this
+   clamp's minimum to 1rem, which drops below the floor on narrow viewports;
+   raised here. Below roughly 1.25rem the face stops being legible, which was
+   a real defect caught in review, not a preference. */
+.neon__slogan {
+  margin-top: var(--space-6);
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.neon__slogan em {
+  font-style: normal;
+  color: var(--accent);
+  text-shadow: var(--glow-text);
+}
+
+@media (max-width: 40rem) {
+  .neon__word-letter {
+    font-size: clamp(3.5rem, 22vw, 7rem);
+  }
+}

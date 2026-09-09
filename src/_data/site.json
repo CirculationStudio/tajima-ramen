@@ -33,6 +33,12 @@
     { "num": "1", "label": "Noodle Room" }
   ],
 
+  "_sloganNote": "EXACT STRING, per DESIGN_SYSTEM.md 'Copy constants'. 'Housemade' is one word with no hyphen, a deliberate exception to the house-made spelling in voice-tone.md. Do not 'correct' it, and do not correct other instances to match. OPEN: five templates carry comments noting that 'crafted daily' asserts a noodle cadence not yet confirmed in CLIENT_FACTS.md. Those comments stay until the client confirms; see the Phase 2 report.",
+  "slogan": {
+    "before": "Housemade noodles, ",
+    "emphasis": "crafted daily."
+  },
+
   "footer": {
     "epitaph": {
       "before": "Built in ",

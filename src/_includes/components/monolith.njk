@@ -1,11 +1,23 @@
 {# ===========================================================================
-   Component: monolith
+   Components: neon + ftr
 
-   The site footer for the main template family.
+   v2 splits what used to be one `.monolith` footer into the two blocks the
+   reference file uses: the neon monolith (crest, wordmark, gold rule, slogan)
+   sitting directly above a quiet footer (epitaph, spec strip, nav, colophon).
+
+   The markup and data plumbing are almost entirely unchanged. The crest was
+   already 但馬 and the wordmark already rendered per-character spans from
+   site.shortName via the `chars` filter, which is exactly what .neon__word
+   needs. The one genuinely new element is the gold hairline rule.
+
+   WHAT THE REFERENCE DROPS AND THIS KEEPS. _reference/tajima-home-v2.html has
+   no epitaph and no spec strip: its footer is a nav and a copyright line. That
+   would delete content this footer already publishes, so those blocks move
+   into .ftr rather than disappearing.
 
    Every figure in the spec strip comes from site.json, which traces to
-   CLIENT_FACTS.md. Two of them deliberately differ from the reference
-   concept and must not be reverted:
+   CLIENT_FACTS.md. Two of them deliberately differ from the reference concept
+   and must not be reverted:
 
      "6 / San Diego"    was "8 Houses". CLIENT_FACTS.md forbids publishing a
                         global location total until the live site's
@@ -13,38 +25,58 @@
      "2 / Noodle Types" was "12h Tonkotsu". No simmer time is confirmed
                         anywhere in CLIENT_FACTS.md. That number is invented.
 
-   See the _specNote key in site.json. Do not add a figure without a
-   confirmed source.
+   See the _specNote key in site.json. Do not add a figure without a confirmed
+   source.
    =========================================================================== #}
 
-<footer class="monolith" aria-label="{{ site.name }} footer">
-  <div class="monolith__atmosphere" aria-hidden="true"></div>
+<section class="neon" aria-label="{{ site.name }}">
+  <p class="neon__kanji" aria-hidden="true">但馬</p>
 
-  <div class="monolith__inner">
-    <p class="monolith__crest" aria-hidden="true">但馬</p>
+  {#
+    The wordmark is the site's only remaining link home. The header logo is
+    currently the theme toggle (DESIGN_SYSTEM.md Open Item 2) and nav.json
+    carries no Home item in either list, so without this there is no route back
+    to "/" from any page. When the toggle moves off the logo, this can go back
+    to being a plain <p>.
 
-    <p class="monolith__wordmark" aria-label="{{ site.shortName }}">
-      {%- for letter in site.shortName | upper | chars %}<span class="monolith__wordmark-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
-    </p>
+    Per-letter spans are aria-hidden and the accessible name comes from the
+    link, so a screen reader reads "Tajima, link" rather than six letters.
+  #}
+  <a class="neon__word" href="/" aria-label="{{ site.name }} home">
+    {%- for letter in site.shortName | upper | chars %}<span class="neon__word-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
+  </a>
 
-    <p class="monolith__epitaph">
+  {# The one sanctioned gradient in the system: transparent to gold to
+     transparent. DESIGN_SYSTEM.md bans gradients as a brand device and lists
+     this hairline and photo scrims as the only exceptions. #}
+  <div class="neon__rule" aria-hidden="true"></div>
+
+  <p class="neon__slogan">
+    {{ site.slogan.before }}<em>{{ site.slogan.emphasis }}</em>
+  </p>
+</section>
+
+<footer class="ftr" aria-label="{{ site.name }} footer">
+  <div class="ftr__in">
+
+    <p class="ftr__epitaph">
       {{ site.footer.epitaph.before }}<em>{{ site.footer.epitaph.emphasis }}</em>{{ site.footer.epitaph.after }}
     </p>
 
-    <ul class="monolith__spec" aria-label="{{ site.name }} at a glance">
+    <ul class="ftr__spec" aria-label="{{ site.name }} at a glance">
       {%- for item in site.footer.spec %}
         <li>
-          <span class="monolith__spec-num">{{ item.num }}</span>
-          <span class="monolith__spec-label">{{ item.label }}</span>
+          <span class="ftr__spec-num">{{ item.num }}</span>
+          <span class="ftr__spec-label">{{ item.label }}</span>
         </li>
       {%- endfor %}
     </ul>
 
-    <nav class="monolith__nav" aria-label="Footer">
+    <nav class="ftr__nav" aria-label="Footer">
       {%- for item in nav.footer %}
         {%- set isCurrent = page.url == item.url %}
         <a
-          class="monolith__nav-link{% if isCurrent %} monolith__nav-link--current{% endif %}"
+          class="ftr__nav-link{% if isCurrent %} ftr__nav-link--current{% endif %}"
           href="{{ item.url }}"
           {%- if item.external %} rel="noopener"{% endif %}
           {%- if isCurrent %} aria-current="page"{% endif %}>
@@ -53,8 +85,9 @@
       {%- endfor %}
     </nav>
 
-    <p class="monolith__sub">
+    <p class="ftr__sub">
       {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
     </p>
+
   </div>
 </footer>
