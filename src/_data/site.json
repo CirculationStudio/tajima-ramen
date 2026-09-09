@@ -33,7 +33,7 @@
     { "num": "1", "label": "Noodle Room" }
   ],
 
-  "_sloganNote": "EXACT STRING, per DESIGN_SYSTEM.md 'Copy constants'. 'Housemade' is one word with no hyphen, a deliberate exception to the house-made spelling in voice-tone.md. Do not 'correct' it, and do not correct other instances to match. OPEN: five templates carry comments noting that 'crafted daily' asserts a noodle cadence not yet confirmed in CLIENT_FACTS.md. Those comments stay until the client confirms; see the Phase 2 report.",
+  "_sloganNote": "EXACT STRING, per DESIGN_SYSTEM.md 'Copy constants'. 'Housemade' is one word with no hyphen, a deliberate exception to the house-made spelling in voice-tone.md. Do not 'correct' it, and do not correct other instances to match. OPEN, ONE CLIENT ANSWER RESOLVES ALL SEVEN: 'crafted daily' and its siblings assert a noodle cadence that CLIENT_FACTS.md does not confirm (it confirms the daily cadence for the BROTH only). Five templates carry a comment explaining why the claim was written out of their copy: src/locations.njk, src/about.njk, src/noodle-room.njk, src/tajima-convoy.njk, and formerly src/index.njk (its comment annotated a section the v2 rebuild removed; the caution is restated at the top of the new file). Two live claims now publish the cadence and are the ones to re-check first: src/index.njk trio card 'Cut daily in the Noodle Room', and src/index.njk locations lede 'cut that morning in Crown Point'. Ask Sam how often noodles are actually cut, then either confirm all seven or rewrite them together.",
   "slogan": {
     "before": "Housemade noodles, ",
     "emphasis": "crafted daily."

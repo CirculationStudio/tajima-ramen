@@ -213,6 +213,8 @@ Glossy studio bowl shots with no context • neon-saturated interiors • graffi
 - Slogan, exact string: **`Housemade noodles, crafted daily.`** One word, no hyphen. This is a deliberate exception to the `house-made` spelling in `voice-tone.md`; do not "correct" other instances to match.
 - Hero slogan set and all display lines come from `voice-tone.md`. Do not write new hero copy at build time.
 - The house trio is Red, Black, White. Three bowls. Spicy Sesame is not part of the trio.
+- **No simmer time. No number of hours, ever.** `CLIENT_FACTS.md` confirms only that broth is simmered every morning in the Crown Point commissary and driven to the San Diego locations. It gives no duration. "12h Tonkotsu" was cut from the footer spec strip once (see `site.json` `_specNote`) and "simmered twelve hours" was cut from the homepage trio card again in the v2 port; the figure has no source and keeps reappearing. Do not publish one until someone gets it from Sam.
+- **The noodle cadence is unconfirmed.** "crafted daily", "cut daily", "cut that morning". `CLIENT_FACTS.md` confirms the daily cadence for the *broth*, not the noodles. These ship pending a client answer; see the flagged list in `site.json` `_sloganNote`. One answer resolves all of them.
 
 ---
 
@@ -235,6 +237,6 @@ WCAG 2.1 AA.
 1. **Bright Sunshine Caps licensing.** Still unresolved, and now load-bearing: hero slogan, all section headings, dish names, location names, the neon wordmark. Confirm the Demo file clears for commercial web embedding before launch. This is the largest single risk in the build.
 2. ~~**Move the theme toggle off the logo** before launch.~~ **CLOSED.** The toggle is the `tgl` block in the footer, beside the colophon; the logo links home. It is a real `<button>` with `aria-pressed`, ships `hidden` and is revealed by `js/theme.js`, so it is absent from the accessibility tree when it would not work. Its visible label is its accessible name.
 3. **Documentary photography.** Current imagery is GBP and menu photography. The Noodle Room and commissary shoot is still the asset every page depends on.
-4. **Homepage word count.** Approximately 270 words after the simplification pass. Target 700+ for the ranking goals in `AEO.md`. Add as copy inside existing sections, not as new sections.
-5. **No schema on the homepage yet.** See `SCHEMA.md`. Highest-leverage remaining SEO task.
+4. **Homepage word count.** Approximately **250 words** as built, against a **700+** target for the ranking goals in `AEO.md`. The gap widened rather than closed: the reference file's `craft` and `feed` sections, which carried most of the missing copy, were rejected in review and are not built. **Close it with copy inside the seven existing sections, never by adding a section back.** Nothing may be padded in to hit the number; the copy has to earn its place under `voice-tone.md` and trace to `CLIENT_FACTS.md` like everything else.
+5. ~~**No schema on the homepage yet.**~~ **CLOSED.** `src/_data/schema.js:428` defines the `home` graph and the built page emits it: `Organization`, `Person` (Sam), `WebSite`, `ItemList` of locations, which is exactly what the `/` brief in `SITE_ARCHITECTURE.md` specifies. No `Restaurant` on this page, as required.
 6. **No hours or phone anywhere on the homepage.** Top UX gap. Hours still need confirmation from a primary source before publishing.
