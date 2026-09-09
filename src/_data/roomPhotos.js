@@ -215,6 +215,109 @@ const PLACEHOLDER = {
 
 const DRAFT = "[DRAFT";
 
+// ===========================================================================
+// PLACEHOLDER SWEEP. Added 2026-09-09.
+//
+// WHAT IT IS FOR. Every photograph on this site today is Tajima's own. That is
+// a standard, not an accident, and the moment it is most likely to slip is the
+// one nobody plans for: the documentary shoot lands late, a page needs a frame
+// this week, and a stock image goes in "just for now". This throws at module
+// load, which fails `npm run build`, so a placeholder cannot reach production
+// by being forgotten. It has to be removed, or the build has to be run with an
+// explicit flag by someone who typed the flag on purpose.
+//
+// It guards nothing on the day it ships, and that is the point. A gate
+// installed after the thing it prevents is a post-mortem.
+//
+// HOW TO REGISTER ONE. In photos.json, on that file's entry:
+//
+//   "placeholder": true,
+//   "placeholderSource": "https://... the page it came from",
+//   "placeholderNote": "what real photograph replaces it, and who is shooting it"
+//
+// and write honest alt describing what is actually in the frame, not what we
+// wish were in it. All three fields are required. Half a registration is worse
+// than none, because it looks handled.
+//
+// HOW TO PREVIEW ONE. TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build
+// The flag is for a client preview, never for a production deploy. Cloudflare
+// builds from a clean environment and does not set it, so a placeholder that
+// builds on someone's laptop still fails the deploy.
+//
+// THE RULES THIS ENFORCES, from the photography standard: never a stock room,
+// storefront or plated bowl, ever, under any flag. Stock is only for generic
+// subjects that no Tajima photograph could cover, such as raw ingredients or
+// texture, and it is never presented as Tajima. This code cannot judge a
+// subject. It can only make sure a human registered the decision, said where
+// the image came from, and named the photograph that replaces it.
+//
+// WHAT IT DOES NOT CATCH, stated plainly. It sweeps the whole manifest rather
+// than the ~10 curated files `lookup()` sees, so it covers photographs placed
+// through paths that never touch this module: src/index.njk reads
+// photos.photos directly, and menu.json carries its own image and alt fields.
+// But it can only see what somebody marked. A stock file dropped into
+// public/images/photo and referenced from menu.json with hand-written alt is
+// invisible to this guard and to the draft-alt guard both. Registration is
+// still a human act. This makes an honest registration binding; it does not
+// make a dishonest one impossible.
+// ===========================================================================
+const ALLOW_PLACEHOLDERS = process.env.TAJIMA_ALLOW_PLACEHOLDERS === "1";
+
+// Accumulate every offender before throwing, the same shape
+// scripts/test-photo-manifest.js uses. Reporting one at a time turns a single
+// fix into as many build runs as there are placeholders.
+const placeholderFailures = [];
+
+for (const [file, record] of Object.entries(photos.photos)) {
+  const marked = record.placeholder === true;
+  const hasSource = typeof record.placeholderSource === "string" && record.placeholderSource.trim() !== "";
+  const hasNote = typeof record.placeholderNote === "string" && record.placeholderNote.trim() !== "";
+
+  // A half-registration is its own failure, and it fails even under the flag.
+  // An entry carrying a source but not the flag reads as handled and is not.
+  if (!marked && (hasSource || hasNote)) {
+    placeholderFailures.push(
+      `${file}: carries placeholderSource or placeholderNote but is not marked ` +
+        `"placeholder": true. Either mark it or remove the fields. A half-registered ` +
+        `placeholder looks handled and is not.`,
+    );
+    continue;
+  }
+
+  if (!marked) continue;
+
+  if (!hasSource || !hasNote) {
+    placeholderFailures.push(
+      `${file}: is marked as a placeholder but is missing ` +
+        `${!hasSource ? "placeholderSource" : ""}${!hasSource && !hasNote ? " and " : ""}${!hasNote ? "placeholderNote" : ""}. ` +
+        `A placeholder has to say where it came from and what replaces it, or ` +
+        `nobody can retire it later.`,
+    );
+    continue;
+  }
+
+  if (!ALLOW_PLACEHOLDERS) {
+    placeholderFailures.push(
+      `${file}: PLACEHOLDER PHOTOGRAPHY IS IN THE BUILD.\n` +
+        `      source:  ${record.placeholderSource}\n` +
+        `      replace: ${record.placeholderNote}`,
+    );
+  }
+}
+
+if (placeholderFailures.length) {
+  throw new Error(
+    `\nroomPhotos: ${placeholderFailures.length} placeholder problem(s). ` +
+      `The build is stopped on purpose.\n\n` +
+      placeholderFailures.map((f) => `  x ${f}`).join("\n") +
+      `\n\n  Every photograph on this site is Tajima's own. To ship a stand-in ` +
+      `anyway, remove it before deploy, or run a PREVIEW with:\n` +
+      `      TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build\n` +
+      `  That flag is for showing a client a layout. It is not set on ` +
+      `Cloudflare, so a placeholder still fails the deploy.\n`,
+  );
+}
+
 function lookup(entry) {
   const record = photos.photos[entry.file];
   if (!record) {
