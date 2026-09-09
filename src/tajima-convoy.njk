@@ -5,10 +5,7 @@ pageKey: convoy
 locationId: convoy
 title: "Tajima Ramen Convoy | The Original, on Convoy Street Since 2001"
 description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Communal tables, the full menu plus an expanded izakaya list, and okonomiyaki. Walk in, no reservations."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /tajima-convoy/. Brief: SITE_ARCHITECTURE.md, plus the shared location page
@@ -39,7 +36,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
         <span aria-hidden="true">/</span>
         <span class="page-hero__crumbs-current">{{ loc.name }}</span>
       </p>
-      <span class="page-hero__eyebrow">The original &middot; Since {{ loc.opened }}</span>
       <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
       {#
         REWRITTEN ENDING. The concept closed with "it still sets the standard
@@ -92,12 +88,24 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
       </address>
     </div>
 
+    {#
+      ALT AND CAPTION CORRECTED in the v2 port. Both said "storefront"; the
+      photograph is the dining room, and it shows the communal table this page
+      goes on to describe. Nothing about a storefront is in the frame.
+
+      OPEN, and not fixable here: this is the only image in the whole build
+      loaded from tajimaramen.com, the live WordPress site this project
+      replaces. It is not in photos.json and has no local copy, and there is no
+      Convoy room photograph anywhere in public/images/photo/ to swap in (only
+      dishes). It needs to come out of the documentary shoot, DESIGN_SYSTEM.md
+      Open Item 3. Until then the page depends on the old site staying up.
+    #}
     <figure class="page-hero__photo">
       <img class="page-hero__photo-img"
         src="https://tajimaramen.com/wp-content/uploads/2022/06/Tajima-Convoy-3-2.jpg"
-        alt="The storefront at Tajima Ramen Convoy on Convoy Street"
+        alt="The Convoy dining room, a long communal table with metal chairs under a wooden coffered ceiling, a black and red brush mural along one wall, and the bar running down the other side"
         loading="lazy" width="900" height="600">
-      <figcaption class="page-hero__photo-cap">The Convoy storefront</figcaption>
+      <figcaption class="page-hero__photo-cap">The Convoy dining room</figcaption>
     </figure>
   </div>
 </section>
@@ -110,7 +118,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect pattern-section" aria-labelledby="diff-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">This room</span>
       <h2 class="sect__title" id="diff-title">Where the house <em>started.</em></h2>
     </header>
 
@@ -178,7 +185,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect sect--alt sect--rule" aria-labelledby="kitchen-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">From this kitchen</span>
       <h2 class="sect__title" id="kitchen-title">What comes out of <em>Convoy.</em></h2>
       <p class="sect__note">
         The Red, Black, and White trio, and an izakaya list that runs deeper here than anywhere else in the house. <a class="sect__link" href="/menu/">See the whole menu</a>.
@@ -255,7 +261,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect" aria-labelledby="near-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Nearby</span>
       <h2 class="sect__title" id="near-title">Two miles up the road.</h2>
       <p class="sect__note">
         <a class="sect__link" href="/tajima-mercury/">Tajima Ramen Mercury</a> is the bigger room. Around ninety seats, a full bar with Japanese whisky, and the widest sushi list in the house. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.

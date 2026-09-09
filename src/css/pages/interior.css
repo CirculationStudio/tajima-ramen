@@ -75,6 +75,32 @@
   max-width: 46rem;
 }
 
+/* Feature photo under a page hero. This had no rule at all before the v2 port:
+   the figure rendered at the image's natural size with the caption falling
+   back to body copy. Large feature media takes --radius-lg (8px) per the v2
+   radius scale. Only /tajima-convoy/ uses it today. */
+.page-hero__photo{
+  margin: var(--space-7) 0 0;
+  max-width: 60rem;
+}
+
+.page-hero__photo-img{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+.page-hero__photo-cap{
+  margin-top: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    SECTION SHELL · interior sections
 ═══════════════════════════════════════════════════════════════════ */

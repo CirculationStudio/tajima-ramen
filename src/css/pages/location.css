@@ -83,6 +83,8 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   flex: 1;
   overflow: hidden;
   margin: 0;
+  /* v2: photo tiles take --radius (6px). */
+  border-radius: var(--radius);
 }
 .shot__img{
   position: absolute;

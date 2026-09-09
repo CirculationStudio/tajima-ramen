@@ -4,10 +4,7 @@ permalink: /locations/
 pageKey: locations
 title: "Tajima Ramen Locations | Six in San Diego, Plus Maui"
 description: "Six Tajima Ramen locations across San Diego, from the Convoy original to Plaza Bonita, plus Kihei on Maui. Addresses, phone numbers, and what is different about each room. Walk in, no reservations."
-mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
-            # stylesheets layer night-only rules over dark-authored base rules,
-            # so this page is not readable on the day canvas yet. Remove this
-            # line and add `tokens: v2` in the Phase 4 batch that restyles it.
+tokens: v2
 ---
 {#
   /locations/. Brief: SITE_ARCHITECTURE.md.
@@ -37,7 +34,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
     {# Six San Diego, and no global total. CLIENT_FACTS.md: the live site says
        8 in the heading and 6+4+1 in the footer one scroll apart. Do not
        publish a total until that is fixed. #}
-    <span class="page-hero__eyebrow">Six in San Diego &middot; Plus Maui</span>
     <h1 class="page-hero__title" id="page-title">Locations</h1>
     <p class="page-hero__lede">
       Six rooms across San Diego, one in Kihei. Walk in. No reservations.
@@ -49,7 +45,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect pattern-section" aria-labelledby="sd-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">San Diego</span>
       <h2 class="sect__title" id="sd-title">Six rooms. <em>One kitchen behind them.</em></h2>
       {#
         REWRITTEN. The concept read: "The noodles and the morning broth for
@@ -76,7 +71,6 @@ mode: night # PHASE 1 PIN. Not yet migrated to the v2 ramp; the legacy
 <section class="sect sect--alt sect--rule" aria-labelledby="beyond-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Beyond San Diego</span>
       <h2 class="sect__title" id="beyond-title">Maui and <em>Tijuana.</em></h2>
     </header>
 
