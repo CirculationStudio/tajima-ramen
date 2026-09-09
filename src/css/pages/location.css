@@ -213,3 +213,33 @@ a.plate__value:focus-visible{ color: var(--color-red); }
 @media (max-width: 40rem) {
   .here-list__item{ margin-right: 0; }
 }
+
+/* --------------------------------------------------------------------------
+   FAQ. A definition list, because that is what it is: questions and their
+   answers. Rendered from _data/locationFaq.js, the same source the FAQPage
+   node is built from.
+   -------------------------------------------------------------------------- */
+.faq{
+  margin: 0;
+  display: grid;
+  gap: var(--space-5);
+  max-width: 46rem;
+}
+.faq__item{
+  padding-bottom: var(--space-5);
+  border-bottom: var(--stroke-hair) solid var(--rule);
+}
+.faq__item:last-child{ border-bottom: none; padding-bottom: 0; }
+.faq__q{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.faq__a{
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-2);
+}

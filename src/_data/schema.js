@@ -26,6 +26,7 @@ import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
 import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
+import locationFaq from "./locationFaq.js";
 
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
@@ -218,6 +219,24 @@ const menuEntity = buildMenu({
 // has no menu section to mirror. A full page that renders its own filtered
 // menu must carry its own Menu @id, or the schema would claim the room serves
 // dishes its visible page does not list (SCHEMA.md rule 2).
+// FAQPage for a location, built from the same composed list the visible block
+// renders. SCHEMA.md: every name and text is copied from the rendered page,
+// never written separately, which is only guaranteed if there is one source.
+// A room with no questions emits no node rather than an empty one.
+function locationFaqNode(loc) {
+  const items = locationFaq[loc.id];
+  if (!items || !items.length) return null;
+  return {
+    "@type": "FAQPage",
+    "@id": `${site.url}${loc.url}#faq`,
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
 function restaurant(id, menuId = `${site.url}/menu/#menu`) {
   const loc = locations.items.find((item) => item.id === id);
   const entity = {
@@ -291,7 +310,8 @@ const locationPages = Object.fromEntries(
             ]),
           },
           restaurant(loc.id),
-        ],
+          locationFaqNode(loc),
+        ].filter(Boolean),
       },
     ]),
 );
@@ -376,7 +396,8 @@ export default {
         ]),
       },
       restaurant("convoy"),
-    ],
+      locationFaqNode(locations.items.find((l) => l.id === "convoy")),
+    ].filter(Boolean),
   },
 
   // /tajima-college-heights/. The brief requires its own Menu entity rather
@@ -405,6 +426,7 @@ export default {
         ]),
       },
       restaurant("college-heights", `${site.url}/tajima-college-heights/#menu`),
+      locationFaqNode(locations.items.find((l) => l.id === "college-heights")),
       buildMenu({
         id: `${site.url}/tajima-college-heights/#menu`,
         name: "Tajima Ramen College Heights menu",
@@ -413,7 +435,7 @@ export default {
         // dish.locations` loop. Change one and you must change the other.
         featuredOnly: true,
       }),
-    ],
+    ].filter(Boolean),
   },
   locations: {
     "@context": "https://schema.org",

@@ -38,6 +38,7 @@
     <header class="sect__head">
       {#- Defaults to "The room" for a single location. Overridable for a
           caller showing more than one, where the singular would read wrong. -#}
+      {%- if galleryIcon %}<span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-{{ galleryIcon }}"></use></svg></span>{% endif %}
       <h2 class="sect__title" id="{{ gId }}">{{ galleryTitle | safe }}</h2>
       {%- if galleryNote %}
       <p class="sect__note">{{ galleryNote | safe }}</p>

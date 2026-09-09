@@ -23,6 +23,9 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
   NAP comes from locations.json, hours included: confirmed 2026-09-09.
 #}
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 {%- set loc = (locations.items | where("id", locationId)) | first %}
 
 <section class="page-hero page-hero--split" aria-labelledby="page-title">
@@ -189,6 +192,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 <section class="sect sect--alt sect--rule" aria-labelledby="kitchen-title">
   <div class="sect__inner">
     <header class="sect__head">
+      <span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <h2 class="sect__title" id="kitchen-title">What comes out of <em>Convoy.</em></h2>
       <p class="sect__note">
         The Red, Black, and White trio, and an izakaya list that runs deeper here than anywhere else in the house. <a class="sect__link" href="/menu/">See the whole menu</a>.
@@ -216,6 +220,8 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   Same rewrite as /locations/. The concept's "Homemade noodles, crafted daily"
   asserts an unconfirmed cadence.
 #}
+{% include "components/location-faq.njk" %}
+
 <section class="noodle-band" aria-labelledby="band-title">
   <div class="noodle-band__inner">
     <div>

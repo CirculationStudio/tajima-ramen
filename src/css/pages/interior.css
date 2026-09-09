@@ -404,3 +404,11 @@ a.loc__phone:focus-visible{ color: var(--color-red); }
 .loc__directions:focus-visible {
   color: var(--color-red);
 }
+
+/* The brand mark on a section heading. Disc treatment, because the traced
+   icons are hairline line art drawn for large pattern use and lose their
+   strokes as plain marks at this size; the filled disc gives them a field and
+   what carries is the silhouette. See components/mark.css. */
+.sect__mark{
+  margin-bottom: var(--space-4);
+}

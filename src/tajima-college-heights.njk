@@ -61,6 +61,9 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   even though College Heights sells those dishes. A Convoy bowl photographed
   at Convoy is not evidence about this kitchen.
 #}
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 {%- set loc = (locations.items | where("id", locationId)) | first %}
 {%- set gallery = roomPhotos[locationId] %}
 
@@ -203,6 +206,7 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 <section class="sect" aria-labelledby="menu-title">
   <div class="sect__inner">
     <header class="sect__head">
+      <span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <h2 class="sect__title" id="menu-title">What comes out of <em>College Heights.</em></h2>
       <p class="sect__note">
         The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with what is in each bowl.
@@ -228,6 +232,8 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   room, broth is made every morning. No cadence claim on the noodles
   (Open Decision #3) and no "every location" claim (#2).
 #}
+{% include "components/location-faq.njk" %}
+
 <section class="noodle-band" aria-labelledby="band-title">
   <div class="noodle-band__inner">
     <div>

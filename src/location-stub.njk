@@ -60,6 +60,9 @@ eleventyComputed:
 #}
 {%- set gallery = roomPhotos[loc.id] %}
 
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 <section class="page-hero" aria-labelledby="page-title">
   <div class="page-hero__inner">
     <p class="page-hero__crumbs">
@@ -117,6 +120,39 @@ eleventyComputed:
   </div>
 </section>
 
+{# ==================== WHAT'S DIFFERENT HERE ====================
+   The section SITE_ARCHITECTURE.md calls "the one section that must not be
+   templated". Cells come from _data/roomDifferences.json, where each room's
+   set is hand written from CLIENT_FACTS.md for that room and nothing is
+   generated. The loop renders them; it does not author them.
+
+   Four of the five stubs have a set. Maui has none on purpose: see the _maui
+   note in that file. A room with no set simply renders no section, which is
+   the same graceful-degradation rule the galleries follow.
+
+   This was the biggest structural gap between the stubs and the two full
+   location pages, and it is the main reason Plaza Bonita and Maui read as
+   near-duplicates of each other. #}
+{%- set diffCells = roomDifferences[loc.id] %}
+{%- if diffCells %}
+<section class="sect pattern-section" aria-labelledby="diff-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="diff-title">What is different about <em>this room.</em></h2>
+    </header>
+
+    <div class="diff">
+      {%- for cell in diffCells %}
+      <article class="cell diff__cell{% if loop.first %} diff__cell--wide{% endif %} reveal">
+        <h3 class="diff__title">{{ cell.title }}</h3>
+        <p class="diff__body">{{ cell.body }}</p>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
 {#
   The room, where we have it. Same component /tajima-college-heights/ uses, so
   a stub that graduates keeps the section it already had.
@@ -125,6 +161,7 @@ eleventyComputed:
   {%- set gallerySet = gallery.gallery %}
   {%- set galleryId = "room-title" %}
   {%- set galleryTitle = "The room, <em>photographed.</em>" %}
+  {%- set galleryIcon = false %}
   {%- set galleryNote = false %}
   {% include "components/location-gallery.njk" %}
 {%- endif %}
@@ -139,6 +176,7 @@ eleventyComputed:
   {%- set gallerySet = gallery.dishes %}
   {%- set galleryId = "dishes-title" %}
   {%- set galleryTitle = "What comes out of <em>this room.</em>" %}
+  {%- set galleryIcon = "ramen-bowl" %}
   {%- set galleryNote = 'Photographed at this location. <a class="sect__link" href="/menu/">See the whole menu</a>.' %}
   {% include "components/location-gallery.njk" %}
 {%- endif %}
@@ -179,16 +217,28 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{# What is still missing differs per room now that four of the five carry a
+   "what is different" section, so the copy has to differ too. Saying "what is
+   different about it is being written" on a page that just said it would be
+   the page contradicting itself two screens apart. #}
 <section class="sect" aria-labelledby="soon-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <h2 class="sect__title" id="soon-title">The full page is <em>coming.</em></h2>
+      <h2 class="sect__title" id="soon-title">Still to <em>come.</em></h2>
       <p class="sect__note">
-        Address and phone are right, and they are the same everywhere we publish them. The rest of this room, its photographs, what is different about it, and its own menu, is being written. In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
+        Address, phone and hours are right, and they are the same everywhere we publish them.
+        {%- if diffCells %}
+        What this room still needs is its own photographs{% if not gallery.dishes %} and its own menu{% endif %}.
+        {%- else %}
+        The rest of this room, its photographs, what is different about it, and its own menu, is being written.
+        {%- endif %}
+        In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
       </p>
     </header>
   </div>
 </section>
+
+{% include "components/location-faq.njk" %}
 
 {# The noodle line, universal section 6 of the location page template. #}
 <section class="noodle-band" aria-labelledby="band-title">

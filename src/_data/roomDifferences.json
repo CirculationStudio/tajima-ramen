@@ -1,0 +1,38 @@
+{
+  "_note": "The 'what's different here' cells, per room. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated', so every cell below is written for its own room from CLIENT_FACTS.md and none is generated. This is editorial copy, which is why it lives here rather than in locations.json: that file is the NAP source of truth and its own _note forbids adding anything that is not a confirmed NAP value.",
+  "_sourcing": "Every claim traces to CLIENT_FACTS.md. Where a fact is confirmed but its phrasing is constrained, the constraint is recorded on the cell. No cell states an opening hour, a price, a simmer time, or anything about Sam.",
+  "_convoyMercury": "Convoy and Mercury are two miles apart in the same ZIP and SITE_ARCHITECTURE.md records that Google is not cleanly resolving them: localstack.com already lists Convoy at Mercury's address, and Mercury's map-pack share on 'ramen' is 4.1% against Convoy's 26.5%. The two sets below are written deliberately against each other. Convoy is the original, communal, trilingual, okonomiyaki. Mercury is the bar, the scale, the sushi list, the groups. Neither borrows the other's angle. Do not let them converge.",
+  "_maui": "Maui has no entry on purpose. Four of its seven distinguishing fields are null, it has no room photography, and the Noodle Room story is explicitly off limits there. Whether it becomes a menu-shaped page rather than a room-shaped one is an open content decision, not an implementation detail. Leave it until that is decided.",
+
+  "mercury": [
+    { "title": "The full bar.", "body": "Craft cocktails, Japanese whisky, and a full wine list. No other Tajima room is set up this way." },
+    { "title": "The biggest room.", "body": "Around ninety seats and three screens, which is why it is the one that takes group bookings." },
+    { "title": "The sushi list.", "body": "Four sashimi plates and a specialty roll list, the largest sushi programme of the San Diego rooms.", "_constraint": "CLIENT_FACTS.md 2026-08-04: write scale, not exclusivity. East Village has two hand rolls, so Mercury is the biggest, not the only. Open Decision #20: do NOT print a roll count, CLIENT_FACTS says eleven and the live catalog has ten." },
+    { "title": "Groups, by phone.", "body": "Walk in like every other room, or call ahead if there are a lot of you.", "_constraint": "CLIENT_FACTS.md:64. Phone only, groups only, this room only. acceptsReservations stays false in schema." },
+    { "title": "On-site parking.", "body": "Its own lot, off Mercury Street." }
+  ],
+
+  "east-village": [
+    { "title": "Walk to Petco.", "body": "Walking distance from the ballpark, which is most of why this room exists where it does." },
+    { "title": "Padres home games.", "body": "Beer specials and later hours on home game nights.", "_constraint": "CLIENT_FACTS.md:73 and :133. East Village only, and no price: the $3.50 line in the brief was pulled 2026-08-03 and must not come back." },
+    { "title": "Six taps.", "body": "Local craft beer, chosen for the room rather than the group." },
+    { "title": "Built by BASILE.", "body": "The interior is Paul Basile's, and it seats around sixty-four.", "_constraint": "CLIENT_FACTS.md:72. The only named designer on the project." },
+    { "title": "Street and lots.", "body": "Street parking, with paid lots nearby on a game night." }
+  ],
+
+  "crown-point": [
+    { "title": "The Noodle Room.", "body": "The noodles are cut in this building, on a machine brought over from Japan.", "_constraint": "SITE_ARCHITECTURE.md: do NOT publish the Noodle Room's street address on this page. Locality only." },
+    { "title": "The broth leaves here.", "body": "Made every morning in the same building and driven out to all six San Diego rooms before service.", "_constraint": "locations.json:226. Broth to every San Diego location is confirmed. Noodles to every location is NOT. Never widen this." },
+    { "title": "Local beer.", "body": "A short list, weighted to San Diego breweries.", "_constraint": "Brewery names appear in the SITE_ARCHITECTURE.md brief but not in CLIENT_FACTS.md. Do not name a third-party brand here until someone verifies it." },
+    { "title": "Matcha, not beer.", "body": "The non-alcoholic list is matcha-forward, and it is not an afterthought." },
+    { "title": "Two thousand square feet.", "body": "The newest room, open since January 2025." }
+  ],
+
+  "plaza-bonita": [
+    { "title": "Quick-serve.", "body": "Inside Westfield Plaza Bonita, built for a mall pace. The same bowls, faster." },
+    { "title": "No alcohol.", "body": "There is no bar in this room and no happy hour, which is a deliberate answer rather than an omission.", "_constraint": "CLIENT_FACTS.md:98 confirms no alcohol. The stronger 'no happy hour at all' claim in happyHour.json is contradicted by this room's own Toast catalog and is not repeated here." },
+    { "title": "Spanish first.", "body": "Spanish is the first language on this floor, English alongside it.", "_constraint": "CLIENT_FACTS.md:99. The National City demographic figure that explains why stays internal per CLIENT_FACTS.md:281." },
+    { "title": "The only South Bay room.", "body": "Everything else is central or coastal San Diego." },
+    { "title": "Mall hours.", "body": "This room opens and closes with the mall, which is not the pattern the other five run.", "_constraint": "Confirmed 2026-09-09. Never copy the Convoy hours pattern here." }
+  ]
+}
