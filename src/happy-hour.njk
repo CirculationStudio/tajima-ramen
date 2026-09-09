@@ -58,12 +58,26 @@ description: "Happy hour at Tajima Ramen in San Diego. What each room pours, fro
   voice, and "Authentic Japanese roots", which is banned copy. Colour, field
   and badge treatment only.
 
-  NO IMAGERY, and not for want of looking. Checked photos.json again on
-  2026-09-09: there is no unused local photograph of a drink, a bar, or a happy
-  hour plate, and photos.json's _rule scopes every room photograph to its own
-  location, so putting one in each card would give two real rooms and four
-  holding slots. Same call as the mega-menu cards. What this page needs is the
-  documentary shoot, DESIGN_SYSTEM.md open item 3.
+  IMAGERY, AND A CORRECTION. This comment used to say "there is no unused local
+  photograph of a drink, a bar, or a happy hour plate". THAT WAS WRONG. Six
+  exist: three Convoy house mixed drinks and three Convoy margaritas, all
+  1280x853, all sitting in photos.json with the generator's draft alt. The
+  claim was written from the curated sets in roomPhotos.js rather than from the
+  manifest itself, which is the difference between "nobody has selected one"
+  and "none exists". PHOTO_AUDIT.md caught it.
+
+  All six now have reviewed alt. ONE is placed, on Convoy's card, because all
+  six are Convoy photographs and photos.json's _rule is that a photograph
+  reaches a location's surface only if its filename names that location. The
+  other five rooms render no photo rather than borrowing Convoy's, which is the
+  same rule the location galleries follow and the same reason the mega-menu
+  shows one deliberately generic dish rather than two real rooms and four
+  holding slots.
+
+  So one card of six carries a photograph. That is a true picture of what we
+  have, not a design choice, and it resolves the day another room is shot.
+  What this page still needs is the documentary shoot, DESIGN_SYSTEM.md open
+  item 3.
 
   NO STANDALONE ICONS ON THE ROOM CARDS. Happy hour wants a glass, a bottle or
   a tap and the sprite has twelve marks, all of them food or the wordmark.
@@ -162,7 +176,17 @@ description: "Happy hour at Tajima Ramen in San Diego. What each room pours, fro
     <div class="hh-grid">
       {%- for hh in happyHour.locations %}
       {%- set loc = (locations.items | where("id", hh.id)) | first %}
+      {%- set roomDrinks = roomPhotos[hh.id].drinks %}
       <article class="hh-card{% if hh.noAlcohol %} hh-card--plaza{% endif %} reveal">
+        {#- Renders only for a room with its own drinks photography, which is
+            Convoy alone. See roomPhotos.js. -#}
+        {%- if roomDrinks %}
+        {%- set shot = roomDrinks | first %}
+        <figure class="hh-card__photo">
+          <img src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" width="{{ shot.width }}" height="{{ shot.height }}">
+          <figcaption>{{ shot.caption }}</figcaption>
+        </figure>
+        {%- endif %}
         <h3 class="hh-card__name"><a href="{{ loc.url }}">{{ hh.name }}</a></h3>
         <p class="hh-card__tag">{{ hh.tag }}</p>
 

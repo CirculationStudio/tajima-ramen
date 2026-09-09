@@ -242,6 +242,27 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       </figure>
         {%- endif %}
       {%- endfor %}
+      {#-
+        The twelfth cell. menu.json yields eleven photographs at Convoy and the
+        bento is four columns, so the last row was one short. This fills it
+        with a Convoy izakaya plate that is not on the brand menu, which is
+        what the section note above actually promises. Curated in
+        roomPhotos.js, so it goes through the same build guard as every other
+        placed photograph. -#}
+      {%- set extra = roomPhotos[locationId].dishes %}
+      {%- if extra %}
+      {%- for shot in extra %}
+      <figure class="cell shot reveal">
+        <div class="shot__figure">
+          <img class="shot__img" src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" width="{{ shot.width }}" height="{{ shot.height }}">
+        </div>
+        <figcaption class="shot__caption">
+          <span class="shot__name">{{ shot.caption }}</span>
+          {%- if shot.tag %}<span class="shot__tag">{{ shot.tag }}</span>{% endif %}
+        </figcaption>
+      </figure>
+      {%- endfor %}
+      {%- endif %}
     </div>
 
     {#- Convoy does not render components/location-menu.njk (it shows its own

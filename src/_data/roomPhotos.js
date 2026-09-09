@@ -81,6 +81,40 @@ const CURATED = {
         caption: "The corridor papered in manga pages",
         tag: "Maple slats",
       },
+      // FOUR ADDED 2026-09-09, chosen for range rather than count. This room
+      // has 18 more frames with reviewed-quality material in them; these four
+      // are the ones that show something the first three do not. Everything
+      // else in that 18 is another angle on the counter, another night
+      // exterior, or another pass down the same aisle, and photos.json still
+      // carries them with draft alt rather than alt written for a page nobody
+      // is going to put them on.
+      //
+      // The four: the room toward the open kitchen, the ordering counter head
+      // on with its wayfinding, the window side with the booths and the slat
+      // screen, and the manga wall close enough to read.
+      {
+        // Not `wide`. With the existing wide frame first, seven cells lay out
+        // as 6+3+3 then 3+3+3+3, two full rows. Making this one wide too left
+        // a single orphan cell on a third row.
+        file: "tajima-college-heights-interior-dining-room-09.webp",
+        caption: "Down the aisle to the open kitchen",
+        tag: "Before service",
+      },
+      {
+        file: "tajima-college-heights-dining-room-bar-counter-wide.webp",
+        caption: "The counter you order at",
+        tag: "Order here",
+      },
+      {
+        file: "tajima-college-heights-interior-dining-room-03.webp",
+        caption: "The window side, and the slat screen",
+        tag: "Two-tops",
+      },
+      {
+        file: "tajima-college-heights-interior-manga-wall-02.webp",
+        caption: "The manga pages, close enough to read",
+        tag: "Detail",
+      },
     ],
   },
 
@@ -136,6 +170,65 @@ const CURATED = {
         file: "shishito-peppers-large-ev-only.webp",
         caption: "Blistered shishito peppers, glossed with sauce",
         wide: true,
+      },
+    ],
+  },
+
+  // CONVOY DRINKS, added 2026-09-09.
+  //
+  // The only drinks photography in the entire 210-file set, and it is all
+  // Convoy. /happy-hour/ shipped with no imagery on the strength of a comment
+  // in its own markup saying no drink photograph existed in the manifest.
+  // Six did. The comment was written from the curated sets in this file rather
+  // than from photos.json, which is the difference between "not curated" and
+  // "does not exist", and PHOTO_AUDIT.md caught it.
+  //
+  // ONE FRAME, ON CONVOY'S CARD, AND NOWHERE ELSE. photos.json's _rule is that
+  // a photograph reaches a location's surface only if its filename names that
+  // location, so these cannot dress the other five rooms' cards no matter how
+  // much better a six-photo grid would look. Five rooms with no drinks
+  // photography render no photo, which is the same graceful-degradation rule
+  // the galleries follow.
+  //
+  // margaritas-06 is the pick for a card at roughly 350px: three glasses in a
+  // row, high contrast against dark wood, and the silhouettes survive being
+  // shrunk. The overhead crop (margaritas-01) and the four-drink line-ups read
+  // as texture at that size. All six now have reviewed alt and the other five
+  // are waiting on a Convoy surface, most obviously /tajima-convoy/, which has
+  // no drinks imagery either.
+  convoy: {
+    // ONE DISH FRAME, TO FILL THE ONE EMPTY CELL. /tajima-convoy/ renders its
+    // food bento from menu.json, which yields eleven photographs at Convoy.
+    // Eleven cells in a four-column bento is two full rows and a row of three,
+    // so the grid has had a literal hole in its last row since it was built.
+    //
+    // This is the twelfth cell and nothing more. It is NOT a second gallery
+    // and it is not an argument for widening the page into a per-room catalog.
+    //
+    // WHY THIS DISH. Chicken Katsu Bun is not in menu.json, which carries the
+    // brand menu, and that is exactly why it belongs on THIS page: the section
+    // above it promises "an izakaya list that runs deeper here than anywhere
+    // else in the house", and until now the section illustrated that claim
+    // with eleven photographs of the brand menu. It is confirmed at this room
+    // by the client's own current print collateral, the 2026-07 Convoy food
+    // menu in public/menus/, which this page links to: "CHICKEN KATSU BUN,
+    // steamed bun with crispy chicken cutlet glazed in a house sauce,
+    // shredded cabbage, and mayo mustard".
+    //
+    // NO PRICE, and no caption text beyond the dish name, because the price on
+    // that printed menu is per location and menu.json _priceStatus is still
+    // open.
+    dishes: [
+      {
+        file: "tajima-ramen-convoy-chicken-katsu-bun-04.webp",
+        caption: "Chicken Katsu Bun",
+        tag: "Convoy izakaya",
+      },
+    ],
+    drinks: [
+      {
+        file: "tajima-ramen-convoy-margaritas-06.webp",
+        caption: "Photographed at Convoy",
       },
     ],
   },
@@ -354,6 +447,7 @@ export default {
         hero: set.hero ? lookup(set.hero) : null,
         gallery: set.gallery ? set.gallery.map(lookup) : null,
         dishes: set.dishes ? set.dishes.map(lookup) : null,
+        drinks: set.drinks ? set.drinks.map(lookup) : null,
       },
     ]),
   ),

@@ -252,8 +252,13 @@
    --plaza modifier, so the page is not carrying a third treatment for a job
    two have already been written for.
 
-   REMOVED with the redesign: .hh-card__photo, which had no photograph to hold
-   and never will until the documentary shoot; .hh-card.is-highlighted, which
+   .hh-card__photo IS BACK, 2026-09-09. It was removed in the redesign on the
+   stated grounds that it "had no photograph to hold and never will until the
+   documentary shoot". That was wrong: six Convoy drinks photographs were in
+   photos.json the whole time with draft alt. One is placed now, on Convoy's
+   card, and only there, because all six are Convoy.
+
+   REMOVED with the redesign and still gone: .hh-card.is-highlighted, which
    belonged to the six-pill jump nav deleted on 2026-08-05; and the entire
    .hh-facts block, which was the flat list these cards replace.
 ═══════════════════════════════════════════════════════════════════ */
@@ -274,6 +279,31 @@
   transition: border-color var(--duration-base) var(--ease-smooth);
 }
 .hh-card:hover{ border-color: var(--color-red-line); }
+
+/* The photograph, when a room has one of its own. Full-bleed to the card's
+   inner edges rather than inset, so the card reads as a card with a picture in
+   it rather than a picture pasted onto a card. */
+.hh-card__photo{
+  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-2);
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+}
+.hh-card__photo img{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.hh-card__photo figcaption{
+  padding: var(--space-2) var(--space-6) 0;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
 
 .hh-card__name{
   font-family: var(--font-cond);
