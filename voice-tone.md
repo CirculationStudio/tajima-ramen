@@ -116,7 +116,7 @@ This is what Tajima is allowed to say and where each fact comes from. Nothing ou
 - Any founding date other than 2001. Older press says 1994. It is wrong. Do not engage it, do not correct it publicly.
 - Anything about the cancelled 2024 to 2025 Japanese corporate acquisition.
 - Anything about North Park. It is closed. It does not exist in new copy.
-- Carnitas Ramen, or any fusion framing of the brand. Not Japanese-Mexican, not Japanese-Californian, not Baja anything.
+- Any fusion framing of the brand. Not Japanese-Mexican, not Japanese-Californian, not Baja anything. (Carnitas Ramen itself is **not** banned, and used to be listed here as though it were. Brand Positioning says listed, never featured: it stays on the printed menu and on `/menu/` as a plain line, and stays out of marketing photography, social storytelling and hero content. Open Decision #4, resolved 2026-08-04; see `menu.json` `_carnitasNote`.)
 - Any suggestion that Tajima was previously less than it is now.
 - Competitor names. Fine in internal positioning, never in public copy.
 - Employee counts, revenue, or any number nobody has verified.

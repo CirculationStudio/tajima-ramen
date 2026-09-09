@@ -196,7 +196,8 @@ elevated • curated • immersive • culinary journey • authentic (as a clai
 Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late for Ramen"
 
 ### Banned content
-- **No fusion framing.** No Carnitas Ramen anywhere on the site.
+- **No fusion framing.** Never Japanese-Mexican, Japanese-Californian, or Baja anything, in any copy or image.
+- **Carnitas Ramen: listed, never featured.** The rule from Brand Positioning is that it stays on the printed menu, is kept out of marketing photography, social storytelling and website hero content, and phases out naturally. So it appears on `/menu/` as a plain line with `feature: false`, no photo, no callout, no hero, and it appears nowhere else on the site. This line previously read as an outright ban, which was wrong: Open Decision #4 resolved on 2026-08-04 that the dish is active at all seven locations per the live Toast menus. See `menu.json` `_carnitasNote`.
 - **No North Park.** Permanently closed.
 - **No sushi in the brand voice.** Mercury and Maui only, handled location-specifically.
 - **No copy implying the previous product was inferior.**
