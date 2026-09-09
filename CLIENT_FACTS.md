@@ -29,6 +29,16 @@ Source: Tajima Client DNA v1 (May 19, 2026), Tajima Brand Positioning v1 (May 20
 
 ---
 
+## The GBP export, and what may not come out of it
+
+**Source: Connor, Google Business Profile export, 2026-09-09.** It closed `geo` and `sameAs` (open question 8), independently corroborated the hours and the full NAP at all six San Diego locations, and raised four conflicts recorded as open questions 16 to 19.
+
+**THREE THINGS IN THAT EXPORT ARE NOT IMPORTABLE AND DO NOT BECOME SITE COPY.**
+
+1. **The "From the business" descriptions, all six.** They are marketing copy written against the retired positioning. They use "authentic", "must-visit" and "bold flavors", all of which are on the banned list in `voice-tone.md`, and they make unverified claims about seasonal ingredients, rotating specials and locally sourced produce that appear nowhere in this file. **None of it enters page copy, `locations.json`, or schema `description`.** They are GBP assets and they stay there. Being the client's own words does not make them confirmed facts: they are a marketing surface, not a record of the business.
+2. **The `Additional categories` values.** Several read "Authentic Japanese restaurant". That is a Google taxonomy string, not our language, and "authentic" without proof is banned outright. Categories are not mirrored into schema; see open question 17.
+3. **The website URLs.** The export's website fields carry `?utm_source=gbp`. **Schema `url` and the canonical tag are the clean URL with no query string**, or the canonical points at a tracked variant of itself. UTMs live in the GBP field and nowhere else. Cloudflare already strips UTM params at the edge and 301s to the clean URL, per `SITE_ARCHITECTURE.md`.
+
 ## NAP (must be byte-identical everywhere: site, GBP, Yelp, Apple, directories)
 
 There is no single brand NAP. Tajima is six San Diego addresses, and each is its own citation entity. The Convoy address is the canonical **primary** for brand-level purposes only.
@@ -401,7 +411,8 @@ Note what the second story does not do: it does not call the old noodles bad. It
 5. **Carnitas decision.** Blocks the menu page and its schema.
 6. ~~**Convoy suite number.**~~ **RESOLVED 2026-08-03: STE H.** See the correction note under Location 1.
 7. ~~**Exact addresses** for Mercury, East Village, College Heights, Plaza Bonita.~~ **RESOLVED 2026-08-03** from the `SITE_ARCHITECTURE.md` NAP table. All seven are filled in above.
-8. **GPS coordinates and GBP profile URLs, all seven. THESE ARE NOW THE LAST BLOCKED NAP FIELDS.** Everything else in the location schema is populated: address, phone, hours, url, menu, price range, cuisine, parent organisation, breadcrumb. `geo` is null on all seven and `sameAs` carries only two Yelp URLs (Convoy, Maui), so the six locations otherwise have complete schema are each missing exactly these two things. GBP URLs also block the citation cleanup: the Convoy audit scored 25/100 and flagged a generic "Restaurant" secondary category that should become "Noodle Shop". **Ask Connor for: the Google Business Profile URL and the latitude and longitude for each of the seven rooms.** **Phones resolved** 2026-08-03. **Ordering URLs resolved** 2026-08-05 by click-test. **Hours resolved** 2026-09-09, see #9.
+8. ~~**GPS coordinates and GBP profile URLs.**~~ **RESOLVED 2026-09-09 for the six San Diego locations**, from Connor's Google Business Profile export. `geo` is emitted as `GeoCoordinates` on all six Restaurant nodes and each carries its GBP profile link in `sameAs`, ahead of any pre-existing Yelp entry. **Maui is still open**: it was not in the export, its `geo` stays null and it emits no coordinates rather than a guess. **One follow-up, and it is a quality question rather than a blocker.** The supplied links are `maps.app.goo.gl` share URLs, which are Google redirects. They resolve and they are far better than nothing, but a resolved Google Maps place URL, or the CID, is the stronger `sameAs` value for a canonical profile reference. **Ask Connor for the canonical place URLs or the CIDs.** They were deliberately not resolved on our side: deriving a URL and putting it in schema is not the same as publishing one the client confirmed, and this is a brand whose Convoy citation audit scored 25/100. Swapping them later changes nothing but the string. The citation cleanup itself is still open: that audit also flagged a generic "Restaurant" secondary category that should become "Noodle Shop". See #16.
+
 9. ~~**Authoritative hours** per location.~~ **RESOLVED 2026-09-09 by Connor for six of seven.** `openingHoursSpecification` is emitted for College Heights, East Village, Crown Point, Mercury, Convoy and Plaza Bonita, built from `locations.json` so the visible NAP row and the schema graph cannot drift. **Maui is still open**: hours were not supplied, it stays null, and it emits no hours at all rather than borrowing a sibling's pattern. Note that this resolves OPERATING hours only. **Happy hour windows remain unconfirmed at every location** and are a separate ask; see `happyHour.json` `_status`.
 10. **Tijuana operating count** and **Tijuana / Maui site scope.** Blocks the schema graph and the locations index.
 11. **US legal entity name.** Blocks `Organization.legalName`.
@@ -409,3 +420,27 @@ Note what the second story does not do: it does not call the old noodles bad. It
 13. **Public brand email and CMS.** Blocks contact page and migration planning.
 14. **Staff consent** for named profiles. Blocks the crew content theme.
 15. **Photography.** The documentary Noodle Room and commissary shoot does not exist yet. It is the asset every page depends on, and no page ships with placeholder or AI imagery.
+16. **THE GBP OPENING DATES CONTRADICT THIS FILE AT FIVE OF SIX LOCATIONS. Nothing was changed and nothing is published.** From Connor's Google Business Profile export, 2026-09-09:
+
+    | Location | GBP export | This file |
+    |---|---|---|
+    | Convoy | 2006-04-01 | **2001** |
+    | Mercury | 2006-12-01 | 2007 |
+    | East Village | 2015-12-01 | 2016 |
+    | College Heights | 2020-03-18 | 2020 (agrees) |
+    | Crown Point | 2024-12-14 | 2025-01-12 |
+    | Plaza Bonita | 2022-11-17 | late 2020 |
+
+    **The Convoy row is the serious one and it is not a date field, it is the brand.** 2001 is the founding year, the "since 2001" slogan, the twenty-five years, and the whole story on `/about/` and `/tajima-convoy/`. It also matches the 2025 Japanese corporate filing that this file already cites for Sam.
+
+    **A GBP opening date frequently records when the listing was created or claimed, not when the business opened**, which would explain a 2006 value on a room that opened in 2001 and a 2022 value on a room that opened in late 2020. That makes it most likely an artifact of the platform rather than evidence about the business. It is a question for the client, not a correction to make.
+
+    This file already documents a separate 1994 date discrepancy in older press that we are instructed not to engage. This is the same class of thing and gets the same treatment.
+
+    **Ask Connor:** when did each room actually open, and is the GBP date the opening date or the listing date? Until answered, `locations.json` `opened` is unchanged, and the only date the site publishes anywhere is 2001 for Convoy and January 12 2025 for Crown Point, both of which predate this export and neither of which changed.
+
+17. **GBP primary categories are inconsistent across the six rooms.** College Heights and Mercury are set to "Japanese restaurant"; Convoy, East Village, Crown Point and Plaza Bonita are set to "Ramen restaurant". That is a live local-SEO inconsistency on the client's own profiles, and it is worth more than most on-site work: the primary category is one of the strongest ranking inputs in the map pack, and "ramen [neighborhood]" is the money query. **This is a client action on Google. It is not mirrored into schema and must not be**: `servesCuisine` stays `["Japanese", "Ramen"]` on all seven, which is a description of the food and not a Google taxonomy string. Several `Additional categories` values in the export read "Authentic Japanese restaurant"; that is Google's string, not our language, and it does not reach the site under any circumstances.
+
+18. **The GBP `Administrative area` column is internally inconsistent in the export itself**, writing `CA` for three locations and `California` for three. `locations.json` has always written `CA`, which is the correct `PostalAddress` value, so nothing changed on our side. Their GBP entries should be made consistent. Client action.
+
+19. **Crown Point and Plaza Bonita have no order-ahead link on their Google Business Profiles.** Both have a working, click-tested Toast URL in `locations.json` and both link it from their own pages, so this is not a site defect. It is an order button missing from the client's own Google listing, on the two newest rooms. Client action, and the highest-value one on this list. Of the four rooms that do have a link, three (Convoy, East Village, Mercury) use `bit.ly` redirects; the direct Toast URLs in `locations.json` were kept over those, see `_orderUrlStatus`.

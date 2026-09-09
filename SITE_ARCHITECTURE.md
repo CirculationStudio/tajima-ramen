@@ -516,7 +516,7 @@ Read this plus the individual brief below it.
 
 **Constraints:**
 - **This page is doing the worst work of the six on the money keyword despite being the flagship.** ARP 5.47, SoLV 26.5%, in the densest ramen market in San Diego (Menya Ultra, RakiRaki, Santouka all within the grid). It is competing with the category, not with the other Tajimas. Content quality matters more here than anywhere.
-- **Must not be a near-duplicate of Mercury.** They are two miles apart, same ZIP, and `localstack.com` already lists Convoy at Mercury's address while `frankiapp.com` has Convoy in Los Angeles. Google is not cleanly resolving these entities. Write them as different places.
+- **Must not be a near-duplicate of Mercury.** They are close neighbours in the same ZIP, and **the "two miles" this document repeats in three places is wrong: CORRECTED 2026-09-09.** Connor's Google Business Profile coordinates put them 0.57 miles apart in a straight line (32.82572,-117.15543 and 32.82051,-117.14784). The figure was published as a section heading on `/tajima-convoy/` and in two sentences in `roomPlaces.json`; all three are corrected and the number is not replaced with a computed one. See `_convoyMercuryDistance` in `src/_data/roomPlaces.json`. The strategic point below is unaffected and is arguably stronger: two rooms that close are more likely to be conflated, not less. Evidence: `localstack.com` already lists Convoy at Mercury's address while `frankiapp.com` has Convoy in Los Angeles. Google is not cleanly resolving these entities. Write them as different places.
 - Three conflicting Yelp URLs are in circulation. **BLOCKED** on `sameAs`. See Open Decisions.
 - GBP secondary categories should add `Noodle shop` (currently the only location that has it; all seven should).
 
@@ -545,7 +545,7 @@ Read this plus the individual brief below it.
 **Schema:** `servesCuisine` adds `Sushi`. Amenities add full bar and on-site parking. **`acceptsReservations` stays `false`.** Group reservations are phone-only at one location and schema has no honest way to express that.
 
 **Constraints:**
-- **Mercury is invisible in the pack. SoLV 4.1% on "ramen."** Convoy, two miles away, is at 26.5%. Same market. This is the clearest evidence of Convoy/Mercury cannibalization on the project.
+- **Mercury is invisible in the pack. SoLV 4.1% on "ramen."** Convoy, half a mile away (see the distance correction above), is at 26.5%. Same market. This is the clearest evidence of Convoy/Mercury cannibalization on the project.
 - **Mercury ranks worst of all six for `izakaya` (ARP 12.84)** despite being the only izakaya. Whatever repositioning is intended is not landing.
 - **Must not be a near-duplicate of Convoy.**
 - Mercury's Facebook page (`facebook.com/TajimaMercury`) has no address at all, flagged "not found" by the citation tracker. Mercury has **225 tracked citations with 36 duplicates** versus Convoy's 84 with 6. `acompio.us` has it in ZIP 92103 (Hillcrest).
@@ -1121,7 +1121,7 @@ Connor switched College Heights and Mercury to `Japanese restaurant` primary to 
 
 - **Neither Japanese-primary location wins `japanese restaurants`.** College Heights ARP 13.88, Mercury 13.25. Convoy, with `Ramen restaurant` primary, ranks **better** at 12.00.
 - **Nobody ranks for `japanese restaurants`.** All six are 12-15 ARP, ~2% SoLV.
-- **Convoy vs Mercury is the cleanest natural experiment available.** Same market, two miles apart. Convoy (Ramen primary) ARP 5.47, SoLV 26.5%. Mercury (Japanese primary) ARP 9.54, SoLV 4.1%.
+- **Convoy vs Mercury is the cleanest natural experiment available.** Same market, half a mile apart (see the distance correction on the `/tajima-convoy/` brief). Convoy (Ramen primary) ARP 5.47, SoLV 26.5%. Mercury (Japanese primary) ARP 9.54, SoLV 4.1%.
 - **`ramen` is the only keyword Tajima owns in the pack.** SoLV is ~2% for restaurants, japanese restaurants, asian restaurants, and happy hour across all six. Ramen ranges 4% to 94%.
 
 **Recommendation: revert both to `Ramen restaurant`, and add `Noodle shop` as a secondary on all seven** (only Convoy has it today). The test did not produce a win on its target category and Mercury is at 4% SoLV on the only keyword that matters. Caveat honestly: College Heights holds ARP 2.06 on `ramen` with Japanese primary, so the category is not the dominant variable. Market density is. Convoy and Mercury are losing because they sit inside San Diego's densest ramen market, next to Menya Ultra and RakiRaki, not because of a dropdown.

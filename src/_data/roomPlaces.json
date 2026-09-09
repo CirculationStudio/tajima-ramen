@@ -1,20 +1,20 @@
 {
   "_note": "Neighborhood and landmark prose, one entry per location. Section 1 of the location page template in SITE_ARCHITECTURE.md is 'Hero. This room, this neighborhood.', and until now the only geography on a location page was the street address in the plate. A local page that never says where it is, in words, is asking a search engine to work it out from a postal code.",
-  "_rule": "EVERY SENTENCE HERE TRACES TO CLIENT_FACTS.md OR locations.json. No distances beyond the two miles between Convoy and Mercury, which SITE_ARCHITECTURE.md already states. No drive times, no freeway exits, no transit lines, no cross streets, none of which anyone has confirmed. Where a room has no confirmed landmark, it gets its street and its neighborhood and nothing more, which is still more than it had.",
+  "_rule": "EVERY SENTENCE HERE TRACES TO CLIENT_FACTS.md OR locations.json. NO DISTANCES AT ALL, corrected 2026-09-09. This used to permit the one figure SITE_ARCHITECTURE.md states, the two miles between Convoy and Mercury, and that figure is wrong: the coordinates Connor supplied on 2026-09-09 put them 0.57 miles apart in a straight line. See _convoyMercuryDistance. No distance, drive time, freeway exit or transit line goes in this file. Geography here is neighborhood and landmark, both of which CLIENT_FACTS.md confirms. No drive times, no freeway exits, no transit lines, no cross streets, none of which anyone has confirmed. Where a room has no confirmed landmark, it gets its street and its neighborhood and nothing more, which is still more than it had.",
   "_html": "Bodies carry inline HTML and are rendered with `| safe`. They are hand written in this file and never from user input.",
   "_links": "The nearest-neighbour rule in SITE_ARCHITECTURE.md is per location and is NOT all six. Mercury links Convoy, Convoy links Mercury, and nobody else links a sibling. Crown Point carries the prominent /noodle-room/ link its brief requires. Maui links nothing in San Diego, per its brief: 'Do not cross-link Maui into the San Diego set.'",
   "convoy": {
     "title": "On <em>Convoy Street.</em>",
     "body": [
       "The room sits on Convoy Street in Kearny Mesa, in San Diego's Pan-Asian district, and it has held its corner of it since 2001. Lot parking.",
-      "<a class=\"sect__link\" href=\"/tajima-mercury/\">Tajima Ramen Mercury</a> is two miles up the road, and it is the bigger room."
+      "<a class=\"sect__link\" href=\"/tajima-mercury/\">Tajima Ramen Mercury</a> is the other Kearny Mesa room, a short way up the road, and it is the bigger of the two."
     ]
   },
   "mercury": {
     "title": "Kearny Mesa, on <em>Mercury Street.</em>",
     "body": [
       "Mercury is the Kearny Mesa room, on Mercury Street, and it is the one with parking on site.",
-      "It is two miles from <a class=\"sect__link\" href=\"/tajima-convoy/\">the original on Convoy Street</a>. Two rooms, two miles apart, and not the same room twice: Convoy is communal tables and the expanded izakaya list, Mercury is the ninety-seat room with the full bar and the sushi programme."
+      "It is a short way from <a class=\"sect__link\" href=\"/tajima-convoy/\">the original on Convoy Street</a>, and the two are not the same room twice: Convoy is communal tables and the expanded izakaya list, Mercury is the ninety-seat room with the full bar and the sushi programme."
     ]
   },
   "east-village": {
@@ -51,5 +51,6 @@
       "Our only room outside California, on South Kihei Road in Kihei.",
       "It carries the full ramen menu, sushi rolls, and izakaya plates, with dishes of its own that the San Diego rooms do not run."
     ]
-  }
+  },
+  "_convoyMercuryDistance": "CORRECTED 2026-09-09, and the correction came from the GBP import rather than from anyone noticing. SITE_ARCHITECTURE.md says Convoy and Mercury are 'two miles apart' in three separate places, and this file and /tajima-convoy/ both published it. Connor's coordinates make it 0.57 miles in a straight line (32.82572,-117.15543 to 32.82051,-117.14784). Driving the Kearny Mesa grid is longer than that but nowhere near two miles.\n\nTHE NUMBER IS REMOVED AND NOT REPLACED. Computing a driving distance from two points and publishing it is the same mistake as publishing a tap count read off a catalog: a figure we derived, presented as a fact the client confirmed. What survives is what CLIENT_FACTS.md actually says, which is that both rooms are in Kearny Mesa, and that is also the part doing the SEO work. The strategic point in SITE_ARCHITECTURE.md is unaffected and is arguably stronger: two rooms this close, in the same ZIP, are even more likely to be conflated by Google, which is exactly why the two pages must not read as each other."
 }

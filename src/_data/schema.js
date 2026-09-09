@@ -10,11 +10,21 @@
 //   - No `acceptsReservations: true`, no ReserveAction. SCHEMA.md rule 4.
 //   - No `legalName`. SITE_ARCHITECTURE.md Open Decision #10 has the US
 //     operating entity unresolved (the footer and the DNA disagree).
-//   - `sameAs` carries Instagram only. CLIENT_FACTS.md marks Facebook
-//     "(verify)" and Open Decision #7 has three conflicting candidates.
-//   - No `openingHoursSpecification`, no `telephone`, no `geo`, no per-location
-//     `address`. Every one of those is CONFIRM-blocked in CLIENT_FACTS.md.
-//     They get added when locations.json gets real values, not before.
+//   - The ORGANIZATION's `sameAs` carries Instagram only. CLIENT_FACTS.md
+//     marks Facebook "(verify)" and Open Decision #7 has three conflicting
+//     candidates. The per-room Restaurant nodes are a separate list and now
+//     carry each room's own GBP profile link.
+//   - The Organization node carries no `openingHoursSpecification`,
+//     `telephone`, `geo` or `address`, and that is by design and not a block:
+//     Tajima is six addresses and none of them is the brand's address.
+//     SITE_ARCHITECTURE.md is explicit that there is no single brand NAP.
+//
+//     CORRECTED 2026-09-09. This list used to say those four fields were
+//     CONFIRM-blocked in CLIENT_FACTS.md, which conflated two different
+//     things and went stale twice over. The per-location values are no longer
+//     blocked at all: hours landed 2026-09-09 from Connor, and geo and the
+//     GBP profile links landed the same day from his Google Business Profile
+//     export. All three are emitted on the Restaurant nodes below.
 //
 // The @id namespace follows SITE_ARCHITECTURE.md, not SCHEMA.md's example
 // block: SCHEMA.md was written before the traffic data and uses
@@ -212,7 +222,16 @@ const menuEntity = buildMenu({
 // Emitted from locations.json only, never from a default or a sibling's
 // pattern, so the page and the graph cannot drift.
 //
-// geo is still CONFIRM-blocked: null on all seven.
+// geo is emitted for the six San Diego rooms, unblocked 2026-09-09 by
+// Connor's Google Business Profile export. Maui was not in the export and
+// stays null, so it emits no GeoCoordinates node rather than a placeholder.
+// Coordinates are passed through from locations.json exactly as supplied, not
+// rounded: schema.org takes decimal degrees and precision is the whole point
+// of the field for a map pack.
+//
+// sameAs now carries each room's GBP profile link ahead of any Yelp entry.
+// Those links are maps.app.goo.gl share URLs rather than canonical place
+// URLs; see _geoNote in locations.json for why they were not resolved here.
 //
 // `menuId` points the room at its own Menu entity where one exists. A stub
 // still points at the brand menu, which is the honest floor while its page
@@ -269,6 +288,13 @@ function restaurant(id, menuId = `${site.url}/menu/#menu`) {
   ];
   if (loc.phone) entity.telephone = loc.phone;
   if (loc.sameAs && loc.sameAs.length) entity.sameAs = loc.sameAs;
+  if (loc.geo && typeof loc.geo.latitude === "number" && typeof loc.geo.longitude === "number") {
+    entity.geo = {
+      "@type": "GeoCoordinates",
+      latitude: loc.geo.latitude,
+      longitude: loc.geo.longitude,
+    };
+  }
   if (loc.hours && loc.hours.length) {
     entity.openingHoursSpecification = loc.hours.map((rule) => ({
       "@type": "OpeningHoursSpecification",
