@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-5);
+  gap: var(--space-4) var(--space-5);
 }
 
 /* --------------------------------------------------------------------------
@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: clamp(var(--space-4), 2.5vw, var(--space-7));
+  gap: var(--space-3) clamp(var(--space-4), 2.5vw, var(--space-7));
 }
 
 .hdr__nav-link {
@@ -201,17 +201,36 @@
   }
 }
 
-@media (max-width: 30rem) {
+/* WRAP BREAKPOINT, and it has to be 36rem, not the 30rem it used to be.
+
+   Measured: logo, gutters and the five nav items need 561px of layout
+   viewport. The old rule fired at 30rem (480px), so between roughly 466px and
+   561px the header could neither fit nor wrap, and every page scrolled
+   horizontally in that band. 36rem (576px) clears 561 with a small margin.
+
+   This is NOT a phone-width bug, which is what it first looked like: below
+   466px the old rule did fire and the header wrapped correctly. The band is
+   large phones in landscape, small tablets, foldables, and any desktop window
+   dragged narrow. Verified with same-origin iframes, because headless Chrome
+   clamps its own layout viewport to about 485px and will not reproduce
+   anything narrower. */
+@media (max-width: 36rem) {
   .hdr__in {
     flex-wrap: wrap;
+  }
+
+  .hdr__nav {
+    flex-wrap: wrap;
+  }
+
+  .hdr__in {
     gap: var(--space-3);
   }
 
   .hdr__nav {
     width: 100%;
     justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: var(--space-4) var(--space-5);
+    gap: var(--space-3) var(--space-4);
   }
 
   .hdr__nav-link--cta {
