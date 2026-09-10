@@ -73,7 +73,8 @@
     },
     {
       "title": "Two thousand square feet.",
-      "body": "The newest room, open since January 2025."
+      "body": "The newest room, open since 2024.",
+      "_constraint": "YEAR CORRECTED 2026-09-10: this read 'January 2025', from a 2025 Japanese corporate filing. The client confirmed 2024 and GBP records 2024-12-14. The month is dropped because the year is confirmed and the month is not."
     }
   ],
   "plaza-bonita": [

@@ -21,7 +21,7 @@
     "title": "Walking distance from <em>Petco Park.</em>",
     "body": [
       "The room is on E Street in East Village, downtown, walking distance from Petco Park. Street parking, and paid lots nearby.",
-      "It opened in 2016, seats roughly sixty-four, and the interior was built by Paul Basile of BASILE Studio."
+      "It opened in 2015, seats roughly sixty-four, and the interior was built by Paul Basile of BASILE Studio."
     ]
   },
   "college-heights": {
@@ -52,5 +52,6 @@
       "It carries the full ramen menu, sushi rolls, and izakaya plates, with dishes of its own that the San Diego rooms do not run."
     ]
   },
-  "_convoyMercuryDistance": "CORRECTED 2026-09-09, and the correction came from the GBP import rather than from anyone noticing. SITE_ARCHITECTURE.md says Convoy and Mercury are 'two miles apart' in three separate places, and this file and /tajima-convoy/ both published it. Connor's coordinates make it 0.57 miles in a straight line (32.82572,-117.15543 to 32.82051,-117.14784). Driving the Kearny Mesa grid is longer than that but nowhere near two miles.\n\nTHE NUMBER IS REMOVED AND NOT REPLACED. Computing a driving distance from two points and publishing it is the same mistake as publishing a tap count read off a catalog: a figure we derived, presented as a fact the client confirmed. What survives is what CLIENT_FACTS.md actually says, which is that both rooms are in Kearny Mesa, and that is also the part doing the SEO work. The strategic point in SITE_ARCHITECTURE.md is unaffected and is arguably stronger: two rooms this close, in the same ZIP, are even more likely to be conflated by Google, which is exactly why the two pages must not read as each other."
+  "_convoyMercuryDistance": "CORRECTED 2026-09-09, and the correction came from the GBP import rather than from anyone noticing. SITE_ARCHITECTURE.md says Convoy and Mercury are 'two miles apart' in three separate places, and this file and /tajima-convoy/ both published it. Connor's coordinates make it 0.57 miles in a straight line (32.82572,-117.15543 to 32.82051,-117.14784). Driving the Kearny Mesa grid is longer than that but nowhere near two miles.\n\nTHE NUMBER IS REMOVED AND NOT REPLACED. Computing a driving distance from two points and publishing it is the same mistake as publishing a tap count read off a catalog: a figure we derived, presented as a fact the client confirmed. What survives is what CLIENT_FACTS.md actually says, which is that both rooms are in Kearny Mesa, and that is also the part doing the SEO work. The strategic point in SITE_ARCHITECTURE.md is unaffected and is arguably stronger: two rooms this close, in the same ZIP, are even more likely to be conflated by Google, which is exactly why the two pages must not read as each other.",
+  "_openedYears": "Years in this file come from locations.json `opened`, which the client confirmed on 2026-09-10. East Village was corrected here from 2016 to 2015 in that pass. College Heights stays 2020, which was already right. No other entry publishes a year."
 }

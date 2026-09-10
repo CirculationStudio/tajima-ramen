@@ -4,41 +4,46 @@
   "url": "https://tajimaramen.com",
   "locale": "en",
   "timezone": "America/Los_Angeles",
-
   "founded": "2001",
   "foundedIn": "Convoy",
   "yearsInBusiness": 25,
-
   "logo": {
     "src": "https://cdn.circulationstudio.com/tajima-temp/Tajima%20Branding/Tajima%20Logo%20red%20logo%20white%20text.png",
     "alt": "Tajima Ramen"
   },
-
   "social": {
     "instagram": "https://www.instagram.com/tajimaramen/"
   },
-
   "_themeNote": "v2 reverses the v1 'night is permanent' rule: light and dark both ship, day is the default, and the toggle is manual (no clock, no prefers-color-scheme). `mode` here is the server-rendered default and the no-JS answer; _includes/components/theme-init.njk corrects it from localStorage before first paint. Pages not yet migrated to the v2 ramp pin `mode: night` in their own front matter; those pins come off per Phase 4 batch.",
   "theme": {
     "mode": "day",
     "fonts": "brand",
     "pattern": "on"
   },
-
   "_statsNote": "Same rule as the footer spec strip. The reference concept's home stat bar read '8 Ramen houses' and '12h Tonkotsu simmer'. Both are corrected here: CLIENT_FACTS.md forbids publishing a global location total, and no simmer time is confirmed anywhere. Do not revert.",
   "stats": [
-    { "num": "25", "label": "Years on Convoy" },
-    { "num": "6", "label": "San Diego rooms" },
-    { "num": "2", "label": "Noodle types" },
-    { "num": "1", "label": "Noodle Room" }
+    {
+      "num": "25",
+      "label": "Years on Convoy"
+    },
+    {
+      "num": "6",
+      "label": "San Diego rooms"
+    },
+    {
+      "num": "2",
+      "label": "Noodle types"
+    },
+    {
+      "num": "1",
+      "label": "Noodle Room"
+    }
   ],
-
-  "_sloganNote": "EXACT STRING, per DESIGN_SYSTEM.md 'Copy constants'. 'Housemade' is one word with no hyphen, a deliberate exception to the house-made spelling in voice-tone.md. Do not 'correct' it, and do not correct other instances to match. OPEN, ONE CLIENT ANSWER RESOLVES ALL SEVEN: 'crafted daily' and its siblings assert a noodle cadence that CLIENT_FACTS.md does not confirm (it confirms the daily cadence for the BROTH only). Five templates carry a comment explaining why the claim was written out of their copy: src/locations.njk, src/about.njk, src/noodle-room.njk, src/tajima-convoy.njk, and formerly src/index.njk (its comment annotated a section the v2 rebuild removed; the caution is restated at the top of the new file). Two live claims now publish the cadence and are the ones to re-check first: src/index.njk trio card 'Cut daily in the Noodle Room', and src/index.njk locations lede 'cut that morning in Crown Point'. Ask Sam how often noodles are actually cut, then either confirm all seven or rewrite them together.",
+  "_sloganNote": "EXACT STRING, per DESIGN_SYSTEM.md 'Copy constants'. 'Housemade' is one word with no hyphen, a deliberate exception to the house-made spelling in voice-tone.md. Do not 'correct' it, and do not correct other instances to match.\n\nCADENCE CONFIRMED 2026-09-09 by the client: house-made noodles, crafted daily, is accurate at ALL locations, MAUI INCLUDED. This closes what was an open question across seven surfaces. The five templates that carried a caution explaining why the claim had been written out of their copy (locations.njk, about.njk, noodle-room.njk, tajima-convoy.njk, index.njk) no longer carry it. The two live claims that were shipping pending an answer, index.njk's trio card 'Cut daily in the Noodle Room' and its locations lede 'cut that morning in Crown Point', are confirmed and stay as written. Nothing had to be rewritten: the copy was cautious, not wrong.\n\nWHAT THIS DOES NOT ANSWER, and the distinction matters because the two questions have been travelling together. THE ROLLOUT CLAIM IS STILL OPEN (SITE_ARCHITECTURE.md Open Decision #2): whether every bowl at every location is served with our own noodles is a different sentence from how often those noodles are made. Do not read this confirmation as permission to write 'every location' or 'whichever room you walk into'.\n\nMaui's inclusion also bears on Open Decision #1, which was blocked on exactly this question. NOT RESOLVED HERE: see CLIENT_FACTS.md.",
   "slogan": {
     "before": "Housemade noodles, ",
     "emphasis": "crafted daily."
   },
-
   "_footerRenderNote": "footer.epitaph and footer.spec are NO LONGER RENDERED. The footer was trimmed to slogan, nav and colophon because the epitaph and the slogan were two taglines doing one job and the spec strip repeated facts stated in body copy elsewhere (all four verified present on other pages before removal). The data and its provenance notes are kept deliberately: the figures are hard-won and _specNote records why two of them differ from the concept. Do not delete them, and do not re-add the blocks without a reason to.",
   "footer": {
     "epitaph": {
@@ -48,10 +53,22 @@
     },
     "_specNote": "DO NOT change these figures without a source in CLIENT_FACTS.md. Two differ from the reference concept on purpose. (1) The concept read '8 Houses'. CLIENT_FACTS.md 'Verified-versus-flagged' says write 'six San Diego locations' and do NOT publish a global total until the live site's location-count contradiction is fixed. (2) The concept read '12h Tonkotsu'. No simmer time is confirmed anywhere in CLIENT_FACTS.md; that number is invented. '2 Noodle Types' is confirmed in the Sam video transcript (ramen noodle and spinach noodle). See voice-tone.md Claims Inventory.",
     "spec": [
-      { "num": "25", "label": "Years" },
-      { "num": "6", "label": "San Diego" },
-      { "num": "2", "label": "Noodle Types" },
-      { "num": "1", "label": "Noodle Room" }
+      {
+        "num": "25",
+        "label": "Years"
+      },
+      {
+        "num": "6",
+        "label": "San Diego"
+      },
+      {
+        "num": "2",
+        "label": "Noodle Types"
+      },
+      {
+        "num": "1",
+        "label": "Noodle Room"
+      }
     ],
     "region": "San Diego, CA"
   }

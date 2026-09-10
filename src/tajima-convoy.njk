@@ -102,23 +102,34 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
     </div>
 
     {#
-      ALT AND CAPTION CORRECTED in the v2 port. Both said "storefront"; the
-      photograph is the dining room, and it shows the communal table this page
-      goes on to describe. Nothing about a storefront is in the frame.
+      THE WORDPRESS HOTLINK IS GONE, 2026-09-10, AND THAT CLOSES A LAUNCH
+      BLOCKER. This <figure> loaded its photograph from tajimaramen.com, the
+      live site this project replaces, which meant the highest-traffic page on
+      the build could not survive the old site being taken down, in either
+      order. It was the last remote image outside our own origin.
 
-      OPEN, and not fixable here: this is the only image in the whole build
-      loaded from tajimaramen.com, the live WordPress site this project
-      replaces. It is not in photos.json and has no local copy, and there is no
-      Convoy room photograph anywhere in public/images/photo/ to swap in (only
-      dishes). It needs to come out of the documentary shoot, DESIGN_SYSTEM.md
-      Open Item 3. Until then the page depends on the old site staying up.
+      What replaces it is a real photograph of this room, supplied by the
+      client at review and committed to public/images/photo/. It is
+      machine-upscaled and flagged `aiUpscaled` in photos.json with the whole
+      story. It is not AI-generated imagery and it is not a placeholder;
+      DESIGN_SYSTEM.md draws that distinction under Banned content. Replace it
+      when the documentary shoot lands.
+
+      It comes through roomPhotos.js like every other placed photograph, so it
+      passes the same build guards, including the one that fails the build on
+      unreviewed alt.
+
+      The alt and caption said "storefront" until the v2 port. The photograph
+      is the dining room, and it shows the communal table this page goes on to
+      describe.
     #}
+    {%- set convoyHero = roomPhotos[locationId].hero %}
     <figure class="page-hero__photo">
       <img class="page-hero__photo-img"
-        src="https://tajimaramen.com/wp-content/uploads/2022/06/Tajima-Convoy-3-2.jpg"
-        alt="The Convoy dining room, a long communal table with metal chairs under a wooden coffered ceiling, a black and red brush mural along one wall, and the bar running down the other side"
-        loading="lazy" width="900" height="600">
-      <figcaption class="page-hero__photo-cap">The Convoy dining room</figcaption>
+        src="{{ convoyHero.src }}"
+        alt="{{ convoyHero.alt }}"
+        loading="lazy" width="{{ convoyHero.width }}" height="{{ convoyHero.height }}">
+      <figcaption class="page-hero__photo-cap">{{ convoyHero.caption }}</figcaption>
     </figure>
   </div>
 </section>
@@ -278,8 +289,9 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   Universal section 6 of the location page template: one line saying the
   noodles are made in our own room, linking to /noodle-room/.
 
-  Same rewrite as /locations/. The concept's "Homemade noodles, crafted daily"
-  asserts an unconfirmed cadence.
+  The cadence caution that stood here is gone, 2026-09-09: the client confirmed
+  crafted daily at all locations. The copy below is unchanged, because it was
+  never wrong, only cautious.
 #}
 {% include "components/location-faq.njk" %}
 

@@ -18,7 +18,13 @@ description: "Tajima's Vegan Ramen, built on house-made spinach noodles from our
   Do not frame it as new." The 2017 runner-up is eight years old. Nothing here
   presents the vegan bowl as a recent addition or as a response to anything.
 
-  The dish, its ingredients, and its price come from menu.json. Nothing about
+  PRICE REMOVED 2026-09-10 with the prices on /menu/. This page is part of the
+  menu section and was carrying the same stale brand figure in its caption. The
+  client's instruction was prices off the main menu page; extending it here is
+  a judgement call, and it is the safe direction: removing a price cannot
+  publish a wrong one.
+
+  The dish and its ingredients come from menu.json. Nothing about
   this bowl is written here.
 
   BRIEF SECTION 4 IS NOT BUILT. "Where to get it. Locations from menu.json
@@ -64,7 +70,7 @@ description: "Tajima's Vegan Ramen, built on house-made spinach noodles from our
         <div class="shot__figure">
           <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="eager" fetchpriority="high" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
         </div>
-        <figcaption class="shot__caption">{{ dish.name }} &middot; ${{ dish.price }}</figcaption>
+        <figcaption class="shot__caption"><span class="shot__name">{{ dish.name }}</span></figcaption>
       </figure>
 
       {#

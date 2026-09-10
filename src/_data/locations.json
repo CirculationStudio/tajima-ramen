@@ -11,7 +11,7 @@
       "schemaId": "https://tajimaramen.com/tajima-convoy/#restaurant",
       "region": "san-diego",
       "neighborhood": "Kearny Mesa",
-      "opened": "2001",
+      "opened": 2001,
       "address": {
         "street": "4681 Convoy Street STE H",
         "streetTbc": null,
@@ -72,7 +72,7 @@
       "schemaId": "https://tajimaramen.com/tajima-mercury/#restaurant",
       "region": "san-diego",
       "neighborhood": "Kearny Mesa",
-      "opened": "2007",
+      "opened": 2006,
       "address": {
         "street": "4411 Mercury Street #110",
         "streetTbc": null,
@@ -122,7 +122,7 @@
       "schemaId": "https://tajimaramen.com/tajima-east-village/#restaurant",
       "region": "san-diego",
       "neighborhood": "Downtown",
-      "opened": "2016",
+      "opened": 2015,
       "address": {
         "street": "901 E Street",
         "streetTbc": null,
@@ -172,7 +172,7 @@
       "schemaId": "https://tajimaramen.com/tajima-college-heights/#restaurant",
       "region": "san-diego",
       "neighborhood": "College Area",
-      "opened": "2020",
+      "opened": 2020,
       "address": {
         "street": "6061 El Cajon Boulevard Suite 2",
         "streetTbc": null,
@@ -225,7 +225,7 @@
       "schemaId": "https://tajimaramen.com/tajima-crown-point/#restaurant",
       "region": "san-diego",
       "neighborhood": "Crown Point",
-      "opened": "2025",
+      "opened": 2024,
       "address": {
         "street": "3782 Ingraham Street",
         "streetTbc": null,
@@ -275,7 +275,7 @@
       "schemaId": "https://tajimaramen.com/tajima-plaza-bonita/#restaurant",
       "region": "san-diego",
       "neighborhood": "National City",
-      "opened": "2020",
+      "opened": 2021,
       "address": {
         "street": "3030 Plaza Bonita Road #2445",
         "streetTbc": null,
@@ -369,5 +369,6 @@
   "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim.",
   "_orderUrlStatus": "VERIFIED 2026-08-05 by click-test, all seven. Formerly the biggest launch blocker on the build. Every URL now uses ONE pattern, order.toasttab.com/online/<slug>, which resolves the two-competing-patterns problem (/v2/online-order versus /v3) SITE_ARCHITECTURE.md flagged. It is the same set the 2026-08-04 live catalog pull used, recorded as _source in each src/_data/toastMenus/*.json. Two slugs are knowingly wrong and knowingly kept, see orderUrlNote on crown-point and plaza-bonita: the slug is Toast internal routing, not a NAP value, and editing either one breaks the cart. Maui now has a URL; it previously had none. The Locations mega menu links these directly. /order-online/ remains a real page and reads the same field, so there is still one place to change a URL.\n\nRECONCILED AGAINST GBP 2026-09-09, AND NOTHING CHANGED. Connor's export lists an order-ahead link for four of the six San Diego rooms. Three of the four (Convoy, East Village, Mercury) are bit.ly redirects; this file's direct order.toasttab.com URLs are kept, because a direct link is the stronger value and a shortener adds a hop, a third party, and something that can be retired without warning. The fourth (College Heights) is a direct Toast URL but on the older /v3 pattern with query parameters, against this file's clean /online/ slug; the click-tested value here is kept for the same reason the single-pattern rule exists.\n\nTWO LIVE GAPS ON THE CLIENT'S OWN PROFILES: Crown Point and Plaza Bonita have NO order-ahead link in GBP at all, although both have a working Toast URL in this file. That is revenue leaking on Google, not a site defect. Client action.",
   "_geoNote": "GEO AND GBP LINKS IMPORTED 2026-09-09. Source: Connor, Google Business Profile export, 2026-09-09. Coordinates are decimal degrees as supplied, unrounded, for the six San Diego rooms. Maui was not in the export and stays null, so it emits no geo node at all rather than a guess. This closes the last two blocked NAP fields; see CLIENT_FACTS.md open question 8, which listed exactly these two.\n\nTHE sameAs LINKS ARE SHARE LINKS, NOT CANONICAL PLACE URLs. maps.app.goo.gl/... is a Google redirect. It resolves and it is better than nothing, but a resolved Google Maps place URL, or the CID, is the stronger sameAs value and is what a canonical profile reference should be. ASKED OF CONNOR, not resolved here: following the redirects ourselves would put a URL in schema that we derived rather than one the client confirmed, on a brand whose Convoy citation audit already scored 25 out of 100. Swap these for canonical URLs when they arrive; nothing else has to change.",
-  "_napVerification": "NAP IS NOW EXTERNALLY VERIFIED, 2026-09-09. Connor's Google Business Profile export matches this file at all six San Diego locations on street address, phone, and hours, day for day. Two independent sources now agree on every published NAP value.\n\nZIP+4 CORROBORATED, NOT CHANGED. The export carries ZIP+4 for Convoy (92111-2330) and East Village (92101-6511). This file already held both, from the SITE_ARCHITECTURE.md NAP table, and they are byte-identical to the export. No edit was needed and none was made. The other four have no ZIP+4 in the export either, so they stay five-digit.\n\naddressRegion: the export is INTERNALLY inconsistent, writing CA for three locations and California for three. This file has always written CA, which is the correct PostalAddress value, so nothing changes here. Their GBP entries should be made consistent: that is a client action on Google, not a site issue."
+  "_napVerification": "NAP IS NOW EXTERNALLY VERIFIED, 2026-09-09. Connor's Google Business Profile export matches this file at all six San Diego locations on street address, phone, and hours, day for day. Two independent sources now agree on every published NAP value.\n\nZIP+4 CORROBORATED, NOT CHANGED. The export carries ZIP+4 for Convoy (92111-2330) and East Village (92101-6511). This file already held both, from the SITE_ARCHITECTURE.md NAP table, and they are byte-identical to the export. No edit was needed and none was made. The other four have no ZIP+4 in the export either, so they stay five-digit.\n\naddressRegion: the export is INTERNALLY inconsistent, writing CA for three locations and California for three. This file has always written CA, which is the correct PostalAddress value, so nothing changes here. Their GBP entries should be made consistent: that is a client action on Google, not a site issue.",
+  "_openedNote": "OPENING YEARS CONFIRMED BY THE CLIENT 2026-09-10, at review. Six San Diego rooms. Maui stays null; no year was supplied for it.\n\nFOUR OF THE SIX CORRECT WHAT THIS FILE HELD: Mercury 2007 to 2006, East Village 2016 to 2015, Crown Point 2025 to 2024, Plaza Bonita 'late 2020' to 2021. Convoy 2001 and College Heights 2020 were already right.\n\nAGAINST THE 2026-09-09 GBP EXPORT: the confirmation agrees with GBP on Mercury (2006-12), East Village (2015-12), College Heights (2020-03) and Crown Point (2024-12). It contradicts GBP on Convoy, where GBP says 2006-04 and both the client and this file say 2001, which is the founding year and the whole brand story; that supports the reading that a GBP opening date often records when the listing was created rather than when the room opened.\n\nPLAZA BONITA MATCHES NOTHING. The client says 2021. This file said late 2020. GBP says 2022-11-17. Three sources, three answers, and the client's is the one published because they own the business. IT IS WORTH ONE MORE QUESTION: a year that sits between the two wrong answers is the shape of a half-remembered date. No page publishes a Plaza Bonita year, so nothing is exposed either way.\n\nCROWN POINT LOST A MONTH. This file recorded 'Opened January 12, 2025' from a 2025 Japanese corporate filing, which is a primary document. The client says 2024 and GBP says 2024-12-14. The likeliest reading is a room that opened in December 2024 and was recorded in a filing the following January. Pages that carried 'January 2025' now carry 2024 with no month, because the year is confirmed and the month is not."
 }

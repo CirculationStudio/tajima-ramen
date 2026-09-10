@@ -216,8 +216,15 @@ elevated • curated • immersive • culinary journey • authentic (as a clai
 Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late for Ramen"
 
 ### Banned content
+- **No AI-generated imagery posing as real photography.** Unchanged and absolute.
+
+  **A machine-upscaled real photograph is not that, and the distinction is drawn here so nobody has to guess.** An upscaled photograph is a picture of the actual room, taken by an actual camera, with more pixels than it started with. AI-generated imagery is a picture of a room that does not exist. The first is a resolution compromise and may ship with the compromise on the record; the second may never ship at all.
+
+  **One file in the build is upscaled:** the `/tajima-convoy/` hero, `tajima-convoy-interior-dining-room-upscaled.jpg`, supplied by the client at review 2026-09-10. It is flagged `aiUpscaled` in `photos.json` with a note saying what was done to it and that it is to be replaced when the shoot lands. It is deliberately **not** flagged `placeholder`, because the placeholder guard fails the build and this photograph has to ship: it is what closed the WordPress hotlink below. Grep `aiUpscaled` to find every such file.
+
+  **Where the line moves, it moves toward disclosure, not toward permission.** If a future asset is generated rather than enlarged, it does not get this treatment; it does not go on the site.
 - **No fusion framing.** Never Japanese-Mexican, Japanese-Californian, or Baja anything, in any copy or image.
-- **Carnitas Ramen: listed, never featured.** The rule from Brand Positioning is that it stays on the printed menu, is kept out of marketing photography, social storytelling and website hero content, and phases out naturally. So it appears on `/menu/` as a plain line with `feature: false`, no photo, no callout, no hero, and it appears nowhere else on the site. This line previously read as an outright ban, which was wrong: Open Decision #4 resolved on 2026-08-04 that the dish is active at all seven locations per the live Toast menus. See `menu.json` `_carnitasNote`.
+- **Carnitas Ramen: permanent, and it has a photograph. CORRECTED 2026-09-10, at client review.** This line has now been wrong twice in opposite directions, so read the whole thing. It first read as an outright ban. Open Decision #4 corrected that on 2026-08-04 to 'listed, never featured', on the strength of a Brand Positioning line about phasing the dish out quietly. **The client has now confirmed the dish is permanent and gets a photograph.** It appears on `/menu/` with a photograph. `feature` stays `false`, which keeps it out of the location-page bentos and the per-room lists, because 'permanent and photographed' is not 'promote it everywhere'; flipping that flag is a one-line change if the client asks. The fusion-framing ban above is untouched and still absolute: the dish may be shown, the framing may not. See `menu.json` `_carnitasNote`.
 - **No North Park.** Permanently closed.
 - **No sushi in the brand voice.** Mercury and Maui only, handled location-specifically.
 - **No copy implying the previous product was inferior.**
@@ -235,7 +242,7 @@ Glossy studio bowl shots with no context • neon-saturated interiors • graffi
 - Hero slogan set and all display lines come from `voice-tone.md`. Do not write new hero copy at build time.
 - The house trio is Red, Black, White. Three bowls. Spicy Sesame is not part of the trio.
 - **No simmer time. No number of hours, ever.** `CLIENT_FACTS.md` confirms only that broth is simmered every morning in the Crown Point commissary and driven to the San Diego locations. It gives no duration. "12h Tonkotsu" was cut from the footer spec strip once (see `site.json` `_specNote`) and "simmered twelve hours" was cut from the homepage trio card again in the v2 port; the figure has no source and keeps reappearing. Do not publish one until someone gets it from Sam.
-- **The noodle cadence is unconfirmed.** "crafted daily", "cut daily", "cut that morning". `CLIENT_FACTS.md` confirms the daily cadence for the *broth*, not the noodles. These ship pending a client answer; see the flagged list in `site.json` `_sloganNote`. One answer resolves all of them.
+- ~~**The noodle cadence is unconfirmed.**~~ **CONFIRMED 2026-09-09 by the client, at all locations including Maui.** "crafted daily", "cut daily" and "cut that morning" are all sourced. The five template cautions are removed and `site.json` `_sloganNote` carries the record. **Two things this did NOT confirm and both are still hard rules: the rollout claim** ("every bowl at every location", Open Decision #2) **and the production clock.** Daily is not the same sentence as everywhere, and it is not a timetable.
 
 ---
 
@@ -267,11 +274,11 @@ WCAG 2.1 AA.
 4. **Homepage word count.** Approximately **250 words** as built, against a **700+** target for the ranking goals in `AEO.md`. The gap widened rather than closed: the reference file's `craft` and `feed` sections, which carried most of the missing copy, were rejected in review and are not built. **Close it with copy inside the seven existing sections, never by adding a section back.** Nothing may be padded in to hit the number; the copy has to earn its place under `voice-tone.md` and trace to `CLIENT_FACTS.md` like everything else.
 5. ~~**No schema on the homepage yet.**~~ **CLOSED.** `src/_data/schema.js:428` defines the `home` graph and the built page emits it: `Organization`, `Person` (Sam), `WebSite`, `ItemList` of locations, which is exactly what the `/` brief in `SITE_ARCHITECTURE.md` specifies. No `Restaurant` on this page, as required.
 6. **No hours or phone anywhere on the homepage.** Top UX gap. Hours still need confirmation from a primary source before publishing.
-7. **LAUNCH BLOCKER: `/tajima-convoy/` loads its hero photograph from `tajimaramen.com`.** That is the live WordPress site this project replaces, so the new site cannot go live and the old one be taken down in either order without breaking that page. It is the only remaining image in the build served from anywhere but our own assets or the Circulation Studio CDN.
+7. ~~**LAUNCH BLOCKER: `/tajima-convoy/` loads its hero photograph from `tajimaramen.com`.**~~ **CLOSED 2026-09-10.** The client supplied an interior photograph of the room at review. It is downloaded into `public/images/photo/`, curated through `roomPhotos.js` like every other placed photograph, and passes the same build guards. **No image in the build now loads from `tajimaramen.com`**, so the new site and the old one no longer depend on each other in either direction.
 
-   There is no local fix available. The file is not in `photos.json`, has no local copy, and **`public/images/photo/` contains no Convoy room photograph at all**, only Convoy dishes. The only room photography in the repo is Mercury's and College Heights'. This is item 3 with a deadline attached: the documentary shoot has to produce a Convoy room frame, with reviewed alt, before launch.
+   **It is machine-upscaled and that is on the record**, flagged `aiUpscaled` in `photos.json` with a note. It is a real photograph of the real room at a resolution it was enlarged into, not generated imagery, and the distinction is written into Banned content above. **Item 3 still wants a Convoy frame from the documentary shoot** and this one gets replaced when that lands.
 
-   (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part is fixed. The dependency is not.)
+   (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part was already fixed.)
 
 8. **LAUNCH BLOCKER: eight media assets load from `cdn.circulationstudio.com/tajima-temp/`.** Separate from item 7 and a different owner: that one is the client's old WordPress site, this one is ours, and "temp" is in the path.
 

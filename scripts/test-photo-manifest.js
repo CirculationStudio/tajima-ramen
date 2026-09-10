@@ -46,6 +46,8 @@ const HAND_FIELDS = [
   "placeholder",
   "placeholderSource",
   "placeholderNote",
+  "aiUpscaled",
+  "aiUpscaledNote",
 ];
 
 function generate() {

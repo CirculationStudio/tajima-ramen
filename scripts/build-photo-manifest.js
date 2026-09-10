@@ -76,6 +76,14 @@ const HAND_FIELDS = [
   "placeholder",
   "placeholderSource",
   "placeholderNote",
+  // PROVENANCE, added 2026-09-10. `aiUpscaled` marks a REAL photograph that
+  // has been machine-upscaled. It is deliberately NOT the placeholder flag and
+  // deliberately NOT wired to the build guard: a placeholder is an image of
+  // something else standing in, and this is the right room in the wrong
+  // resolution. It ships. The flag exists so the compromise is on the record
+  // and so the file can be found the day the shoot replaces it.
+  "aiUpscaled",
+  "aiUpscaledNote",
 ];
 
 const DRAFT_ALT = "[DRAFT, NEEDS REVIEW] ";
@@ -192,8 +200,14 @@ const NOTE_EXPAND = {
 // A photograph of one is not a reason to overturn that. These are listed, not
 // silently discarded, because deleting them would hide a real asset from the
 // person who has to decide.
+//
+// CARNITAS RAMEN IS OFF THIS LIST, 2026-09-10. The client confirmed at review
+// that the dish is permanent and gets a photograph, which supersedes the
+// 2026-08-04 position that it ships as a plain line with no photo. This is the
+// mechanism working as designed: the assets were listed rather than deleted,
+// so when the decision changed there was nothing to recover. The remaining
+// five are unchanged and still have no photograph anywhere on the site.
 const DO_NOT_FEATURE = [
-  ["carnitas", "Carnitas Ramen"],
   ["tajima-fries", "Tajima Fries"],
   ["curry-fries", "Curry Fries"],
   ["cream-cheese-wonton", "Cream Cheese Wontons"],

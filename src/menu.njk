@@ -70,9 +70,11 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
 {#
   REWRITTEN. The concept sub read: "Every noodle, cut daily. Every broth,
   simmered for twelve. Built in Convoy, since 2001."
-  The first two are the same unconfirmed claims that run through every concept
-  file: noodle cadence is not confirmed, and no simmer time is confirmed
-  anywhere. The third is true and is kept.
+  The simmer time is still unsourced anywhere and stays out. THE CADENCE HALF
+  IS NOW CONFIRMED (2026-09-09, all locations), so "cut daily" is no longer the
+  objection it was; the sub still does not carry it, because this hero says
+  what the page is rather than repeating the slogan two blocks above the fold.
+  The third line is true and is kept.
 #}
 <section class="menu-hero" aria-labelledby="page-title">
   <div class="menu-hero__inner">
@@ -140,12 +142,29 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
+          {#-
+            NO PRICES ON THIS PAGE. Removed 2026-09-10 on the client's
+            instruction at review. This closes the pricing question that had
+            blocked the page since 2026-08-04: the answer is that /menu/ does
+            not print prices at all.
+
+            It is also the right answer on the merits. menu.json's prices were
+            stale against every live catalog, and price varies by room, so a
+            single brand price on a page that speaks for seven rooms was
+            always going to be wrong somewhere. Prices live on the per-location
+            printable menus in public/menus/, which are the client's own
+            current print and are per room by definition.
+
+            The price DATA stays in menu.json. It is a record of what the
+            brand prices were and removing it would lose that; see
+            _priceStatus, which now records that the field is not for display.
+            No `offers` is emitted in schema and none should be.
+          -#}
+          {%- if dish.tier %}
           <div class="dish__head">
-            {%- if dish.tier %}
             <span class="dish__tier{% if dish.tier == 'Signature trio' %} dish__tier--signature{% endif %}">{{ dish.tier }}</span>
-            {%- endif %}
-            <span class="dish__price">${{ dish.price }}</span>
           </div>
+          {%- endif %}
           <h3 class="dish__name">
             {%- if dish.emphasis -%}
               {{ dish.name | replace(dish.emphasis, "") | replace("Ramen", "") | trim }} <em>{{ dish.emphasis }}</em>
@@ -198,9 +217,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
-          <div class="dish__head">
-            <span class="dish__price">${{ dish.price }}</span>
-          </div>
           <h3 class="dish__name">{{ dish.name }}</h3>
           {%- if dish.description %}
           <p class="dish__desc">{{ dish.description }}</p>
@@ -235,9 +251,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
-          <div class="dish__head">
-            <span class="dish__price">${{ dish.price }}</span>
-          </div>
           <h3 class="dish__name">{{ dish.name }}</h3>
           {%- if dish.description %}
           <p class="dish__desc">{{ dish.description }}</p>

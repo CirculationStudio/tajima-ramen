@@ -197,6 +197,25 @@ const CURATED = {
   // are waiting on a Convoy surface, most obviously /tajima-convoy/, which has
   // no drinks imagery either.
   convoy: {
+    // THE HERO. Added 2026-09-10, and it closes DESIGN_SYSTEM.md open item 7.
+    //
+    // /tajima-convoy/ loaded its hero photograph from tajimaramen.com, the
+    // live WordPress site this project replaces, because there was no Convoy
+    // room photograph anywhere in the repo: all 60 Convoy files were food or
+    // drinks. That made the highest-traffic page on the site depend on the old
+    // site staying up, in either direction.
+    //
+    // The client supplied an upscaled interior at review. It is a REAL
+    // photograph of this room, machine-enlarged, and it is flagged
+    // `aiUpscaled` in photos.json with the full note. It is not a placeholder
+    // and does not trip the placeholder guard: a placeholder is an image of
+    // something else, and this is the right room at the wrong resolution.
+    // Replace it when the shoot lands.
+    hero: {
+      file: "tajima-convoy-interior-dining-room-upscaled.jpg",
+      caption: "The Convoy dining room",
+    },
+
     // ONE DISH FRAME, TO FILL THE ONE EMPTY CELL. /tajima-convoy/ renders its
     // food bento from menu.json, which yields eleven photographs at Convoy.
     // Eleven cells in a four-column bento is two full rows and a row of three,
