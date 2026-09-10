@@ -38,6 +38,29 @@
   color: var(--color-ink-2);
   font-style: normal;
 }
+
+/* Hours can carry more than one rule (Convoy runs later Fri and Sat, Plaza
+   Bonita runs a mall pattern with three), so the value stacks rows rather
+   than running them together on one line. Days and time are separate spans so
+   the days column stays scannable down the stack on a phone, which is the
+   whole point of this strip. */
+.plate__value--hours{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.plate__hours-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+.plate__hours-days{
+  min-width: 5.5rem;
+  color: var(--ink-3);
+}
+.plate__hours-time{
+  font-variant-numeric: tabular-nums;
+}
 a.plate__value{ transition: color var(--duration-fast) var(--ease-smooth); }
 a.plate__value:hover,
 a.plate__value:focus-visible{ color: var(--color-red); }
@@ -83,6 +106,8 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   flex: 1;
   overflow: hidden;
   margin: 0;
+  /* v2: photo tiles take --radius (6px). */
+  border-radius: var(--radius);
 }
 .shot__img{
   position: absolute;
@@ -98,15 +123,30 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--color-rule);
   display: flex;
+  /* Wraps because captions now say what is in the frame rather than naming a
+     generic part of a restaurant, so a caption and its tag no longer always
+     fit one line together. */
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-3);
 }
 .shot__name{
   font-family: var(--font-cond);
   font-weight: var(--weight-semibold);
   font-size: var(--text-small);
+  line-height: var(--leading-tight);
   color: var(--color-ink);
+  min-width: 0;
+}
+/* Convoy only: the dish description under the dish name, so the food gallery
+   reads as a menu rather than as a row of pictures with labels. Takes the
+   whole line rather than sitting beside the name. */
+.shot__desc{
+  flex-basis: 100%;
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
 }
 .shot__tag{
   font-family: var(--font-ui);
@@ -161,13 +201,16 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   border-top: 1px solid var(--color-rule);
 }
 .here-list__item{
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-rule);
+  margin-right: var(--space-6);
+}
+/* Name and romaji share a baseline; the description sits under both. */
+.here-list__head{
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--color-rule);
-  margin-right: var(--space-6);
 }
 .here-list__name{
   font-family: var(--font-cond);
@@ -187,4 +230,144 @@ a.plate__value:focus-visible{ color: var(--color-red); }
 
 @media (max-width: 40rem) {
   .here-list__item{ margin-right: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   HERE GROUP. The three menu sections, in the order /menu/ prints them, each
+   heading linking into that section's anchor there. Grouping is what turns a
+   run of eleven names into something a reader parses as a menu, and the link
+   means "see the whole menu" lands on the part they were already reading.
+   -------------------------------------------------------------------------- */
+.here-group + .here-group{ margin-top: var(--space-8); }
+.here-group__title{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--space-3);
+}
+.here-group__link{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: var(--stroke-hair) solid var(--rule-2);
+  padding-bottom: .15em;
+}
+.here-group__link:hover,
+.here-group__link:focus-visible{ color: var(--accent); border-bottom-color: currentColor; }
+
+/* --------------------------------------------------------------------------
+   FAQ. A definition list, because that is what it is: questions and their
+   answers. Rendered from _data/locationFaq.js, the same source the FAQPage
+   node is built from.
+   -------------------------------------------------------------------------- */
+.faq{
+  margin: 0;
+  display: grid;
+  gap: var(--space-5);
+  max-width: 46rem;
+}
+.faq__item{
+  padding-bottom: var(--space-5);
+  border-bottom: var(--stroke-hair) solid var(--rule);
+}
+.faq__item:last-child{ border-bottom: none; padding-bottom: 0; }
+.faq__q{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.faq__a{
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PLACE · the neighborhood, in prose
+
+   Running copy, so it takes a reading measure rather than the section's full
+   width. The NAP line repeats the address and phone from the plate on
+   purpose: the plate is a scannable table and this is the sentence a person
+   reads, and both come from locations.json so they cannot disagree.
+═══════════════════════════════════════════════════════════════════ */
+.place{
+  max-width: 36rem;
+}
+.place__para{
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-2);
+}
+.place__para + .place__para{ margin-top: var(--space-4); }
+.place__nap{
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: var(--stroke-hair) solid var(--rule);
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MENU LINKS · the full menu, and this room's printable one
+
+   Outlined, not filled. The header CTA is red and spends the page's one
+   primary CTA, so a second red button here would break DESIGN_SYSTEM.md's
+   one-per-viewport rule. Same hairline treatment as the phone buttons on
+   /happy-hour/, so the two read as one family of secondary actions.
+
+   Cards and controls take the radius scale; --radius-sm here because these
+   are small controls, not cards.
+═══════════════════════════════════════════════════════════════════ */
+.menu-links{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.menu-links__link{
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+.menu-links__link:hover,
+.menu-links__link:focus-visible{
+  border-color: var(--accent);
+  color: var(--accent);
+}
+/* The file type and weight. Quieter than the label because it is a warning,
+   not the offer, but it stays on the button rather than in a tooltip: the
+   point is that nobody starts a download without seeing it. */
+.menu-links__meta{
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: none;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.menu-links__link:hover .menu-links__meta,
+.menu-links__link:focus-visible .menu-links__meta{ color: inherit; }
+
+@media (max-width: 30rem){
+  .menu-links{ flex-direction: column; align-items: stretch; }
+  .menu-links__link{ justify-content: space-between; }
 }

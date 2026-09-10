@@ -1,292 +1,295 @@
 # Design System
 
 **Project:** Tajima Ramen
-**Last updated:** 2026-07-15
+**Last updated:** 2026-08-26
+**Status:** v2. Supersedes the 2026-07-15 version. Client-approved via Andy, August 2026.
 
-## Brand Overview
+## What changed in v2, and why
 
-Tajima is San Diego's craft Japanese ramen house, making its own noodles on Japanese-imported machines and simmering its own broth in its own commissary. The design system exists to make that legible without saying it.
+The July build was reviewed by the client and came back with one note: *"simpler, less crowded, clean look. We also feel there are repetitive information across the website."* They later pointed at the October 2025 Brand Guidelines and asked us to follow those more closely.
 
-The verbal lane is plainspoken craft specificity. The visual lane is process, hands, steam, wood, and ceramic, with red as a sharpened accent rather than the dominant field. Red is a flame inside the kitchen, not a billboard on the freeway.
+Three decisions in the previous version are **reversed** here. They were correctly signed off at the time; the client changed direction. Do not restore the old behavior:
 
-**Direction approved (client, via Amanda):** hybrid. **Convoy Red** is the main brand voice and governs the home page and all primary templates. The **Bento grid** is the layout system applied to interior pages. **Night mode is permanent for this build.** The day-mode token set is retained in the cascade but is not user-switchable and is not a shipping surface. Do not build a theme toggle.
+| v1 rule | v2 rule |
+|---|---|
+| Night mode permanent, no theme toggle | **Light and dark both ship.** Manual toggle, no clock or system trigger. **Light is the default.** |
+| Dark-surface logo is the only asset that ships | **Two logo assets, one per theme.** No CSS filters on the logo, ever. |
+| Sharp corners throughout | **Small radius token set.** 3px controls, 6px cards, 8px media. Full-bleed fields stay sharp. |
 
-**The Noodle Room is a deliberate exception.** It runs its own editorial identity (Cormorant Garamond / DM Mono, single `:root`, no day/night system). It is a sub-experience inside the site, not a page in the main template family. Do not normalize it into Convoy Red.
-
-**Reference implementations (approved, client-signed):**
-- `tajima-home.html` (Convoy Red, canonical token source)
-- `tajima-menu.html` (bento-in-Convoy pattern, interior page reference)
-- `tajima-noodle-room.html` (editorial sub-experience)
-
-Assets served from Bunny.net.
-
-> ### Where the concepts actually are, corrected 2026-08-05
->
-> This section previously said all three were **"Hosted at `cdn.circulationstudio.com/tajima-temp/design-concepts/`."** **That is true of two of them and false of the third.** Checked 2026-08-05 with a request per file:
->
-> | Concept | CDN |
-> |---|---|
-> | `tajima-menu.html` | **200** |
-> | `tajima-noodle-room.html` | **200** |
-> | `tajima-home.html` | **404** |
-> | `tajima-locations.html`, `tajima-convoy.html`, `tajima-about.html`, `happy-hour.html`, `order-online.html` | **404** (never listed here, but real, and ported from) |
->
-> **`tajima-home.html` is the one that matters most and it is the one that is missing.** This doc names it the canonical token source, and eleven CSS files were ported from it. There are also five further signed concepts the build was ported from that this section never listed at all.
->
-> All eight lived only in an untracked `inspo/` directory on one machine. **That directory was deleted on 2026-08-05** (`SITE_ARCHITECTURE.md` Open Decision #27) and the porting notes across the codebase were rewritten to name the concept without a path, since no path resolves for six of the eight.
->
-> **The tokens themselves are not at risk.** `src/css/base/theme.css` is the live token set and is committed; it is now the operative source, not a port of one. What is gone is the visual record of how a component was originally drawn.
->
-> **Action: re-upload the six missing concepts to the CDN path above, from the design source, and update this table.** Until then, treat this doc and the shipped CSS as the reference of record and do not expect to compare either against a concept file.
+The reference implementation is `_reference/tajima-home-v2.html`. When this document and that file disagree, **the file wins** and this document gets corrected.
 
 ---
 
 ## Color Tokens
 
-### Brand constants (from Tajima Brand Guidelines, October 2025)
+### Brand constants (October 2025 Brand Guidelines)
 
 | Token | Hex | Name | Usage |
 |---|---|---|---|
-| `--color-red` | `#E03C31` | Fire Red / Convoy Red | Logo, brand mark, key callouts, accent rules, single primary CTA per view. Accent, never a background field. |
-| `--color-gold` | `#FFC658` | Sesame Gold | Rare accent. Per official guidelines, never more than 10% of any visual element. |
-| `--color-cream` | `#FFFEF4` | Off-White | Warmer than pure white. Type on dark, chrome surfaces. |
-| `--color-black` | `#000000` | Black | Reserved for the logo lockup and pure-black contexts. Not the page background. |
+| `--color-red` | `#E03C31` | Fire Red / Convoy Red | Logo, CTA fills, the locations field. |
+| `--color-red-deep` | `#B5261C` | Fire Red deep | CTA hover only. |
+| `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view on an editorial page. See The gold field for the one exception. |
+| `--color-cream` | `#FFFEF4` | Off-White | Light canvas, type on dark. |
+| `--color-black` | `#000000` | Black | Logo lockup and pure-black contexts only. |
 
-### System constants (never invert, never respond to theme)
+### Theme ramps
 
-These exist because anything overlaying a photograph or sitting inside a colored pill is chrome. Its color is determined by its function, not by the theme around it. This was the root cause of the invisible-pill bug in concept 01 and the rule is now structural.
-
-```css
---color-system-cream:     #FFFEF4;
---color-system-cream-90:  rgba(255, 254, 244, 0.94);
---color-system-cream-70:  rgba(255, 254, 244, 0.82);
---color-system-ink:       #0D0D0A;
---color-system-ink-90:    rgba(13, 13, 10, 0.92);
---color-system-ink-70:    rgba(13, 13, 10, 0.70);
-```
-
-**Rule:** photo overlays, caption pills, location plate pills, and scrim text use `--color-system-*` exclusively. Never `--color-ink` or `--color-canvas` on a photo overlay.
-
-### Convoy Red night surface ramp
+Paste these exactly. Both blocks are live in the reference file.
 
 ```css
-/* The live ramp. Operative source: src/css/base/theme.css, which is committed.
-   Reproduced here for reading, not for pasting: if these two ever disagree,
-   theme.css is right and this block is stale. */
---color-canvas:      #0a0a07;                      /* base page, warm near-black */
---color-canvas-2:    #111110;                      /* raised cards and bento cells */
---color-canvas-3:    #1a1a17;                      /* nested / inset surfaces */
---color-surface:     #1a1a17;
---color-surface-2:   #252522;
---color-ink:         #fffef4;                      /* primary type on canvas */
---color-ink-2:       rgba(255, 254, 244, 0.78);    /* secondary type */
---color-ink-3:       rgba(255, 254, 244, 0.55);    /* meta, captions */
---color-ink-4:       rgba(255, 254, 244, 0.32);    /* faintest, labels */
---color-rule:        rgba(255, 254, 244, 0.10);    /* 1px rules, cell borders */
---color-rule-strong: rgba(255, 254, 244, 0.22);
+:root{
+  --color-red:#E03C31; --color-red-deep:#B5261C; --color-gold:#FFC658;
+  --color-cream:#FFFEF4; --color-black:#000000;
+}
+[data-mode="day"]{               /* DEFAULT */
+  --canvas:#FFFEF4; --canvas-2:#F7F4E9; --surface:#FFFFFF;
+  --ink:#141210; --ink-2:rgba(20,18,16,.74); --ink-3:rgba(20,18,16,.5);
+  --accent:#D8352A; --rule:rgba(20,18,16,.14); --rule-2:rgba(20,18,16,.26);
+  --header-bg:rgba(255,254,244,.96);
+  --gold-ink:#8A6410;
+  --glow-red:none; --glow-text:none; --glow-gold:none;
+}
+[data-mode="night"]{
+  --canvas:#0B0A0C; --canvas-2:#131114; --surface:#17151A;
+  --ink:#FFFEF4; --ink-2:rgba(255,254,244,.76); --ink-3:rgba(255,254,244,.5);
+  --accent:#FF4D40; --rule:rgba(255,254,244,.14); --rule-2:rgba(255,254,244,.28);
+  --header-bg:rgba(11,10,12,.86);
+  --gold-ink:#FFD25E;
+  --glow-red:0 0 12px rgba(255,77,64,.5), 0 0 38px rgba(255,77,64,.28), 0 0 78px rgba(255,77,64,.14);
+  --glow-text:0 0 8px rgba(255,77,64,.5), 0 0 24px rgba(255,77,64,.3);
+  --glow-gold:0 0 10px rgba(255,210,94,.4), 0 0 28px rgba(255,210,94,.2);
+}
 ```
 
-> ### Resolved 2026-08-05. This was a stale blocker, and it named a file that no longer exists.
->
-> This block previously held **seven empty stubs** and an open item reading *"the tuned ramp ... live only in the approved `tajima-home.html`. Marco or Steve: open the file, copy the `:root` block, and replace this stub."*
->
-> **It was already done.** `src/css/base/theme.css` says so in its own header: *"Values below are PASTED from that file's `:root` and theme blocks, not retyped from memory. This closes DESIGN_SYSTEM.md Open Items #1 and #3."* The build has shipped these values the whole time; only this document lagged.
->
-> That lag became a live hazard on 2026-08-05, when `inspo/` was deleted: the instruction pointed at a file that is gone and is not on the CDN either (see the hosting correction above). Anyone following it would have hit a dead end on a blocker that was not actually blocking.
->
-> **Same failure shape as the Convoy "Suite A" and Carnitas corrections:** a priority document left asserting something the build had already moved past. `theme.css` is the operative source for these values now. There is nothing left to paste.
+### Two rules that are easy to get wrong
+
+**Accent red differs per theme.** `#D8352A` on cream (4.71:1 with white, passes AA). `#FF4D40` on near-black. True Fire Red `#E03C31` with white text is 4.32:1 and fails, so it is a fill color, not a text-on-red color at body sizes.
+
+**Gold is two values.** `#FFC658` is nearly invisible as type on cream (about 1.4:1). `--gold-ink` handles type: dark gold on light, bright gold on dark. True Sesame Gold stays for rules, marks and fills in both themes.
+
+**Glow is a night-only device.** Every glow token resolves to `none` in day mode. Never hardcode a glow; always read the token, or light mode will show what looks like a rendering bug.
 
 ### Rules
 
-- Zero hex codes anywhere in CSS outside `:root`. This is verified by grep on every build and it currently passes on all three concept files. Any hex in a rule is a defect.
-- `rgba()` inline is permitted only for transparency variations (backdrop blur, scrims, glow rings). Roughly 15 occurrences in the reference build, all intentional.
-- No gradient as a brand device. Red does not fade into anything.
+- Zero hex codes in CSS rules outside the token blocks. Verified by grep on every build.
+- `rgba()` inline is permitted for scrims, overlays and glows only.
+- No gradients as a brand device. The one exception is the gold hairline rule (`transparent → gold → transparent`) and photo scrims.
+
+---
+
+## Radius
+
+New in v2. Small values only. 10px and above reads as a SaaS dashboard and was rejected in review.
+
+```css
+--radius-sm:3px;   /* buttons, toggles, small controls */
+--radius:6px;      /* cards, bento cells, photo tiles */
+--radius-lg:8px;   /* large feature media */
+```
+
+**Full-bleed color fields, the header, and the hero never get a radius.** Rounding the corner of a color field is what makes a page look templated.
 
 ---
 
 ## Typography
 
-**Production font system:** the 2025 Brand fonts (the "KPR font style"). Confirmed as production, not placeholder.
-
 | Role | Family | Notes |
 |---|---|---|
-| Display | **Bright Sunshine Caps** | Always all-caps. Use is restricted (see below). |
-| Body | **Calps Regular** | Clean legible sans. Default for all body copy and UI. |
-| Web body alt | Acumin Variable Concept Regular | Per guidelines' Use of Type page. |
-| Noodle Room display | **Cormorant Garamond** | Sub-experience only. Never in the main template family. |
-| Noodle Room mono | **DM Mono** | Sub-experience only. Labels, specs, captions. |
+| Display | **Bright Sunshine Caps** | Always all-caps. Brush face. |
+| Body / UI | **Calps Regular** | All body copy, nav, buttons, captions, labels. |
 
-**Bright Sunshine Caps restriction.** It reads streetwear, not craft. Reserved for pull quotes, merch, and limited-time promotional moments. It is **not** standard headline typography and must not be the default `h1`/`h2` on craft-led storytelling pages. When in doubt, do not use it.
+Fallback stacks as written in the reference file:
 
 ```css
---font-display:   'Bright Sunshine Caps', /* fallback stack per file */;
---font-body:      'Calps', /* fallback stack per file */;
-/* Noodle Room only */
---font-editorial: 'Cormorant Garamond', 'Hoefler Text', Georgia, 'Times New Roman', serif;
---font-mono:      'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+--font-display:'Bright Sunshine Caps','Bebas Neue',Impact,sans-serif;
+--font-body:'Calps','Barlow',-apple-system,BlinkMacSystemFont,sans-serif;
+--font-ui:'Calps','Barlow',sans-serif;
 ```
 
-### Weights
+**Bright Sunshine Caps is display-only, and there is a hard size floor.** It is a brush face: below roughly `1.25rem` it stops being legible, especially over photography. Dish names, location names, section headings and the wordmark: yes. Prices, captions, nav, buttons, body: never. This was a real defect caught in review, not a preference.
 
-Declared by name, never as `bold` or `lighter`.
+**No third typeface.** A geometric sans was proposed for nav and buttons during review and rejected. Two families ship.
 
-```css
---weight-regular:  400;
---weight-medium:   500;
---weight-semibold: 600;
---weight-bold:     700;
-```
+**No negative letter-spacing on display type.** Brush glyphs collide. Tracking tokens are positive only.
 
-Every family ships an explicit fallback stack. No implicit fallbacks, no thin stacks.
+**Faux-bold for emphasis.** Bright Sunshine Caps ships one weight. Where emphasis is needed, use `-webkit-text-stroke:.022em currentColor` with `paint-order:stroke fill`. Never `font-weight:bold` on the display face.
+
+### Type over photography
+
+Display type over video or photos needs both a scrim and a shadow. Stripping shadows was proposed in review and rejected: it broke legibility on the hero and statement sections. Keep `text-shadow:0 2px 16px rgba(0,0,0,.7)` or heavier on any type over an image.
 
 ---
 
 ## Spacing
 
-8px baseline grid. Every padding, gap, and margin references the scale. No `0.95rem`, no `1.3rem`, no `2.4rem`.
+8px baseline grid.
 
 ```css
---space-1:  4px;
---space-2:  8px;
---space-3:  12px;
---space-4:  16px;
---space-5:  24px;
---space-6:  32px;
---space-7:  40px;
---space-8:  48px;
---space-9:  64px;
---space-10: 80px;
---space-11: 96px;
+--space-1:.25rem;  --space-2:.5rem;   --space-3:.75rem;  --space-4:1rem;
+--space-5:1.5rem;  --space-6:2rem;    --space-7:2.5rem;  --space-8:3rem;
+--space-9:4rem;    --space-10:5rem;   --space-11:6rem;   --space-12:11rem;
 ```
 
-Radius, shadow, and motion values are tokenized on the same principle. Pull the exact values from the reference `:root`.
+`--space-12` is intentionally large. It is the gap between major sections and it is what makes the page read as calm.
 
-Gutters use explicit clamp-based values plus body-level safety padding. This was a corrected production defect (left-side padding collapse) and the fix is now part of the system, not a patch.
+Gutter: `--gutter:clamp(1.25rem,4vw,3rem)`. Max width: `--layout-max:82rem`.
+
+---
+
+## Page composition
+
+The approved homepage order, and the reason for it:
+
+1. **Hero.** Full-bleed video, logo lockup centered, slogan beneath. Composition follows Brand Guidelines page 19. No nav overlay, no stat bar, nothing else in frame.
+2. **Intro.** Two columns, copy left, photo right in a gold offset frame.
+3. **Three pillars.** Cards, icons from the brand icon family.
+4. **Statement.** Full-bleed photo, display-scale slogan, one CTA.
+5. **Bowls.** Three photo tiles. The house trio is Red, Black, White. Exactly three.
+6. **Locations.** Full-bleed red field with the icon pattern.
+7. **Neon monolith + footer.**
+
+**Alternate the weight.** Never put two full-bleed heavyweight sections next to each other. A photo section butting directly into a color field was rejected in review as looking amateurish, and the fix was structural, a calm canvas section between them, not a gradient fade.
+
+**No gradient fades between sections.** A dark photo fading into cream reads as fog. Hard edges between a photo and a solid field are correct.
 
 ---
 
 ## Components
 
-Strict BEM. Blocks in the reference build: `site-header`, `bento`, `cell`, `hero`, `menu`, `story`, `locations`, `tagline`, `site-footer`. Elements use `__`, modifiers use `--` (`cell--pad-md`, `menu__dish--wide`, `eyebrow--red`).
+Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`, `ftr`, `tgl`.
 
-### Heroes
-Full-bleed process imagery or video. One `h1`. One primary CTA. The hero image is a noodle being lifted or a hand in the work, never a billboard shout. Hero copy comes from the approved slogan set (see `voice-tone.md`); do not write new hero lines at build time.
+### Header
+Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. The logo links home. **The theme toggle lives in the footer**, next to the colophon, as the `tgl` block. It was bound to the logo click in the reference file; that was a prototype affordance and it is resolved.
 
-### Cards (bento cells)
-`cell` block with padding modifiers on the 8px scale. Cells carry a hairline border, not a drop shadow. Caption pills inside cells use system-constant tokens, never theme tokens. `<article>` for content cells, `<figure>` + `<figcaption>` for image cells.
+### Logo
+Two assets, swapped by theme, no filters:
+- dark surfaces: `Tajima Logo red logo white text.png`
+- light surfaces: `tajima brand assets_digital_RGB-07.png`
+
+Never recolor the logo with CSS. A filter-based fake was shipped in an earlier draft and turned the mark pink.
 
 ### CTAs
-One red CTA per viewport. Red on a CTA is the accent budget spent, so the surrounding view stays neutral. Secondary actions are hairline-outlined, never a second red.
+One red CTA per viewport. The header CTA is red, so any CTA in view alongside it is hairline-outlined or cream. Red on the red field is invisible; use `--color-cream`.
 
-### Forms
-No booking or reservation forms. Tajima is walk-in only across all locations (Mercury takes group reservations by phone). Form patterns are limited to online-ordering handoff and contact. Visible labels, visible focus, no placeholder-as-label.
+### The gold field
+
+**Corrected 2026-09-09, and the correction goes the other way from the usual one: the guidelines authorise more than this document did.**
+
+The line above, "rules, marks, small fills, never more than 10% of a view", describes the editorial surfaces and it is right for them. It is not what the brand guidelines show. October 2025 guidelines, Section 5.1 Digital Application, page 18, runs **Sesame Gold as a full-bleed field carrying black body type**, at roughly 17% of that layout, and again as dish panels with black brush headings and a red button. The same spread also shows the black header band, thin full-bleed red stripes between bands, the starburst badge in red with a white stroke and white brush type, and a red field carrying the ghosted line-art pattern with a gold hairline.
+
+This document's own brand constants derive from those guidelines, so where the two disagree the guidelines win and this document changes.
+
+**Scope: `/happy-hour/` and nothing else.** That is the only promotional page in the build, and page 18 is a promotional application (an email campaign), not an editorial one. A location page or the home page taking a gold field is a decision, not a licence this section grants.
+
+**Rules that come with it.**
+- Black on Sesame Gold measures **12.49 to 1** for the title and **10.91** for body copy, off a real render. It is the highest-contrast pairing in the build.
+- **Red on gold is 2.24 to 1 and fails at any size.** On a gold field, emphasis is weight and rule, never colour. The `<em>` inside a title on this field stays ink and takes a red underline.
+- **Gold as type on the red field is 3.33 to 1 and fails.** Gold on red is for rules and marks. Type on red is cream, which measures 5.09.
+- Cream on Fire Red is **4.27 to 1**, which clears AA for large text and fails it for normal text, so the starburst's brush type has a hard 1.5rem (24px) floor.
+- The field is full-bleed and therefore **sharp**. Cards take the radius scale; colour fields do not.
+- The field does not change between day and night. A brand colour field is the same colour in both, the way the red locations field is.
+
+**The guidelines' content is not in scope and this is not negotiable.** That artifact features North Park, which is closed, Tijuana as a peer location, Carnitas Ramen with a hero photograph, "ALL SLURPS WELCOME", which is retired voice, and "Authentic Japanese roots", which is banned copy. Colour, field and badge treatment only.
+
+### The red locations field
+The one place red is a background rather than an accent. Cream icon pattern behind at 9-11% opacity, neutral dark wash over it so type stays readable, gold accents, cream CTA. Icons are individually positioned elements, not a repeating `<pattern>`, so each can animate independently and the field always covers full width.
+
+### Icon family
+32 SVGs traced from the October 2025 guidelines sheet, in `src/_includes/icons/`. Inline them so `currentColor` works; never `<img>`. Large and cropping off the edge reads as brand; small and scattered reads as confetti.
 
 ---
 
-## Forbidden Patterns (Anti-Slop Standard)
-
-Mirrored verbatim into `.claude/CLAUDE.md`.
+## Forbidden Patterns
 
 ### Banned defaults
+- **NO** Inter, and no third typeface of any kind.
+- **NO** gradients as a brand device.
+- **NO** em dashes anywhere. Site, content, docs, code comments.
+- **NO** AI-generated imagery posing as real photography.
+- **NO** hex codes in CSS rules outside the token blocks.
+- **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves.
+- **NO** glow in day mode.
+- **NO** brush display type below 1.25rem.
 
-- **NO** Inter font. The brand fonts are named above.
-- **NO** generic purple-to-blue AI gradients. No brand gradients at all.
-- **NO** default stock icons without customization.
-- **NO** em dashes anywhere. Site, content, docs, code comments. Use commas, periods, parentheses. Hard rule.
-- **NO** AI-generated imagery posing as real photography. This brand's entire claim is that the work is real. Faking the proof kills the positioning.
-- **NO** theme toggle. Night mode is permanent.
-- **NO** hex codes in CSS rules outside `:root`.
+### Banned filler
+elevated • curated • immersive • culinary journey • authentic (as a claim) • passion / passionate about • dive into • crafted with love • truly • a feast for the senses • our story began • memorable dining experience • guaranteed to keep you coming back • perfectly paired
+Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late for Ramen"
 
-### Banned filler phrases
+### Banned content
+- **No AI-generated imagery posing as real photography.** Unchanged and absolute.
 
-Generic:
-- "Unlock your potential"
-- "Leverage our expertise"
-- "Cutting-edge solutions"
-- "Seamless experience"
-- "Game-changing"
+  **A machine-upscaled real photograph is not that, and the distinction is drawn here so nobody has to guess.** An upscaled photograph is a picture of the actual room, taken by an actual camera, with more pixels than it started with. AI-generated imagery is a picture of a room that does not exist. The first is a resolution compromise and may ship with the compromise on the record; the second may never ship at all.
 
-Brand-specific (from the Client DNA and Brand Positioning):
-- elevated
-- curated
-- immersive
-- culinary journey
-- authentic (as a claim; show it instead)
-- passion / passionate about
-- dive into
-- crafted with love
-- truly / truly authentic
-- a feast for the senses
-- our story began
-- Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late for Ramen"
+  **One file in the build is upscaled:** the `/tajima-convoy/` hero, `tajima-convoy-interior-dining-room-upscaled.jpg`, supplied by the client at review 2026-09-10. It is flagged `aiUpscaled` in `photos.json` with a note saying what was done to it and that it is to be replaced when the shoot lands. It is deliberately **not** flagged `placeholder`, because the placeholder guard fails the build and this photograph has to ship: it is what closed the WordPress hotlink below. Grep `aiUpscaled` to find every such file.
 
-### Banned content patterns
-
-- **No fusion framing.** Tajima is a Japanese ramen house, not Japanese-Mexican or Japanese-Californian. **Carnitas Ramen does not appear on this site**, in copy, photography, or menu hero content. It stays on the printed menu only.
-- **No copy that implies the previous product was inferior.** The story is what we built, not what we fixed.
-- **No North Park.** Permanently closed. Six San Diego locations, plus Tijuana and Maui.
+  **Where the line moves, it moves toward disclosure, not toward permission.** If a future asset is generated rather than enlarged, it does not get this treatment; it does not go on the site.
+- **No fusion framing.** Never Japanese-Mexican, Japanese-Californian, or Baja anything, in any copy or image.
+- **Carnitas Ramen: permanent, and it has a photograph. CORRECTED 2026-09-10, at client review.** This line has now been wrong twice in opposite directions, so read the whole thing. It first read as an outright ban. Open Decision #4 corrected that on 2026-08-04 to 'listed, never featured', on the strength of a Brand Positioning line about phasing the dish out quietly. **The client has now confirmed the dish is permanent and gets a photograph.** It appears on `/menu/` with a photograph. `feature` stays `false`, which keeps it out of the location-page bentos and the per-room lists, because 'permanent and photographed' is not 'promote it everywhere'; flipping that flag is a one-line change if the client asks. The fusion-framing ban above is untouched and still absolute: the dish may be shown, the framing may not. See `menu.json` `_carnitasNote`.
+- **No North Park.** Permanently closed.
 - **No sushi in the brand voice.** Mercury and Maui only, handled location-specifically.
-- Do not surface the 2020 "not too authentic" quote, the cancelled 2024–2025 acquisition, or the 1994 date discrepancy.
+- **No copy implying the previous product was inferior.**
+- Do not surface the 2020 "not too authentic" quote, the cancelled 2024-2025 acquisition, or the 1994 date discrepancy.
+- **No fabricated Sam quotes.** No Sam attribution of any kind until the founder interview is recorded.
 
-### Banned visual patterns
-
-- Glossy studio bowl shots with no environmental context
-- High-saturation neon kitchen or restaurant interiors
-- Graffiti or hand-lettered overlays on photographs
-- "Stylish young people laughing at a table" stock energy
-- Oversaturated reds that crush ingredient detail
-- Cold blue or cool-toned lighting
-- Generic bowl-on-dark-background-with-chopsticks stock shots
-
-### Brand choices (what replaces the defaults)
-
-- **Chosen fonts:** Calps (body), Bright Sunshine Caps (restricted display), Cormorant Garamond + DM Mono (Noodle Room only)
-- **Chosen palette:** Convoy Red night. Warm near-black canvas, cream type, Fire Red `#E03C31` as accent, Sesame Gold `#FFC658` under 10%
-- **Custom iconography:** minimal. Prefer photography and typography over icons. Any icon is custom-drawn to the brand line weight, never a stock set dropped in
-- **Brand voice principles:** see `voice-tone.md`. Show the work. Name things. Stay short. No Japanese poetry. Sound like a person, not a brand
+### Banned visual
+Glossy studio bowl shots with no context • neon-saturated interiors • graffiti overlays on photos • stock "young people laughing" energy • oversaturated reds that crush detail • cool-toned lighting • bowl-on-dark-background-with-chopsticks stock
 
 ---
 
-## Logo Rules
+## Copy constants
 
-Non-negotiable equity: the red circle, the kanji 但馬, the flame motif, the wordmark.
-
-**Do:** resize proportionately, maintain the clear space rule (50% of logo height and width on all sides), use the correct color version for the background, use the Primary Logo wherever possible.
-
-**Don't:** alter colors, lock up additional text, alter the shape, add elements or shadows, place in a holding shape, outline, rotate, or change the relationship of the components.
-
-Logo images are theme-independent in this build (night mode is permanent), so the dark-surface version is the only one that ships. Do not wire theme-conditional logo swaps.
+- Slogan, exact string: **`Housemade noodles, crafted daily.`** One word, no hyphen. This is a deliberate exception to the `house-made` spelling in `voice-tone.md`; do not "correct" other instances to match.
+- Hero slogan set and all display lines come from `voice-tone.md`. Do not write new hero copy at build time.
+- The house trio is Red, Black, White. Three bowls. Spicy Sesame is not part of the trio.
+- **No simmer time. No number of hours, ever.** `CLIENT_FACTS.md` confirms only that broth is simmered every morning in the Crown Point commissary and driven to the San Diego locations. It gives no duration. "12h Tonkotsu" was cut from the footer spec strip once (see `site.json` `_specNote`) and "simmered twelve hours" was cut from the homepage trio card again in the v2 port; the figure has no source and keeps reappearing. Do not publish one until someone gets it from Sam.
+- ~~**The noodle cadence is unconfirmed.**~~ **CONFIRMED 2026-09-09 by the client, at all locations including Maui.** "crafted daily", "cut daily" and "cut that morning" are all sourced. The five template cautions are removed and `site.json` `_sloganNote` carries the record. **Two things this did NOT confirm and both are still hard rules: the rollout claim** ("every bowl at every location", Open Decision #2) **and the production clock.** Daily is not the same sentence as everywhere, and it is not a timetable.
 
 ---
 
-## Accessibility Standards
+## Accessibility
 
-WCAG 2.1 AA minimum.
+WCAG 2.1 AA.
 
-- Color contrast: 4.5:1 normal text, 3:1 large text. Verify Fire Red against the night canvas before using it as type; it is safest as a rule, mark, or fill rather than body copy.
-- Color never the only carrier of information.
-- Visible `:focus-visible` ring on every interactive element.
-- `prefers-reduced-motion` honored on every animation.
-- Semantic HTML5 throughout: `<header>`, `<main>`, `<nav>`, `<section>`, `<article>`, `<figure>` + `<figcaption>`, `<address>`, `<blockquote>`, `<footer>`. No `<div class="cell">` scaffolding.
-- Every image gets a descriptive `alt`. Zero empty alts on content imagery.
-- `aria-label` / `aria-labelledby` on landmarks. Clean h1 to h2 to h3 hierarchy, no skips.
-
----
-
-## Design Approval Gate
-
-Before any code is written:
-
-- [x] Ana (Visual Media Manager) approves creative direction
-- [x] Steve (founder) approves design direction
-- [x] Client provides written sign-off on mockups (Amanda, hybrid direction: Convoy Red main voice, bento on interior pages, night mode permanent)
-- [x] Design passes the Anti-Slop Gate (distinctiveness check)
+- 4.5:1 normal text, 3:1 large. Verify accent red per theme; see the note above.
+- Gold is never body text on cream.
+- Visible `:focus-visible` on every interactive element.
+- `prefers-reduced-motion` honored on every animation, including the drifting icon field.
+- Semantic HTML5. One `h1` per page. No heading level skips.
+- Every content image gets a descriptive `alt`.
+- Theme toggle is a real `<button>` with `aria-pressed`.
 
 ---
 
 ## Open Items
 
-1. **Paste the Convoy Red `:root` ramp** from `tajima-home.html` into the Color Tokens section. Blocking for any new template work.
-2. **Confirm the Bright Sunshine Caps and Calps fallback stacks** as written in the reference file, and confirm licensing covers web embedding.
-3. **Confirm radius, shadow, and motion token values** against the reference `:root`.
-4. **Photography does not exist yet.** The documentary Noodle Room and commissary shoot is the asset every page depends on. Until it lands, no page ships with placeholder or AI imagery.
+1. **Bright Sunshine Caps licensing.** Still unresolved, and now load-bearing: hero slogan, all section headings, dish names, location names, the neon wordmark. Confirm the Demo file clears for commercial web embedding before launch. This is the largest single risk in the build.
+2. ~~**Move the theme toggle off the logo** before launch.~~ **CLOSED.** The toggle is the `tgl` block in the footer, beside the colophon; the logo links home. It is a real `<button>` with `aria-pressed`, ships `hidden` and is revealed by `js/theme.js`, so it is absent from the accessibility tree when it would not work. Its visible label is its accessible name.
+3. **Documentary photography.** Current imagery is GBP and menu photography. The Noodle Room and commissary shoot is still the asset every page depends on.
+
+   **A build guard now protects the standard while we wait, added 2026-09-09.** Every photograph on the site is Tajima's own, and the moment that is most likely to break is the one nobody plans for: the shoot lands late, a page needs a frame this week, and a stock image goes in "just for now". `src/_data/roomPhotos.js` sweeps the whole photo manifest at module load and throws on any entry marked `placeholder: true`, which fails `npm run build`. `npm run build` also runs `npm run test:photos` first, so a stale or half-registered manifest fails before Eleventy starts.
+
+   Registering a stand-in is three fields on its `photos.json` entry (`placeholder`, `placeholderSource`, `placeholderNote`) and all three are required; a partial registration fails too, because it reads as handled and is not. `TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build` is a client-preview escape hatch and nothing else. Cloudflare does not set it, so a placeholder that builds on a laptop still fails the deploy.
+
+   **What it does not catch, stated plainly:** it can only see what somebody marked. A stock file dropped into `public/images/photo/` and referenced from `menu.json` with hand-written alt is invisible to this guard and to the draft-alt guard both. The guard makes an honest registration binding. It does not make a dishonest one impossible. The rule it backs is unchanged: never a stock room, storefront or plated bowl, ever; stock only for a subject no Tajima photograph could cover, and never presented as Tajima. See `_placeholderRule` in `photos.json`.
+4. **Homepage word count.** Approximately **250 words** as built, against a **700+** target for the ranking goals in `AEO.md`. The gap widened rather than closed: the reference file's `craft` and `feed` sections, which carried most of the missing copy, were rejected in review and are not built. **Close it with copy inside the seven existing sections, never by adding a section back.** Nothing may be padded in to hit the number; the copy has to earn its place under `voice-tone.md` and trace to `CLIENT_FACTS.md` like everything else.
+5. ~~**No schema on the homepage yet.**~~ **CLOSED.** `src/_data/schema.js:428` defines the `home` graph and the built page emits it: `Organization`, `Person` (Sam), `WebSite`, `ItemList` of locations, which is exactly what the `/` brief in `SITE_ARCHITECTURE.md` specifies. No `Restaurant` on this page, as required.
+6. **No hours or phone anywhere on the homepage.** Top UX gap. Hours still need confirmation from a primary source before publishing.
+7. ~~**LAUNCH BLOCKER: `/tajima-convoy/` loads its hero photograph from `tajimaramen.com`.**~~ **CLOSED 2026-09-10.** The client supplied an interior photograph of the room at review. It is downloaded into `public/images/photo/`, curated through `roomPhotos.js` like every other placed photograph, and passes the same build guards. **No image in the build now loads from `tajimaramen.com`**, so the new site and the old one no longer depend on each other in either direction.
+
+   **It is machine-upscaled and that is on the record**, flagged `aiUpscaled` in `photos.json` with a note. It is a real photograph of the real room at a resolution it was enlarged into, not generated imagery, and the distinction is written into Banned content above. **Item 3 still wants a Convoy frame from the documentary shoot** and this one gets replaced when that lands.
+
+   (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part was already fixed.)
+
+8. **LAUNCH BLOCKER: eight media assets load from `cdn.circulationstudio.com/tajima-temp/`.** Separate from item 7 and a different owner: that one is the client's old WordPress site, this one is ours, and "temp" is in the path.
+
+   | Page | Asset |
+   |---|---|
+   | `/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | `videos/tajima-brand-video-web-1080p.mp4` |
+   | `/noodle-room/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | five images, including the poster frame for the brand film |
+   | `/about/` | `videos/tajima-brand-video-web-1080p.mp4`, added 2026-09-09 |
+
+   **The brand film is 46.8 MB.** That is why `/about/` sets `preload="none"`: nothing is fetched until a reader presses play, verified as zero mp4 requests on page load. Its real runtime is **1:20** (80.45s by the mvhd atom), not the 60 seconds it is often described as, and nobody on this project has watched it end to end, so no page asserts what is in it.
+
+   **What resolves this:** the videos need a permanent home, either committed to `public/` or served from a stable production bucket rather than one named temp. Committing 46.8 MB to git is not obviously right, so this needs a decision, not just a copy. Until then, every one of these pages depends on a bucket whose name says it is going away.

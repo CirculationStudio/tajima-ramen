@@ -20,6 +20,20 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   which is right.
 #}
 
+{#
+  NO ICONS ON THIS PAGE, and it is a deliberate result rather than an oversight.
+
+  Two chapters have an honest subject match (01 the mother's kitchen, 06 the
+  Noodle Room) and the other four are biography beats with no food subject at
+  all, which DESIGN_SYSTEM.md already answers: use no icon rather than force
+  one. The two that did match were built and then removed. The traced icons are
+  fine-stroked line art drawn for large pattern use, and at 2 to 3rem in a
+  narrow rail column they render as a smudge, not a mark. Sizing up past 3rem
+  breaks the brief's own ceiling and would compete with the numeral.
+
+  The rail carries the anchoring instead: station dot, display numeral, place
+  label. That is what makes the six beats read as a journey.
+#}
 <section class="page-hero" aria-labelledby="page-title">
   <div class="page-hero__inner">
     <p class="page-hero__crumbs">
@@ -27,7 +41,6 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       <span aria-hidden="true">/</span>
       <span class="page-hero__crumbs-current">About</span>
     </p>
-    <span class="page-hero__eyebrow">The house &middot; Since {{ site.founded }}</span>
     <h1 class="page-hero__title" id="page-title">About</h1>
     <p class="page-hero__lede">
       One owner, one city, twenty-five years. This is the story in order.
@@ -35,12 +48,15 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   </div>
 </section>
 
-<section class="sect pattern-section" aria-label="The story, in order">
+{# --quiet: this section is six chapters of running paragraphs, and the
+   pattern opacity tuned for short card blocks interferes with reading a line
+   across it. See components/pattern-section.css. #}
+<section class="sect pattern-section pattern-section--quiet" aria-label="The story, in order">
   <div class="sect__inner">
     <div class="chapters">
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">01</span>
           <span class="chapter__place">Amagasaki, Japan</span>
         </div>
@@ -58,7 +74,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">02</span>
           <span class="chapter__place">Rockford, Illinois</span>
         </div>
@@ -77,7 +93,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">03</span>
           <span class="chapter__place">The kitchens</span>
         </div>
@@ -96,7 +112,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">04</span>
           <span class="chapter__place">Convoy Street, 2001</span>
         </div>
@@ -105,19 +121,43 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
           <p class="chapter__para">
             In 2001 he took over a small, struggling Japanese restaurant on <a class="sect__link" href="/tajima-convoy/">Convoy Street</a>. The name was already on the door.
           </p>
-          {#
-            The line. voice-tone.md: "the strongest line in the research file.
-            It belongs somewhere on the new site, once, probably on About. Do
-            not overuse it and do not put it in a hero."
-            This is the one place it appears. It was removed from the home page
-            story block to keep that true. Do not add it anywhere else.
-          #}
-          <p class="keyline">He didn't name it. <em>He made it his.</em></p>
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+{#
+  THE ONE BREAK. The page ran six chapters with nothing between them.
+
+  This line was inside chapter 04's body; it is lifted out rather than
+  duplicated, so it still appears exactly once. voice-tone.md: "the strongest
+  line in the research file. It belongs somewhere on the new site, once,
+  probably on About. Do not overuse it and do not put it in a hero." A band
+  between the founding and the twenty-five years is not a hero, and it is the
+  natural hinge: everything above is how he got there, everything below is
+  what he did with it.
+
+  Type only, no photograph. The statement device on the homepage is a
+  full-bleed photo behind display type, and the three photographs this page
+  actually wants (Convoy, the commissary, Sam) are covered by the note further
+  down. The gold hairline is the one sanctioned gradient in the system.
+#}
+<section class="keyline-band" aria-label="He didn't name it">
+  <div class="keyline-band__inner">
+    <div class="keyline-band__rule" aria-hidden="true"></div>
+    <p class="keyline-band__line">He didn't name it. <em>He made it his.</em></p>
+    <div class="keyline-band__rule" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="sect pattern-section pattern-section--quiet" aria-label="The story, continued">
+  <div class="sect__inner">
+    <div class="chapters">
+
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">05</span>
           <span class="chapter__place">San Diego</span>
         </div>
@@ -145,11 +185,16 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
       </article>
 
       <article class="chapter reveal">
-        <div>
+        <div class="chapter__rail">
           <span class="chapter__no">06</span>
           {# CORRECTED. The concept read "Crown Point, 2026". The room opened
-             January 2025 per the 2025 Japanese corporate filing. #}
-          <span class="chapter__place">Crown Point, 2025</span>
+             CORRECTED 2026-09-10. This read 2025, from the 2025 Japanese
+             corporate filing that records January 12 2025. The client
+             confirmed 2024 at review and GBP records 2024-12-14, so two
+             sources now say the room opened in 2024 and the filing most
+             likely records when it was filed. The month is not published
+             because only the year is confirmed. #}
+          <span class="chapter__place">Crown Point, 2024</span>
         </div>
         <div>
           <h2 class="chapter__title">The <em>Noodle Room.</em></h2>
@@ -234,6 +279,78 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
   Structure is now: hero, chapters 01 to 06, quote pending, noodle band.
   =========================================================================== #}
 
+{# ==================== THE FILM ==================== #}
+{#
+  Added 2026-09-09. The brand film, between the chapters and the close.
+
+  RUNTIME IS 1:20, NOT 60 SECONDS. The mvhd atom on
+  tajima-brand-video-web-1080p.mp4 reads timescale 1000 / duration 80447, so
+  the file is exactly 80.45 seconds. /noodle-room/ already records the same
+  measurement. The label says 1:20 because that is what the file is.
+
+  NO CLAIM ABOUT WHAT IS IN IT. Nobody on this project has watched it end to
+  end and the only metadata it carries is a title atom reading "TAJIMA Brand
+  Video 3". /noodle-room/ pulled "with Sam" from its own heading for exactly
+  this reason: a claim about a named person appearing in a film does not get
+  published on an inference. So this section names the film, its runtime and
+  its controls, and asserts nothing about its contents. When somebody watches
+  it, the heading and the caption can say more.
+
+  NOT AUTOPLAY, and that is the difference between this and the two other
+  videos in the build. Both of those are decorative background loops that
+  autoplay muted. This one is a film someone chooses to watch, so it has real
+  controls and starts only when asked. Muted and playsinline are still set:
+  muted so an unmuting browser cannot surprise anyone, playsinline so iOS
+  plays it in place rather than hijacking the screen.
+
+  preload="none" IS LOAD-BEARING. The file is 46.8 MB. preload="metadata"
+  would pull headers from a 46.8 MB asset on every visit to this page for the
+  majority of readers who never press play. Nothing is fetched until the
+  control is used.
+
+  NO POSTER. There is no local poster frame: public/images/ has brand/ and
+  photo/ and neither holds a still from this film. /noodle-room/ posters its
+  copy with a CDN image, and pointing at that would add a second remote
+  dependency to fix rather than one. Without a poster the element renders the
+  first frame once metadata loads, which with preload="none" means it renders
+  as a black panel with a play control until pressed. That is honest and it
+  costs nothing; a real poster frame belongs in the shoot deliverables.
+
+  CDN DEPENDENCY, and it is now on the launch-blocker list beside the Convoy
+  hero photograph. This is the same tajima-temp bucket that already serves two
+  videos and five images on /noodle-room/. See DESIGN_SYSTEM.md open item 7.
+
+  REDUCED MOTION: nothing here moves on its own. There is no autoplay, no
+  loop, and no animation on the block, so the preference has nothing to
+  suppress. The global reduce rule in base.css still covers the reveal.
+#}
+<section class="sect sect--rule" aria-labelledby="film-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="film-title">The <em>film.</em></h2>
+      <p class="sect__note">
+        One minute and twenty seconds. It starts muted and it does not start on its own, so the controls are yours.
+      </p>
+    </header>
+
+    <figure class="film reveal">
+      <video
+        class="film__media"
+        src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
+        controls
+        muted
+        playsinline
+        preload="none"
+        width="1920"
+        height="1080"></video>
+      <figcaption class="film__caption">
+        Tajima brand film
+        <span class="film__meta">1:20</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 {# ==================== QUOTE PENDING ==================== #}
 {#
   The concept got this right and it is kept as-is. Brief section 7.
@@ -243,6 +360,7 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
 <section class="sect sect--alt sect--rule" aria-label="Founder quote, pending interview">
   <div class="sect__inner">
     <div class="pending reveal">
+      <div class="pending__rule" aria-hidden="true"></div>
       <span class="pending__tag">[Quote pending interview]</span>
       <p class="pending__note">
         Sam's words go here, verbatim, once the founder interview is recorded. Per the voice rules, no quote is written for him. This block is a deliberate launch blocker.
@@ -253,9 +371,10 @@ description: "Sam Morikizono grew up in Amagasaki, worked through Japanese kitch
 
 {# ==================== NOODLE BAND ==================== #}
 {#
-  REWRITTEN. The concept read "Homemade noodles, crafted daily" and "Every
-  noodle starts in our own room in Crown Point." Cadence is unconfirmed and
-  "every noodle" is the rollout claim.
+  CADENCE CAUTION REMOVED 2026-09-09, confirmed by the client at all locations.
+  What this comment also flagged, "every noodle starts in our own room", is the
+  ROLLOUT claim and is still open (SITE_ARCHITECTURE.md Open Decision #2). The
+  copy below stays as written.
 #}
 <section class="noodle-band" aria-labelledby="band-title">
   <div class="noodle-band__inner">

@@ -1,0 +1,152 @@
+/* ==========================================================================
+   TEMPORARY. Scaffolding for the v1 -> v2 token migration.
+
+   PHASE 5 STATUS: partly retired, and the rest is gated, not forgotten.
+
+   RETIRED. The seven tokens where v2 reused a legacy name with a different
+   value (--layout-max, --space-12, --text-h2, four --leading-*) are promoted
+   into theme.css's @theme and carry the v2 values for every page. The
+   [data-tokens="v2"] opt-in shim and the front-matter flag it read are gone.
+   Only the frozen A/B/C route still pins the v1 numerics, at the bottom of
+   this file.
+
+   NOT RETIRED. The legacy-name aliases below stay, because the gate for
+   removing them does not pass: the shipping component and page stylesheets
+   still make 297 references across 18 stylesheets to the names this
+   file aliases. Phase 4 restyled the pages (eyebrows, radius, day-mode fixes,
+   CTA rules) but did not rewrite token names in the shared component layer.
+   That is a mechanical follow-up, not part of the port, and it is invisible
+   to users because every alias resolves to the v2 ramp already.
+
+   THE GATE. When this returns nothing, move the alias block from :root down to
+   the .hc-concept scope at the bottom, next to the numerics pin, and this file
+   holds only the frozen route's tokens:
+
+     find src/css -name '*.css' ! -name 'noodle-room.css' \
+       ! -name 'home-concepts.css' ! -name 'tokens*.css' -print0 \
+       | xargs -0 grep -hoE 'var\(--(color-(canvas|ink|rule|surface|red|header-bg)[a-z0-9-]*|hero-[a-z0-9-]+)\)' \
+       | sort | uniq -c | sort -rn
+
+   Note that --color-system-*, --color-cream, --color-gold and --color-black
+   are NOT aliases: they are @theme constants and stay. Only the names listed
+   below are the bridge.
+
+   Two files are out of scope and need no bridge:
+     pages/noodle-room.css   redefines every token it uses inside
+                             [data-experience="noodle-room"], and that page
+                             carries no data-mode at all.
+     pages/home-concepts.css superseded internal A/B/C route. Concepts B and C
+                             read the GLOBAL legacy names, which is why the
+                             aliases cannot simply be deleted even once the
+                             shipping pages stop using them. See the note at
+                             the bottom.
+
+   HEX RULE: this is a sanctioned token block. Derivations use color-mix() off
+   a v2 token rather than a literal, so no new hex enters the codebase.
+   ========================================================================== */
+:root {
+  /* --- Direct aliases, semantically clean -------------------------------- */
+  --color-canvas: var(--canvas);
+  --color-canvas-2: var(--canvas-2);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-header-bg: var(--header-bg);
+
+  /* --- Derived, because v2 has no counterpart ----------------------------
+     The v2 ramp is flatter than the legacy one, so canvas-3 and surface do
+     the same job. The color-mix values reproduce the legacy night alphas
+     exactly: ink-4 was rgba(255,241,244,.32), rule-strong rgba(255,77,64,.4),
+     red-soft .18, red-line .5. */
+  --color-canvas-3: var(--surface);
+  --color-surface-2: color-mix(in srgb, var(--ink) 7%, var(--surface));
+  /* --color-ink-4 IS NOW --ink-3, AND THIS IS A CONTRAST FIX, 2026-09-09.
+     It reproduced the legacy 32% alpha faithfully, and the legacy value fails
+     WCAG AA: measured off real renders at 2.10 to 1 in day and 2.87 at night,
+     against the 4.5 that 13px text needs. Every one of its twelve call sites
+     is text at --text-micro, and one of them is .plate__label, the word
+     "Phone" beside the phone number on all seven location pages.
+
+     There is no fourth ink step that both passes AA and stays visibly lighter
+     than the third: the lightest passing alpha in day is about .60 and --ink-3
+     is .62, so the ramp has three text weights, not four. The token stays
+     rather than being renamed across twelve files, and resolves to the step
+     that passes. Hierarchy still reads: a label at 5.2 against its value at
+     18.7 is a clear step down. Renaming is issue #3. */
+  --color-ink-4: var(--ink-3);
+  --color-rule-strong: color-mix(in srgb, var(--accent) 40%, transparent);
+  --color-red-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+  --color-red-line: color-mix(in srgb, var(--accent) 50%, transparent);
+
+  /* --- Knowingly imprecise -----------------------------------------------
+     Legacy --color-red does two jobs that v2 splits apart: the fill color
+     (#E03C31 Fire Red, which fails AA with white text at body sizes and so is
+     a fill only) and the text/accent color (--accent). All 91 references get
+     --accent here. In night that is exact, because the legacy night ramp
+     lifted --color-red to the same #FF4D40. In day, fills render at #D8352A
+     rather than Fire Red.
+
+     Phase 4 moves the genuine FILL sites to the already-existing
+     --color-system-red: components/stat-bar.css, components/hero.css (via
+     --hero-bg), components/mega-menu.css, and the new red locations field. */
+  --color-red: var(--accent);
+}
+
+/* --- Legacy-only, no v2 counterpart, values carried over verbatim --------
+   Three tokens used solely by components/hero.css, which Phase 3 rebuilds.
+   They die with it. Kept per-mode because they genuinely differ per mode. */
+[data-mode="day"] {
+  --hero-bg: var(--color-system-red);
+  --hero-stripe: rgba(0, 0, 0, 0.085);
+  --hero-stripe-2: rgba(0, 0, 0, 0.045);
+}
+
+[data-mode="night"] {
+  --hero-bg: #c0241a;
+  --hero-stripe: rgba(255, 77, 64, 0.16);
+  --hero-stripe-2: rgba(255, 77, 64, 0.08);
+}
+
+/* ==========================================================================
+   THE FROZEN A/B/C ROUTE, pinned to the v1 numerics.
+
+   PHASE 5: the seven tokens where v2 reused a legacy name with a new value are
+   now promoted into @theme, the [data-tokens="v2"] shim is gone, and every
+   shipping page simply gets the v2 values. /internal/home-concepts/ bypasses
+   layouts/base.njk and was designed against the v1 scale, so it keeps it here
+   rather than silently reflowing. .hc-concept wraps all three concepts,
+   including the header and footer each one renders.
+
+   This block dies with that route. pages/home-concepts.css itself is
+   untouched, as required.
+   ========================================================================== */
+.hc-concept {
+  --layout-max: 90rem;
+  --space-12: 8rem;
+  --text-h2: clamp(2.5rem, 4vw, 3.75rem);
+  --leading-display: .88;
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.55;
+}
+
+/* ==========================================================================
+   PHASE 5 NOTE, read before deleting this file.
+
+   The alias block above cannot simply be removed while the internal A/B/C
+   review route ships. pages/home-concepts.css scopes its own overrides under
+   .hc-light, but concepts B and C read the GLOBAL legacy names, so deleting
+   the aliases renders them unstyled. That route is explicitly out of scope
+   for this port.
+
+   So in Phase 5, once the consumer count for every legacy name reaches zero
+   in the non-frozen stylesheets, re-scope the alias block from :root to the
+   concept wrappers rather than deleting it, and keep this file with that one
+   block. pages/home-concepts.css itself stays untouched either way.
+
+   Retiring the A/B/C route outright (which internal-home-concepts.njk's own
+   header invites, now that v2 is the chosen direction) would let this file go
+   completely, but that is a separate call and not part of this port.
+   ========================================================================== */

@@ -937,7 +937,7 @@
   display: block;
 }
 
-/* Poster (visible until play clicked) — uses the ambient food loop as the poster */
+/* Poster (visible until play clicked). Uses the ambient food loop as the poster */
 [data-experience="noodle-room"] .watch__poster {
   position: absolute;
   inset: 0;
@@ -1142,7 +1142,7 @@
   transform: translateY(-4px);
 }
 
-/* Tonal washes — each ingredient gets a faint color personality */
+/* Tonal washes: each ingredient gets a faint color personality */
 [data-experience="noodle-room"] .ingredient--flour {
   --ingredient-tint: linear-gradient(180deg,
     rgba(245, 232, 200, 0.7) 0%,

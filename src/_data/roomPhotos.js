@@ -46,6 +46,18 @@
 
 import photos from "./photos.json" with { type: "json" };
 
+// CAPTIONS SAY WHAT IS IN THE FRAME, 2026-09-09. These used to read "The
+// room", "The counter", "The neon". A caption that names a generic part of a
+// restaurant tells a reader nothing they cannot see, and tells a reader who
+// cannot see it nothing at all. Each one now names what is actually in the
+// photograph, drawn from the reviewed alt in photos.json rather than written
+// separately, so the two cannot contradict each other. The `tag` carries the
+// one detail worth pulling out of the frame.
+//
+// The College Heights tap tag reads "Twenty-plus taps", not "21". The 21 is a
+// count of the live Toast catalog, not a number Tajima publishes, and the
+// approved way to say it is twenty-plus. See CLIENT_FACTS.md, Location 4.
+
 const CURATED = {
   "college-heights": {
     hero: {
@@ -55,19 +67,53 @@ const CURATED = {
     gallery: [
       {
         file: "tajima-college-heights-interior-dining-room-01.webp",
-        caption: "The room",
-        tag: "Open kitchen",
+        caption: "Long maple tables, the open kitchen at the far end",
+        tag: "Before service",
         wide: true,
       },
       {
         file: "tajima-college-heights-ramen-bar-counter-craft-beer-taps.webp",
-        caption: "The counter",
-        tag: "21 taps",
+        caption: "The counter, and the tap wall behind it",
+        tag: "Twenty-plus taps",
       },
       {
         file: "tajima-college-heights-interior-manga-wall-01.webp",
-        caption: "The manga wall",
-        tag: "Corridor",
+        caption: "The corridor papered in manga pages",
+        tag: "Maple slats",
+      },
+      // FOUR ADDED 2026-09-09, chosen for range rather than count. This room
+      // has 18 more frames with reviewed-quality material in them; these four
+      // are the ones that show something the first three do not. Everything
+      // else in that 18 is another angle on the counter, another night
+      // exterior, or another pass down the same aisle, and photos.json still
+      // carries them with draft alt rather than alt written for a page nobody
+      // is going to put them on.
+      //
+      // The four: the room toward the open kitchen, the ordering counter head
+      // on with its wayfinding, the window side with the booths and the slat
+      // screen, and the manga wall close enough to read.
+      {
+        // Not `wide`. With the existing wide frame first, seven cells lay out
+        // as 6+3+3 then 3+3+3+3, two full rows. Making this one wide too left
+        // a single orphan cell on a third row.
+        file: "tajima-college-heights-interior-dining-room-09.webp",
+        caption: "Down the aisle to the open kitchen",
+        tag: "Before service",
+      },
+      {
+        file: "tajima-college-heights-dining-room-bar-counter-wide.webp",
+        caption: "The counter you order at",
+        tag: "Order here",
+      },
+      {
+        file: "tajima-college-heights-interior-dining-room-03.webp",
+        caption: "The window side, and the slat screen",
+        tag: "Two-tops",
+      },
+      {
+        file: "tajima-college-heights-interior-manga-wall-02.webp",
+        caption: "The manga pages, close enough to read",
+        tag: "Detail",
       },
     ],
   },
@@ -108,12 +154,12 @@ const CURATED = {
     dishes: [
       {
         file: "shrimp-tempura-large-mercury-only.webp",
-        caption: "Shrimp tempura",
+        caption: "Shrimp tempura, with grated daikon and a lemon wedge",
         wide: true,
       },
       {
         file: "miso-soup-large-mercury-only.webp",
-        caption: "Miso soup",
+        caption: "Miso soup, scallion and wakame, in a red lacquer bowl",
       },
     ],
   },
@@ -122,8 +168,86 @@ const CURATED = {
     dishes: [
       {
         file: "shishito-peppers-large-ev-only.webp",
-        caption: "Shishito peppers",
+        caption: "Blistered shishito peppers, glossed with sauce",
         wide: true,
+      },
+    ],
+  },
+
+  // CONVOY DRINKS, added 2026-09-09.
+  //
+  // The only drinks photography in the entire 210-file set, and it is all
+  // Convoy. /happy-hour/ shipped with no imagery on the strength of a comment
+  // in its own markup saying no drink photograph existed in the manifest.
+  // Six did. The comment was written from the curated sets in this file rather
+  // than from photos.json, which is the difference between "not curated" and
+  // "does not exist", and PHOTO_AUDIT.md caught it.
+  //
+  // ONE FRAME, ON CONVOY'S CARD, AND NOWHERE ELSE. photos.json's _rule is that
+  // a photograph reaches a location's surface only if its filename names that
+  // location, so these cannot dress the other five rooms' cards no matter how
+  // much better a six-photo grid would look. Five rooms with no drinks
+  // photography render no photo, which is the same graceful-degradation rule
+  // the galleries follow.
+  //
+  // margaritas-06 is the pick for a card at roughly 350px: three glasses in a
+  // row, high contrast against dark wood, and the silhouettes survive being
+  // shrunk. The overhead crop (margaritas-01) and the four-drink line-ups read
+  // as texture at that size. All six now have reviewed alt and the other five
+  // are waiting on a Convoy surface, most obviously /tajima-convoy/, which has
+  // no drinks imagery either.
+  convoy: {
+    // THE HERO. Added 2026-09-10, and it closes DESIGN_SYSTEM.md open item 7.
+    //
+    // /tajima-convoy/ loaded its hero photograph from tajimaramen.com, the
+    // live WordPress site this project replaces, because there was no Convoy
+    // room photograph anywhere in the repo: all 60 Convoy files were food or
+    // drinks. That made the highest-traffic page on the site depend on the old
+    // site staying up, in either direction.
+    //
+    // The client supplied an upscaled interior at review. It is a REAL
+    // photograph of this room, machine-enlarged, and it is flagged
+    // `aiUpscaled` in photos.json with the full note. It is not a placeholder
+    // and does not trip the placeholder guard: a placeholder is an image of
+    // something else, and this is the right room at the wrong resolution.
+    // Replace it when the shoot lands.
+    hero: {
+      file: "tajima-convoy-interior-dining-room-upscaled.jpg",
+      caption: "The Convoy dining room",
+    },
+
+    // ONE DISH FRAME, TO FILL THE ONE EMPTY CELL. /tajima-convoy/ renders its
+    // food bento from menu.json, which yields eleven photographs at Convoy.
+    // Eleven cells in a four-column bento is two full rows and a row of three,
+    // so the grid has had a literal hole in its last row since it was built.
+    //
+    // This is the twelfth cell and nothing more. It is NOT a second gallery
+    // and it is not an argument for widening the page into a per-room catalog.
+    //
+    // WHY THIS DISH. Chicken Katsu Bun is not in menu.json, which carries the
+    // brand menu, and that is exactly why it belongs on THIS page: the section
+    // above it promises "an izakaya list that runs deeper here than anywhere
+    // else in the house", and until now the section illustrated that claim
+    // with eleven photographs of the brand menu. It is confirmed at this room
+    // by the client's own current print collateral, the 2026-07 Convoy food
+    // menu in public/menus/, which this page links to: "CHICKEN KATSU BUN,
+    // steamed bun with crispy chicken cutlet glazed in a house sauce,
+    // shredded cabbage, and mayo mustard".
+    //
+    // NO PRICE, and no caption text beyond the dish name, because the price on
+    // that printed menu is per location and menu.json _priceStatus is still
+    // open.
+    dishes: [
+      {
+        file: "tajima-ramen-convoy-chicken-katsu-bun-04.webp",
+        caption: "Chicken Katsu Bun",
+        tag: "Convoy izakaya",
+      },
+    ],
+    drinks: [
+      {
+        file: "tajima-ramen-convoy-margaritas-06.webp",
+        caption: "Photographed at Convoy",
       },
     ],
   },
@@ -132,19 +256,19 @@ const CURATED = {
     gallery: [
       {
         file: "tajima-crown-point-exterior-night-neon-ramen-sign-detail.webp",
-        caption: "The neon",
+        caption: "The red neon arrow on the corner, at night",
         tag: "Ingraham Street",
         wide: true,
       },
       {
         file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
-        caption: "The room",
-        tag: "Barrel ceiling",
+        caption: "The dining room under its barrel-vaulted ceiling",
+        tag: "Before service",
       },
       {
         file: "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
-        caption: "The counter",
-        tag: "Red board",
+        caption: "The counter, with the red surfboard above it",
+        tag: "Cedar wall",
       },
     ],
   },
@@ -203,6 +327,109 @@ const PLACEHOLDER = {
 
 const DRAFT = "[DRAFT";
 
+// ===========================================================================
+// PLACEHOLDER SWEEP. Added 2026-09-09.
+//
+// WHAT IT IS FOR. Every photograph on this site today is Tajima's own. That is
+// a standard, not an accident, and the moment it is most likely to slip is the
+// one nobody plans for: the documentary shoot lands late, a page needs a frame
+// this week, and a stock image goes in "just for now". This throws at module
+// load, which fails `npm run build`, so a placeholder cannot reach production
+// by being forgotten. It has to be removed, or the build has to be run with an
+// explicit flag by someone who typed the flag on purpose.
+//
+// It guards nothing on the day it ships, and that is the point. A gate
+// installed after the thing it prevents is a post-mortem.
+//
+// HOW TO REGISTER ONE. In photos.json, on that file's entry:
+//
+//   "placeholder": true,
+//   "placeholderSource": "https://... the page it came from",
+//   "placeholderNote": "what real photograph replaces it, and who is shooting it"
+//
+// and write honest alt describing what is actually in the frame, not what we
+// wish were in it. All three fields are required. Half a registration is worse
+// than none, because it looks handled.
+//
+// HOW TO PREVIEW ONE. TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build
+// The flag is for a client preview, never for a production deploy. Cloudflare
+// builds from a clean environment and does not set it, so a placeholder that
+// builds on someone's laptop still fails the deploy.
+//
+// THE RULES THIS ENFORCES, from the photography standard: never a stock room,
+// storefront or plated bowl, ever, under any flag. Stock is only for generic
+// subjects that no Tajima photograph could cover, such as raw ingredients or
+// texture, and it is never presented as Tajima. This code cannot judge a
+// subject. It can only make sure a human registered the decision, said where
+// the image came from, and named the photograph that replaces it.
+//
+// WHAT IT DOES NOT CATCH, stated plainly. It sweeps the whole manifest rather
+// than the ~10 curated files `lookup()` sees, so it covers photographs placed
+// through paths that never touch this module: src/index.njk reads
+// photos.photos directly, and menu.json carries its own image and alt fields.
+// But it can only see what somebody marked. A stock file dropped into
+// public/images/photo and referenced from menu.json with hand-written alt is
+// invisible to this guard and to the draft-alt guard both. Registration is
+// still a human act. This makes an honest registration binding; it does not
+// make a dishonest one impossible.
+// ===========================================================================
+const ALLOW_PLACEHOLDERS = process.env.TAJIMA_ALLOW_PLACEHOLDERS === "1";
+
+// Accumulate every offender before throwing, the same shape
+// scripts/test-photo-manifest.js uses. Reporting one at a time turns a single
+// fix into as many build runs as there are placeholders.
+const placeholderFailures = [];
+
+for (const [file, record] of Object.entries(photos.photos)) {
+  const marked = record.placeholder === true;
+  const hasSource = typeof record.placeholderSource === "string" && record.placeholderSource.trim() !== "";
+  const hasNote = typeof record.placeholderNote === "string" && record.placeholderNote.trim() !== "";
+
+  // A half-registration is its own failure, and it fails even under the flag.
+  // An entry carrying a source but not the flag reads as handled and is not.
+  if (!marked && (hasSource || hasNote)) {
+    placeholderFailures.push(
+      `${file}: carries placeholderSource or placeholderNote but is not marked ` +
+        `"placeholder": true. Either mark it or remove the fields. A half-registered ` +
+        `placeholder looks handled and is not.`,
+    );
+    continue;
+  }
+
+  if (!marked) continue;
+
+  if (!hasSource || !hasNote) {
+    placeholderFailures.push(
+      `${file}: is marked as a placeholder but is missing ` +
+        `${!hasSource ? "placeholderSource" : ""}${!hasSource && !hasNote ? " and " : ""}${!hasNote ? "placeholderNote" : ""}. ` +
+        `A placeholder has to say where it came from and what replaces it, or ` +
+        `nobody can retire it later.`,
+    );
+    continue;
+  }
+
+  if (!ALLOW_PLACEHOLDERS) {
+    placeholderFailures.push(
+      `${file}: PLACEHOLDER PHOTOGRAPHY IS IN THE BUILD.\n` +
+        `      source:  ${record.placeholderSource}\n` +
+        `      replace: ${record.placeholderNote}`,
+    );
+  }
+}
+
+if (placeholderFailures.length) {
+  throw new Error(
+    `\nroomPhotos: ${placeholderFailures.length} placeholder problem(s). ` +
+      `The build is stopped on purpose.\n\n` +
+      placeholderFailures.map((f) => `  x ${f}`).join("\n") +
+      `\n\n  Every photograph on this site is Tajima's own. To ship a stand-in ` +
+      `anyway, remove it before deploy, or run a PREVIEW with:\n` +
+      `      TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build\n` +
+      `  That flag is for showing a client a layout. It is not set on ` +
+      `Cloudflare, so a placeholder still fails the deploy.\n`,
+  );
+}
+
 function lookup(entry) {
   const record = photos.photos[entry.file];
   if (!record) {
@@ -239,6 +466,7 @@ export default {
         hero: set.hero ? lookup(set.hero) : null,
         gallery: set.gallery ? set.gallery.map(lookup) : null,
         dishes: set.dishes ? set.dishes.map(lookup) : null,
+        drinks: set.drinks ? set.drinks.map(lookup) : null,
       },
     ]),
   ),

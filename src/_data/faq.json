@@ -1,0 +1,49 @@
+{
+  "_note": "The approved answer set. SITE_ARCHITECTURE.md: 'FAQs come from faq.json only. Until it exists, flag as draft-pending-client-approval. Never invent one as fact.' This file is that source. Every answer below traces to CLIENT_FACTS.md and is quoted or tightened, never written from scratch.",
+  "_schemaRule": "SCHEMA.md: every FAQPage name and text is copied from the rendered page, never written separately. src/_data/locationFaq.js composes the list once and both the visible block and the schema graph read it, so they cannot drift.",
+  "_status": "DRAFT PENDING CLIENT APPROVAL. The answers are sourced, but nobody at Tajima has signed off on the wording. Confirm with Amanda before launch.",
+  "brand": [
+    {
+      "q": "Do you take reservations?",
+      "a": "No. Every Tajima room is walk-in. Mercury takes group bookings by phone.",
+      "_source": "CLIENT_FACTS.md:236"
+    },
+    {
+      "q": "Do you have vegan ramen?",
+      "a": "Yes. The Vegan Ramen is built on house-made spinach noodles, marinated tofu and a soy-based broth.",
+      "_source": "CLIENT_FACTS.md:197, :227"
+    },
+    {
+      "q": "Is there a gluten-free noodle?",
+      "a": "No. There is no gluten-free noodle in any bowl. Some dishes can be prepared without gluten, so ask the floor.",
+      "_source": "CLIENT_FACTS.md:229. Do not imply a GF noodle exists."
+    },
+    {
+      "q": "What allergens are on the menu?",
+      "a": "Soy, wheat, shellfish, egg and dairy are all present across the menu.",
+      "_source": "CLIENT_FACTS.md:230"
+    },
+    {
+      "q": "Can I order online?",
+      "a": "Yes, every room has its own ordering page, and takeout runs at all of them. Delivery is through third-party apps and varies by room.",
+      "_source": "CLIENT_FACTS.md:238, :239. Do not name a platform for a specific room; 'varies by location' is unresolved."
+    },
+    {
+      "q": "How do you pay?",
+      "a": "Visa, Mastercard, American Express, Discover, Apple Pay, Google Pay and cash.",
+      "_source": "CLIENT_FACTS.md:120"
+    }
+  ],
+  "_blocked": {
+    "_why": "Questions people actually ask that CANNOT be answered from confirmed facts. Listed so nobody adds one by reflex. Adding any of these needs a client answer first, not a guess.",
+    "What time is happy hour?": "Every window was pulled 2026-08-03 and none has been reconfirmed. See happyHour.json _status.",
+    "Do you cater?": "CLIENT_FACTS.md:240 marks catering CONFIRM. Open Decision #14 says do not imply it exists either way.",
+    "Can I book the space for an event?": "CLIENT_FACTS.md:241. Mercury is the biggest room and takes group bookings by phone, but no private dining program is confirmed.",
+    "Are you kid friendly?": "UPDATED 2026-09-10. Previously read 'Nothing anywhere in the repo. Zero hits.' That is no longer true: Mercury's 2026-07 printed menu in public/menus/ carries a KIDS section with a chicken teriyaki plate for guests under 12. That is one room, from print, and it is not a policy statement about the group, so the question stays blocked. It is now answerable for Mercury if the client wants it.",
+    "Are you wheelchair accessible?": "Nothing in CLIENT_FACTS.md.",
+    "Do you have gift cards?": "/gift-cards/ is a real page with real traffic but no gift-card facts exist in CLIENT_FACTS.md.",
+    "What is your rating?": "CLIENT_FACTS.md:276. Live numbers, never hardcoded, and aggregateRating must not be published.",
+    "Is there outdoor seating?": "ASKED FOR 2026-09-10 AND NOT ADDED, BECAUSE NOTHING SUPPORTS AN ANSWER AT ANY OF THE SEVEN. The instruction was to add it only where CLIENT_FACTS.md supports one. It supports one nowhere: that file contains no mention of outdoor seating, a patio, sidewalk seating or a terrace for any location, the `seating` field in locations.json describes indoor arrangements only (communal tables, seat counts, an open kitchen, a square footage) and two rooms have no seating value at all, and there is not one patio or outdoor photograph among the 211 files in the manifest. ALL SEVEN NEED THE ANSWER. It is a genuinely common question and worth asking Amanda as a single yes or no per room, plus a seat count where yes. Do not infer it from a photograph of a storefront: planters on a sidewalk are not a patio.",
+    "Do you have wifi?": "Nothing anywhere in the repo. Split out of the old wifi-or-patio entry on 2026-09-10."
+  }
+}

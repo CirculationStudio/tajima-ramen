@@ -12,19 +12,27 @@
      schema           optional, a JSON-LD object rendered into the head
      noindex          optional, true to suppress indexing
      heroImage        optional, path to the LCP image, emits a preload
+     mode             optional, pins this page's theme, overriding site.json
 
-   Night mode is permanent: data-mode comes from site.json and there is no
-   toggle. See DESIGN_SYSTEM.md.
+   v2: light and dark both ship, day is the default, and the toggle is manual
+   (no clock, no prefers-color-scheme). site.theme.mode is the server-rendered
+   default and the no-JS answer; components/theme-init.njk corrects it from
+   localStorage before first paint. See DESIGN_SYSTEM.md.
+
+   `mode` pins a page to one theme. Nothing uses it now that every page runs
+   the v2 ramp; it stays because a page may legitimately need to pin one.
    =========================================================================== #}
 <!DOCTYPE html>
 <html
   lang="{{ site.locale }}"
-  data-mode="{{ site.theme.mode }}"
+  data-mode="{{ mode | default(site.theme.mode) }}"
   data-fonts="{{ site.theme.fonts }}"
   data-pattern="{{ site.theme.pattern }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {% include "components/theme-init.njk" %}
 
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">

@@ -1,0 +1,35 @@
+{# ===========================================================================
+   Component: the per-location FAQ.
+
+   Expects `loc` in scope. Reads _data/locationFaq.js, which is the same source
+   _data/schema.js builds the FAQPage node from, so the visible answers and the
+   graph cannot drift. SCHEMA.md requires exactly that: every FAQPage name and
+   text is copied from the rendered page, never written separately.
+
+   Every answer traces to CLIENT_FACTS.md through faq.json. Rooms without a
+   confirmed value get fewer questions rather than an invented answer: Maui has
+   no parking value and four rooms have no languages value, so those questions
+   simply do not appear there.
+
+   faq.json is DRAFT PENDING CLIENT APPROVAL. The answers are sourced but the
+   wording has not been signed off.
+   =========================================================================== #}
+{%- set faqItems = locationFaq[loc.id] %}
+{%- if faqItems and faqItems.length %}
+<section class="sect sect--alt sect--rule" aria-labelledby="faq-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="faq-title">Before you <em>walk in.</em></h2>
+    </header>
+
+    <dl class="faq">
+      {%- for item in faqItems %}
+      <div class="faq__item reveal">
+        <dt class="faq__q">{{ item.q }}</dt>
+        <dd class="faq__a">{{ item.a }}</dd>
+      </div>
+      {%- endfor %}
+    </dl>
+  </div>
+</section>
+{%- endif %}

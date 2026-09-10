@@ -1,0 +1,36 @@
+{# ===========================================================================
+   Component: starburst
+
+   The badge from the October 2025 brand guidelines, page 18: red fill, white
+   stroke, white brush type, two lines, overlapping the edge of the band it
+   sits on. In the guidelines it reads OPEN DAILY and SPECIALS DAILY.
+
+   USAGE
+     {% set burstTop = "Open" %}
+     {% set burstBottom = "Daily" %}
+     {% include "components/starburst.njk" %}
+
+   SCOPED TO /happy-hour/. DESIGN_SYSTEM.md permits the page 18 promotional
+   devices on the promotional page and nowhere else. Do not carry this onto a
+   location page or the home page without a decision.
+
+   THE COPY MUST BE A FACT. This is a graphic that reads as a claim, which is
+   the most dangerous kind of decoration on this project. "Open daily" is
+   published because it is now true and confirmed: the hours Connor supplied
+   on 2026-09-09 cover all seven days at all six San Diego rooms. It is not
+   borrowed from the guidelines because it looked good there.
+
+   The shape is decorative and hidden from assistive technology; the words are
+   real text on top of it, so they are read, selected, translated and scaled
+   like any other type rather than being trapped in an image.
+   =========================================================================== #}
+<span class="burst" role="img" aria-label="{{ burstTop }} {{ burstBottom }}">
+  <svg class="burst__shape" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <polygon
+      points="100.0,6.0 110.8,24.8 126.5,9.8 131.6,30.9 150.8,20.9 149.8,42.6 171.0,38.4 163.9,58.9 185.5,61.0 172.9,78.6 193.0,86.6 176.0,100.0 193.0,113.4 172.9,121.4 185.5,139.0 163.9,141.1 171.0,161.6 149.8,157.4 150.8,179.1 131.6,169.1 126.5,190.2 110.8,175.2 100.0,194.0 89.2,175.2 73.5,190.2 68.4,169.1 49.2,179.1 50.2,157.4 29.0,161.6 36.1,141.1 14.5,139.0 27.1,121.4 7.0,113.4 24.0,100.0 7.0,86.6 27.1,78.6 14.5,61.0 36.1,58.9 29.0,38.4 50.2,42.6 49.2,20.9 68.4,30.9 73.5,9.8 89.2,24.8" />
+  </svg>
+  <span class="burst__text" aria-hidden="true">
+    <span class="burst__line">{{ burstTop }}</span>
+    <span class="burst__line">{{ burstBottom }}</span>
+  </span>
+</span>

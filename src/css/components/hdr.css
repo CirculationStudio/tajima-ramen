@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Block: hdr (the site header)
+
+   v2. Values ported from _reference/tajima-home-v2.html L91-125.
+
+   WHY THIS IS NOT components/site-header.css. layouts/noodle-room.njk writes
+   completely different markup under the SAME `.site-header` block name, and
+   pages/noodle-room.css restyles those exact selectors. Rewriting that file in
+   place would have leaked the v2 header into the editorial sub-experience,
+   which DESIGN_SYSTEM.md forbids. Renaming the block to `.hdr` (the reference
+   file's own name) makes the separation structural instead of careful.
+   site-header.css now serves the Noodle Room header only, and is retired in
+   Phase 5 once that page is re-pointed.
+
+   The markup, the data plumbing and the Locations mega-menu are unchanged:
+   this is a restyle of components/site-header.njk, not a replacement. The
+   reference's flat five-link nav would have dropped a working disclosure with
+   keyboard handling and a focus trap.
+
+   NO `position` in .hdr--mega. It used to say `position: relative`, to give
+   the absolutely-positioned panel a containing block, and that silently killed
+   the sticky header on every main-family page: `.hdr` sets `position: sticky`
+   and `.hdr--mega` set `position: relative`, both at 0,1,0, on the same
+   element, with mega-menu.css imported later. `position: sticky` already
+   establishes the containing block the panel needs.
+   ========================================================================== */
+
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: var(--header-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: var(--stroke-hair) solid var(--rule);
+  transition: background var(--base) var(--ease);
+}
+
+/* The header is full-bleed chrome and never takes a radius. DESIGN_SYSTEM.md:
+   rounding the corner of a color field is what makes a page look templated. */
+.hdr__in {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-4) var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-5);
+}
+
+/* --------------------------------------------------------------------------
+   Logo. Links home. The theme toggle lives in the footer, next to the
+   colophon; DESIGN_SYSTEM.md Open Item 2 is closed.
+   -------------------------------------------------------------------------- */
+.hdr__logo {
+  display: block;
+  min-height: 2.9rem;
+  min-width: 6rem;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--fast) var(--ease);
+}
+
+.hdr__logo:hover {
+  opacity: .82;
+}
+
+.hdr__logo-img {
+  height: 2.9rem;
+  width: auto;
+}
+
+/* Two assets, swapped by theme. NEVER a filter: a filter-based fake was
+   shipped in an earlier draft and turned the mark pink. */
+[data-mode="day"] .hdr__logo-dark { display: none; }
+[data-mode="night"] .hdr__logo-light { display: none; }
+
+/* --------------------------------------------------------------------------
+   Nav
+   -------------------------------------------------------------------------- */
+.hdr__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3) clamp(var(--space-4), 2.5vw, var(--space-7));
+}
+
+.hdr__nav-link {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  line-height: 1;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color var(--fast) var(--ease);
+}
+
+.hdr__nav-link:hover,
+.hdr__nav-link:focus-visible {
+  color: var(--accent);
+}
+
+.hdr__nav-link--current {
+  color: var(--accent);
+  position: relative;
+}
+
+.hdr__nav-link--current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--space-4) * -1);
+  height: var(--stroke-rule);
+  background: var(--accent);
+  box-shadow: var(--glow-red);
+}
+
+.hdr__nav-link--sub {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hdr__nav-link--sub:hover,
+.hdr__nav-link--sub:focus-visible {
+  color: var(--accent);
+  text-shadow: var(--glow-text);
+}
+
+/* --------------------------------------------------------------------------
+   The header CTA. The single red in the header, so any CTA in view alongside
+   it is hairline-outlined or cream. Moved here from mega-menu.css: it is
+   header chrome, not part of the disclosure.
+
+   v2 drops the 999px pill for --radius-sm. 10px and above reads as a SaaS
+   dashboard and was rejected in review.
+   -------------------------------------------------------------------------- */
+.hdr__nav-link--cta {
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  background: var(--accent);
+  color: var(--color-system-cream);
+  padding: var(--space-3) var(--space-5);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  box-shadow: var(--glow-red);
+  transition:
+    background var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.hdr__nav-link--cta:hover,
+.hdr__nav-link--cta:focus-visible {
+  background: var(--color-red-deep);
+  color: var(--color-system-cream);
+  transform: translateY(-1px);
+}
+
+/* CONTRAST. Cream on the lifted night accent is 3.25:1, and this label is
+   13px semibold, which is not large text, so it failed AA. Night rests on
+   --color-red-deep instead (6.36:1) and darkens further on hover, mirroring
+   the day pattern of rest-then-darker rather than flattening the state
+   change. The hover value is derived off the token, so no new hex. */
+[data-mode="night"] .hdr__nav-link--cta {
+  background: var(--color-red-deep);
+}
+
+[data-mode="night"] .hdr__nav-link--cta:hover,
+[data-mode="night"] .hdr__nav-link--cta:focus-visible {
+  background: color-mix(in srgb, var(--color-red-deep) 82%, var(--color-system-ink));
+}
+
+/* Day has no glow (glow is a night-only device and --glow-red resolves to
+   none), so the CTA gets a real drop shadow instead to keep it sitting above
+   the cream field. The accent half is derived with color-mix rather than
+   written as a literal, so it tracks the token. */
+[data-mode="day"] .hdr__nav-link--cta {
+  box-shadow:
+    0 1px 2px rgba(20, 18, 16, .16),
+    0 6px 16px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive. The reference collapses to a single row and hides the Menu link
+   below 60rem; this keeps all five items and wraps instead, because the
+   mega-menu disclosure needs its trigger to stay reachable and the design
+   system defines no burger menu.
+   -------------------------------------------------------------------------- */
+@media (max-width: 64rem) {
+  .hdr__nav {
+    gap: var(--space-5);
+  }
+
+  .hdr__nav-link--sub span {
+    display: none;
+  }
+}
+
+/* WRAP BREAKPOINT, and it has to be 36rem, not the 30rem it used to be.
+
+   Measured: logo, gutters and the five nav items need 561px of layout
+   viewport. The old rule fired at 30rem (480px), so between roughly 466px and
+   561px the header could neither fit nor wrap, and every page scrolled
+   horizontally in that band. 36rem (576px) clears 561 with a small margin.
+
+   This is NOT a phone-width bug, which is what it first looked like: below
+   466px the old rule did fire and the header wrapped correctly. The band is
+   large phones in landscape, small tablets, foldables, and any desktop window
+   dragged narrow. Verified with same-origin iframes, because headless Chrome
+   clamps its own layout viewport to about 485px and will not reproduce
+   anything narrower. */
+@media (max-width: 36rem) {
+  .hdr__in {
+    flex-wrap: wrap;
+  }
+
+  .hdr__nav {
+    flex-wrap: wrap;
+  }
+
+  .hdr__in {
+    gap: var(--space-3);
+  }
+
+  .hdr__nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: var(--space-3) var(--space-4);
+  }
+
+  .hdr__nav-link--cta {
+    padding: var(--space-3) var(--space-4);
+  }
+}

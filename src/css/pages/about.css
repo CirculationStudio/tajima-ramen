@@ -14,16 +14,62 @@
 }
 .chapter{
   display: grid;
-  grid-template-columns: 10rem 1fr;
+  grid-template-columns: 14rem 1fr;
   gap: var(--space-8);
   padding: var(--space-9) 0;
   border-top: 1px solid var(--color-rule);
 }
 .chapter:first-child{ border-top: none; padding-top: 0; }
+
+/* THE JOURNEY RAIL. Amagasaki, Rockford, Los Angeles, Convoy, San Diego,
+   Crown Point is the strongest thing on this page and it read as a list of
+   labels. A hairline down the left of the rail column turns the six beats
+   into one sequence, with each numeral sitting on it as a station.
+
+   The line hangs off .chapter, not .chapter__rail, and spans the chapter's
+   full height including its vertical padding. Chapters stack with no gap
+   between them, so the six segments join into one unbroken rail. Doing it on
+   the rail column instead left gaps at every padding boundary, which read as
+   six separate ticks rather than a journey. */
+.chapter{
+  position: relative;
+}
+.chapter::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--stroke-hair);
+  background: var(--rule);
+}
+.chapter:first-child::before{ top: var(--space-2); }
+.chapter:last-child::before{ bottom: auto; height: var(--space-11); }
+
+.chapter__rail{
+  position: relative;
+  padding-left: var(--space-6);
+}
+/* The station. Sits on the line, aligned to the numeral's cap. */
+.chapter__rail::after{
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: .42em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--canvas);
+}
+
 .chapter__no{
+  display: block;
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
-  font-size: var(--text-h3);
+  /* Up from --text-h3. These are the spine of the page and read as a caption
+     at the old size. */
+  font-size: clamp(2.75rem, 4.5vw, 4rem);
   line-height: 1;
   letter-spacing: var(--tracking-display);
   color: var(--color-red);
@@ -39,6 +85,11 @@
   text-transform: uppercase;
   color: var(--color-ink-3);
 }
+.chapter__mark{
+  margin-top: var(--space-5);
+  opacity: .9;
+}
+
 .chapter__title{
   font-family: var(--font-cond);
   font-weight: var(--weight-semibold);
@@ -53,34 +104,73 @@
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--color-ink-2);
-  max-width: 42rem;
+  /* About 62ch at --text-body. 42rem ran to about 74ch, which is past
+     comfortable for six chapters of running copy. */
+  max-width: 35rem;
 }
 .chapter__para + .chapter__para{ margin-top: var(--space-4); }
 .chapter__para em{ font-style: italic; color: var(--color-ink); }
 
-/* The one line. Set apart, used once. */
-.keyline{
-  padding: var(--space-6) 0 0;
-  font-family: var(--font-cond);
-  font-weight: var(--weight-semibold);
-  font-style: italic;
-  font-size: var(--text-h4);
-  line-height: var(--leading-snug);
-  color: var(--color-ink);
+/* ═══════════════════════════════════════════════════════════════════
+   KEYLINE BAND · the page's one break, between the founding and the years
+═══════════════════════════════════════════════════════════════════ */
+.keyline-band{
+  padding: clamp(var(--space-9), 8vw, var(--space-12)) var(--layout-gutter);
+  background: var(--canvas-2);
+  border-top: var(--stroke-hair) solid var(--rule);
+  border-bottom: var(--stroke-hair) solid var(--rule);
+  text-align: center;
 }
-.keyline em{ font-style: italic; color: var(--color-red); }
-[data-mode="night"] .keyline em{ text-shadow: var(--glow-text); }
+.keyline-band__inner{
+  max-width: 52rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(var(--space-5), 3vw, var(--space-7));
+}
+/* The one sanctioned gradient in the system. */
+.keyline-band__rule{
+  width: min(24rem, 60%);
+  height: var(--stroke-rule);
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+.keyline-band__line{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(1.75rem, 4.6vw, 3.25rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.keyline-band__line em{ font-style: normal; color: var(--accent); }
+[data-mode="night"] .keyline-band__line em{ text-shadow: var(--glow-text); }
 
 /* ═══════════════════════════════════════════════════════════════════
    QUOTE PENDING · deliberate placeholder, ships as a blocker
 ═══════════════════════════════════════════════════════════════════ */
+/* The dashed border stays: it is the honest signal that this is a held slot,
+   not a design flourish. What changes is that it now reads as a composed
+   block rather than an unstyled dev note. Centred, with the gold hairline
+   above it that the keyline band and the neon block also use, so it belongs
+   to the page instead of interrupting it. */
 .pending{
-  border: 1px dashed var(--color-rule-strong);
-  padding: var(--space-8);
+  border: var(--stroke-hair) dashed var(--rule-2);
+  border-radius: var(--radius);
+  padding: clamp(var(--space-7), 5vw, var(--space-9)) var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  align-items: flex-start;
+  gap: var(--space-4);
+  align-items: center;
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+.pending__rule{
+  width: min(12rem, 40%);
+  height: var(--stroke-rule);
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
 }
 .pending__tag{
   font-family: var(--font-ui);
@@ -88,21 +178,71 @@
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
-  color: var(--color-gold);
+  /* Gold as TYPE reads --gold-ink, not Sesame Gold, which sits at about 1.4:1
+     on cream. True Sesame Gold stays for rules, marks and fills. */
+  color: var(--gold-ink);
 }
 .pending__note{
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   line-height: var(--leading-normal);
-  color: var(--color-ink-3);
-  max-width: 40rem;
+  color: var(--ink-2);
+  max-width: 34rem;
 }
 
 /* --- Responsive ------------------------------------------------- */
 
 @media (max-width: 64rem) {
-  .chapter { grid-template-columns: 6rem 1fr; gap: var(--space-6); }
+  .chapter { grid-template-columns: 8.5rem 1fr; gap: var(--space-6); }
 }
 
 @media (max-width: 40rem) {
   .chapter { grid-template-columns: 1fr; gap: var(--space-4); }
+  /* The rail has no column to live in once the grid collapses. */
+  .chapter::before{ display: none; }
+  .chapter__rail{ padding-left: 0; }
+  .chapter__rail::after{ display: none; }
+  .chapter__mark{ margin-top: var(--space-4); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FILM · the brand video, between the chapters and the close
+
+   Not a background loop. The two videos already in the build are decorative
+   autoplaying loops behind other content; this one is the content, so it gets
+   a frame, a caption and the browser's own controls rather than a custom
+   player. Native controls are keyboard operable and screen-reader labelled
+   for free, and a hand-built player on this page would be a worse one.
+
+   Media takes --radius like every other framed media in the system. Full
+   bleed colour fields stay sharp; this is a card, so it takes the scale.
+═══════════════════════════════════════════════════════════════════ */
+.film{
+  margin: 0;
+  max-width: 60rem;
+}
+.film__media{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  border: var(--stroke-hair) solid var(--rule);
+  background: var(--color-system-ink);
+}
+.film__caption{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.film__meta{
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }

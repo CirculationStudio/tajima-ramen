@@ -81,7 +81,9 @@ description: "Internal review page. Three alternate home page directions on one 
 <!DOCTYPE html>
 <html
   lang="{{ site.locale }}"
-  data-mode="{{ site.theme.mode }}"
+  data-mode="night"{# Pinned. Concepts B and C are night-designed and .hc-light
+     only rescopes concept A, so this route must not follow site.json now that
+     the site default is day. Superseded A/B/C review surface, out of scope. #}
   data-fonts="{{ site.theme.fonts }}"
   data-pattern="{{ site.theme.pattern }}">
 <head>

@@ -29,6 +29,33 @@ Source: Tajima Client DNA v1 (May 19, 2026), Tajima Brand Positioning v1 (May 20
 
 ---
 
+## The 2026-07 printed menus
+
+**Six per-location printable food menus, downloaded into the repo 2026-09-09** from tajimaramen.com and served from our own origin (never hotlinked, see `src/_data/locationMenus.json`). They are the client's own current print collateral and the most recent primary source on this project.
+
+**They carry per-location prices.** That is probably the answer to the pricing question that has blocked `/menu/` since 2026-08-04. **Nothing was transcribed and no price was published**, because the open question was never what the numbers are, it is what `/menu/` should print: one room's prices, a range, or none. See `menu.json` `_priceStatus`.
+
+**What they corroborate.** The per-location availability derived from the Toast catalogs holds up against the print at every point checked, including Curry Ramen being Convoy-only, Plaza Bonita carrying no Tajima Black, East Village's sushi hand roll, and Mercury being the only full sushi programme. Plaza Bonita's beverage list contains no alcohol, which independently supports the no-alcohol fact under Location 6. Carnitas Ramen is on all six.
+
+**Two things on them are evidence for questions we have been holding open, and neither is yet an answer.**
+
+1. ~~**Every one of the six prints "Fresh noodles crafted daily."**~~ **CLOSED 2026-09-09.** This was logged as evidence that could not be treated as an answer, on the grounds that a menu line is marketing register and cannot distinguish made-that-morning from delivered-daily. **The client has now confirmed it directly**, at all locations including Maui, so the print and the confirmation agree and open question 3 is resolved. The reasoning for holding it was still right: the print alone would not have been enough.
+2. **Mercury prints a monthly specials section.** The GBP description's "rotating specials" was rejected as unverified marketing copy; for Mercury specifically, there is now print evidence that a rotating special exists. Still not confirmed for any other room, and still not publishable as written.
+
+**What they do NOT answer.** They are food menus. No beer list, no drinks, no happy hour, no tap counts. The tap counts stay unpublished (see Location 4) and the happy hour windows stay unconfirmed.
+
+**Client-side quality issues visible on the print**, worth passing back with the pricing question: typographic errors on Plaza Bonita ("COMBA B" for Combo B) and Mercury ("soy-based sauc", and a kids line reading "For guests under 12 & under"), and missing spaces after commas on three of them. Plaza Bonita's filename claims 1920x1080 and the file is 2048x1152.
+
+## The GBP export, and what may not come out of it
+
+**Source: Connor, Google Business Profile export, 2026-09-09.** It closed `geo` and `sameAs` (open question 8), independently corroborated the hours and the full NAP at all six San Diego locations, and raised four conflicts recorded as open questions 16 to 19.
+
+**THREE THINGS IN THAT EXPORT ARE NOT IMPORTABLE AND DO NOT BECOME SITE COPY.**
+
+1. **The "From the business" descriptions, all six.** They are marketing copy written against the retired positioning. They use "authentic", "must-visit" and "bold flavors", all of which are on the banned list in `voice-tone.md`, and they make unverified claims about seasonal ingredients, rotating specials and locally sourced produce that appear nowhere in this file. **None of it enters page copy, `locations.json`, or schema `description`.** They are GBP assets and they stay there. Being the client's own words does not make them confirmed facts: they are a marketing surface, not a record of the business.
+2. **The `Additional categories` values.** Several read "Authentic Japanese restaurant". That is a Google taxonomy string, not our language, and "authentic" without proof is banned outright. Categories are not mirrored into schema; see open question 17.
+3. **The website URLs.** The export's website fields carry `?utm_source=gbp`. **Schema `url` and the canonical tag are the clean URL with no query string**, or the canonical points at a tracked variant of itself. UTMs live in the GBP field and nowhere else. Cloudflare already strips UTM params at the edge and 301s to the clean URL, per `SITE_ARCHITECTURE.md`.
+
 ## NAP (must be byte-identical everywhere: site, GBP, Yelp, Apple, directories)
 
 There is no single brand NAP. Tajima is six San Diego addresses, and each is its own citation entity. The Convoy address is the canonical **primary** for brand-level purposes only.
@@ -81,6 +108,8 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Opened 2020. Open-kitchen layout, built around one long counter. 20+ craft beer taps. Street parking.
 - Languages: English, Spanish.
 - **CORRECTED 2026-08-05.** This entry previously read *"Pared-down ramen-bar menu, not the full menu."* **The ramen list is not pared down.** The live Toast catalog carries 11 ramen items against Convoy's 12, at prices identical to Convoy's, item for item; the only absent ramen is Curry Ramen. It also has **21 beer taps against Convoy's 11, the largest beer program of the seven.** What is genuinely reduced is everything around the bowls: 12 appetisers against 17, 8 rice dishes against 10, 1 dessert against 2. Write the format (ramen bar, open kitchen, counter, the tap list), never "pared-down menu." Source: `src/_data/toastMenus/college-heights.json` and `convoy.json`, pulled 2026-08-04. This is `SITE_ARCHITECTURE.md` Open Decision #23, and `/tajima-college-heights/` now publishes the corrected version.
+- **TAP COUNTS ARE NOT PUBLISHABLE NUMBERS, added 2026-09-09.** The "21 beer taps against Convoy's 11" above is a count taken off the two live Toast catalogs on 2026-08-04, not a figure Tajima publishes. **Write "twenty-plus" for College Heights and never 21**, which this entry already says. **Convoy's 11 does not go on the site at all**: it was published on `/happy-hour/` for one day and pulled on Steve's call, because a tap list rotates and a snapshot of one day in August is not a durable fact about the room. The rule generalises: a number derived by counting a catalog is evidence for us, not a claim for the site. Getting real tap counts, if the client wants them published, is a question for Amanda.
+
 - **The manga wall: UNCONFIRMED, do not treat as settled.** A corridor papered floor to ceiling with black and white manga pages between maple slat panels. It appears in four frames of Tajima's own photography of this room and is published on the location page on that basis. Nobody at Tajima has confirmed it in writing. Ask Amanda.
 
 ### Location 5: Crown Point
@@ -109,6 +138,7 @@ There is no single brand NAP. Tajima is six San Diego addresses, and each is its
 - Phone: **(808) 214-5702**
 - Yelp: https://www.yelp.com/biz/tajima-ramen-maui-kihei
 - Full ramen menu, sushi rolls (similar to Mercury), izakaya plates.
+- **CADENCE CONFIRMED FOR MAUI TOO, 2026-09-09.** The client's confirmation that house-made noodles are crafted daily explicitly covers all locations including Maui. **This does not resolve `SITE_ARCHITECTURE.md` Open Decision #1**, which asks about mechanism (does Maui make them on site, on what equipment) rather than cadence. It is the strongest evidence that decision has ever had and it is recorded there, unresolved, on purpose.
 - **Noodles: every ramen item on Maui's live Toast menu is labelled "HM Noodles"** (observed 2026-08-04). Stronger evidence than the `...HM-Noodles...Kihei.jpg` filename it supersedes, because it comes from Tajima's own operational system and is applied consistently rather than appearing once. **It is not confirmation.** "HM" is presumed to mean house-made, which is an inference, and the label says nothing about mechanism: made on site, shipped in, or a tag inherited from the San Diego catalog. All three read identically in Toast and all three change what the site may say. **Still blocked**, see `SITE_ARCHITECTURE.md` Open Decision #1.
 
 ### Brand-level
@@ -176,8 +206,8 @@ CONFIRMED (Sam video transcript):
 - Broth is made **every morning** in the same Crown Point building and manually delivered to every San Diego location.
 
 NOT CONFIRMED, do not publish:
+- **NOODLE CADENCE: CONFIRMED 2026-09-09 by the client.** House-made noodles, crafted daily, is accurate at **all locations, Maui included**. The line that stood here saying the daily cadence was broth-only is removed. The site's approved slogan and the two live claims on `/` ("Cut daily in the Noodle Room", "cut that morning in Crown Point") are now sourced. **This does not license the rollout claim**, which is the next bullet and is a different sentence. It also does not license a production clock: no mix, rest, sheet or cut time is confirmed.
 - **Rollout status.** House-made noodles are rolling out to all locations. Whether every location has switched over is unknown. Write "made in our own Noodle Room," **not** "every bowl at every location," until this is answered. The site cannot make a claim the kitchen has not finished delivering.
-- **Noodle production cadence.** "Made this morning" is confirmed for **broth only**. It is not confirmed for noodles. This is the easiest wrong sentence on the whole site to write, and the approved slogan makes it likelier.
 - **Distance framing.** "A few miles" is true for the beach locations and false for South Bay (Crown Point to Plaza Bonita is roughly 17 miles). Prefer "in Crown Point," "across town," or "in our own kitchen." Use a mileage number only if someone measures it.
 - **Charcoal noodle.** Referenced as in development. Not in production. Do not publish.
 - Any claim about flour type, hydration, water, alkalinity, or aging time. Nobody has told us any of it.
@@ -394,16 +424,43 @@ Note what the second story does not do: it does not call the old noodles bad. It
 
 1. **The Sam interview.** Blocks every `[QUOTE PENDING INTERVIEW]` marker on the site. The single largest gap on the project.
 2. **Noodle rollout status.** Blocks any "every location" claim. (Interview Q14.)
-3. **Noodle production cadence.** Blocks applying "made this morning" to noodles. (Interview Q13.)
+3. ~~**Noodle production cadence.**~~ **RESOLVED 2026-09-09 by the client.** Crafted daily is accurate at all locations including Maui. Five template cautions removed and the two live claims on `/` confirmed; `site.json` `_sloganNote` carries the record. **Interview Q13 no longer blocks copy.** Still not confirmed and still not publishable: the production *clock* (a 06:00 mix, an 08:00 rest), which is a separate ask.
 4. **The Noodle Room lead's name.** Blocks the second character in the brand story. (Interview Q12.)
 5. **Carnitas decision.** Blocks the menu page and its schema.
 6. ~~**Convoy suite number.**~~ **RESOLVED 2026-08-03: STE H.** See the correction note under Location 1.
 7. ~~**Exact addresses** for Mercury, East Village, College Heights, Plaza Bonita.~~ **RESOLVED 2026-08-03** from the `SITE_ARCHITECTURE.md` NAP table. All seven are filled in above.
-8. **GPS, GBP URLs, and Yelp URLs**, all seven. Still blocks the `sameAs` and `geo` blocks. **Phones are resolved** (2026-08-03, NAP table). **Ordering URLs are resolved** (2026-08-05, click-test); see Booking and access.
-9. **Authoritative hours** per location. Blocks `openingHoursSpecification`.
+8. ~~**GPS coordinates and GBP profile URLs.**~~ **RESOLVED 2026-09-09 for the six San Diego locations**, from Connor's Google Business Profile export. `geo` is emitted as `GeoCoordinates` on all six Restaurant nodes and each carries its GBP profile link in `sameAs`, ahead of any pre-existing Yelp entry. **Maui is still open**: it was not in the export, its `geo` stays null and it emits no coordinates rather than a guess. **One follow-up, and it is a quality question rather than a blocker.** The supplied links are `maps.app.goo.gl` share URLs, which are Google redirects. They resolve and they are far better than nothing, but a resolved Google Maps place URL, or the CID, is the stronger `sameAs` value for a canonical profile reference. **Ask Connor for the canonical place URLs or the CIDs.** They were deliberately not resolved on our side: deriving a URL and putting it in schema is not the same as publishing one the client confirmed, and this is a brand whose Convoy citation audit scored 25/100. Swapping them later changes nothing but the string. The citation cleanup itself is still open: that audit also flagged a generic "Restaurant" secondary category that should become "Noodle Shop". See #16.
+
+9. ~~**Authoritative hours** per location.~~ **RESOLVED 2026-09-09 by Connor for six of seven.** `openingHoursSpecification` is emitted for College Heights, East Village, Crown Point, Mercury, Convoy and Plaza Bonita, built from `locations.json` so the visible NAP row and the schema graph cannot drift. **Maui is still open**: hours were not supplied, it stays null, and it emits no hours at all rather than borrowing a sibling's pattern. Note that this resolves OPERATING hours only. **Happy hour windows remain unconfirmed at every location** and are a separate ask; see `happyHour.json` `_status`.
 10. **Tijuana operating count** and **Tijuana / Maui site scope.** Blocks the schema graph and the locations index.
 11. **US legal entity name.** Blocks `Organization.legalName`.
 12. **Location count fix** on the current official site. Blocks launch hygiene.
 13. **Public brand email and CMS.** Blocks contact page and migration planning.
 14. **Staff consent** for named profiles. Blocks the crew content theme.
 15. **Photography.** The documentary Noodle Room and commissary shoot does not exist yet. It is the asset every page depends on, and no page ships with placeholder or AI imagery.
+16. ~~**THE GBP OPENING DATES CONTRADICT THIS FILE.**~~ **RESOLVED 2026-09-10: the client confirmed the opening years at review.**
+
+    | Location | Confirmed | This file held | GBP export |
+    |---|---|---|---|
+    | Convoy | **2001** | 2001 (right) | 2006-04-01 |
+    | Mercury | **2006** | 2007 | 2006-12-01 |
+    | East Village | **2015** | 2016 | 2015-12-01 |
+    | College Heights | **2020** | 2020 (right) | 2020-03-18 |
+    | Plaza Bonita | **2021** | late 2020 | 2022-11-17 |
+    | Crown Point | **2024** | 2025-01-12 | 2024-12-14 |
+
+    **Four of the six correct what this file held.** `locations.json` is updated and so is every page that already carried a year: `/locations/` for four rooms, `/tajima-east-village/`, `/tajima-crown-point/`, `/noodle-room/` and chapter 06 of `/about/`. No page gained a date it did not already have.
+
+    **Convoy stays 2001 and the GBP date is the one that is wrong.** The client confirmed 2001, which is also the founding year, the "since 2001" slogan and the whole brand story. That supports the reading recorded when this conflict was first logged: a GBP opening date frequently records when the listing was created or claimed.
+
+    **PLAZA BONITA MATCHES NEITHER SOURCE AND IS WORTH ONE MORE QUESTION.** The client says 2021, this file said late 2020, GBP says 2022-11-17. Three sources, three answers. The client's is published because they own the business, and no page publishes a Plaza Bonita year, so nothing is exposed. But a year sitting between the two wrong answers is the shape of a half-remembered date.
+
+    **Crown Point lost its month.** This file recorded "Opened January 12, 2025" from a 2025 Japanese corporate filing, which is a primary document, and two sources now say 2024. The likeliest reading is a room that opened in December 2024 and was recorded in a filing the following January. Pages that said "January 2025" now say 2024, because the year is confirmed and the month is not.
+
+17. **GBP primary categories are inconsistent across the six rooms.** College Heights and Mercury are set to "Japanese restaurant"; Convoy, East Village, Crown Point and Plaza Bonita are set to "Ramen restaurant". That is a live local-SEO inconsistency on the client's own profiles, and it is worth more than most on-site work: the primary category is one of the strongest ranking inputs in the map pack, and "ramen [neighborhood]" is the money query. **This is a client action on Google. It is not mirrored into schema and must not be**: `servesCuisine` stays `["Japanese", "Ramen"]` on all seven, which is a description of the food and not a Google taxonomy string. Several `Additional categories` values in the export read "Authentic Japanese restaurant"; that is Google's string, not our language, and it does not reach the site under any circumstances.
+
+18. **The GBP `Administrative area` column is internally inconsistent in the export itself**, writing `CA` for three locations and `California` for three. `locations.json` has always written `CA`, which is the correct `PostalAddress` value, so nothing changed on our side. Their GBP entries should be made consistent. Client action.
+
+19. **Crown Point and Plaza Bonita have no order-ahead link on their Google Business Profiles.** Both have a working, click-tested Toast URL in `locations.json` and both link it from their own pages, so this is not a site defect. It is an order button missing from the client's own Google listing, on the two newest rooms. Client action, and the highest-value one on this list. Of the four rooms that do have a link, three (Convoy, East Village, Mercury) use `bit.ly` redirects; the direct Toast URLs in `locations.json` were kept over those, see `_orderUrlStatus`.
+
+20. **OUTDOOR SEATING, ALL SEVEN. Requested 2026-09-10 and could not be answered.** The FAQ was to gain an outdoor-seating question wherever this file supported one. It supports one nowhere. There is no mention of outdoor seating, a patio, sidewalk seating or a terrace for any location in this file; `locations.json` `seating` describes indoor arrangements only and is null for Plaza Bonita and Maui; and there is not one patio or outdoor photograph among the 211 files in the manifest. **Ask Amanda for a yes or no per room, and a seat count where the answer is yes.** It is a common question and the page currently cannot answer it. Do not infer it from an exterior photograph: planters on a sidewalk are not a patio. Recorded in `faq.json` `_blocked`.

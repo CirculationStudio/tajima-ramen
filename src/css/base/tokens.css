@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Tajima Ramen v2 design tokens.
+
+   Source of truth: _reference/tajima-home-v2.html, the client-approved
+   reference implementation (approved via Andy, August 2026). Values below are
+   PASTED from that file's :root and [data-mode] blocks at L16-66, not retyped.
+   Where DESIGN_SYSTEM.md and that file disagree, the file wins and the doc
+   gets corrected.
+
+   Light and dark both ship. data-mode on <html>, DAY is the default, the
+   toggle is manual only (no clock, no prefers-color-scheme). This reverses the
+   v1 "night is permanent" decision. See DESIGN_SYSTEM.md, "What changed in v2".
+
+   WHERE TOKENS LIVE, three files:
+     base/theme.css         @theme (Tailwind constants) + [data-fonts] sets
+     base/tokens.css        THIS FILE. The v2 ramps and the v2-only tokens.
+     base/tokens-bridge.css temporary legacy-name aliases, deleted in Phase 5.
+
+   HEX RULE: DESIGN_SYSTEM.md allows hex only inside token blocks. This file is
+   a sanctioned token block. No hex may appear in any component or page
+   stylesheet. rgba() inline is permitted for scrims, overlays and glows only.
+   ========================================================================== */
+
+:root {
+  --color-red: #E03C31;
+  --color-red-deep: #B5261C;
+  --color-gold: #FFC658;
+  --color-cream: #FFFEF4;
+  --color-black: #000000;
+
+  /* The font trio (--font-display / --font-body / --font-ui) is deliberately
+     NOT declared here, though the reference declares it at L20-22. The repo
+     assigns those three from theme.css's [data-fonts] blocks, which is a
+     (0,1,0) attribute selector and would beat this :root only by import
+     order. Declaring them here would kill the data-fonts mechanism for three
+     tokens while --font-cond (42 consumers, no v2 equivalent) kept resolving
+     from it: half the type system on one switch, half on another.
+
+     Under data-fonts="brand" the two resolve to the same rendered stacks; the
+     reference's extra fallbacks (Impact, -apple-system) are never reached,
+     because fonts.css loads both faces from the same CDN URLs the reference
+     uses at L13-14. No third typeface is involved. Two families ship. */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --space-11: 6rem;
+  /* --space-12 (11rem) collides with the legacy 8rem. It lives in
+     tokens-bridge.css behind [data-tokens="v2"] until Phase 5. */
+
+  --text-micro: .8125rem;
+  --text-meta: .875rem;
+  --text-small: 1rem;
+  --text-body: 1.125rem;
+  --text-lead: 1.375rem;
+  --text-h3: clamp(1.75rem, 2.6vw, 2.5rem);
+  --text-hero: clamp(3rem, 7vw, 7rem);
+  /* --text-h2 collides with the legacy value. See tokens-bridge.css. */
+
+  --tracking-wide: .04em;
+  --tracking-wider: .14em;
+  --tracking-widest: .22em;
+  /* --leading-* all collide with legacy values. See tokens-bridge.css. */
+
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --fast: 220ms;
+  --base: 420ms;
+
+  /* New in v2. Small values only: 10px and above reads as a SaaS dashboard
+     and was rejected in review. Full-bleed color fields, the header and the
+     hero never get a radius. Kept out of @theme on purpose, because Tailwind
+     v4 ships its own --radius-sm/--radius-lg defaults and putting these there
+     would silently redefine rounded-sm / rounded-lg. */
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 8px;
+
+  /* Type over photography. Neither ramp's accent, and deliberately outside
+     the [data-mode] blocks: these sit on a black-scrimmed photo or video in
+     BOTH themes, so they must not follow data-mode the way --accent does.
+     Both are lifted reds that hold contrast on dark media where Fire Red and
+     the day accent go muddy. Values are the reference file's own, at L140
+     (hero slogan) and L342 (statement line).
+
+     Same reasoning as --color-system-* in theme.css: an element's color is
+     determined by what it sits on, not by the theme around it. */
+  --accent-on-media: #FF7A6D;
+  --accent-on-media-strong: #FF6A5E;
+
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  /* --layout-max (82rem) collides with the legacy 90rem. See tokens-bridge. */
+}
+
+/* ==========================================================================
+   Surface ramp: DAY (the default)
+
+   Off-White canvas, per Client DNA A4.
+
+   Two values here are easy to get wrong:
+   - Accent red is #D8352A, not Fire Red. True Fire Red #E03C31 with white
+     text is 4.32:1 and FAILS AA, so it is a fill color, not a text-on-red
+     color at body sizes. #D8352A passes at 4.71:1.
+   - Gold is two values. #FFC658 as type on cream is about 1.4:1, effectively
+     invisible, so --gold-ink carries type (dark gold here, bright gold at
+     night) and true Sesame Gold stays for rules, marks and fills.
+
+   Glow is a night-only device. Every glow token resolves to none here. Never
+   hardcode a glow; always read the token, or day mode shows what looks like a
+   rendering bug.
+   ========================================================================== */
+[data-mode="day"] {
+  --canvas: #FFFEF4;
+  --canvas-2: #F7F4E9;
+  --surface: #FFFFFF;
+  --ink: #141210;
+  --ink-2: rgba(20, 18, 16, .74);
+  /* CONTRAST. The reference sets .5, which is 3.50:1 on the day canvas. This
+     token carries roughly 25 small-text elements (captions, labels, meta
+     lines, breadcrumb current), none of which is large text, so .5 failed AA.
+     Raised to .62, which is 5.20:1. The night value is untouched: .5 there is
+     already 5.28:1 against the dark canvas. */
+  --ink-3: rgba(20, 18, 16, .62);
+  --accent: #D8352A;
+  --rule: rgba(20, 18, 16, .14);
+  --rule-2: rgba(20, 18, 16, .26);
+  --header-bg: rgba(255, 254, 244, .96);
+  --shadow: 0 1px 0 rgba(20, 18, 16, .06);
+  --gold-ink: #8A6410;
+  --glow-red: none;
+  --glow-text: none;
+  --glow-gold: none;
+}
+
+/* ==========================================================================
+   Surface ramp: NIGHT
+   ========================================================================== */
+[data-mode="night"] {
+  --canvas: #0B0A0C;
+  --canvas-2: #131114;
+  --surface: #17151A;
+  --ink: #FFFEF4;
+  --ink-2: rgba(255, 254, 244, .76);
+  --ink-3: rgba(255, 254, 244, .5);
+  --accent: #FF4D40;
+  --rule: rgba(255, 254, 244, .14);
+  --rule-2: rgba(255, 254, 244, .28);
+  --header-bg: rgba(11, 10, 12, .86);
+  --shadow: 0 1px 0 rgba(255, 254, 244, .06);
+  --gold-ink: #FFD25E;
+  --glow-red:
+    0 0 12px rgba(255, 77, 64, .5),
+    0 0 38px rgba(255, 77, 64, .28),
+    0 0 78px rgba(255, 77, 64, .14);
+  --glow-text:
+    0 0 8px rgba(255, 77, 64, .5),
+    0 0 24px rgba(255, 77, 64, .3);
+  --glow-gold:
+    0 0 10px rgba(255, 210, 94, .4),
+    0 0 28px rgba(255, 210, 94, .2);
+}

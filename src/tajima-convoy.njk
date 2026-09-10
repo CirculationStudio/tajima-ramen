@@ -16,13 +16,24 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   it sits in the densest ramen market in San Diego. The brief: "Content quality
   matters more here than anywhere."
 
-  MUST NOT READ AS A NEAR-DUPLICATE OF MERCURY. They are two miles apart in the
-  same ZIP, and Google is already mis-resolving the two entities (localstack
-  lists Convoy at Mercury's address, frankiapp puts Convoy in Los Angeles).
-  Everything below is specific to this room.
+  MUST NOT READ AS A NEAR-DUPLICATE OF MERCURY. They are in the same ZIP and
+  Google is already mis-resolving the two entities (localstack lists Convoy at
+  Mercury's address, frankiapp puts Convoy in Los Angeles). Everything below is
+  specific to this room.
 
-  NAP comes from locations.json. Hours are absent: Open Decision #9.
+  THE "TWO MILES" FIGURE IS WRONG AND IS GONE, 2026-09-09. SITE_ARCHITECTURE.md
+  states it in three places and this page published it as a section heading.
+  Connor's GBP coordinates put the two rooms 0.57 miles apart in a straight
+  line. The number is removed and not replaced with a computed one: see
+  _convoyMercuryDistance in _data/roomPlaces.json. The strategic point is
+  unaffected and if anything sharper, because two rooms that close are more
+  likely to be conflated, not less.
+
+  NAP comes from locations.json, hours included: confirmed 2026-09-09.
 #}
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 {%- set loc = (locations.items | where("id", locationId)) | first %}
 
 <section class="page-hero page-hero--split" aria-labelledby="page-title">
@@ -35,7 +46,6 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         <span aria-hidden="true">/</span>
         <span class="page-hero__crumbs-current">{{ loc.name }}</span>
       </p>
-      <span class="page-hero__eyebrow">The original &middot; Since {{ loc.opened }}</span>
       <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
       {#
         REWRITTEN ENDING. The concept closed with "it still sets the standard
@@ -49,7 +59,8 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
       {#
         The address plate. Every value from locations.json, none hardcoded.
-        There is no Hours row, and no placeholder for one.
+        The Hours row is components/plate-hours.njk, shared with the other two
+        location templates so the three cannot drift again.
       #}
       <address class="plate">
         <span class="plate__item">
@@ -58,15 +69,17 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         </span>
         <span class="plate__item">
           <span class="plate__label">Phone</span>
-          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
         </span>
+        {% include "components/plate-hours.njk" %}
+
         <span class="plate__item">
           <span class="plate__label">Directions</span>
           <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
         </span>
         <span class="plate__item">
           <span class="plate__label">Parking</span>
-          <span class="plate__value">{{ loc.parking }} on Convoy Street</span>
+          <span class="plate__value">{{ loc.parking }}</span>
         </span>
         <span class="plate__item">
           <span class="plate__label">Seating</span>
@@ -88,15 +101,40 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       </address>
     </div>
 
+    {#
+      THE WORDPRESS HOTLINK IS GONE, 2026-09-10, AND THAT CLOSES A LAUNCH
+      BLOCKER. This <figure> loaded its photograph from tajimaramen.com, the
+      live site this project replaces, which meant the highest-traffic page on
+      the build could not survive the old site being taken down, in either
+      order. It was the last remote image outside our own origin.
+
+      What replaces it is a real photograph of this room, supplied by the
+      client at review and committed to public/images/photo/. It is
+      machine-upscaled and flagged `aiUpscaled` in photos.json with the whole
+      story. It is not AI-generated imagery and it is not a placeholder;
+      DESIGN_SYSTEM.md draws that distinction under Banned content. Replace it
+      when the documentary shoot lands.
+
+      It comes through roomPhotos.js like every other placed photograph, so it
+      passes the same build guards, including the one that fails the build on
+      unreviewed alt.
+
+      The alt and caption said "storefront" until the v2 port. The photograph
+      is the dining room, and it shows the communal table this page goes on to
+      describe.
+    #}
+    {%- set convoyHero = roomPhotos[locationId].hero %}
     <figure class="page-hero__photo">
       <img class="page-hero__photo-img"
-        src="https://tajimaramen.com/wp-content/uploads/2022/06/Tajima-Convoy-3-2.jpg"
-        alt="The storefront at Tajima Ramen Convoy on Convoy Street"
-        loading="lazy" width="900" height="600">
-      <figcaption class="page-hero__photo-cap">The Convoy storefront</figcaption>
+        src="{{ convoyHero.src }}"
+        alt="{{ convoyHero.alt }}"
+        loading="lazy" width="{{ convoyHero.width }}" height="{{ convoyHero.height }}">
+      <figcaption class="page-hero__photo-cap">{{ convoyHero.caption }}</figcaption>
     </figure>
   </div>
 </section>
+
+{% include "components/location-place.njk" %}
 
 {# ==================== WHAT'S DIFFERENT HERE ==================== #}
 {#
@@ -106,7 +144,6 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 <section class="sect pattern-section" aria-labelledby="diff-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">This room</span>
       <h2 class="sect__title" id="diff-title">Where the house <em>started.</em></h2>
     </header>
 
@@ -153,9 +190,11 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       </article>
 
       <article class="cell diff__cell reveal">
-        <h3 class="diff__title">Three languages.</h3>
+        {# From locations.json, not written out. College Heights already did it
+           this way; Convoy was the copy that could drift. #}
+        <h3 class="diff__title">{{ loc.languages | length }} languages.</h3>
         <p class="diff__body">
-          Japanese, English, and Spanish spoken at this location.
+          {{ loc.languages | join(", ") }} spoken at this location.
         </p>
       </article>
 
@@ -170,11 +209,28 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
   The bowls shown are filtered from menu.json, so this gallery cannot drift
   from the menu page or from schema.
+
+  READS AS A MENU, 2026-09-09. Each figure carries the dish description under
+  the name now, from the same menu.json field /menu/ prints. Convoy keeps its
+  photographs rather than taking the type-only list the other six use
+  (components/location-menu.njk), because Convoy is the one room with its own
+  food photography and every featured dish here is photographed. Printing the
+  same eleven names again as a list underneath would repeat the section, not
+  deepen it.
+
+  No prices. menu.json `_priceStatus`: the brand prices are stale against the
+  live catalogs and vary by location, so no single price is right for all
+  seven. /menu/ prints them; a location page does not.
+
+  NOW FILTERED BY LOCATION. This looped every featured dish with an image,
+  which happened to equal Convoy's eleven, so the page was right by
+  coincidence rather than by rule. The other two templates already filtered on
+  `dish.locations`.
 #}
 <section class="sect sect--alt sect--rule" aria-labelledby="kitchen-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">From this kitchen</span>
+      <span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <h2 class="sect__title" id="kitchen-title">What comes out of <em>Convoy.</em></h2>
       <p class="sect__note">
         The Red, Black, and White trio, and an izakaya list that runs deeper here than anywhere else in the house. <a class="sect__link" href="/menu/">See the whole menu</a>.
@@ -183,14 +239,48 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 
     <div class="bento">
       {%- for dish in menu.items %}
-        {%- if dish.feature and dish.image %}
+        {%- if dish.feature and dish.image and locationId in dish.locations %}
       <figure class="cell shot reveal">
-        <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-        <figcaption class="shot__caption">{{ dish.name }}</figcaption>
+        {#- See components/location-gallery.njk: without .shot__figure the
+            absolutely positioned image covers its own caption. #}
+        <div class="shot__figure">
+          <img class="shot__img" src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
+        </div>
+        <figcaption class="shot__caption">
+          <span class="shot__name">{{ dish.name }}</span>
+          {%- if dish.description %}<span class="shot__desc">{{ dish.description }}</span>{% endif %}
+        </figcaption>
       </figure>
         {%- endif %}
       {%- endfor %}
+      {#-
+        The twelfth cell. menu.json yields eleven photographs at Convoy and the
+        bento is four columns, so the last row was one short. This fills it
+        with a Convoy izakaya plate that is not on the brand menu, which is
+        what the section note above actually promises. Curated in
+        roomPhotos.js, so it goes through the same build guard as every other
+        placed photograph. -#}
+      {%- set extra = roomPhotos[locationId].dishes %}
+      {%- if extra %}
+      {%- for shot in extra %}
+      <figure class="cell shot reveal">
+        <div class="shot__figure">
+          <img class="shot__img" src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" width="{{ shot.width }}" height="{{ shot.height }}">
+        </div>
+        <figcaption class="shot__caption">
+          <span class="shot__name">{{ shot.caption }}</span>
+          {%- if shot.tag %}<span class="shot__tag">{{ shot.tag }}</span>{% endif %}
+        </figcaption>
+      </figure>
+      {%- endfor %}
+      {%- endif %}
     </div>
+
+    {#- Convoy does not render components/location-menu.njk (it shows its own
+        food photography instead of the type list), so it includes the menu
+        links directly. -#}
+    {%- set menuLinksLoc = locationId %}
+    {% include "components/menu-links.njk" %}
   </div>
 </section>
 
@@ -199,9 +289,12 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   Universal section 6 of the location page template: one line saying the
   noodles are made in our own room, linking to /noodle-room/.
 
-  Same rewrite as /locations/. The concept's "Homemade noodles, crafted daily"
-  asserts an unconfirmed cadence.
+  The cadence caution that stood here is gone, 2026-09-09: the client confirmed
+  crafted daily at all locations. The copy below is unchanged, because it was
+  never wrong, only cautious.
 #}
+{% include "components/location-faq.njk" %}
+
 <section class="noodle-band" aria-labelledby="band-title">
   <div class="noodle-band__inner">
     <div>
@@ -251,8 +344,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 <section class="sect" aria-labelledby="near-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Nearby</span>
-      <h2 class="sect__title" id="near-title">Two miles up the road.</h2>
+      <h2 class="sect__title" id="near-title">The other Kearny Mesa <em>room.</em></h2>
       <p class="sect__note">
         <a class="sect__link" href="/tajima-mercury/">Tajima Ramen Mercury</a> is the bigger room. Around ninety seats, a full bar with Japanese whisky, and the widest sushi list in the house. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.
       </p>

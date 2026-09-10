@@ -13,6 +13,10 @@
 <article class="cell loc loc--{{ modifier | default('std') }} reveal">
   <div>
     <div class="loc__top">
+      {# One consistent mark rather than a different icon per room: assigning
+         icons to locations would be arbitrary, and the shared bowl reads as a
+         card-type marker. Same mark on the happy hour rows. #}
+      <span class="mark mark--sm" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <span class="loc__no">&#8470;&nbsp;{{ "0" if index < 10 }}{{ index }}</span>
       {%- if loc.opened %}
       <span class="loc__since">Since {{ loc.opened }}</span>
@@ -33,7 +37,7 @@
       {{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}
     </span>
     {%- if loc.phone %}
-    <a class="loc__phone" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+    <a class="loc__phone" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
     {%- endif %}
     {# Same filter, same data as every other Directions link on the site. #}
     <a class="loc__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>

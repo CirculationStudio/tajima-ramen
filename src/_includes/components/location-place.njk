@@ -1,0 +1,44 @@
+{# ===========================================================================
+   Component: location-place
+
+   The neighborhood and the landmark, in prose. Section 1 of the location page
+   template in SITE_ARCHITECTURE.md is "Hero. This room, this neighborhood",
+   and until now the only geography on a location page was the street address
+   inside the plate. A page that never says where it is in words leaves a
+   search engine to infer it from a postal code, on a site whose Convoy
+   citation audit already scored 25 out of 100.
+
+   USAGE
+     {% set place = roomPlaces[loc.id] %}
+     {% include "components/location-place.njk" %}
+
+   Copy lives in _data/roomPlaces.json, hand written per room from
+   CLIENT_FACTS.md, with the sourcing rule recorded in that file. Renders
+   nothing for a room with no entry, the same gate the gallery and the
+   difference section use.
+
+   NO ICON. The sprite has twelve marks and all twelve are food or the
+   wordmark: there is no map, pin, or building. DESIGN_SYSTEM.md's rule is
+   that where no icon matches the subject, the heading takes none, the same
+   call the menu page's Dessert heading already makes.
+   =========================================================================== #}
+{%- set place = roomPlaces[loc.id] %}
+{%- if place %}
+<section class="sect sect--rule" aria-labelledby="place-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="place-title">{{ place.title | safe }}</h2>
+    </header>
+    <div class="place">
+      {%- for para in place.body %}
+      <p class="place__para">{{ para | safe }}</p>
+      {%- endfor %}
+      <p class="place__nap">
+        {{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}.
+        <a class="sect__link" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>.
+        <a class="sect__link" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>.
+      </p>
+    </div>
+  </div>
+</section>
+{%- endif %}

@@ -12,10 +12,16 @@ title: "Nav preview frame"
   Its own bare document, because iframing /nav-preview/ into itself recurses.
 #}
 <!DOCTYPE html>
-<html lang="{{ site.locale }}" data-mode="{{ site.theme.mode }}" data-fonts="{{ site.theme.fonts }}" data-pattern="{{ site.theme.pattern }}">
+{# Pinned to night for Phase 1: this harness renders the legacy header, which
+   is not readable on the day canvas until Phase 2 restyles it. Unpin then.
+   theme-init still lets a stored preference win, which is the point of a
+   header preview surface. #}
+<html lang="{{ site.locale }}" data-mode="night" data-fonts="{{ site.theme.fonts }}" data-pattern="{{ site.theme.pattern }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {% include "components/theme-init.njk" %}
   <title>{{ title }}</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
