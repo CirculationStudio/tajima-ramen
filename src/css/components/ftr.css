@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Block: ftr (the site footer)
+
+   v2. Values ported from _reference/tajima-home-v2.html L222-232.
+
+   Sits directly below the neon block: nav, colophon, theme toggle. The v1
+   epitaph and spec strip were removed as duplicated information; see
+   components/monolith.njk.
+
+   The Noodle Room sub-experience runs its own `site-footer` block and does NOT
+   use this one.
+   ========================================================================== */
+
+.ftr {
+  padding: var(--space-10) var(--gutter) var(--space-8);
+  background: var(--canvas);
+  border-top: var(--stroke-hair) solid var(--rule);
+}
+
+.ftr__in {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+[data-mode="night"] [data-mode="night"] .ftr__nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--stroke-hair) solid var(--rule);
+  width: 100%;
+  max-width: 60rem;
+}
+
+.ftr__nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--stroke-hair) solid var(--rule);
+  width: 100%;
+  max-width: 60rem;
+}
+
+.ftr__nav-link {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-meta);
+  line-height: 1;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color var(--fast) var(--ease);
+}
+
+.ftr__nav-link:hover,
+.ftr__nav-link:focus-visible {
+  color: var(--accent);
+}
+
+[data-mode="night"] .ftr__nav-link:hover,
+[data-mode="night"] .ftr__nav-link:focus-visible {
+  text-shadow: var(--glow-text);
+}
+
+.ftr__nav-link--current {
+  color: var(--ink);
+}
+
+.ftr__sub {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-meta);
+  line-height: 1.7;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+@media (max-width: 64rem) {
+  .ftr__nav {
+    gap: var(--space-4);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Block: tgl (the theme toggle)
+
+   Values ported from _reference/tajima-home-v2.html L118-125. The reference
+   defines this block but never places it in markup: it was the intended
+   destination for the toggle all along, with the logo binding as the
+   prototype stand-in. Placed here, next to the colophon, which closes
+   DESIGN_SYSTEM.md Open Item 2.
+
+   Quiet by design. It is a preference control, not a call to action, so it
+   stays hairline-outlined: DESIGN_SYSTEM.md allows one red CTA per viewport
+   and in the footer that budget is already spent by the nav's Order Online.
+   -------------------------------------------------------------------------- */
+.ftr__colophon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4) var(--space-5);
+}
+
+.tgl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  cursor: pointer;
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  color: var(--ink-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  line-height: 1;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  transition:
+    border-color var(--fast) var(--ease),
+    color var(--fast) var(--ease);
+}
+
+.tgl:hover,
+.tgl:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Drawn with intent, not dropped in from an icon set. Stroked with
+   currentColor so they follow the button's own hover and focus states. */
+.tgl svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* The visible icon reports the CURRENT mode, matching aria-pressed. */
+[data-mode="night"] .tgl__day { display: none; }
+[data-mode="day"] .tgl__night { display: none; }

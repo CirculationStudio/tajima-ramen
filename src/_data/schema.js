@@ -10,11 +10,21 @@
 //   - No `acceptsReservations: true`, no ReserveAction. SCHEMA.md rule 4.
 //   - No `legalName`. SITE_ARCHITECTURE.md Open Decision #10 has the US
 //     operating entity unresolved (the footer and the DNA disagree).
-//   - `sameAs` carries Instagram only. CLIENT_FACTS.md marks Facebook
-//     "(verify)" and Open Decision #7 has three conflicting candidates.
-//   - No `openingHoursSpecification`, no `telephone`, no `geo`, no per-location
-//     `address`. Every one of those is CONFIRM-blocked in CLIENT_FACTS.md.
-//     They get added when locations.json gets real values, not before.
+//   - The ORGANIZATION's `sameAs` carries Instagram only. CLIENT_FACTS.md
+//     marks Facebook "(verify)" and Open Decision #7 has three conflicting
+//     candidates. The per-room Restaurant nodes are a separate list and now
+//     carry each room's own GBP profile link.
+//   - The Organization node carries no `openingHoursSpecification`,
+//     `telephone`, `geo` or `address`, and that is by design and not a block:
+//     Tajima is six addresses and none of them is the brand's address.
+//     SITE_ARCHITECTURE.md is explicit that there is no single brand NAP.
+//
+//     CORRECTED 2026-09-09. This list used to say those four fields were
+//     CONFIRM-blocked in CLIENT_FACTS.md, which conflated two different
+//     things and went stale twice over. The per-location values are no longer
+//     blocked at all: hours landed 2026-09-09 from Connor, and geo and the
+//     GBP profile links landed the same day from his Google Business Profile
+//     export. All three are emitted on the Restaurant nodes below.
 //
 // The @id namespace follows SITE_ARCHITECTURE.md, not SCHEMA.md's example
 // block: SCHEMA.md was written before the traffic data and uses
@@ -26,6 +36,7 @@ import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
 import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
+import locationFaq from "./locationFaq.js";
 
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
@@ -204,13 +215,47 @@ const menuEntity = buildMenu({
 // walk-in only and Mercury's phone-only group reservations have no honest
 // schema expression, so false is the accurate value.
 //
-// No openingHoursSpecification and no geo: still CONFIRM-blocked.
+// openingHoursSpecification is emitted for the six locations that have hours,
+// confirmed 2026-09-09 by Connor. Maui was not supplied and stays null, so it
+// emits none at all rather than a guess: a wrong opening hour in schema is the
+// failure CLIENT_FACTS.md warns about, someone driving to a closed door.
+// Emitted from locations.json only, never from a default or a sibling's
+// pattern, so the page and the graph cannot drift.
+//
+// geo is emitted for the six San Diego rooms, unblocked 2026-09-09 by
+// Connor's Google Business Profile export. Maui was not in the export and
+// stays null, so it emits no GeoCoordinates node rather than a placeholder.
+// Coordinates are passed through from locations.json exactly as supplied, not
+// rounded: schema.org takes decimal degrees and precision is the whole point
+// of the field for a map pack.
+//
+// sameAs now carries each room's GBP profile link ahead of any Yelp entry.
+// Those links are maps.app.goo.gl share URLs rather than canonical place
+// URLs; see _geoNote in locations.json for why they were not resolved here.
 //
 // `menuId` points the room at its own Menu entity where one exists. A stub
 // still points at the brand menu, which is the honest floor while its page
 // has no menu section to mirror. A full page that renders its own filtered
 // menu must carry its own Menu @id, or the schema would claim the room serves
 // dishes its visible page does not list (SCHEMA.md rule 2).
+// FAQPage for a location, built from the same composed list the visible block
+// renders. SCHEMA.md: every name and text is copied from the rendered page,
+// never written separately, which is only guaranteed if there is one source.
+// A room with no questions emits no node rather than an empty one.
+function locationFaqNode(loc) {
+  const items = locationFaq[loc.id];
+  if (!items || !items.length) return null;
+  return {
+    "@type": "FAQPage",
+    "@id": `${site.url}${loc.url}#faq`,
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
 function restaurant(id, menuId = `${site.url}/menu/#menu`) {
   const loc = locations.items.find((item) => item.id === id);
   const entity = {
@@ -232,8 +277,32 @@ function restaurant(id, menuId = `${site.url}/menu/#menu`) {
       addressCountry: "US",
     },
   };
+  // areaServed per room, not the Organization's county-wide value. A location
+  // page's catchment is its own city, and for the San Diego rooms the
+  // neighborhood is what the query actually says ("ramen kearny mesa").
+  entity.areaServed = [
+    { "@type": "City", name: loc.address.locality },
+    ...(loc.neighborhood && loc.neighborhood !== loc.address.locality
+      ? [{ "@type": "Place", name: loc.neighborhood }]
+      : []),
+  ];
   if (loc.phone) entity.telephone = loc.phone;
   if (loc.sameAs && loc.sameAs.length) entity.sameAs = loc.sameAs;
+  if (loc.geo && typeof loc.geo.latitude === "number" && typeof loc.geo.longitude === "number") {
+    entity.geo = {
+      "@type": "GeoCoordinates",
+      latitude: loc.geo.latitude,
+      longitude: loc.geo.longitude,
+    };
+  }
+  if (loc.hours && loc.hours.length) {
+    entity.openingHoursSpecification = loc.hours.map((rule) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: rule.days,
+      opens: rule.opens,
+      closes: rule.closes,
+    }));
+  }
   return entity;
 }
 
@@ -267,7 +336,8 @@ const locationPages = Object.fromEntries(
             ]),
           },
           restaurant(loc.id),
-        ],
+          locationFaqNode(loc),
+        ].filter(Boolean),
       },
     ]),
 );
@@ -352,7 +422,8 @@ export default {
         ]),
       },
       restaurant("convoy"),
-    ],
+      locationFaqNode(locations.items.find((l) => l.id === "convoy")),
+    ].filter(Boolean),
   },
 
   // /tajima-college-heights/. The brief requires its own Menu entity rather
@@ -381,6 +452,7 @@ export default {
         ]),
       },
       restaurant("college-heights", `${site.url}/tajima-college-heights/#menu`),
+      locationFaqNode(locations.items.find((l) => l.id === "college-heights")),
       buildMenu({
         id: `${site.url}/tajima-college-heights/#menu`,
         name: "Tajima Ramen College Heights menu",
@@ -389,7 +461,7 @@ export default {
         // dish.locations` loop. Change one and you must change the other.
         featuredOnly: true,
       }),
-    ],
+    ].filter(Boolean),
   },
   locations: {
     "@context": "https://schema.org",

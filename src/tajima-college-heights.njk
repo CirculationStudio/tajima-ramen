@@ -61,6 +61,9 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   even though College Heights sells those dishes. A Convoy bowl photographed
   at Convoy is not evidence about this kitchen.
 #}
+{%- set spriteIcons = ["ramen-bowl"] %}
+{% include "components/icon-sprite.njk" %}
+
 {%- set loc = (locations.items | where("id", locationId)) | first %}
 {%- set gallery = roomPhotos[locationId] %}
 
@@ -74,7 +77,6 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
         <span aria-hidden="true">/</span>
         <span class="page-hero__crumbs-current">{{ loc.name }}</span>
       </p>
-      <span class="page-hero__eyebrow">Since {{ loc.opened }} &middot; {{ loc.neighborhood }}</span>
       <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
       <p class="page-hero__lede">
         The ramen bar on El Cajon Boulevard, in the College Area near San Diego State. One long counter, an open kitchen you watch from it, and the biggest tap list in the house.
@@ -89,12 +91,9 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
         </span>
         <span class="plate__item">
           <span class="plate__label">Phone</span>
-          <a class="plate__value" href="tel:+1-{{ loc.phone | replace('(', '') | replace(') ', '-') | replace(' ', '-') }}">{{ loc.phone }}</a>
+          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
         </span>
-        <span class="plate__item">
-          <span class="plate__label">Hours</span>
-          <span class="plate__value">Being confirmed. Call the room.</span>
-        </span>
+        {% include "components/plate-hours.njk" %}
         <span class="plate__item">
           <span class="plate__label">Directions</span>
           <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
@@ -129,6 +128,8 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   </div>
 </section>
 
+{% include "components/location-place.njk" %}
+
 {# ==================== WHAT'S DIFFERENT HERE ==================== #}
 {#
   Brief: "the one section that must not be templated." None of this is true of
@@ -137,7 +138,6 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 <section class="sect pattern-section" aria-labelledby="diff-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">This room</span>
       <h2 class="sect__title" id="diff-title">Built around <em>the counter.</em></h2>
     </header>
 
@@ -204,36 +204,28 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 
   No photographs in this section. College Heights has no dish photography of
   its own, and photos.json forbids borrowing Convoy's.
-#}
-<section class="sect" aria-labelledby="menu-title">
-  <div class="sect__inner">
-    <header class="sect__head">
-      <span class="sect__eyebrow">From this kitchen</span>
-      <h2 class="sect__title" id="menu-title">What comes out of <em>College Heights.</em></h2>
-      <p class="sect__note">
-        The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with what is in each bowl.
-      </p>
-    </header>
 
-    <ul class="here-list">
-      {%- for dish in menu.items %}
-        {%- if dish.feature and locationId in dish.locations %}
-        <li class="here-list__item">
-          <span class="here-list__name">{{ dish.name }}</span>
-          {%- if dish.romaji %}<span class="here-list__romaji">{{ dish.romaji }}</span>{% endif %}
-        </li>
-        {%- endif %}
-      {%- endfor %}
-    </ul>
-  </div>
-</section>
+  MOVED INTO components/location-menu.njk, 2026-09-09, and now shared with the
+  five stub pages, which had no menu section at all. The rows also carry the
+  dish description now, grouped under the three sections /menu/ uses, each
+  heading linking to that section's anchor there. Names alone were an index of
+  what exists here, not a menu.
+#}
+{%- set menuLoc = locationId %}
+{%- set menuTitle = "What comes out of <em>College Heights.</em>" %}
+{%- set menuNote = 'The whole ramen list, the izakaya plates that go with it, and the matcha panna cotta. <a class="sect__link" href="/menu/">See the whole menu</a>, with prices.' %}
+{% include "components/location-menu.njk" %}
 
 {# ==================== THE NOODLE ROOM LINE ==================== #}
 {#
   Universal section 6. Scoped to what is confirmed: noodles are made in our own
-  room, broth is made every morning. No cadence claim on the noodles
-  (Open Decision #3) and no "every location" claim (#2).
+  room, broth is made every morning. The cadence is confirmed as of 2026-09-09
+  and Open Decision #3 is closed, so a daily claim is now available here; the
+  copy is left as written because it reads well without one. The "every
+  location" claim (#2) is still forbidden and still open.
 #}
+{% include "components/location-faq.njk" %}
+
 <section class="noodle-band" aria-labelledby="band-title">
   <div class="noodle-band__inner">
     <div>
@@ -267,7 +259,6 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 <section class="sect sect--alt sect--rule" aria-labelledby="order-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <span class="sect__eyebrow">Takeout</span>
       <h2 class="sect__title" id="order-title">Order from <em>this kitchen.</em></h2>
       <p class="sect__note">
         Straight through to the College Heights order page. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.

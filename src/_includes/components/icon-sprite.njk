@@ -1,0 +1,41 @@
+{# ===========================================================================
+   Icon sprite.
+
+   The brand icons, traced from the October 2025 guidelines sheet. Emitted once
+   per page as <symbol> definitions; every appearance is a <use href="#i-name">,
+   so an icon used eighteen times in the locations field ships its path data
+   once instead of eighteen times.
+
+   Inline, never <img>: the symbols carry no fill of their own, so `fill:
+   currentColor` on the <use> site inherits the surrounding text color, which is
+   what makes one icon work on cream, on the red field, and inside a card.
+
+   INCOMPLETE. The full library is 32 icons. These are the 12 that
+   _reference/tajima-home-v2.html inlines, extracted from it because no vector
+   source exists anywhere in the repo. The remaining 20 have to come from
+   outside before the menu and interior pages, which call for icons the
+   prototype never uses. See the Phase 3 report.
+
+   To add one: drop a <symbol id="i-name" viewBox="..."> fragment into
+   src/_includes/icons/ and add a line below.
+
+   SUBSET. Set `spriteIcons` to a list of names before including this, and only
+   those symbols are emitted. The full set is about 84KB of traced path data,
+   so a page that uses two marks should not ship twelve. Omit it to emit all.
+   =========================================================================== #}
+{%- set _all = ["broth-pot","chili","chopsticks-noodles","egg","garlic","naruto-small","naruto","noodle-wordmark","onigiri","ramen-bowl","steam","toppings"] %}
+{%- set _want = spriteIcons | default(_all) %}
+<svg class="icon-sprite" aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
+  {% if "broth-pot" in _want %}{% include "icons/broth-pot.svg" %}{% endif %}
+  {% if "chili" in _want %}{% include "icons/chili.svg" %}{% endif %}
+  {% if "chopsticks-noodles" in _want %}{% include "icons/chopsticks-noodles.svg" %}{% endif %}
+  {% if "egg" in _want %}{% include "icons/egg.svg" %}{% endif %}
+  {% if "garlic" in _want %}{% include "icons/garlic.svg" %}{% endif %}
+  {% if "naruto-small" in _want %}{% include "icons/naruto-small.svg" %}{% endif %}
+  {% if "naruto" in _want %}{% include "icons/naruto.svg" %}{% endif %}
+  {% if "noodle-wordmark" in _want %}{% include "icons/noodle-wordmark.svg" %}{% endif %}
+  {% if "onigiri" in _want %}{% include "icons/onigiri.svg" %}{% endif %}
+  {% if "ramen-bowl" in _want %}{% include "icons/ramen-bowl.svg" %}{% endif %}
+  {% if "steam" in _want %}{% include "icons/steam.svg" %}{% endif %}
+  {% if "toppings" in _want %}{% include "icons/toppings.svg" %}{% endif %}
+</svg>

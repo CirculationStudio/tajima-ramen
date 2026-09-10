@@ -1,50 +1,57 @@
 {# ===========================================================================
-   Component: monolith
+   Components: neon + ftr
 
-   The site footer for the main template family.
+   v2 splits what used to be one `.monolith` footer into the two blocks the
+   reference file uses: the neon monolith (crest, wordmark, gold rule, slogan)
+   sitting directly above a quiet footer (epitaph, spec strip, nav, colophon).
 
-   Every figure in the spec strip comes from site.json, which traces to
-   CLIENT_FACTS.md. Two of them deliberately differ from the reference
-   concept and must not be reverted:
+   The markup and data plumbing are almost entirely unchanged. The crest was
+   already 但馬 and the wordmark already rendered per-character spans from
+   site.shortName via the `chars` filter, which is exactly what .neon__word
+   needs. The one genuinely new element is the gold hairline rule.
 
-     "6 / San Diego"    was "8 Houses". CLIENT_FACTS.md forbids publishing a
-                        global location total until the live site's
-                        location-count contradiction is fixed.
-     "2 / Noodle Types" was "12h Tonkotsu". No simmer time is confirmed
-                        anywhere in CLIENT_FACTS.md. That number is invented.
+   TRIMMED. The footer used to stack five blocks: neon slogan, epitaph, spec
+   strip, nav, colophon. That is the repeated-information pattern the client
+   flagged, and the epitaph and the slogan were two taglines doing one job. The
+   epitaph and the spec strip are gone; the slogan, nav and colophon stay,
+   which is also what the reference file ships.
 
-   See the _specNote key in site.json. Do not add a figure without a
-   confirmed source.
+   Nothing unique was lost. All four spec figures are stated in body copy
+   elsewhere: twenty-five years and 2001 on six pages, six San Diego rooms on
+   ten, the two noodle types on six, and the Noodle Room on sixteen.
+   site.json still holds footer.spec and footer.epitaph, with their provenance
+   notes, so the facts and their sourcing survive even though nothing renders
+   them now.
    =========================================================================== #}
 
-<footer class="monolith" aria-label="{{ site.name }} footer">
-  <div class="monolith__atmosphere" aria-hidden="true"></div>
+<section class="neon" aria-label="{{ site.name }}">
+  <p class="neon__kanji" aria-hidden="true">但馬</p>
 
-  <div class="monolith__inner">
-    <p class="monolith__crest" aria-hidden="true">但馬</p>
+  {# Per-letter spans so the wordmark can be styled and animated letter by
+     letter. They are aria-hidden and the accessible name comes from the
+     aria-label, so a screen reader reads "Tajima" and not six letters. #}
+  <p class="neon__word" aria-label="{{ site.shortName }}">
+    {%- for letter in site.shortName | upper | chars %}<span class="neon__word-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
+  </p>
 
-    <p class="monolith__wordmark" aria-label="{{ site.shortName }}">
-      {%- for letter in site.shortName | upper | chars %}<span class="monolith__wordmark-letter" aria-hidden="true">{{ letter }}</span>{% endfor -%}
-    </p>
+  {# The one sanctioned gradient in the system: transparent to gold to
+     transparent. DESIGN_SYSTEM.md bans gradients as a brand device and lists
+     this hairline and photo scrims as the only exceptions. #}
+  <div class="neon__rule" aria-hidden="true"></div>
 
-    <p class="monolith__epitaph">
-      {{ site.footer.epitaph.before }}<em>{{ site.footer.epitaph.emphasis }}</em>{{ site.footer.epitaph.after }}
-    </p>
+  <p class="neon__slogan">
+    {{ site.slogan.before }}<em>{{ site.slogan.emphasis }}</em>
+  </p>
+</section>
 
-    <ul class="monolith__spec" aria-label="{{ site.name }} at a glance">
-      {%- for item in site.footer.spec %}
-        <li>
-          <span class="monolith__spec-num">{{ item.num }}</span>
-          <span class="monolith__spec-label">{{ item.label }}</span>
-        </li>
-      {%- endfor %}
-    </ul>
+<footer class="ftr" aria-label="{{ site.name }} footer">
+  <div class="ftr__in">
 
-    <nav class="monolith__nav" aria-label="Footer">
+    <nav class="ftr__nav" aria-label="Footer">
       {%- for item in nav.footer %}
         {%- set isCurrent = page.url == item.url %}
         <a
-          class="monolith__nav-link{% if isCurrent %} monolith__nav-link--current{% endif %}"
+          class="ftr__nav-link{% if isCurrent %} ftr__nav-link--current{% endif %}"
           href="{{ item.url }}"
           {%- if item.external %} rel="noopener"{% endif %}
           {%- if isCurrent %} aria-current="page"{% endif %}>
@@ -53,8 +60,38 @@
       {%- endfor %}
     </nav>
 
-    <p class="monolith__sub">
-      {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
-    </p>
+    <div class="ftr__colophon">
+      <p class="ftr__sub">
+        {{ site.name }} &middot; {{ site.footer.region }} &middot; &copy; {{ buildYear }}
+      </p>
+
+      {#
+        Theme toggle. Moved here from the header logo, which closes
+        DESIGN_SYSTEM.md Open Item 2: the logo is a link home again.
+
+        Light and dark both ship and day is the default. This is a MANUAL
+        control: no clock, no prefers-color-scheme.
+
+        Rendered `hidden`. js/theme.js unhides it and sets aria-pressed on
+        init. Without JS it would be a control that does nothing, so it should
+        not be in the accessibility tree at all. The visible label is the
+        accessible name, so nothing overrides it and WCAG 2.5.3 holds; the
+        icons carry the current state and are decorative.
+
+        js/theme.js binds to [data-theme-toggle], so this can move again
+        without touching the script.
+      #}
+      <button class="tgl" type="button" data-theme-toggle hidden>
+        <svg class="tgl__day" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="3.1"/>
+          <path d="M8 .9v2.1M8 13v2.1M15.1 8H13M3 8H.9M13 3l-1.5 1.5M4.5 11.5 3 13M13 13l-1.5-1.5M4.5 4.5 3 3"/>
+        </svg>
+        <svg class="tgl__night" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M13.5 9.9A5.9 5.9 0 0 1 6.1 2.5a5.9 5.9 0 1 0 7.4 7.4Z"/>
+        </svg>
+        Night mode
+      </button>
+    </div>
+
   </div>
 </footer>

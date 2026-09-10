@@ -1,0 +1,41 @@
+{# ===========================================================================
+   Component: menu-links
+
+   Two links under a location page's dish list: the full menu, and this room's
+   printable menu.
+
+   USAGE
+     {% set menuLinksLoc = loc.id %}
+     {% include "components/menu-links.njk" %}
+
+   OUTLINED, NOT RED. The header CTA is red and spends the page's one red
+   under DESIGN_SYSTEM.md's rule of a single primary CTA per viewport. These
+   are secondary routes to a document, so they take the hairline-outlined
+   treatment the phone buttons on /happy-hour/ already use.
+
+   THE FILE TYPE AND SIZE ARE ON THE LINK, and that is an accessibility
+   requirement rather than a nicety: a link that silently starts a 785KB
+   download on cellular is a link that lied about what it does. The type also
+   warns that this leaves the page for a document. Plaza Bonita's is a JPG,
+   not a PDF, and says so.
+
+   A room with no file in locationMenus.json renders only the /menu/ link.
+   That is Maui, which was not in the supplied set. It gets no printable link
+   rather than a broken one, and certainly not a San Diego menu standing in
+   for a room that runs its own menu at its own prices.
+
+   No `download` attribute. These open in the browser's viewer, which is what
+   someone checking a menu on a phone wants; forcing a save is worse for the
+   common case and browsers already offer the save.
+   =========================================================================== #}
+{%- set roomMenu = locationMenus[menuLinksLoc] %}
+<p class="menu-links">
+  <a class="menu-links__link" href="/menu/">View full menu</a>
+  {%- if roomMenu %}
+  <a class="menu-links__link" href="{{ roomMenu.href }}" target="_blank" rel="noopener">
+    Printable menu
+    <span class="menu-links__meta">{{ roomMenu.typeLabel }}, {{ roomMenu.sizeLabel }}</span>
+    <span class="u-visually-hidden">, opens in a new tab</span>
+  </a>
+  {%- endif %}
+</p>

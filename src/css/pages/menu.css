@@ -1,6 +1,10 @@
 /* ==========================================================================
    Page: /menu/
 
+   v2: eyebrow labels removed. A small uppercase kicker with a dash rule above
+   every headline was the single most templated element on the page and is
+   banned outright. Headlines carry themselves.
+
    The bento-in-Convoy pattern. DESIGN_SYSTEM.md names tajima-menu.html as the
    approved interior-page reference, and the bento grid as the layout system
    for interior pages.
@@ -21,17 +25,11 @@
   transition: background var(--duration-slow) var(--ease-smooth);
 }
 
-.menu-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 80% 30%,
-      var(--color-red-soft) 0%,
-      transparent 60%);
-}
+/* The radial red haze that used to sit here is gone. DESIGN_SYSTEM.md bans
+   gradients as a brand device, with the gold hairline and photo scrims the
+   only exceptions, and this was neither. It read as a faint glow on the
+   near-black v1 canvas and as a pink wash across the top of the page on
+   cream. Same removal as the monolith's atmospheric radial in the v2 port. */
 
 .menu-hero__inner {
   position: relative;
@@ -48,25 +46,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-}
-
-.menu-hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-  text-shadow: var(--glow-text);
-}
-
-.menu-hero__eyebrow::before {
-  content: '';
-  width: 2rem; height: 1px;
-  background: currentColor;
 }
 
 .menu-hero__title {
@@ -170,24 +149,6 @@
   max-width: 56rem;
 }
 
-.menu-section__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-}
-
-.menu-section__eyebrow::before {
-  content: '';
-  width: 2rem; height: 1px;
-  background: currentColor;
-}
-
 .menu-section__title {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
@@ -218,7 +179,7 @@
   gap: var(--space-4);
 }
 
-/* Ramen bento — 8 cells in a 4-row asymmetric pattern */ .bento--ramen { grid-auto-rows: minmax(18rem, auto);
+/* Ramen bento, 8 cells in a 4-row asymmetric pattern */ .bento--ramen { grid-auto-rows: minmax(18rem, auto);
 }
 
 .bento .dish--ramen-tonkotsu { grid-column: span 7; grid-row: 1;
@@ -245,7 +206,7 @@
 .bento .dish--ramen-miso {     grid-column: span 3; grid-row: 4;
 }
 
-/* Izakaya bento — 3 photo cells + 4 quiet cells */ .bento--izakaya { grid-auto-rows: minmax(15rem, auto);
+/* Izakaya bento, 3 photo cells + 4 quiet cells */ .bento--izakaya { grid-auto-rows: minmax(15rem, auto);
 }
 
 .bento .dish--izakaya-photo { grid-column: span 4;
@@ -257,7 +218,7 @@
 .bento--izakaya .dish--quiet { grid-column: span 3;
 }
 
-/* Dessert bento — feature + quiet */ .bento--dessert { grid-auto-rows: minmax(14rem, auto);
+/* Dessert bento, feature plus quiet */ .bento--dessert { grid-auto-rows: minmax(14rem, auto);
 }
 
 .bento .dish--dessert { grid-column: span 8;
@@ -270,6 +231,18 @@
    MUST stay scoped under .bento. Unscoped, this rule overwrites the `.dish`
    block in components/menu.css, which is the home page's editorial dish list,
    and hands every home teaser card this cell's border and background. */
+/* FALLBACK PLACEMENT. A menu.json row with no `bento` value gets a quiet
+   three-column cell instead of collapsing to an unreadable sliver. Carnitas
+   Ramen is exactly this case: bento is null on purpose, because it is listed
+   plainly with no photo and no callout (menu.json _carnitasNote), and it was
+   rendering broken. Scoped with :not() so it cannot outrank the named
+   placements above, which sit at the same specificity. */
+.bento--ramen .dish:not([class*="dish--ramen-"]),
+.bento--izakaya .dish:not([class*="dish--izakaya-"]):not(.dish--quiet),
+.bento--dessert .dish:not([class*="dish--dessert"]):not(.dish--quiet) {
+  grid-column: span 3;
+}
+
 .bento .dish {
   position: relative;
   display: flex;
@@ -281,6 +254,10 @@
     border-color var(--duration-fast) var(--ease-smooth),
     transform var(--duration-fast) var(--ease-smooth);
   isolation: isolate;
+  /* v2: bento cells take --radius (6px). Full-bleed color fields stay
+     sharp; these are cards, not fields. */
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .menu-section--alt .dish { background: var(--color-canvas-3);
@@ -363,7 +340,7 @@
   color: var(--color-canvas);
   background: var(--color-vegan);
   padding: var(--space-1) var(--space-3);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   font-weight: var(--weight-semibold);
 }
 
@@ -419,7 +396,7 @@
   font-size: var(--text-small);
 }
 
-/* Quiet cells — no photo,
+/* Quiet cells, no photo,
 smaller,
 denser */
 .bento .dish--quiet {
@@ -487,24 +464,6 @@ denser */
   gap: var(--space-5);
 }
 
-.menu-end__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-}
-
-.menu-end__eyebrow::before {
-  content: '';
-  width: 2rem; height: 1px;
-  background: currentColor;
-}
-
 .menu-end__title {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
@@ -539,7 +498,7 @@ denser */
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-4) var(--space-6);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);
   font-size: var(--text-meta);

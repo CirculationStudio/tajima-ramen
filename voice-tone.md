@@ -105,7 +105,7 @@ This is what Tajima is allowed to say and where each fact comes from. Nothing ou
 
 ### Handle with care
 
-- **"Made this morning."** True for broth, confirmed on video. **Not confirmed for noodles.** Do not apply the morning claim to noodles until Sam confirms the production cadence. This is the easiest wrong sentence to write on the whole site.
+- **"Made this morning."** True for broth, confirmed on video. **NOW ALSO TRUE FOR NOODLES: the client confirmed the daily cadence on 2026-09-09, at all locations including Maui.** The approved slogan and the daily claims on `/` are sourced. **Still out of bounds:** any production *time* (a 06:00 mix, an 08:00 rest, a cut at 11:30). Daily is confirmed; the clock is not.
 - **Noodle rollout status.** House-made noodles are rolling out to all locations. **Whether every location has switched over is not confirmed.** Write "made in our own Noodle Room," not "every bowl at every location," until Q14 of the interview is answered. The site cannot make a claim the kitchen has not finished delivering.
 - **Matsuhisa.** The credential is real. Which location, which years, and what role are all undocumented. Write "worked at Matsuhisa under Nobu Matsuhisa." Do not write a year, a city, or a title.
 - **"A few miles away."** Crown Point to Convoy is roughly seven miles, to Plaza Bonita roughly seventeen. "A few miles" is true for the beach locations and false for the South Bay. Prefer "across town," "in Crown Point," or "in our own kitchen." Use a mileage number only if someone measures it.
@@ -116,7 +116,7 @@ This is what Tajima is allowed to say and where each fact comes from. Nothing ou
 - Any founding date other than 2001. Older press says 1994. It is wrong. Do not engage it, do not correct it publicly.
 - Anything about the cancelled 2024 to 2025 Japanese corporate acquisition.
 - Anything about North Park. It is closed. It does not exist in new copy.
-- Carnitas Ramen, or any fusion framing of the brand. Not Japanese-Mexican, not Japanese-Californian, not Baja anything.
+- Any fusion framing of the brand. Not Japanese-Mexican, not Japanese-Californian, not Baja anything. (**Carnitas Ramen itself is not banned and is now permanent**, confirmed by the client at review 2026-09-10. It used to be listed here as though it were banned, and then as 'listed, never featured'. It is on `/menu/` with a photograph. **The dish may be shown; the fusion framing may not.** That distinction is the whole rule and it survives the change. See `menu.json` `_carnitasNote`.)
 - Any suggestion that Tajima was previously less than it is now.
 - Competitor names. Fine in internal positioning, never in public copy.
 - Employee counts, revenue, or any number nobody has verified.
@@ -271,5 +271,5 @@ This document is referenced by Claude Code and Chad when generating or reviewing
 **Open items:**
 1. **The Sam interview.** Every `[QUOTE PENDING INTERVIEW]` marker on the site clears when this happens, and not before. It is the single largest gap in this file.
 2. **Noodle rollout status.** Determines whether the site can say "every bowl at every location." Currently it cannot.
-3. **Noodle production cadence.** Determines whether "Made this morning" can ever apply to noodles.
+3. ~~**Noodle production cadence.**~~ **RESOLVED 2026-09-09.** "Made this morning" applies to noodles. The production clock does not.
 4. **The Noodle Room lead's name.** The story needs a second human character and we do not have one.

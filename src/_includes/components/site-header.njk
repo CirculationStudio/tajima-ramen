@@ -1,5 +1,5 @@
 {# ===========================================================================
-   Component: site-header
+   Component: hdr
 
    THE site header. Included by layouts/base.njk, so every page renders this
    exact file: there is no second header variant that can drift from it.
@@ -33,19 +33,36 @@
   render the header once and never set this.
 #}
 {%- set megaId = "mega-" + (megaInstance | default("")) %}
-<header class="site-header site-header--mega">
-  <div class="site-header__inner">
-    <a class="site-header__logo" href="/" aria-label="{{ site.name }} home">
+<header class="hdr hdr--mega">
+  <div class="hdr__in">
+    {#
+      Two assets, one per theme, swapped by CSS in hdr.css. NEVER a filter: a
+      filter-based fake was shipped in an earlier draft and turned the mark
+      pink. Both files are horizontal lockups at 2.25:1 and 2.34:1, so the swap
+      costs about 4% of width and no layout shift.
+
+      alt lives on one image only. Both are in the DOM at all times and CSS
+      hides the inactive one, so two alt strings would announce the brand name
+      twice. The hidden one is decorative by definition.
+    #}
+    <a class="hdr__logo" href="/" aria-label="{{ site.name }} home">
       <img
-        class="site-header__logo-img"
-        src="{{ site.logo.src }}"
+        class="hdr__logo-img hdr__logo-dark"
+        src="/images/brand/tajima-logo-header-dark.png"
         alt="{{ site.logo.alt }}"
-        width="180"
-        height="44"
+        width="800"
+        height="356"
+        fetchpriority="high">
+      <img
+        class="hdr__logo-img hdr__logo-light"
+        src="/images/brand/tajima-logo-header-light.png"
+        alt=""
+        width="800"
+        height="342"
         fetchpriority="high">
     </a>
 
-    <nav class="site-header__nav" aria-label="Primary">
+    <nav class="hdr__nav" aria-label="Primary">
       {%- for item in nav.primary | nonEmpty("nav.primary") %}
         {%- set isCurrent = page.url == item.url %}
 
@@ -54,7 +71,7 @@
         <div class="mega" data-mega>
           <button
             type="button"
-            class="site-header__nav-link mega__trigger{% if isCurrent %} site-header__nav-link--current{% endif %}"
+            class="hdr__nav-link mega__trigger{% if isCurrent %} hdr__nav-link--current{% endif %}"
             id="{{ megaId }}{{ item.mega }}-trigger"
             aria-expanded="false"
             aria-controls="{{ megaId }}{{ item.mega }}-panel"
@@ -208,7 +225,7 @@
         {%- elif item.cta %}
         {# ---------------- Order Online, the header CTA ---------------- #}
         <a
-          class="site-header__nav-link site-header__nav-link--cta"
+          class="hdr__nav-link hdr__nav-link--cta"
           href="{{ item.url }}"
           {%- if isCurrent %} aria-current="page"{% endif %}>
           {{ item.label }}
@@ -216,7 +233,7 @@
 
         {%- else %}
         <a
-          class="site-header__nav-link{% if item.sub %} site-header__nav-link--sub{% endif %}{% if isCurrent %} site-header__nav-link--current{% endif %}"
+          class="hdr__nav-link{% if item.sub %} hdr__nav-link--sub{% endif %}{% if isCurrent %} hdr__nav-link--current{% endif %}"
           href="{{ item.url }}"
           {%- if isCurrent %} aria-current="page"{% endif %}>
           {{- item.label }}{% if item.sub %} <span aria-hidden="true">&#8629;</span>{% endif -%}

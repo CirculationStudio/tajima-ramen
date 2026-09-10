@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node scripts/free-port.js 8080 && eleventy --serve",
+    "prebuild": "npm run test:photos",
     "build": "eleventy",
     "clean": "rm -rf _site .11ty-vite",
     "test:photos": "node scripts/test-photo-manifest.js"

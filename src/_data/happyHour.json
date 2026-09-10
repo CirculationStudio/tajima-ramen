@@ -1,14 +1,9 @@
 {
   "_status": "TIMES AND PRICES PULLED, 2026-08-03. This file previously carried per-location happy hour windows and drink and food prices lifted from the happy-hour design concept. None of it appears in CLIENT_FACTS.md, which has no happy hour data at all. It was published for roughly one build and then removed on Steve's call.",
-
   "_whyPulled": "A happy hour window is the same class of promise as an opening hour, and CLIENT_FACTS.md forbids publishing opening hours the door does not honor. The failure mode is identical and it is not abstract: someone reads 11:30am to 6:00pm, drives to Convoy at 5, and the window shut at 4. Prices are worse, because CLAUDE.md says menu prices are never published without explicit client approval and nobody at Tajima has seen these.",
-
   "_howToRestore": "Get the real windows and prices from Amanda, per location, in writing. Add `windows`, `drinks`, and `food` arrays back to each entry below and the template will render them again: the markup for all three is still in src/happy-hour.njk behind an `if`. Do NOT restore the concept values.",
-
   "_whatIsConfirmed": "Only three things on this page trace to CLIENT_FACTS.md. (1) Happy hour exists and is worth a page: it earns 1,361 clicks and 49% CTR on `tajima happy hour`. (2) Plaza Bonita is quick-serve with no alcohol, so it has no happy hour at all. (3) East Village runs Padres game-night beer specials and extended hours on home game nights. That last one is confirmed for EAST VILLAGE ONLY and must not be widened to the other rooms.",
-
   "_padresNote": "The concept and the SITE_ARCHITECTURE.md promos module both carry `every tap beer $3.50, all SD locations except Plaza Bonita`. The price and the all-locations scope are NOT in CLIENT_FACTS.md and are pulled with everything else. What survives is the East Village line, which is confirmed, and it is scoped to that room.",
-
   "locations": [
     {
       "id": "east-village",
@@ -16,7 +11,10 @@
       "tag": "Near Petco Park",
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": true,
+      "bar": "Six taps of local craft beer, and beer specials on Padres home game nights.",
+      "_barSource": "CLIENT_FACTS.md Location 3: 'Six taps of local craft beer. Padres game-night beer specials and extended hours on home game nights.' No price and no window: both are unconfirmed."
     },
     {
       "id": "convoy",
@@ -24,7 +22,10 @@
       "tag": "The original, since 2001",
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": true,
+      "bar": "The original room, and the deepest izakaya list in the house to drink alongside.",
+      "_barSource": "PULLED 2026-09-09, ON STEVE'S CALL: this read 'Eleven taps, and the deepest izakaya list in the house to go with them.' THE NUMBER IS GONE AND DOES NOT COME BACK WITHOUT AMANDA. It was never a client figure. CLIENT_FACTS.md states it only inside the College Heights correction, as 'Convoy's 11', counted off src/_data/toastMenus/convoy.json on 2026-08-04. It is the same class of number as the 21 that CLIENT_FACTS.md explicitly tells us to write as twenty-plus, and worse than that one: a tap list rotates, so a count taken on one day in August is not a durable fact about this room at all. The tap reference is dropped entirely rather than softened to 'a tap list', because nothing about Convoy's beer program is confirmed anywhere. What survives is confirmed: CLIENT_FACTS.md Location 1, 'Opened 2001' and 'Full menu plus expanded izakaya', and the /tajima-convoy/ brief's expanded izakaya list."
     },
     {
       "id": "mercury",
@@ -32,7 +33,10 @@
       "tag": "Full bar and sushi",
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": true,
+      "bar": "The full bar. Craft cocktails, Japanese whisky, and a full wine list.",
+      "_barSource": "CLIENT_FACTS.md Location 2: 'Full bar, craft cocktails, Japanese whisky, full wine list.'"
     },
     {
       "id": "college-heights",
@@ -40,7 +44,10 @@
       "tag": "Twenty-plus taps",
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": true,
+      "bar": "Twenty-plus taps, the largest beer program of the seven.",
+      "_barSource": "CLIENT_FACTS.md Location 4: '20+ craft beer taps' and 'the largest beer program of the seven'. WRITE TWENTY-PLUS, NEVER 21. The 21 is a catalog count, not a figure Tajima publishes."
     },
     {
       "id": "crown-point",
@@ -48,7 +55,10 @@
       "tag": "Next to the Noodle Room",
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": true,
+      "bar": "Local craft, and a matcha-forward list for anyone not drinking.",
+      "_barSource": "CLIENT_FACTS.md Location 5: 'Strong local craft beer focus. Matcha-forward non-alcoholic program.' Written as a list rather than a programme, which is an internal word."
     },
     {
       "id": "plaza-bonita",
@@ -57,13 +67,19 @@
       "noAlcohol": true,
       "windows": [],
       "drinks": [],
-      "food": []
+      "food": [],
+      "servesAlcohol": false,
+      "bar": "No alcohol. Quick-serve inside the mall, and the bowls are the same bowls.",
+      "_barSource": "CLIENT_FACTS.md Location 6: 'Quick-serve, food court format. Limited menu. No alcohol.' The 'no happy hour at all' phrasing this file used to carry is NOT in CLIENT_FACTS.md and contradicts the room's own live Toast catalog, which has a priced Happy Hours section. Publish only the no-alcohol fact and let Amanda reconcile the rest."
     }
   ],
-
   "padres": {
     "headline": "Padres home games",
     "body": "East Village runs beer specials and stays open later on Padres home game nights. It is the walk to Petco.",
     "location": "east-village"
-  }
+  },
+  "_servesAlcohol": "Added 2026-09-09. The one alcohol fact CLIENT_FACTS.md states outright is that Plaza Bonita is quick-serve with no alcohol. The other five San Diego rooms each have a confirmed beer or bar programme in CLIENT_FACTS.md: Mercury a full bar with craft cocktails, Japanese whisky and a full wine list, College Heights twenty-plus taps, East Village six of local craft, Crown Point a strong local craft list beside a matcha-forward non-alcoholic programme. This flag exists so a template can decide whether to point a room at /happy-hour/ at all, rather than linking a room with no bar to a page about drinking. Maui is not in this file: it is a different market and SITE_ARCHITECTURE.md forbids cross-linking it into the San Diego set.",
+  "_barNote": "Added 2026-09-09. The page needed a reason to exist beyond the times, and this is it: what each room actually pours. Every line traces to CLIENT_FACTS.md and the per-room source is on the entry. No prices anywhere, no windows, and no claim that any of this is discounted at happy hour, because that is the part nobody has confirmed. NO TAP COUNTS EXCEPT THE ONES CLIENT_FACTS.md ITSELF PUBLISHES. College Heights is twenty-plus and East Village is six, both of which that file states in its own words. Convoy's count was pulled on 2026-09-09: see its _barSource. A number counted off a Toast catalog is a snapshot of one day, and a tap list rotates, so it is not a fact this site can keep being right about.",
+  "_plazaReconciliation": "RAISED TO HIGH PRIORITY 2026-09-09. THREE independent sources now point the same way and this file's original phrasing pointed the other way.\n\n1. src/_data/toastMenus/plaza-bonita.json carries a priced Happy Hours section, pulled from that room's own live Toast catalog on 2026-08-04.\n2. The room's own Google Business Profile description, in Connor's export of 2026-09-09, tells visitors to come for happy hour and advertises discounted drinks and appetizers. That is the client's own published marketing on their own profile.\n3. Against those, CLIENT_FACTS.md says quick-serve, food court format, limited menu, no alcohol.\n\nTHESE MAY ALL BE TRUE AT ONCE. A food happy hour with discounted appetizers and non-alcoholic drinks is entirely compatible with a room that serves no alcohol, and the GBP copy's 'discounted drinks' does not say alcoholic drinks. So this is probably not a contradiction about alcohol at all; it is that this file once said 'no happy hour at all', which no source supports and two now contradict outright.\n\nTHE SITE IS ALREADY SAFE AND NEEDS NO EDIT TO STAY SAFE. /happy-hour/ publishes only the CLIENT_FACTS.md fact, no alcohol, and 'no happy hour at all' was removed on 2026-09-09. Nothing on the site claims the room has no happy hour and nothing claims it has one.\n\nWHAT TO ASK AMANDA: does Plaza Bonita run a happy hour, and if so what is on it and when? If the answer is yes, this room moves out of the no-alcohol branch on /happy-hour/ and into the normal one, and the GBP description becomes a source we can cite rather than a contradiction we are working around. NOTE THAT THE GBP DESCRIPTION ITSELF IS STILL NOT PUBLISHABLE COPY: it is written against the retired positioning and uses banned language. It is evidence that a happy hour exists, not text we can lift.",
+  "_badgeNote": "OPEN DAILY is the brand guidelines' own badge copy (page 18) and it is now a confirmed fact rather than a borrowed graphic: the hours Connor supplied on 2026-09-09 cover all seven days at all six San Diego rooms. It is scoped to the six. Maui is not on this page."
 }

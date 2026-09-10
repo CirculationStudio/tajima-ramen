@@ -74,6 +74,75 @@ export default function (eleventyConfig) {
   // Universal link format works on iOS, Android, and desktop, handing off to
   // the native Maps app where one exists and falling back to the browser where
   // it does not. No app-specific scheme, no platform sniffing.
+  /**
+   * Day range for an hours rule, for display only. Schema gets the raw
+   * dayOfWeek array; this is what a human reads in the NAP strip.
+   *
+   *   all seven          -> "Every day"
+   *   one day            -> "Sun"
+   *   a contiguous run   -> "Sun to Thu"
+   *   anything else      -> "Mon, Wed and Fri"
+   *
+   * Contiguity is tested in Sunday-first order, which is how a US opening
+   * hours table reads. Nothing here invents a day: it only formats the array
+   * locations.json already holds.
+   */
+  /**
+   * tel: href for a location's phone.
+   *
+   * Replaces a replace().replace().replace() chain that was duplicated
+   * verbatim in three templates and is the kind of thing that rots in one
+   * copy and not the others. The current site already ships the failure this
+   * guards against: Plaza Bonita's tel: href renders as "tel:+1%20" while the
+   * number displays fine.
+   *
+   * Strips every non-digit and prefixes +1. Returns null for a missing or
+   * unusable number so the template can omit the link rather than render a
+   * dead one. US numbers only, which is every location we have.
+   */
+  eleventyConfig.addFilter("telHref", (phone) => {
+    if (!phone) return null;
+    const digits = String(phone).replace(/\D/g, "");
+    if (digits.length !== 10) return null;
+    return `tel:+1${digits}`;
+  });
+
+  eleventyConfig.addFilter("dayRange", (days) => {
+    if (!Array.isArray(days) || !days.length) return "";
+    const ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const short = (d) => d.slice(0, 3);
+    const idx = days.map((d) => ORDER.indexOf(d)).sort((a, b) => a - b);
+    if (idx.length === 7) return "Every day";
+    if (idx.length === 1) return short(ORDER[idx[0]]);
+    const contiguous = idx.every((n, i) => i === 0 || n === idx[i - 1] + 1);
+    if (contiguous) return `${short(ORDER[idx[0]])} to ${short(ORDER[idx[idx.length - 1]])}`;
+    const names = idx.map((n) => short(ORDER[n]));
+    return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  });
+
+  /**
+   * The featured dishes one location serves from one menu section.
+   *
+   * components/location-menu.njk needs to know whether a section has any rows
+   * BEFORE it prints that section's heading, and Nunjucks has no way to build
+   * a filtered list inside a template without a mutation hack that reads
+   * worse than a filter and behaves worse than one. So the filter does it.
+   *
+   * `locations` on a dish is derived from the seven live Toast catalogs, not
+   * assumed (menu.json `_availabilityStatus`), which is why this returns seven
+   * rows for Plaza Bonita and eleven for Convoy.
+   */
+  eleventyConfig.addFilter("dishesFor", (items, locId, section) => {
+    if (!Array.isArray(items) || !locId || !section) return [];
+    return items.filter(
+      (d) =>
+        d.feature &&
+        d.section === section &&
+        Array.isArray(d.locations) &&
+        d.locations.includes(locId)
+    );
+  });
+
   eleventyConfig.addFilter("mapsUrl", (loc) => {
     if (!loc || !loc.address || !loc.address.street) return null;
     const parts = [

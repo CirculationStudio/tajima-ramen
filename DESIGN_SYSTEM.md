@@ -28,7 +28,7 @@ The reference implementation is `_reference/tajima-home-v2.html`. When this docu
 |---|---|---|---|
 | `--color-red` | `#E03C31` | Fire Red / Convoy Red | Logo, CTA fills, the locations field. |
 | `--color-red-deep` | `#B5261C` | Fire Red deep | CTA hover only. |
-| `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view. |
+| `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view on an editorial page. See The gold field for the one exception. |
 | `--color-cream` | `#FFFEF4` | Off-White | Light canvas, type on dark. |
 | `--color-black` | `#000000` | Black | Logo lockup and pure-black contexts only. |
 
@@ -156,10 +156,10 @@ The approved homepage order, and the reason for it:
 
 ## Components
 
-Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`, `ftr`.
+Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`, `ftr`, `tgl`.
 
 ### Header
-Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. **The theme toggle is currently bound to the logo click.** This is a prototype affordance. Before launch it moves to the footer and the logo returns to linking home.
+Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. The logo links home. **The theme toggle lives in the footer**, next to the colophon, as the `tgl` block. It was bound to the logo click in the reference file; that was a prototype affordance and it is resolved.
 
 ### Logo
 Two assets, swapped by theme, no filters:
@@ -170,6 +170,26 @@ Never recolor the logo with CSS. A filter-based fake was shipped in an earlier d
 
 ### CTAs
 One red CTA per viewport. The header CTA is red, so any CTA in view alongside it is hairline-outlined or cream. Red on the red field is invisible; use `--color-cream`.
+
+### The gold field
+
+**Corrected 2026-09-09, and the correction goes the other way from the usual one: the guidelines authorise more than this document did.**
+
+The line above, "rules, marks, small fills, never more than 10% of a view", describes the editorial surfaces and it is right for them. It is not what the brand guidelines show. October 2025 guidelines, Section 5.1 Digital Application, page 18, runs **Sesame Gold as a full-bleed field carrying black body type**, at roughly 17% of that layout, and again as dish panels with black brush headings and a red button. The same spread also shows the black header band, thin full-bleed red stripes between bands, the starburst badge in red with a white stroke and white brush type, and a red field carrying the ghosted line-art pattern with a gold hairline.
+
+This document's own brand constants derive from those guidelines, so where the two disagree the guidelines win and this document changes.
+
+**Scope: `/happy-hour/` and nothing else.** That is the only promotional page in the build, and page 18 is a promotional application (an email campaign), not an editorial one. A location page or the home page taking a gold field is a decision, not a licence this section grants.
+
+**Rules that come with it.**
+- Black on Sesame Gold measures **12.49 to 1** for the title and **10.91** for body copy, off a real render. It is the highest-contrast pairing in the build.
+- **Red on gold is 2.24 to 1 and fails at any size.** On a gold field, emphasis is weight and rule, never colour. The `<em>` inside a title on this field stays ink and takes a red underline.
+- **Gold as type on the red field is 3.33 to 1 and fails.** Gold on red is for rules and marks. Type on red is cream, which measures 5.09.
+- Cream on Fire Red is **4.27 to 1**, which clears AA for large text and fails it for normal text, so the starburst's brush type has a hard 1.5rem (24px) floor.
+- The field is full-bleed and therefore **sharp**. Cards take the radius scale; colour fields do not.
+- The field does not change between day and night. A brand colour field is the same colour in both, the way the red locations field is.
+
+**The guidelines' content is not in scope and this is not negotiable.** That artifact features North Park, which is closed, Tijuana as a peer location, Carnitas Ramen with a hero photograph, "ALL SLURPS WELCOME", which is retired voice, and "Authentic Japanese roots", which is banned copy. Colour, field and badge treatment only.
 
 ### The red locations field
 The one place red is a background rather than an accent. Cream icon pattern behind at 9-11% opacity, neutral dark wash over it so type stays readable, gold accents, cream CTA. Icons are individually positioned elements, not a repeating `<pattern>`, so each can animate independently and the field always covers full width.
@@ -196,7 +216,15 @@ elevated • curated • immersive • culinary journey • authentic (as a clai
 Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late for Ramen"
 
 ### Banned content
-- **No fusion framing.** No Carnitas Ramen anywhere on the site.
+- **No AI-generated imagery posing as real photography.** Unchanged and absolute.
+
+  **A machine-upscaled real photograph is not that, and the distinction is drawn here so nobody has to guess.** An upscaled photograph is a picture of the actual room, taken by an actual camera, with more pixels than it started with. AI-generated imagery is a picture of a room that does not exist. The first is a resolution compromise and may ship with the compromise on the record; the second may never ship at all.
+
+  **One file in the build is upscaled:** the `/tajima-convoy/` hero, `tajima-convoy-interior-dining-room-upscaled.jpg`, supplied by the client at review 2026-09-10. It is flagged `aiUpscaled` in `photos.json` with a note saying what was done to it and that it is to be replaced when the shoot lands. It is deliberately **not** flagged `placeholder`, because the placeholder guard fails the build and this photograph has to ship: it is what closed the WordPress hotlink below. Grep `aiUpscaled` to find every such file.
+
+  **Where the line moves, it moves toward disclosure, not toward permission.** If a future asset is generated rather than enlarged, it does not get this treatment; it does not go on the site.
+- **No fusion framing.** Never Japanese-Mexican, Japanese-Californian, or Baja anything, in any copy or image.
+- **Carnitas Ramen: permanent, and it has a photograph. CORRECTED 2026-09-10, at client review.** This line has now been wrong twice in opposite directions, so read the whole thing. It first read as an outright ban. Open Decision #4 corrected that on 2026-08-04 to 'listed, never featured', on the strength of a Brand Positioning line about phasing the dish out quietly. **The client has now confirmed the dish is permanent and gets a photograph.** It appears on `/menu/` with a photograph. `feature` stays `false`, which keeps it out of the location-page bentos and the per-room lists, because 'permanent and photographed' is not 'promote it everywhere'; flipping that flag is a one-line change if the client asks. The fusion-framing ban above is untouched and still absolute: the dish may be shown, the framing may not. See `menu.json` `_carnitasNote`.
 - **No North Park.** Permanently closed.
 - **No sushi in the brand voice.** Mercury and Maui only, handled location-specifically.
 - **No copy implying the previous product was inferior.**
@@ -213,6 +241,8 @@ Glossy studio bowl shots with no context • neon-saturated interiors • graffi
 - Slogan, exact string: **`Housemade noodles, crafted daily.`** One word, no hyphen. This is a deliberate exception to the `house-made` spelling in `voice-tone.md`; do not "correct" other instances to match.
 - Hero slogan set and all display lines come from `voice-tone.md`. Do not write new hero copy at build time.
 - The house trio is Red, Black, White. Three bowls. Spicy Sesame is not part of the trio.
+- **No simmer time. No number of hours, ever.** `CLIENT_FACTS.md` confirms only that broth is simmered every morning in the Crown Point commissary and driven to the San Diego locations. It gives no duration. "12h Tonkotsu" was cut from the footer spec strip once (see `site.json` `_specNote`) and "simmered twelve hours" was cut from the homepage trio card again in the v2 port; the figure has no source and keeps reappearing. Do not publish one until someone gets it from Sam.
+- ~~**The noodle cadence is unconfirmed.**~~ **CONFIRMED 2026-09-09 by the client, at all locations including Maui.** "crafted daily", "cut daily" and "cut that morning" are all sourced. The five template cautions are removed and `site.json` `_sloganNote` carries the record. **Two things this did NOT confirm and both are still hard rules: the rollout claim** ("every bowl at every location", Open Decision #2) **and the production clock.** Daily is not the same sentence as everywhere, and it is not a timetable.
 
 ---
 
@@ -233,8 +263,33 @@ WCAG 2.1 AA.
 ## Open Items
 
 1. **Bright Sunshine Caps licensing.** Still unresolved, and now load-bearing: hero slogan, all section headings, dish names, location names, the neon wordmark. Confirm the Demo file clears for commercial web embedding before launch. This is the largest single risk in the build.
-2. **Move the theme toggle off the logo** before launch.
+2. ~~**Move the theme toggle off the logo** before launch.~~ **CLOSED.** The toggle is the `tgl` block in the footer, beside the colophon; the logo links home. It is a real `<button>` with `aria-pressed`, ships `hidden` and is revealed by `js/theme.js`, so it is absent from the accessibility tree when it would not work. Its visible label is its accessible name.
 3. **Documentary photography.** Current imagery is GBP and menu photography. The Noodle Room and commissary shoot is still the asset every page depends on.
-4. **Homepage word count.** Approximately 270 words after the simplification pass. Target 700+ for the ranking goals in `AEO.md`. Add as copy inside existing sections, not as new sections.
-5. **No schema on the homepage yet.** See `SCHEMA.md`. Highest-leverage remaining SEO task.
+
+   **A build guard now protects the standard while we wait, added 2026-09-09.** Every photograph on the site is Tajima's own, and the moment that is most likely to break is the one nobody plans for: the shoot lands late, a page needs a frame this week, and a stock image goes in "just for now". `src/_data/roomPhotos.js` sweeps the whole photo manifest at module load and throws on any entry marked `placeholder: true`, which fails `npm run build`. `npm run build` also runs `npm run test:photos` first, so a stale or half-registered manifest fails before Eleventy starts.
+
+   Registering a stand-in is three fields on its `photos.json` entry (`placeholder`, `placeholderSource`, `placeholderNote`) and all three are required; a partial registration fails too, because it reads as handled and is not. `TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build` is a client-preview escape hatch and nothing else. Cloudflare does not set it, so a placeholder that builds on a laptop still fails the deploy.
+
+   **What it does not catch, stated plainly:** it can only see what somebody marked. A stock file dropped into `public/images/photo/` and referenced from `menu.json` with hand-written alt is invisible to this guard and to the draft-alt guard both. The guard makes an honest registration binding. It does not make a dishonest one impossible. The rule it backs is unchanged: never a stock room, storefront or plated bowl, ever; stock only for a subject no Tajima photograph could cover, and never presented as Tajima. See `_placeholderRule` in `photos.json`.
+4. **Homepage word count.** Approximately **250 words** as built, against a **700+** target for the ranking goals in `AEO.md`. The gap widened rather than closed: the reference file's `craft` and `feed` sections, which carried most of the missing copy, were rejected in review and are not built. **Close it with copy inside the seven existing sections, never by adding a section back.** Nothing may be padded in to hit the number; the copy has to earn its place under `voice-tone.md` and trace to `CLIENT_FACTS.md` like everything else.
+5. ~~**No schema on the homepage yet.**~~ **CLOSED.** `src/_data/schema.js:428` defines the `home` graph and the built page emits it: `Organization`, `Person` (Sam), `WebSite`, `ItemList` of locations, which is exactly what the `/` brief in `SITE_ARCHITECTURE.md` specifies. No `Restaurant` on this page, as required.
 6. **No hours or phone anywhere on the homepage.** Top UX gap. Hours still need confirmation from a primary source before publishing.
+7. ~~**LAUNCH BLOCKER: `/tajima-convoy/` loads its hero photograph from `tajimaramen.com`.**~~ **CLOSED 2026-09-10.** The client supplied an interior photograph of the room at review. It is downloaded into `public/images/photo/`, curated through `roomPhotos.js` like every other placed photograph, and passes the same build guards. **No image in the build now loads from `tajimaramen.com`**, so the new site and the old one no longer depend on each other in either direction.
+
+   **It is machine-upscaled and that is on the record**, flagged `aiUpscaled` in `photos.json` with a note. It is a real photograph of the real room at a resolution it was enlarged into, not generated imagery, and the distinction is written into Banned content above. **Item 3 still wants a Convoy frame from the documentary shoot** and this one gets replaced when that lands.
+
+   (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part was already fixed.)
+
+8. **LAUNCH BLOCKER: eight media assets load from `cdn.circulationstudio.com/tajima-temp/`.** Separate from item 7 and a different owner: that one is the client's old WordPress site, this one is ours, and "temp" is in the path.
+
+   | Page | Asset |
+   |---|---|
+   | `/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | `videos/tajima-brand-video-web-1080p.mp4` |
+   | `/noodle-room/` | `videos/tajima-san-diego-web-background-full.mp4` |
+   | `/noodle-room/` | five images, including the poster frame for the brand film |
+   | `/about/` | `videos/tajima-brand-video-web-1080p.mp4`, added 2026-09-09 |
+
+   **The brand film is 46.8 MB.** That is why `/about/` sets `preload="none"`: nothing is fetched until a reader presses play, verified as zero mp4 requests on page load. Its real runtime is **1:20** (80.45s by the mvhd atom), not the 60 seconds it is often described as, and nobody on this project has watched it end to end, so no page asserts what is in it.
+
+   **What resolves this:** the videos need a permanent home, either committed to `public/` or served from a stable production bucket rather than one named temp. Committing 46.8 MB to git is not obviously right, so this needs a decision, not just a copy. Until then, every one of these pages depends on a bucket whose name says it is going away.

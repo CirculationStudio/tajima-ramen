@@ -7,10 +7,10 @@
 
 /* NO `position` HERE. It used to say `position: relative`, to give the
    absolutely-positioned panel a containing block, and that silently killed the
-   sticky header on all sixteen main-family pages: `.site-header` sets
-   `position: sticky` and `.site-header--mega` sets `position: relative`, both
+   sticky header on all sixteen main-family pages: `.hdr` sets
+   `position: sticky` and `.hdr--mega` sets `position: relative`, both
    at specificity 0,1,0, on the same element, with mega-menu.css imported after
-   site-header.css. Later wins, so every page lost its sticky nav.
+   hdr.css. Later wins, so every page lost its sticky nav.
 
    `position: sticky` is itself a positioned value, so it already establishes
    the containing block the panel needs. The correct fix was to delete the
@@ -289,29 +289,8 @@
 }
 
 
-/* --------------------------------------------------------------------------
-   Header CTA. The single red in the header.
-   -------------------------------------------------------------------------- */
-.site-header__nav-link--cta {
-  padding: var(--space-2) var(--space-5);
-  border-radius: 999px;
-  background: var(--color-red);
-  color: var(--color-system-cream);
-  font-weight: var(--weight-semibold);
-  transition:
-    transform var(--duration-fast) var(--ease-smooth),
-    background var(--duration-fast) var(--ease-smooth);
-}
-
-.site-header__nav-link--cta:hover,
-.site-header__nav-link--cta:focus-visible {
-  color: var(--color-system-cream);
-  transform: translateY(-1px);
-}
-
-[data-mode="night"] .site-header__nav-link--cta {
-  box-shadow: var(--glow-red);
-}
+/* Header CTA moved to components/hdr.css in the v2 port. It is header chrome,
+   not part of the Locations disclosure. */
 
 /* --------------------------------------------------------------------------
    Motion. The open/close transition is opt-in: it only exists inside

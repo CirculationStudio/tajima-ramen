@@ -22,16 +22,45 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     column, which is empty on every row in menu.json. A switcher that filters
     nothing, or that claims a dish is sold somewhere we have not verified, is
     worse than no switcher. Three menus genuinely differ (College Heights runs
-    a pared-down ramen bar, Plaza Bonita is quick-serve with no alcohol, Maui
+    a ramen bar built around one counter, Plaza Bonita is quick-serve with no
+    alcohol, Maui
     has its own dishes), so this is the whole point of the section.
 
     RICE DISHES AND DRINKS (brief sections 5 and 7) have no confirmed items in
     CLIENT_FACTS.md. Sections render from data, so they simply do not appear.
 
-  Carnitas Ramen is absent pending Open Decision #4. The recommendation on
-  record is to list it plainly with feature: no. It is a data change, not a
-  template change: add the row and it renders as a quiet line.
+  Carnitas Ramen IS listed, and deliberately. Open Decision #4 resolved on
+  2026-08-04: it is active at all seven locations per the live Toast menus, so
+  it appears here plainly with feature: false, no photo, no callout and no
+  fusion framing, and nowhere else on the site. See menu.json `_carnitasNote`.
+  Do not remove it as a violation. DESIGN_SYSTEM.md and voice-tone.md still
+  carry blanket bans that predate the decision and are stale on this one
+  point; that is Open Decision #21, not a bug here.
 #}
+
+{# Only the two marks this page actually uses, so it does not ship the whole
+   84KB sprite. Dessert has no honest icon in the current twelve; see the note
+   at the Dessert heading. #}
+{#
+  EMPTY CELLS, and why they stay empty. Checked photos.json for unused local
+  photography on 2026-09-08; nothing placeable was found.
+
+    Miso Ramen      No photo of the bowl exists locally. The only "miso" files
+                    are miso SOUP, an izakaya appetizer, and photos.json's
+                    _rule makes the filename the source of truth for what a
+                    photo shows. Needs a shot of the bowl. Note _nameConflicts:
+                    Toast calls this "Naruto Miso Ramen".
+    Carnitas Ramen  Five local photos exist and genuinely show the dish, and it
+                    still gets none. menu.json _carnitasNote and Brand
+                    Positioning: listed plainly, "no photo, no card, no
+                    callout, no hero". Deliberately empty. Do not fill.
+    Legend + next   Text and navigation by design. The only unused reviewed
+                    photos are four commissary broth-tank frames, and the
+                    Noodle Room card's copy is about the noodle machine, so
+                    they would be off-subject.
+#}
+{%- set spriteIcons = ["ramen-bowl", "onigiri"] %}
+{% include "components/icon-sprite.njk" %}
 
 {%- set ramen = menu.items | where("section", "ramen") %}
 {%- set izakaya = menu.items | where("section", "izakaya") %}
@@ -41,15 +70,16 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
 {#
   REWRITTEN. The concept sub read: "Every noodle, cut daily. Every broth,
   simmered for twelve. Built in Convoy, since 2001."
-  The first two are the same unconfirmed claims that run through every concept
-  file: noodle cadence is not confirmed, and no simmer time is confirmed
-  anywhere. The third is true and is kept.
+  The simmer time is still unsourced anywhere and stays out. THE CADENCE HALF
+  IS NOW CONFIRMED (2026-09-09, all locations), so "cut daily" is no longer the
+  objection it was; the sub still does not carry it, because this hero says
+  what the page is rather than repeating the slogan two blocks above the fold.
+  The third line is true and is kept.
 #}
 <section class="menu-hero" aria-labelledby="page-title">
   <div class="menu-hero__inner">
 
     <div class="menu-hero__lead">
-      <span class="menu-hero__eyebrow">The Menu</span>
       <h1 class="menu-hero__title" id="page-title">
         {{ ramen | length }} bowls.<br><em>One room.</em>
       </h1>
@@ -89,7 +119,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">01 &middot; Ramen</span>
+      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
       <h2 class="menu-section__title" id="ramen-title">
         {{ ramen | length }} bowls. <em>The trio</em> is the house.
       </h2>
@@ -112,12 +142,29 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
+          {#-
+            NO PRICES ON THIS PAGE. Removed 2026-09-10 on the client's
+            instruction at review. This closes the pricing question that had
+            blocked the page since 2026-08-04: the answer is that /menu/ does
+            not print prices at all.
+
+            It is also the right answer on the merits. menu.json's prices were
+            stale against every live catalog, and price varies by room, so a
+            single brand price on a page that speaks for seven rooms was
+            always going to be wrong somewhere. Prices live on the per-location
+            printable menus in public/menus/, which are the client's own
+            current print and are per room by definition.
+
+            The price DATA stays in menu.json. It is a record of what the
+            brand prices were and removing it would lose that; see
+            _priceStatus, which now records that the field is not for display.
+            No `offers` is emitted in schema and none should be.
+          -#}
+          {%- if dish.tier %}
           <div class="dish__head">
-            {%- if dish.tier %}
             <span class="dish__tier{% if dish.tier == 'Signature trio' %} dish__tier--signature{% endif %}">{{ dish.tier }}</span>
-            {%- endif %}
-            <span class="dish__price">${{ dish.price }}</span>
           </div>
+          {%- endif %}
           <h3 class="dish__name">
             {%- if dish.emphasis -%}
               {{ dish.name | replace(dish.emphasis, "") | replace("Ramen", "") | trim }} <em>{{ dish.emphasis }}</em>
@@ -152,7 +199,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">02 &middot; Izakaya</span>
+      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-onigiri"></use></svg></span>
       <h2 class="menu-section__title" id="izakaya-title">Small <em>plates.</em></h2>
       <p class="menu-section__note">
         Izakaya plates run alongside the bowls. What is on offer varies by room.
@@ -170,9 +217,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
-          <div class="dish__head">
-            <span class="dish__price">${{ dish.price }}</span>
-          </div>
           <h3 class="dish__name">{{ dish.name }}</h3>
           {%- if dish.description %}
           <p class="dish__desc">{{ dish.description }}</p>
@@ -190,7 +234,10 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-section__inner">
 
     <header class="menu-section__head reveal reveal--d1">
-      <span class="menu-section__eyebrow">03 &middot; Dessert</span>
+      {# NO MARK. None of the twelve extracted icons depicts anything sweet, and
+         the nearest shapes are a fishcake swirl and a steam curl, both of which
+         would misrepresent what the section holds. Left bare until the rest of
+         the 32-icon library arrives. #}
       <h2 class="menu-section__title" id="dessert-title">To <em>finish.</em></h2>
     </header>
 
@@ -204,9 +251,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
         </div>
         {%- endif %}
         <div class="dish__body">
-          <div class="dish__head">
-            <span class="dish__price">${{ dish.price }}</span>
-          </div>
           <h3 class="dish__name">{{ dish.name }}</h3>
           {%- if dish.description %}
           <p class="dish__desc">{{ dish.description }}</p>
@@ -229,7 +273,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   <div class="menu-end__inner">
 
     <div class="menu-end__lead">
-      <span class="menu-end__eyebrow">Menus vary by room</span>
       <h2 class="menu-end__title" id="menu-end-title">
         Find the room <em>closest to you.</em>
       </h2>
@@ -250,7 +293,8 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
 
     {#
       Dietary key. Two changes from the concept:
-        - Its GF line used an em dash ("prepared GF — ask the floor"). Hard rule.
+        - Its GF line joined the two clauses with an em dash, which the house
+          rule bans everywhere including comments. Rewritten with a comma.
         - It listed Tajima Fries as vegan as plated. Tajima Fries is on the
           CLIENT_FACTS.md do-not-feature list and is not in menu.json, so it is
           not named here.
@@ -304,11 +348,10 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
   spends that on the Order Online pill, so two filled red panels would put a
   third and fourth red in the same screen.
 
-  What red does here instead: a 3px rule along the top edge of each card, the
-  section eyebrow, and a button outline that fills only on hover and focus.
-  Structure and accent, never a field. The top rule is the same device
-  .sect__eyebrow already uses at small scale, so this introduces no new
-  pattern.
+  What red does here instead: a 3px rule along the top edge of each card, and
+  a button outline that fills only on hover and focus. Structure and accent,
+  never a field. (This used to also say "the section eyebrow". v2 bans eyebrow
+  labels outright, so those are gone and the top rule carries it alone.)
 
   The two columns are deliberately equal. Neither is styled as the winner:
   which one a reader wants depends on why they came to the menu.
@@ -326,7 +369,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     <h2 class="u-visually-hidden" id="next-title">Where to go next</h2>
 
     <article class="next-card">
-      <span class="next-card__eyebrow">Happy hour</span>
       <h3 class="next-card__title">Happy hour runs <em>by room.</em></h3>
       <p class="next-card__body">
         Each room sets its own window, and Plaza Bonita has no bar at all. East Village runs beer specials on Padres home game nights.
@@ -340,7 +382,6 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     </article>
 
     <article class="next-card">
-      <span class="next-card__eyebrow">The Noodle Room</span>
       <h3 class="next-card__title">Where the bowl <em>begins.</em></h3>
       <p class="next-card__body">
         Two years to build the room, and a machine that came over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl.
