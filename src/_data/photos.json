@@ -3,8 +3,8 @@
   "_rule": "The filename is the source of truth for what a photo shows. The directory a file arrived in is never read. A photo reaches a location page only if its filename names that location.",
   "_placeholderRule": "EVERY PHOTOGRAPH ON THIS SITE IS TAJIMA'S OWN. A stand-in is allowed only for a subject no Tajima photograph could ever cover (raw ingredients, dough texture, unbranded noodles, steam, wood or ceramic), never for a room, a storefront, or a plated bowl, and it is never presented as Tajima. Registering one is three hand-authored fields on its entry: placeholder: true, placeholderSource (the URL it came from), and placeholderNote (which real photograph replaces it and who is shooting it). All three are required and a partial registration fails too. src/_data/roomPhotos.js sweeps this whole manifest at module load and THROWS, which fails npm run build, so a placeholder cannot ship by being forgotten. TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build is a client-preview escape hatch only: Cloudflare does not set it, so a placeholder still fails the deploy.",
   "_generated": 211,
-  "_mapped": 170,
-  "_unmapped": 15,
+  "_mapped": 169,
+  "_unmapped": 16,
   "_mauiFlagged": 13,
   "_doNotFeature": 13,
   "photos": {
@@ -924,23 +924,6 @@
       ],
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
-    "tajima-ramen-chicken-katsu-curry-rice-kihei.webp": {
-      "file": "tajima-ramen-chicken-katsu-curry-rice-kihei.webp",
-      "src": "/images/photo/tajima-ramen-chicken-katsu-curry-rice-kihei.webp",
-      "location": "maui",
-      "locationSource": "kihei",
-      "dish": null,
-      "dishGuessFromFilename": "chicken",
-      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
-      "type": "dish",
-      "width": 1600,
-      "height": 1066,
-      "orientation": "landscape",
-      "proposedUse": [
-        "/tajima-ramen-maui-hawaii/"
-      ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
-    },
     "tajima-ramen-convoy-carnitas-ramen-03.webp": {
       "file": "tajima-ramen-convoy-carnitas-ramen-03.webp",
       "src": "/images/photo/tajima-ramen-convoy-carnitas-ramen-03.webp",
@@ -1286,15 +1269,16 @@
       "src": "/images/photo/tajima-ramen-convoy-curry-ramen-01.webp",
       "location": "convoy",
       "locationSource": "convoy",
-      "dish": null,
-      "type": null,
+      "dish": "curry",
+      "type": "dish",
       "width": 854,
       "height": 1280,
       "orientation": "portrait",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-convoy/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-convoy-curry-ramen-02.webp": {
@@ -1302,15 +1286,16 @@
       "src": "/images/photo/tajima-ramen-convoy-curry-ramen-02.webp",
       "location": "convoy",
       "locationSource": "convoy",
-      "dish": null,
-      "type": null,
+      "dish": "curry",
+      "type": "dish",
       "width": 854,
       "height": 1280,
       "orientation": "portrait",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-convoy/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-convoy-curry-ramen-03.webp": {
@@ -1318,16 +1303,17 @@
       "src": "/images/photo/tajima-ramen-convoy-curry-ramen-03.webp",
       "location": "convoy",
       "locationSource": "convoy",
-      "dish": null,
-      "type": null,
+      "dish": "curry",
+      "type": "dish",
       "width": 1280,
       "height": 854,
       "orientation": "landscape",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-convoy/"
       ],
-      "needsEyes": true,
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "A bowl of Curry Ramen photographed from above on dark wood: curly noodles in a brown curry broth topped with seasoned ground pork, a whole dried red chili, half a soft ramen egg, two broccoli florets, sweetcorn and diced white onion, in a black bowl."
     },
     "tajima-ramen-convoy-edamame-02.webp": {
       "file": "tajima-ramen-convoy-edamame-02.webp",
@@ -1434,15 +1420,16 @@
       "src": "/images/photo/tajima-ramen-convoy-katsu-curry-01.webp",
       "location": "convoy",
       "locationSource": "convoy",
-      "dish": null,
-      "type": null,
+      "dish": "curry",
+      "type": "dish",
       "width": 853,
       "height": 1280,
       "orientation": "portrait",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-convoy/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-convoy-katsu-curry-02.webp": {
@@ -1450,15 +1437,16 @@
       "src": "/images/photo/tajima-ramen-convoy-katsu-curry-02.webp",
       "location": "convoy",
       "locationSource": "convoy",
-      "dish": null,
-      "type": null,
+      "dish": "curry",
+      "type": "dish",
       "width": 1280,
       "height": 853,
       "orientation": "landscape",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-convoy/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-convoy-kimchi.webp": {
@@ -2251,14 +2239,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1067,
       "height": 1600,
       "orientation": "portrait",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-pork-katsu-curry-close-up-kihei.webp": {
@@ -2267,14 +2256,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1067,
       "height": 1600,
       "orientation": "portrait",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-pork-katsu-curry-sauce-kihei.webp": {
@@ -2283,14 +2273,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1067,
       "height": 1600,
       "orientation": "portrait",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-ramen-variety-bowls-kihei.webp": {
@@ -2540,14 +2531,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1600,
       "height": 1066,
       "orientation": "landscape",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-tajima-curry-rice-kihei.webp": {
@@ -2556,14 +2548,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1600,
       "height": 1066,
       "orientation": "landscape",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-tajima-curry-rice-spread-kihei.webp": {
@@ -2572,14 +2565,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1066,
       "height": 1600,
       "orientation": "portrait",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-tajima-roll-kihei.webp": {
@@ -2604,14 +2598,15 @@
       "location": "maui",
       "locationSource": "kihei",
       "dish": null,
-      "type": null,
+      "dishGuessFromFilename": "curry",
+      "dishGuessNote": "Filename token only. NOT confirmed to be the menu.json dish of that name; Maui runs its own menu. Do not use to populate menu availability.",
+      "type": "dish",
       "width": 1600,
       "height": 1066,
       "orientation": "landscape",
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "needsEyes": true,
       "alt": "[DRAFT, NEEDS REVIEW] "
     },
     "tajima-ramen-vegetable-gyoza-kihei.webp": {
@@ -2791,6 +2786,10 @@
     {
       "file": "tajima-appetizer-vegetable-tempura-03.webp",
       "reason": "No recognised location token, no dish match, and no recognised subject. Could be an unknown abbreviation; expansions are never invented. Needs a human ruling on what this shows."
+    },
+    {
+      "file": "tajima-ramen-chicken-katsu-curry-rice-kihei.webp",
+      "reason": "Filename matches more than one dish on menu.json (chicken, curry). Not guessed. A human has to say which, or confirm it is a Maui dish that is not on menu.json at all."
     },
     {
       "file": "tajima-ramen-karaage-fried-chicken-kihei.webp",

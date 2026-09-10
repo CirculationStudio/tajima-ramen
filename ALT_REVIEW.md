@@ -1,6 +1,6 @@
 # Alt text pending review
 
-**23 new alt strings, written 2026-09-09. Not yet reviewed. Review before merge.**
+**25 alt strings. 23 written 2026-09-09, 2 more on 2026-09-10. Not yet reviewed.**
 
 Written by reading each photograph, not from its filename. The rule they were written to, from `voice-tone.md` and `CLAUDE.md`: alt describes what is in the frame, it does not sell the dish or the room, and it carries no claim the photograph does not show. No em dashes.
 
@@ -169,3 +169,29 @@ not placed
 **The other 14 College Heights room frames.** They are another angle on the counter, another night exterior, or another pass down the same aisle. Writing alt for photographs nobody is going to place is how the manifest filled up with strings nobody trusts. They keep the generator's draft alt.
 
 **Anything on the do-not-feature list**, including all six Carnitas Ramen frames. The 2026-08-04 decision says the dish is listed on `/menu/` and gets no photograph. That is current policy working, not a stale rule.
+
+## Added 2026-09-10
+
+### `tajima-ramen-convoy-carnitas-ramen-03.webp`
+
+**PLACED: /menu/, Carnitas Ramen row**
+
+> A bowl of Carnitas Ramen: noodles in a red-orange broth topped with shredded carnitas, half a soft ramen egg, sliced red radish, diced white onion, cilantro and a lime wedge, in a white bowl with a red Tajima sticker on the rim.
+
+### `tajima-ramen-convoy-curry-ramen-03.webp`
+
+**PLACED: /menu/ Curry Ramen row, and the /tajima-convoy/ food bento**
+
+> A bowl of Curry Ramen photographed from above on dark wood: curly noodles in a brown curry broth topped with seasoned ground pork, a whole dried red chili, half a soft ramen egg, two broccoli florets, sweetcorn and diced white onion, in a black bowl.
+
+### `tajima-convoy-interior-dining-room-upscaled.jpg`
+
+**PLACED: /tajima-convoy/ hero. This one is also a provenance question, not only an alt question.**
+
+> The Convoy dining room. A long communal table with metal chairs sits under a coffered ceiling of crossed wooden beams, with a black and red brush mural along the banquette wall and the bar and its bottle shelves running down the other side.
+
+The photograph is machine-upscaled and flagged `aiUpscaled` in `photos.json`. Check that the note there says what you want it to say before this goes further than a preview.
+
+## No longer accurate above
+
+The 2026-09-09 section says all six Carnitas frames stay excluded on the do-not-feature policy. **That policy was superseded at client review on 2026-09-10**: the dish is permanent and gets a photograph. Five Carnitas frames are now in the manifest and one is placed.

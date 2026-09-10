@@ -254,26 +254,12 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
         {%- endif %}
       {%- endfor %}
       {#-
-        The twelfth cell. menu.json yields eleven photographs at Convoy and the
-        bento is four columns, so the last row was one short. This fills it
-        with a Convoy izakaya plate that is not on the brand menu, which is
-        what the section note above actually promises. Curated in
-        roomPhotos.js, so it goes through the same build guard as every other
-        placed photograph. -#}
-      {%- set extra = roomPhotos[locationId].dishes %}
-      {%- if extra %}
-      {%- for shot in extra %}
-      <figure class="cell shot reveal">
-        <div class="shot__figure">
-          <img class="shot__img" src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" width="{{ shot.width }}" height="{{ shot.height }}">
-        </div>
-        <figcaption class="shot__caption">
-          <span class="shot__name">{{ shot.caption }}</span>
-          {%- if shot.tag %}<span class="shot__tag">{{ shot.tag }}</span>{% endif %}
-        </figcaption>
-      </figure>
-      {%- endfor %}
-      {%- endif %}
+        NO CURATED EXTRA CELL any more. One sat here from 2026-09-09 to fill
+        the twelfth slot of a four-column bento that menu.json could only fill
+        eleven of. Curry Ramen joined the menu on 2026-09-10 and it is a Convoy
+        dish, so the loop yields twelve by itself and the grid is three clean
+        rows. See roomPhotos.js for what was retired and why it can come back.
+      -#}
     </div>
 
     {#- Convoy does not render components/location-menu.njk (it shows its own

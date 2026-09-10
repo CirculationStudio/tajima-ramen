@@ -183,6 +183,20 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
           {%- if dish.description %}
           <p class="dish__desc">{{ dish.description }}</p>
           {%- endif %}
+          {#
+            AVAILABILITY. This page speaks for seven rooms and one bowl is not
+            served at all of them, so that row says so on its face. Without it a
+            reader would reasonably expect Curry Ramen at their own room and
+            drive to a kitchen that does not make it.
+
+            Copy comes from menu.json `availabilityNote` and must agree with
+            `locations` on the same row; see `_availabilityNoteRule` there. It
+            is not derived from `locations`, because a derived string reads
+            badly the moment a dish is at two rooms rather than one.
+          #}
+          {%- if dish.availabilityNote %}
+          <p class="dish__where">{{ dish.availabilityNote }}</p>
+          {%- endif %}
           {%- if "vegan" in dish.dietary %}
           <p class="dish__desc"><a href="/menu/vegan-ramen/">More about the vegan bowl</a></p>
           {%- endif %}

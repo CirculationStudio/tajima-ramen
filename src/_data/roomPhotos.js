@@ -216,34 +216,22 @@ const CURATED = {
       caption: "The Convoy dining room",
     },
 
-    // ONE DISH FRAME, TO FILL THE ONE EMPTY CELL. /tajima-convoy/ renders its
-    // food bento from menu.json, which yields eleven photographs at Convoy.
-    // Eleven cells in a four-column bento is two full rows and a row of three,
-    // so the grid has had a literal hole in its last row since it was built.
+    // THE FILLER CELL IS RETIRED, 2026-09-10.
     //
-    // This is the twelfth cell and nothing more. It is NOT a second gallery
-    // and it is not an argument for widening the page into a per-room catalog.
+    // A curated Chicken Katsu Bun frame sat here from 2026-09-09. Its entire
+    // stated purpose was to fill the twelfth cell of a four-column bento that
+    // menu.json could only fill eleven of, and it was chosen because it was an
+    // izakaya plate the brand menu does not carry.
     //
-    // WHY THIS DISH. Chicken Katsu Bun is not in menu.json, which carries the
-    // brand menu, and that is exactly why it belongs on THIS page: the section
-    // above it promises "an izakaya list that runs deeper here than anywhere
-    // else in the house", and until now the section illustrated that claim
-    // with eleven photographs of the brand menu. It is confirmed at this room
-    // by the client's own current print collateral, the 2026-07 Convoy food
-    // menu in public/menus/, which this page links to: "CHICKEN KATSU BUN,
-    // steamed bun with crispy chicken cutlet glazed in a house sauce,
-    // shredded cabbage, and mayo mustard".
+    // Curry Ramen joined menu.json on 2026-09-10 and it is a Convoy dish, so
+    // the loop now yields twelve on its own and the grid is three clean rows
+    // without help. A real menu row filling the slot beats a curated extra
+    // filling it, and thirteen cells would put the hole back one place along.
     //
-    // NO PRICE, and no caption text beyond the dish name, because the price on
-    // that printed menu is per location and menu.json _priceStatus is still
-    // open.
-    dishes: [
-      {
-        file: "tajima-ramen-convoy-chicken-katsu-bun-04.webp",
-        caption: "Chicken Katsu Bun",
-        tag: "Convoy izakaya",
-      },
-    ],
+    // Nothing is lost: tajima-ramen-convoy-chicken-katsu-bun-04.webp keeps its
+    // reviewed alt in photos.json and can come back the day the page wants a
+    // deliberate off-menu section rather than a spare cell.
+
     drinks: [
       {
         file: "tajima-ramen-convoy-margaritas-06.webp",

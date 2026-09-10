@@ -162,3 +162,23 @@
   color: var(--color-ink);
   border-color: var(--color-red);
 }
+
+/* --------------------------------------------------------------------------
+   AVAILABILITY. One row on this page is not served at all seven rooms, so it
+   carries a line saying where it is. Set in the UI face at micro, like the
+   other pieces of metadata on a card, and in accent so it reads as a caveat
+   rather than as more of the ingredient list.
+
+   Deliberately not a badge or a pill. It is a fact about the bowl, not a
+   promotional flag, and a coloured chip on one card of ten would read as a
+   recommendation.
+   -------------------------------------------------------------------------- */
+.dish__where{
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+}
