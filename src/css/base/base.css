@@ -199,3 +199,42 @@ body::before {
   color: var(--color-red);
   text-decoration: underline;
 }
+
+/* ==========================================================================
+   PREVIEW BRANCH ONLY (preview/location-photos). Delete with the branch.
+
+   Black and hazard yellow, a pairing that exists nowhere in the brand system,
+   so a screenshot of this build cannot be read as production. Sticky rather
+   than fixed so it scrolls with the document on long pages but is present at
+   the top of every one, and it takes real layout space so it never covers the
+   header.
+   ========================================================================== */
+.preview-flag{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #111111;
+  border-bottom: 4px solid #FFD400;
+  padding: .6rem 1rem;
+  text-align: center;
+}
+.preview-flag__text{
+  margin: 0;
+  font-family: var(--font-ui, system-ui), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: .8125rem;
+  line-height: 1.35;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #FFD400;
+}
+.preview-flag__text strong{
+  color: #111111;
+  background: #FFD400;
+  padding: .1em .5em;
+  margin-right: .35em;
+  font-weight: 800;
+}
+@media print {
+  .preview-flag{ position: static; }
+}

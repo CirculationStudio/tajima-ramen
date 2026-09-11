@@ -1,0 +1,24 @@
+{# ===========================================================================
+   Component: preview-banner
+
+   PREVIEW BRANCH ONLY: preview/location-photos. This whole file is deleted
+   when the branch is deleted, and it must never reach main.
+
+   Fixed to the top of the viewport on every page of this build, above the
+   site header, in a colour combination that appears nowhere else in the brand
+   system, so no screenshot of this deploy can be mistaken for production.
+
+   It is a real <div> in the markup rather than a CSS pseudo-element, so it
+   survives a print, a reader mode, and a screenshot, and it is announced to
+   screen readers as a region rather than being invisible to them.
+
+   It also pushes the document down by its own height rather than overlaying
+   the header, because a banner that covers the nav is a banner someone will
+   want removed.
+   =========================================================================== #}
+<div class="preview-flag" role="region" aria-label="Preview build notice">
+  <p class="preview-flag__text">
+    <strong>Preview build.</strong>
+    Location photography is AI-enhanced and for review only.
+  </p>
+</div>

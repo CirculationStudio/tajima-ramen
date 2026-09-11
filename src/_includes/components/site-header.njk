@@ -134,15 +134,27 @@
                         and its own real alt, and delete this block. Do not
                         keep it for the stragglers.
                       #}
+                      {#- PREVIEW BRANCH: each card shows its own exterior where
+                          one exists, falling back to the shared dish for the
+                          rooms with none (Maui). Still aria-hidden and alt="":
+                          the card's accessible name is the location name below,
+                          and seven alt strings in a links list would be noise.
+
+                          loading="lazy" is load-bearing here. This panel ships
+                          `hidden` and is revealed by JS, so nothing is fetched
+                          until someone opens the menu: measured at roughly
+                          60 KB deferred across seven cards, 0 bytes on first
+                          paint. Do not change it to eager. -#}
+                      {%- set cardPhoto = roomPhotos[loc.id].hero or roomPhotos._placeholder %}
                       <span class="loc-card__media" aria-hidden="true">
                         <img
                           class="loc-card__media-img"
-                          src="{{ roomPhotos._placeholder.src }}"
+                          src="{{ cardPhoto.src }}"
                           alt=""
                           loading="lazy"
                           decoding="async"
-                          width="{{ roomPhotos._placeholder.width }}"
-                          height="{{ roomPhotos._placeholder.height }}">
+                          width="{{ cardPhoto.width }}"
+                          height="{{ cardPhoto.height }}">
                         <span class="loc-card__media-no">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
                       </span>
                       <span class="loc-card__name">{{ loc.name }}</span>

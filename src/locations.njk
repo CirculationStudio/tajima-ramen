@@ -18,7 +18,11 @@ description: "Six Tajima Ramen locations across San Diego, from the Convoy origi
   "GBP is the source of truth" table. Hours do not appear anywhere on this page
   and there is no placeholder for them: Open Decision #9.
 #}
-{% from "components/location-card.njk" import card %}
+{#- `with context` is required: a Nunjucks macro imported without it cannot
+    see global data, so `roomPhotos` was undefined inside the card and the
+    photograph silently did not render. Nothing errors; the slot is simply
+    absent. Same silent-drift family as SITE_ARCHITECTURE.md #18 and #19. -#}
+{% from "components/location-card.njk" import card with context %}
 
 {%- set sanDiego = locations.items | where("region", "san-diego") %}
 {%- set hawaii = locations.items | where("region", "hawaii") %}

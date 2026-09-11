@@ -3,6 +3,11 @@
 
 # Global security headers
 /*
+  # PREVIEW BRANCH ONLY (preview/location-photos). Delete with the branch.
+  # A header cannot be lost in a template refactor the way a meta tag can, and
+  # it covers non-HTML assets too, so the supplied photographs themselves are
+  # not indexable either.
+  X-Robots-Tag: noindex, nofollow
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

@@ -59,98 +59,77 @@ import photos from "./photos.json" with { type: "json" };
 // approved way to say it is twenty-plus. See CLIENT_FACTS.md, Location 4.
 
 const CURATED = {
+  // =========================================================================
+  // PREVIEW BRANCH ONLY: preview/location-photos. DO NOT MERGE TO MAIN.
+  //
+  // Every entry below points at Connor's 2026-09-09 supplied set, downloaded
+  // 2026-09-11, machine-processed, and NOT cleared for publication. Each file
+  // carries `aiUpscaled` and a per-file verification verdict in photos.json.
+  // This branch exists so the client can review them in place. Production is
+  // unchanged and is the comparison.
+  //
+  // THE SUPPLIED SET DISPLACES THE REAL FRAMES HERE, deliberately. College
+  // Heights normally shows seven genuine photographs and Crown Point three.
+  // Mixing genuine and machine-processed images in one unlabelled gallery is
+  // the thing nobody could then review, so on this branch each location shows
+  // the proposal on its own. The real frames are untouched in the repo and
+  // live on production.
+  //
+  // Day exterior is the hero. Night exterior is the last gallery frame,
+  // captioned as such, which is the arrangement that uses both halves of the
+  // pair without the theme-toggle complication: see the payload note in the
+  // report. Interiors sit between them.
+  // =========================================================================
   "college-heights": {
     hero: {
-      file: "tajima-college-heights-exterior-night-signage.webp",
-      caption: "6061 El Cajon Boulevard, after dark",
+      file: "tajima-college-heights-exterior-day.webp",
+      caption: "6061 El Cajon Boulevard",
     },
     gallery: [
+      { file: "tajima-college-heights-seating-area.webp", caption: "The room, looking to the counter", tag: "Before service", wide: true },
+      { file: "tajima-college-heights-bar-area.webp", caption: "The counter and the tap wall", tag: "Twenty-plus taps" },
+      { file: "tajima-college-heights-manga-wall-wood-slat-detail-supplied.webp", caption: "The corridor papered in manga", tag: "Maple slats" },
+      { file: "tajima-college-heights-exterior-night.webp", caption: "The same storefront after dark", tag: "Night" },
+    ],
+  },
+
+  convoy: {
+    hero: {
+      file: "tajima-convoy-exterior-day.webp",
+      caption: "The Convoy Street frontage",
+    },
+    // Only one interior was supplied for Convoy. The second file in the set,
+    // tajima-convoy-interior-dining-area, was the hero already in the repo
+    // re-encoded, so it is not duplicated here.
+    gallery: [
+      { file: "tajima-convoy-interior-bar-area.webp", caption: "The bar", tag: "Supplied set", wide: true },
+      { file: "tajima-convoy-exterior-night.webp", caption: "The same frontage after dark", tag: "Night" },
+    ],
+    dishes: [
       {
-        file: "tajima-college-heights-interior-dining-room-01.webp",
-        caption: "Long maple tables, the open kitchen at the far end",
-        tag: "Before service",
-        wide: true,
+        file: "tajima-ramen-convoy-chicken-katsu-bun-04.webp",
+        caption: "Chicken Katsu Bun",
+        tag: "Convoy izakaya",
       },
+    ],
+    drinks: [
       {
-        file: "tajima-college-heights-ramen-bar-counter-craft-beer-taps.webp",
-        caption: "The counter, and the tap wall behind it",
-        tag: "Twenty-plus taps",
-      },
-      {
-        file: "tajima-college-heights-interior-manga-wall-01.webp",
-        caption: "The corridor papered in manga pages",
-        tag: "Maple slats",
-      },
-      // FOUR ADDED 2026-09-09, chosen for range rather than count. This room
-      // has 18 more frames with reviewed-quality material in them; these four
-      // are the ones that show something the first three do not. Everything
-      // else in that 18 is another angle on the counter, another night
-      // exterior, or another pass down the same aisle, and photos.json still
-      // carries them with draft alt rather than alt written for a page nobody
-      // is going to put them on.
-      //
-      // The four: the room toward the open kitchen, the ordering counter head
-      // on with its wayfinding, the window side with the booths and the slat
-      // screen, and the manga wall close enough to read.
-      {
-        // Not `wide`. With the existing wide frame first, seven cells lay out
-        // as 6+3+3 then 3+3+3+3, two full rows. Making this one wide too left
-        // a single orphan cell on a third row.
-        file: "tajima-college-heights-interior-dining-room-09.webp",
-        caption: "Down the aisle to the open kitchen",
-        tag: "Before service",
-      },
-      {
-        file: "tajima-college-heights-dining-room-bar-counter-wide.webp",
-        caption: "The counter you order at",
-        tag: "Order here",
-      },
-      {
-        file: "tajima-college-heights-interior-dining-room-03.webp",
-        caption: "The window side, and the slat screen",
-        tag: "Two-tops",
-      },
-      {
-        file: "tajima-college-heights-interior-manga-wall-02.webp",
-        caption: "The manga pages, close enough to read",
-        tag: "Detail",
+        file: "tajima-ramen-convoy-margaritas-06.webp",
+        caption: "Photographed at Convoy",
       },
     ],
   },
 
-  // Crown Point. No `hero`: this is still a stub page (src/location-stub.njk)
-  // and the stub hero has no photo slot. The gallery renders on its own.
-  //
-  // Three of the six, not all six. Dropped: the second arched-ceiling frame
-  // and the second surfboard frame, both near duplicates of the ones kept.
-  //
-  // ALSO DROPPED, AND NOT FOR COMPOSITION:
-  // tajima-crown-point-exterior-night-signage-neon-ramen.webp is the best wide
-  // exterior in the set, and it is held back because the street number on the
-  // wall reads 3784 while every record we publish says 3782 Ingraham Street
-  // (locations.json, CLIENT_FACTS.md, the NAP table, and Toast's own page).
-  // Publishing it would put a visible contradiction of our own NAP on the
-  // page of a brand whose Convoy citation audit already scored 25/100. It may
-  // well be the neighbouring unit's number. Nobody has checked, so it waits.
-  // The neon detail frame carries the exterior instead and shows no number.
-  // Mercury and East Village have no room photography worth placing, but they
-  // do have food of their own. `dishes` is a separate set from `gallery` so a
-  // location can have either, both, or neither.
-  //
-  // These are the only two locations where this applies. Convoy has 60 food
-  // photographs and already shows them in its own gallery; Maui has 54 and is
-  // held for a separate pass because it is a different market with its own
-  // menu; College Heights, Crown Point and Plaza Bonita have no dish
-  // photography at all.
-  //
-  // EXCLUDED, and not for composition:
-  // vegetable-tempura-large-mercury-only.webp is Mercury's third food frame
-  // and it is held back. The filename says vegetable tempura; the photograph
-  // plainly contains shrimp among the broccoli and green beans. Captioning it
-  // as a vegetable dish would publish a dietary claim the image itself
-  // contradicts, and CLAUDE.md says allergen and dietary information comes
-  // from verified client data only. Needs a ruling on what the dish is.
   mercury: {
+    hero: {
+      file: "tajima-mercury-exterior-day.webp",
+      caption: "The Mercury Street frontage",
+    },
+    gallery: [
+      { file: "tajima-mercury-interior-seating-area.webp", caption: "The room from the dining side", tag: "Ninety seats", wide: true },
+      { file: "tajima-mercury-interior-bar-area.webp", caption: "The full bar", tag: "Bar" },
+      { file: "tajima-mercury-exterior-night.webp", caption: "The same frontage after dark", tag: "Night" },
+    ],
     dishes: [
       {
         file: "shrimp-tempura-large-mercury-only.webp",
@@ -165,6 +144,15 @@ const CURATED = {
   },
 
   "east-village": {
+    hero: {
+      file: "tajima-east-village-exterior-day.webp",
+      caption: "The E Street corner",
+    },
+    gallery: [
+      { file: "tajima-east-village-interior-seating-area.webp", caption: "The dining room", tag: "Sixty-four seats", wide: true },
+      { file: "tajima-east-village-interior-bar-area.webp", caption: "The bar", tag: "Six taps" },
+      { file: "tajima-east-village-exterior-night.webp", caption: "The same corner after dark", tag: "Night" },
+    ],
     dishes: [
       {
         file: "shishito-peppers-large-ev-only.webp",
@@ -174,92 +162,31 @@ const CURATED = {
     ],
   },
 
-  // CONVOY DRINKS, added 2026-09-09.
-  //
-  // The only drinks photography in the entire 210-file set, and it is all
-  // Convoy. /happy-hour/ shipped with no imagery on the strength of a comment
-  // in its own markup saying no drink photograph existed in the manifest.
-  // Six did. The comment was written from the curated sets in this file rather
-  // than from photos.json, which is the difference between "not curated" and
-  // "does not exist", and PHOTO_AUDIT.md caught it.
-  //
-  // ONE FRAME, ON CONVOY'S CARD, AND NOWHERE ELSE. photos.json's _rule is that
-  // a photograph reaches a location's surface only if its filename names that
-  // location, so these cannot dress the other five rooms' cards no matter how
-  // much better a six-photo grid would look. Five rooms with no drinks
-  // photography render no photo, which is the same graceful-degradation rule
-  // the galleries follow.
-  //
-  // margaritas-06 is the pick for a card at roughly 350px: three glasses in a
-  // row, high contrast against dark wood, and the silhouettes survive being
-  // shrunk. The overhead crop (margaritas-01) and the four-drink line-ups read
-  // as texture at that size. All six now have reviewed alt and the other five
-  // are waiting on a Convoy surface, most obviously /tajima-convoy/, which has
-  // no drinks imagery either.
-  convoy: {
-    // THE HERO. Added 2026-09-10, and it closes DESIGN_SYSTEM.md open item 7.
-    //
-    // /tajima-convoy/ loaded its hero photograph from tajimaramen.com, the
-    // live WordPress site this project replaces, because there was no Convoy
-    // room photograph anywhere in the repo: all 60 Convoy files were food or
-    // drinks. That made the highest-traffic page on the site depend on the old
-    // site staying up, in either direction.
-    //
-    // The client supplied an upscaled interior at review. It is a REAL
-    // photograph of this room, machine-enlarged, and it is flagged
-    // `aiUpscaled` in photos.json with the full note. It is not a placeholder
-    // and does not trip the placeholder guard: a placeholder is an image of
-    // something else, and this is the right room at the wrong resolution.
-    // Replace it when the shoot lands.
-    hero: {
-      file: "tajima-convoy-interior-dining-room-upscaled.jpg",
-      caption: "The Convoy dining room",
-    },
-
-    // THE FILLER CELL IS RETIRED, 2026-09-10.
-    //
-    // A curated Chicken Katsu Bun frame sat here from 2026-09-09. Its entire
-    // stated purpose was to fill the twelfth cell of a four-column bento that
-    // menu.json could only fill eleven of, and it was chosen because it was an
-    // izakaya plate the brand menu does not carry.
-    //
-    // Curry Ramen joined menu.json on 2026-09-10 and it is a Convoy dish, so
-    // the loop now yields twelve on its own and the grid is three clean rows
-    // without help. A real menu row filling the slot beats a curated extra
-    // filling it, and thirteen cells would put the hole back one place along.
-    //
-    // Nothing is lost: tajima-ramen-convoy-chicken-katsu-bun-04.webp keeps its
-    // reviewed alt in photos.json and can come back the day the page wants a
-    // deliberate off-menu section rather than a spare cell.
-
-    drinks: [
-      {
-        file: "tajima-ramen-convoy-margaritas-06.webp",
-        caption: "Photographed at Convoy",
-      },
-    ],
-  },
-
   "crown-point": {
+    hero: {
+      file: "tajima-crown-point-exterior-day.webp",
+      caption: "The Ingraham Street frontage",
+    },
     gallery: [
-      {
-        file: "tajima-crown-point-exterior-night-neon-ramen-sign-detail.webp",
-        caption: "The red neon arrow on the corner, at night",
-        tag: "Ingraham Street",
-        wide: true,
-      },
-      {
-        file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
-        caption: "The dining room under its barrel-vaulted ceiling",
-        tag: "Before service",
-      },
-      {
-        file: "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
-        caption: "The counter, with the red surfboard above it",
-        tag: "Cedar wall",
-      },
+      { file: "tajima-crown-point-seating-area.webp", caption: "The dining room under its barrel ceiling", tag: "Before service", wide: true },
+      { file: "tajima-crown-point-bar-area.webp", caption: "The counter, with the red surfboard above it", tag: "Cedar wall" },
+      { file: "tajima-crown-point-exterior-night.webp", caption: "The same frontage after dark", tag: "Night" },
     ],
   },
+
+  // PLAZA BONITA: one exterior, no interiors. It gets a hero and NO gallery
+  // section at all, which is the same graceful-degradation rule every other
+  // gated section on this site follows. An empty gallery frame reads as a
+  // broken page; a missing section reads as a page that does not have one.
+  "plaza-bonita": {
+    hero: {
+      file: "tajima-plaza-bonita-exterior-day.webp",
+      caption: "Inside Westfield Plaza Bonita",
+    },
+  },
+
+  // MAUI: nothing was supplied and nothing is invented. No hero, no gallery,
+  // and its page is unchanged on this branch.
 };
 
 // The one photograph the Locations mega menu shows in all seven cards.

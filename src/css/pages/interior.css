@@ -412,3 +412,22 @@ a.loc__phone:focus-visible{ color: var(--color-red); }
 .sect__mark{
   margin-bottom: var(--space-4);
 }
+
+/* --------------------------------------------------------------------------
+   PREVIEW BRANCH (preview/location-photos): the photograph on a /locations/
+   card. Full bleed to the cell's inner edges so the card reads as a card with
+   a picture in it rather than a picture pasted on. Gated in the template, so
+   a location without one keeps the text-only card it always had.
+   -------------------------------------------------------------------------- */
+.loc__photo{
+  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-5);
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+}
+.loc__photo img{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}

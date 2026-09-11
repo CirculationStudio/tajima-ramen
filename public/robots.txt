@@ -1,0 +1,8 @@
+# PREVIEW BRANCH ONLY: preview/location-photos. Delete with the branch.
+#
+# This deploy carries machine-processed location photography that has not been
+# cleared for publication. Nothing on it may be indexed. Backed by
+# <meta name="robots" content="noindex, nofollow"> on every page and an
+# X-Robots-Tag on /* in _headers.
+User-agent: *
+Disallow: /

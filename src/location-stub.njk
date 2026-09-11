@@ -63,8 +63,12 @@ eleventyComputed:
 {%- set spriteIcons = ["ramen-bowl"] %}
 {% include "components/icon-sprite.njk" %}
 
-<section class="page-hero" aria-labelledby="page-title">
+{#- PREVIEW BRANCH: the stub hero gains a photo slot when the location has a
+    curated hero. Gated, so Maui (which has none) renders the original
+    single-column hero rather than an empty frame. -#}
+<section class="page-hero{% if gallery.hero %} page-hero--split{% endif %}" aria-labelledby="page-title">
   <div class="page-hero__inner">
+   <div>
     <p class="page-hero__crumbs">
       <a href="/">{{ site.name }}</a>
       <span aria-hidden="true">/</span>
@@ -137,6 +141,17 @@ eleventyComputed:
       </span>
       {%- endif %}
     </address>
+   </div>
+
+    {%- if gallery.hero %}
+    <figure class="page-hero__photo">
+      <img class="page-hero__photo-img"
+        src="{{ gallery.hero.src }}"
+        alt="{{ gallery.hero.alt }}"
+        loading="lazy" width="{{ gallery.hero.width }}" height="{{ gallery.hero.height }}">
+      <figcaption class="page-hero__photo-cap">{{ gallery.hero.caption }}</figcaption>
+    </figure>
+    {%- endif %}
   </div>
 </section>
 

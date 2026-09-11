@@ -97,7 +97,7 @@ description: "Internal review page. Three alternate home page directions on one 
      from (nothing generates one yet), and public/_headers carries a matching
      X-Robots-Tag for /internal/* so the rule survives even if this tag is
      ever lost in a refactor. #}
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="noindex, nofollow">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,6 +117,7 @@ description: "Internal review page. Three alternate home page directions on one 
 </head>
 
 <body>
+  {% include "components/preview-banner.njk" %}
 
   {#
     Set up the three shared lists once. Every concept reads these, so a data

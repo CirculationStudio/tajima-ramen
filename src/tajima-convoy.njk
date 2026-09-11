@@ -202,6 +202,19 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   </div>
 </section>
 
+{#- PREVIEW BRANCH: the room gallery. /tajima-convoy/ has never had one,
+    because no Convoy room photography existed. These are Connor's supplied
+    frames and are NOT cleared: see photos.json. -#}
+{%- set gallery = roomPhotos[locationId] %}
+{%- if gallery.gallery %}
+  {%- set gallerySet = gallery.gallery %}
+  {%- set galleryId = "room-title" %}
+  {%- set galleryTitle = "The room, <em>photographed.</em>" %}
+  {%- set galleryIcon = false %}
+  {%- set galleryNote = false %}
+  {% include "components/location-gallery.njk" %}
+{%- endif %}
+
 {# ==================== FROM THIS KITCHEN ==================== #}
 {#
   REWRITTEN note. The concept read "Tonkotsu simmered twelve hours." No simmer

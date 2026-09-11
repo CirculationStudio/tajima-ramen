@@ -11,6 +11,18 @@
 
 {% macro card(loc, index, modifier) %}
 <article class="cell loc loc--{{ modifier | default('std') }} reveal">
+  {#- PREVIEW BRANCH: the card gains a photograph where the location has a
+      curated hero. Gated, so Maui renders the card it always had rather than
+      an empty frame. Decorative: the card's accessible name is the location
+      name in the heading below, so this carries alt="" rather than repeating
+      it. Lazy, because /locations/ shows seven of these below the fold. -#}
+  {%- set cardPhoto = roomPhotos[loc.id].hero %}
+  {%- if cardPhoto %}
+  <figure class="loc__photo">
+    <img src="{{ cardPhoto.src }}" alt="" loading="lazy" decoding="async"
+         width="{{ cardPhoto.width }}" height="{{ cardPhoto.height }}">
+  </figure>
+  {%- endif %}
   <div>
     <div class="loc__top">
       {# One consistent mark rather than a different icon per room: assigning
