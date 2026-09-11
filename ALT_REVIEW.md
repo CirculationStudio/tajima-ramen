@@ -195,3 +195,113 @@ The photograph is machine-upscaled and flagged `aiUpscaled` in `photos.json`. Ch
 ## No longer accurate above
 
 The 2026-09-09 section says all six Carnitas frames stay excluded on the do-not-feature policy. **That policy was superseded at client review on 2026-09-10**: the dish is permanent and gets a photograph. Five Carnitas frames are now in the manifest and one is placed.
+
+## Connor's supplied location set, added 2026-09-11
+
+**21 alt strings for photographs that are NOT placed on any page.** Source: Connor, 2026-09-09, processed through ChatGPT from source photography, ShortPixel compressed. Downloaded and converted to WebP 2026-09-11.
+
+Alt is written here so the assets are documented and reviewable. **Sign-off on the alt is not sign-off on publishing them.** Provenance is the open question; see the verification verdict on each file's `aiUpscaledNote` in `photos.json`, and the report.
+
+For the Convoy, East Village and Plaza Bonita frames the alt deliberately describes the scene without asserting which restaurant it is, because that is precisely what is in dispute.
+
+
+### college-heights (5) - VERIFIED against real frames
+
+**`tajima-college-heights-bar-area.webp`**
+
+> The ramen bar at College Heights. Maple stools run along a dark counter beneath a row of craft beer tap handles, with wall-mounted screens above and potted plants and payment terminals along the back counter.
+
+**`tajima-college-heights-exterior-day.webp`**
+
+> The College Heights storefront by day. A black sign carrying the Tajima flame mark and wordmark sits above a black awning, with stone cladding either side of the glass doors and planters of grass along the frontage.
+
+**`tajima-college-heights-exterior-night.webp`**
+
+> The College Heights storefront at night. The black Tajima sign is lit above the awning, wall lanterns burn either side of the doors, and the maple-lined dining room is visible through the glass.
+
+**`tajima-college-heights-manga-wall-wood-slat-detail-supplied.webp`**
+
+> A corridor at College Heights, the wall papered floor to ceiling with black and white manga pages between panels of horizontal maple slats.
+
+**`tajima-college-heights-seating-area.webp`**
+
+> The College Heights room looking toward the service counter. Maple stools stand along the counter with communal tables in the foreground, under black signs reading Drink Station, Order Here and Take Out Pick Up.
+
+
+### crown-point (4) - VERIFIED against real frames (exteriors blocked separately)
+
+**`tajima-crown-point-bar-area.webp`**
+
+> The counter at Crown Point. Wooden stools run along a white counter, with a red surfboard mounted on the cedar wall above and the dining room visible through a cut-out window.
+
+**`tajima-crown-point-exterior-day.webp`**
+
+> The Crown Point storefront by day. Black TAJIMA RAMEN letters run across a white facade beside a hanging RAMEN blade sign, above glass doors and a stone-clad base, with the street number mounted on the wall.
+
+**`tajima-crown-point-exterior-night.webp`**
+
+> The Crown Point storefront at night, the TAJIMA RAMEN letters and the RAMEN blade sign lit against the dark, with the warm-lit dining room visible through the windows.
+
+**`tajima-crown-point-seating-area.webp`**
+
+> The Crown Point dining room under its barrel-vaulted ceiling of curved wood slats lit from behind, with tables, wooden chairs and a long banquette down one side.
+
+
+### mercury (4) - CONSISTENT, references too small to confirm
+
+**`tajima-mercury-exterior-day.webp`**
+
+> The Mercury storefront by day. A dark sign carrying the Tajima flame mark and wordmark sits above a covered patio with slatted wood screening, in a commercial strip.
+
+**`tajima-mercury-exterior-night.webp`**
+
+> The Mercury storefront at night, the lit Tajima sign above a patio strung with festoon lights, slatted wood screening along the frontage and a neighbouring unit's sign on the floor above.
+
+**`tajima-mercury-interior-bar-area.webp`**
+
+> The bar at Mercury. A long counter with bar stools runs beneath clustered globe pendant lights and an exposed beam ceiling, with a wall of bottles behind it and a screen mounted above.
+
+**`tajima-mercury-interior-seating-area.webp`**
+
+> The Mercury room seen from the dining side, wooden tables in the foreground and the lit bar behind with its bottle shelving, globe pendants and exposed ductwork overhead.
+
+
+### convoy (3) - NOT VERIFIED, evidence against the exteriors
+
+**`tajima-convoy-exterior-day.webp`**
+
+> A restaurant exterior by day: a tall corten steel tower carrying vertical TAJIMA letters, a dark circular flame badge on the gable, glass entrance doors and a planted forecourt.
+
+**`tajima-convoy-exterior-night.webp`**
+
+> A restaurant exterior at night: the corten steel tower and its vertical TAJIMA and RAMEN lettering lit, with bamboo planting, patio heaters and glazed entrance doors.
+
+**`tajima-convoy-interior-bar-area.webp`**
+
+> A long bar with red metal stools and wooden seat backs beneath an exposed timber joist ceiling, with bottle shelving, greenery and a wall-mounted screen behind the counter.
+
+
+### east-village (4) - UNVERIFIABLE, no reference material
+
+**`tajima-east-village-exterior-day.webp`**
+
+> A brick corner building by day with a circular bulb-lit Tajima sign on the corner, black-framed windows, and a railed sidewalk patio with umbrellas and patterned chairs.
+
+**`tajima-east-village-exterior-night.webp`**
+
+> A brick corner building at night, the bulb-lit corner sign and the window heads illuminated, festoon lighting over the railed sidewalk patio and the interior glowing through the glass.
+
+**`tajima-east-village-interior-bar-area.webp`**
+
+> A bar beneath pendant lanterns, with a wall of bottles behind the counter, patterned tilework at one end, stools along a dark counter and communal tables to the right.
+
+**`tajima-east-village-interior-seating-area.webp`**
+
+> A dining room with long communal tables and benches under globe and lantern pendants, an exposed joist ceiling, a bar along the left wall and windows onto the street.
+
+
+### plaza-bonita (1) - UNVERIFIABLE, shows generation artifacts
+
+**`tajima-plaza-bonita-exterior-day.webp`**
+
+> A food court counter under a TAJIMA RAMEN sign in white letters on a dark band, with hexagonal patterned wood cladding, menu screens above the open kitchen, and a red disc carrying the Tajima mark on the wall beside Japanese lettering.
