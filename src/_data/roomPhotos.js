@@ -185,8 +185,23 @@ const CURATED = {
     },
   },
 
-  // MAUI: nothing was supplied and nothing is invented. No hero, no gallery,
-  // and its page is unchanged on this branch.
+  // MAUI, added 2026-09-14. One exterior, supplied separately from the 21.
+  //
+  // Hero only: there are no Maui interiors, so it takes the same shape as
+  // Plaza Bonita and renders no gallery section rather than an empty frame.
+  //
+  // Its origin is unverified like the rest of this set, and there is no prior
+  // Maui room photography in the repo to compare it against. Two independent
+  // checks do corroborate it and they are the two the Convoy exterior failed:
+  // the brand mark on the sign matches the vector stamp stroke for stroke,
+  // and the door reads D-105, which matches the published NAP for this room.
+  // See its aiUpscaledNote in photos.json. Corroboration, not confirmation.
+  maui: {
+    hero: {
+      file: "tajima-maui-exterior.webp",
+      caption: "South Kihei Road, unit D-105",
+    },
+  },
 };
 
 // The one photograph the Locations mega menu shows in all seven cards.
