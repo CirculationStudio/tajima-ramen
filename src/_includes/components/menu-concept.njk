@@ -1,0 +1,192 @@
+{# ===========================================================================
+   Component: menu-concept
+
+   The shared body of the two internal menu concepts, built to follow
+   _reference/menu-concepts/tajima-ev-menu-B2.html and -B1.html closely.
+
+   EXPECTS  variant "b2" | "b1",  showPrices boolean
+
+   The reference's structure, reproduced: a coloured spine block down the left
+   of each section with rotated display type, no full-width bar; a cut rule
+   with a brand mark between sections; dish rows with the name and price both
+   in the brush face on one line and the description beneath; ghosted brand art
+   bottom right of each band; dietary glyphs inline after the name; the legend
+   and fine print at the foot.
+
+   DATA. Rows come from menu.json through `dishesFor`, scoped to east-village.
+   Nothing is transcribed from the reference HTML.
+   =========================================================================== #}
+{%- set evLoc = (locations.items | where("id", "east-village")) | first %}
+{%- set sections = [
+  { key: "izakaya", label: "Izakaya" },
+  { key: "ramen",   label: "Ramen" },
+  { key: "dessert", label: "Dessert" }
+] %}
+
+<div class="mc__mast">
+  <p class="mc__kicker">{{ evLoc.address.street }}, {{ evLoc.address.locality }}</p>
+  <h1 class="mc__title">What comes out of <em>East Village.</em></h1>
+  <p class="mc__note">This room's own list. Walk in, no reservations.</p>
+</div>
+
+{%- for section in sections %}
+{%- set rows = menu.items | dishesFor("east-village", section.key) %}
+{%- if rows | length %}
+{%- set tone = menuConcepts.barTones[section.key] %}
+{%- set ornament = menuConcepts.ornaments[section.key] %}
+{%- set cut = menuConcepts.cuts[section.key] %}
+{%- set featured = rows | firstWithReviewedPhoto %}
+
+{%- if cut %}
+{#- The cut. A brand mark sitting in the spine column, then a hairline across
+    the rest. Decorative divider, so it is hidden from assistive technology. -#}
+<div class="mc-cut" aria-hidden="true">
+  <span class="mc-cut__mark"><svg><use href="#i-{{ cut }}"></use></svg></span>
+  <span class="mc-cut__rule"></span>
+</div>
+{%- endif %}
+
+<section class="mc-band mc-band--{{ tone }}" aria-labelledby="mc-{{ section.key }}">
+  {#- The mobile section header. The spine is a vertical block and cannot
+      survive a 360px column, so below 47.5rem it is hidden and this sticky
+      tone bar takes over, which is exactly what the reference does. Hidden
+      from assistive technology on both sides of that swap because the real
+      h2 is in the row below and would otherwise be announced twice. -#}
+  <div class="mc-band__bar" aria-hidden="true">{{ section.label }}</div>
+
+  <div class="mc-band__row">
+    {#- The spine. Rotated display type on the tone block, the device the
+        reference is built on. It repeats the heading beside it, so the visible
+        text is aria-hidden and the real h2 is visually hidden next to it. -#}
+    <div class="mc-band__spine" aria-hidden="true">{{ section.label }}</div>
+    <h2 class="u-visually-hidden" id="mc-{{ section.key }}">{{ section.label }}</h2>
+
+    <div class="mc-band__body">
+      {%- if ornament %}
+      <div class="mc-band__art" aria-hidden="true"><svg><use href="#i-{{ ornament }}"></use></svg></div>
+      {%- endif %}
+
+      {%- if section.key == "ramen" %}
+      {#- The confirmed slogan from site.json. The reference prints "Fresh
+          noodles crafted daily", which is not the locked string. -#}
+      <p class="mc-band__blurb">{{ site.slogan.before }}{{ site.slogan.emphasis }}</p>
+      {%- endif %}
+
+      <div class="mc-split{% if variant == 'b1' and featured %} mc-split--peek{% endif %}">
+        {%- if variant == "a2" %}
+        {#- A2: a square thumbnail per dish beside the name, price and
+            description. A dish with no photograph gets the reference's tinted
+            placeholder tile with a ghosted brand mark rather than a gap. -#}
+        <ul class="mc-plates">
+          {%- for dish in rows %}
+          <li class="mc-plate">
+            {%- if dish.image %}
+            <span class="mc-shot">
+              <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="92" height="92">
+            </span>
+            {%- else %}
+            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
+            {%- endif %}
+            <div class="mc-plate__text">
+              <p class="mc-plate__head">
+                <span class="mc-plate__name">{{ dish.name }}
+                  {%- for flag in menuConcepts.legend %}
+                    {%- if flag.flag in dish.dietary %}
+                  <span class="mc-mark mc-mark--{{ flag.flag }}">
+                    <span class="u-visually-hidden">{{ flag.label }}</span>
+                    <svg aria-hidden="true"><use href="#m-{{ flag.flag }}"></use></svg>
+                  </span>
+                    {%- endif %}
+                  {%- endfor %}
+                </span>
+                {%- if showPrices %}<span class="mc-plate__price">{{ dish.price }}</span>{% endif %}
+              </p>
+              {%- if dish.description %}
+              <p class="mc-plate__desc">{{ dish.description }}</p>
+              {%- endif %}
+            </div>
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
+        <ul class="mc-lines">
+          {%- for dish in rows %}
+          <li class="mc-line">
+            <span class="mc-line__name">{{ dish.name }}
+              {%- for flag in menuConcepts.legend %}
+                {%- if flag.flag in dish.dietary %}
+              <span class="mc-mark mc-mark--{{ flag.flag }}">
+                <span class="u-visually-hidden">{{ flag.label }}</span>
+                <svg aria-hidden="true"><use href="#m-{{ flag.flag }}"></use></svg>
+              </span>
+                {%- endif %}
+              {%- endfor %}
+            </span>
+            {%- if showPrices %}<span class="mc-line__price">{{ dish.price }}</span>{% endif %}
+            {%- if dish.description %}
+            <span class="mc-line__note">{{ dish.description }}</span>
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+
+        {%- if variant == "b1" and featured %}
+        {#- The preview pane, the reference's peek card. Sticky beside the
+            list on wide viewports. A section with no photograph carrying
+            reviewed alt renders no pane at all. -#}
+        <aside class="mc-peek" aria-label="{{ section.label }}, featured dish">
+          <img class="mc-peek__media"
+            src="{{ featured.photo.src }}"
+            alt="{{ featured.photo.alt }}"
+            loading="lazy" decoding="async"
+            width="{{ featured.photo.width }}" height="{{ featured.photo.height }}">
+          <div class="mc-peek__body">
+            <p class="mc-peek__eyebrow">Featured</p>
+            <p class="mc-peek__name">{{ featured.dish.name }}</p>
+            {%- if showPrices %}<p class="mc-peek__price">{{ featured.dish.price }}</p>{% endif %}
+            {%- if featured.dish.description %}
+            <p class="mc-peek__desc">{{ featured.dish.description }}</p>
+            {%- endif %}
+            <p class="mc-peek__where">Photographed at Convoy</p>
+          </div>
+        </aside>
+        {%- endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif %}
+{%- endfor %}
+
+<footer class="mc-foot">
+  <h2 class="u-visually-hidden">Menu marks and allergen information</h2>
+  <ul class="mc-notes">
+    {%- for flag in menuConcepts.legend %}
+    <li class="mc-notes__item">
+      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#m-{{ flag.flag }}"></use></svg></span>
+      <span><b>{{ flag.label }}.</b> {{ flag.note }}</span>
+    </li>
+    {%- endfor %}
+  </ul>
+
+  {#- Named rather than guessed at. menu.json has no field for three of the
+      four marks above, so no dish carries them. -#}
+  <p class="mc-foot__gap">
+    Marked from data only. menu.json carries a dietary value on two rows, both vegan;
+    {{ menuConcepts.missingFlags | join(", ") }} have no field on any dish yet, so no dish shows those marks.
+  </p>
+
+  {%- if variant == "a2" %}
+  {#- One line rather than a caption on each of eleven tiles. Every dish
+      photograph in the manifest was shot at Convoy, and an East Village menu
+      showing them should say so once. -#}
+  <p class="mc-foot__gap">Dish photography was shot at Convoy.</p>
+  {%- endif %}
+
+  <div class="mc-foot__fine">
+    {%- for line in menuConcepts.footer %}
+    <p>{{ line }}</p>
+    {%- endfor %}
+  </div>
+</footer>

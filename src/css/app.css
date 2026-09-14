@@ -72,3 +72,5 @@
    reaches another template. Delete this import and the file together when the
    home direction is chosen. */
 @import "./pages/home-concepts.css";
+/* Internal review routes: the two menu concepts. Delete with the branch. */
+@import "./pages/menu-concepts.css";

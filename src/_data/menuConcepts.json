@@ -1,0 +1,59 @@
+{
+  "_note": "Copy and configuration for the two internal menu concept routes, /internal/menu-concept-b2/ and /internal/menu-concept-b1/. Review routes only. Nothing here is shipping copy and nothing here is linked from the site.",
+  "_dataRule": "THE DISH ROWS ARE NOT IN THIS FILE AND MUST NOT BE. Both routes render from menu.json through the same `dishesFor` filter the location pages use, scoped to east-village. The reference mockups in _reference/menu-concepts/ are a DESIGN reference; the data layer is the source of truth. Nothing was transcribed out of their HTML.",
+  "_prices": "PRICES ARE OFF. `showPrices` is false on both routes. The client asked for prices off the main menu page and did not rule on location menus, so the default here is off and the decision is Steve's. Flipping `showPrices` to true in the two page front matters is the whole change; menu.json already carries a price on every row. See the report for where the mockup's prices came from.",
+  "_sectionOrnaments": "Ghosted section art, aria-hidden, from the existing sprite. Field ornaments rather than heading marks, so the one-mark-per-heading rule does not apply, the same call /happy-hour/ makes for its gold field. Dessert carries none: the sprite is twelve food marks and none of them is a dessert, and the /menu/ Dessert heading already sets that precedent.",
+  "ornaments": {
+    "izakaya": "chopsticks-noodles",
+    "ramen": "ramen-bowl",
+    "dessert": "naruto"
+  },
+  "_barTones": "Spine tones, from the reference: izakaya black with cream type, ramen gold with black type, dessert black with GOLD type, which is the reference's fourth tone. Its red tone belongs to the rice section and menu.json has no rice rows, so red goes unused rather than being invented onto a section with no dishes.",
+  "barTones": {
+    "izakaya": "ink",
+    "ramen": "gold",
+    "dessert": "ink-gold"
+  },
+  "_legend": "Marks render ONLY from menu.json `dietary`. Nothing is inferred from a description. The mockups also show spicy, vegetarian and raw or undercooked marks; no field for any of those exists in menu.json, so they are named as missing rather than guessed at.",
+  "legend": [
+    {
+      "flag": "spicy",
+      "label": "Spicy",
+      "note": "Built with chili, and it shows. Heat can be dialled down at the counter."
+    },
+    {
+      "flag": "vegan",
+      "label": "Vegan",
+      "note": "No meat, fish, dairy or egg."
+    },
+    {
+      "flag": "vegetarian",
+      "label": "Vegetarian",
+      "note": "No meat or fish, but contains dairy or egg."
+    },
+    {
+      "flag": "raw",
+      "label": "Served raw or undercooked",
+      "note": "Eating raw or undercooked meat, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness."
+    }
+  ],
+  "missingFlags": [
+    "spicy",
+    "vegetarian",
+    "raw or undercooked"
+  ],
+  "_footerSource": "Every line below is already-approved copy from faq.json, which draws on CLIENT_FACTS.md. NOT transcribed from the mockups' fine print, which carries strings nobody has cleared.",
+  "footer": [
+    "Soy, wheat, shellfish, egg and dairy are all present across the menu.",
+    "There is no gluten-free noodle in any bowl. Some dishes can be prepared without gluten, so ask the floor.",
+    "Tell your server about any allergy before you order."
+  ],
+  "_footerLastLine": "The third line is the only sentence here not lifted verbatim from faq.json. It states the standing instruction a reader needs and makes no claim about the kitchen. If it needs to go, delete it; the first two carry the allergen facts on their own.",
+  "_previewPane": "B1 only. Features one dish per section, and only where the photograph carries REVIEWED alt in photos.json. Every dish photograph in the manifest was shot at Convoy, so each pane says so on its face. photos.json _rule scopes ROOM photography to its own location; a photograph of a bowl is a photograph of that bowl wherever it was taken, and captioning it is how /happy-hour/ already handles the same situation. A section with no qualifying photograph collapses.",
+  "_legendRule": "The legend lists all four marks because it is a legend: it tells a reader what a mark means if they see one. What DOES NOT happen is inferring the flag onto a dish. Only `dietary` in menu.json drives a mark, and that field is populated on two of fourteen rows, both vegan. `spicy`, `vegetarian` and `raw` have no field at all, so no dish carries those marks and a line under the legend says so.",
+  "cuts": {
+    "ramen": "ramen-bowl",
+    "dessert": "naruto"
+  },
+  "_cuts": "The small mark on the rule between sections, matching the reference's cut device. Mapped to the closest thing in the Tajima sprite: the reference's bowl-of-noodles is our ramen-bowl, and its sesame swirl is our naruto, which is the only swirl the sprite has. Izakaya is the first section so nothing precedes it."
+}

@@ -41,7 +41,11 @@
      Cloudflare edge and 301'd to the clean URL. See SITE_ARCHITECTURE.md. #}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   {%- if noindex %}
-  <meta name="robots" content="noindex, follow">
+  {#- `robots` lets a page pick its directive. The default stays "noindex,
+      follow", which is right for a page that is unlisted but whose outbound
+      links should still be crawled. A review route that must not propagate
+      anything sets robots: "noindex, nofollow" in its front matter. -#}
+  <meta name="robots" content="{{ robots | default("noindex, follow") }}">
   {%- endif %}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
