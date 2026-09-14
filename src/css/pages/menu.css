@@ -99,6 +99,14 @@
   transform: translateY(-2px);
 }
 
+/* The card mark. Sits above the number so the card reads mark, index, name,
+   count. Cards without one keep their existing rhythm rather than reserving
+   an empty slot: two of the four have no matching icon in the sprite and a
+   held gap would read as a missing image. */
+.menu-hero__jump-mark {
+  margin-bottom: var(--space-2);
+}
+
 .menu-hero__jump-num {
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);

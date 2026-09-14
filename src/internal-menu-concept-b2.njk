@@ -1,0 +1,56 @@
+---
+layout: layouts/base.njk
+permalink: /internal/menu-concept-b2/
+noindex: true
+robots: "noindex, nofollow"
+eleventyExcludeFromCollections: true
+bodyClass: page-menu-concept page-menu-concept--a2
+title: "Menu concept A2 | Internal review, Tajima Ramen"
+description: "Internal review page. East Village menu module, three columns with a photograph per dish. Not a shipping page and not linked from the site."
+---
+{#
+  ===========================================================================
+  REVIEW PAGE. NOT A SHIPPING PAGE. NOT LINKED FROM ANY NAV.
+
+  Concept A2: three columns, a square photograph per dish, name and price on
+  one line, description beneath.
+
+  THE URL STILL SAYS b2 ON PURPOSE. It was shared with the client at that
+  address. The treatment is A2's; renaming the route would break the link.
+
+  noindex in front matter, and /internal/* already carries an X-Robots-Tag in
+  public/_headers, which a template refactor cannot lose. There is no sitemap
+  in this build; eleventyExcludeFromCollections keeps this page out of one if
+  somebody adds it.
+
+  RENDERED FROM DATA. Rows come from menu.json through the `dishesFor` filter
+  scoped to east-village, the same filter the location pages use. The mockups
+  in _reference/menu-concepts/ are a design reference only: not one dish name,
+  description or price was transcribed out of their HTML.
+
+  See components/menu-concept.njk for the shared body and _data/menuConcepts
+  for the copy, the sourcing and the open decisions.
+  ===========================================================================
+#}
+{%- set spriteIcons = ["ramen-bowl", "chopsticks-noodles", "naruto"] %}
+{% include "components/icon-sprite.njk" %}
+{% include "components/menu-marks.njk" %}
+
+{#
+  PRICES OFF. The client asked for prices off /menu/ and did not rule on a
+  location menu, so off is the default and the decision is Steve's. menu.json
+  carries a price on every row; flipping this to true is the whole change.
+#}
+{%- set showPrices = false %}
+{#- Standalone review route: it owns the masthead, the h1, the legend and
+    the fine print. A location page sets this false and supplies its own. -#}
+{%- set mcChrome = true %}
+{%- set variant = "a2" %}
+
+<div class="mc">
+  <p class="mc__flag" role="note">
+    <strong>Internal review.</strong>
+    Concept A2, three columns with a photograph per dish. Rendered from menu.json, not from the mockup. Prices are off pending a decision.
+  </p>
+  {% include "components/menu-concept.njk" %}
+</div>

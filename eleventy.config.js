@@ -16,6 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
 import tailwindcss from "@tailwindcss/vite";
+import photos from "./src/_data/photos.json" with { type: "json" };
 
 // Static, served-verbatim files (Cloudflare _headers/_redirects,
 // site.webmanifest, fonts, favicons) live in the project-root public/ dir.
@@ -141,6 +142,32 @@ export default function (eleventyConfig) {
         Array.isArray(d.locations) &&
         d.locations.includes(locId)
     );
+  });
+
+  /**
+   * INTERNAL MENU CONCEPTS ONLY. The first dish in a section whose photograph
+   * carries REVIEWED alt in photos.json, as {dish, photo}, or undefined.
+   *
+   * The bar is the manifest's alt, not menu.json's. menu.json supplies its own
+   * alt for the dishes it images, which bypasses the roomPhotos draft-alt
+   * guard, so four rows would otherwise qualify on a string the guard has
+   * never seen. This filter holds the stricter line.
+   *
+   * Returning undefined is the collapse signal: a section with no qualifying
+   * photograph renders no pane rather than an empty frame.
+   */
+  eleventyConfig.addFilter("firstWithReviewedPhoto", (rows) => {
+    if (!Array.isArray(rows)) return undefined;
+    for (const dish of rows) {
+      if (!dish.image) continue;
+      const base = dish.image.split("/").pop();
+      const record = photos.photos[base];
+      if (!record) continue;
+      const alt = record.alt || "";
+      if (!alt.trim() || alt.trim().startsWith("[DRAFT")) continue;
+      return { dish, photo: record };
+    }
+    return undefined;
   });
 
   eleventyConfig.addFilter("mapsUrl", (loc) => {

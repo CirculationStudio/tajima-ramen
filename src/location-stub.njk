@@ -60,8 +60,9 @@ eleventyComputed:
 #}
 {%- set gallery = roomPhotos[loc.id] %}
 
-{%- set spriteIcons = ["ramen-bowl"] %}
+{%- set spriteIcons = ["chopsticks-noodles", "naruto", "ramen-bowl"] %}
 {% include "components/icon-sprite.njk" %}
+{% include "components/menu-marks.njk" %}
 
 {#- PREVIEW BRANCH: the stub hero gains a photo slot when the location has a
     curated hero. Gated, so Maui (which has none) renders the original
@@ -229,9 +230,6 @@ eleventyComputed:
    dishes it actually carries and not the eleven the standalone rooms do.
    See components/location-menu.njk for why there are no prices here. #}
 {%- set menuLoc = loc.id %}
-{%- set menuTitle = "What comes out of <em>" + loc.name + ".</em>" %}
-{%- set menuNote = 'From this room\'s own list. <a class="sect__link" href="/menu/">See the whole menu</a>, with prices.' %}
-{%- set menuTitleId = "menu-title" %}
 {% include "components/location-menu.njk" %}
 
 {#

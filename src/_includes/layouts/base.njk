@@ -40,11 +40,17 @@
   {# Self-referencing canonical on every page. UTM params are stripped at the
      Cloudflare edge and 301'd to the clean URL. See SITE_ARCHITECTURE.md. #}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-  {#- PREVIEW BRANCH: the whole build is noindex, unconditionally. The
-      per-page `noindex` flag still applies on main; here it is irrelevant
-      because nothing on this deploy may be indexed. Backed by an
-      X-Robots-Tag on /* in public/_headers and a blanket robots.txt, so it
-      survives a template refactor. -#}
+  {#- PREVIEW BRANCH: the whole build is noindex, UNCONDITIONALLY, and this
+      deliberately overrides the per-page `robots` field that the location
+      menu branch added. That field lets a page choose its directive and
+      defaults to "noindex, follow", which is right on main. It is wrong here:
+      this deploy carries machine-processed location photography that the
+      client has not verified, so no page on it may be indexed and no page may
+      opt into anything weaker. Backed by an X-Robots-Tag on /* in
+      public/_headers and a blanket robots.txt.
+
+      When this branch is eventually merged or dropped, THIS BLOCK GOES and
+      the `robots` version underneath it is the one that survives. -#}
   <meta name="robots" content="noindex, nofollow">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
