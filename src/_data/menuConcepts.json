@@ -6,21 +6,35 @@
   "ornaments": {
     "izakaya": "chopsticks-noodles",
     "ramen": "ramen-bowl",
-    "dessert": null
+    "dessert": "naruto"
   },
-  "_barTones": "The vertical colour bars, which are the device the mockups are built on. The mockups show four (black izakaya, gold ramen, red rice, black dessert). menu.json has no `rice` section, so three render. See the report.",
+  "_barTones": "Spine tones, from the reference: izakaya black with cream type, ramen gold with black type, dessert black with GOLD type, which is the reference's fourth tone. Its red tone belongs to the rice section and menu.json has no rice rows, so red goes unused rather than being invented onto a section with no dishes.",
   "barTones": {
     "izakaya": "ink",
     "ramen": "gold",
-    "dessert": "ink"
+    "dessert": "ink-gold"
   },
   "_legend": "Marks render ONLY from menu.json `dietary`. Nothing is inferred from a description. The mockups also show spicy, vegetarian and raw or undercooked marks; no field for any of those exists in menu.json, so they are named as missing rather than guessed at.",
   "legend": [
     {
+      "flag": "spicy",
+      "label": "Spicy",
+      "note": "Built with chili, and it shows. Heat can be dialled down at the counter."
+    },
+    {
       "flag": "vegan",
-      "letter": "V",
       "label": "Vegan",
-      "note": "No animal product in the bowl as served."
+      "note": "No meat, fish, dairy or egg."
+    },
+    {
+      "flag": "vegetarian",
+      "label": "Vegetarian",
+      "note": "No meat or fish, but contains dairy or egg."
+    },
+    {
+      "flag": "raw",
+      "label": "Served raw or undercooked",
+      "note": "Eating raw or undercooked meat, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness."
     }
   ],
   "missingFlags": [
@@ -35,5 +49,11 @@
     "Tell your server about any allergy before you order."
   ],
   "_footerLastLine": "The third line is the only sentence here not lifted verbatim from faq.json. It states the standing instruction a reader needs and makes no claim about the kitchen. If it needs to go, delete it; the first two carry the allergen facts on their own.",
-  "_previewPane": "B1 only. Features one dish per section, and only where the photograph carries REVIEWED alt in photos.json. Every dish photograph in the manifest was shot at Convoy, so each pane says so on its face. photos.json _rule scopes ROOM photography to its own location; a photograph of a bowl is a photograph of that bowl wherever it was taken, and captioning it is how /happy-hour/ already handles the same situation. A section with no qualifying photograph collapses."
+  "_previewPane": "B1 only. Features one dish per section, and only where the photograph carries REVIEWED alt in photos.json. Every dish photograph in the manifest was shot at Convoy, so each pane says so on its face. photos.json _rule scopes ROOM photography to its own location; a photograph of a bowl is a photograph of that bowl wherever it was taken, and captioning it is how /happy-hour/ already handles the same situation. A section with no qualifying photograph collapses.",
+  "_legendRule": "The legend lists all four marks because it is a legend: it tells a reader what a mark means if they see one. What DOES NOT happen is inferring the flag onto a dish. Only `dietary` in menu.json drives a mark, and that field is populated on two of fourteen rows, both vegan. `spicy`, `vegetarian` and `raw` have no field at all, so no dish carries those marks and a line under the legend says so.",
+  "cuts": {
+    "ramen": "ramen-bowl",
+    "dessert": "naruto"
+  },
+  "_cuts": "The small mark on the rule between sections, matching the reference's cut device. Mapped to the closest thing in the Tajima sprite: the reference's bowl-of-noodles is our ramen-bowl, and its sesame swirl is our naruto, which is the only swirl the sprite has. Izakaya is the first section so nothing precedes it."
 }
