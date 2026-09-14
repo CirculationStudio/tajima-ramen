@@ -1,0 +1,359 @@
+/* ==========================================================================
+   Pages: /internal/menu-concept-b2/ and /internal/menu-concept-b1/
+
+   INTERNAL REVIEW ROUTES. Not shipping pages, not linked from any nav.
+
+   Both concepts share this file, because they are a like-for-like comparison
+   and two stylesheets would let them drift into a comparison of my CSS rather
+   than of the two designs. The only differences are the column count and the
+   preview pane, both scoped to .page-menu-concept--b1 or --b2 at the bottom.
+
+   Everything here uses the v2 tokens. No raw hex.
+   ========================================================================== */
+
+.mc{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-8) var(--layout-gutter) var(--space-10);
+}
+
+/* The internal-review flag. Not the brand voice and not meant to be: it exists
+   so nobody screenshots one of these and files it as a shipping page. */
+.mc__flag{
+  margin-bottom: var(--space-8);
+  padding: var(--space-3) var(--space-4);
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-left: var(--stroke-thick) solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-2);
+}
+.mc__flag strong{ color: var(--ink); }
+
+/* --- Masthead ----------------------------------------------------------- */
+.mc__kicker{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--space-3);
+}
+.mc__title{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--ink);
+}
+.mc__title em{ font-style: normal; color: var(--accent); }
+.mc__note{
+  margin-top: var(--space-3);
+  font-size: var(--text-body);
+  color: var(--ink-2);
+}
+
+/* --- The band, and the colour bar that is the whole device ---------------
+   The mockups run a full-width tone bar above each section and a vertical
+   colour spine down its left edge. That pairing is what makes these read as
+   the current branding rather than as a generic menu, so it is the one thing
+   reproduced closely.
+
+   Four tones in the mockups (black izakaya, gold ramen, red rice, black
+   dessert). menu.json has no `rice` section, so three render. The red is
+   therefore unused here; it is kept in the token set, not invented into a
+   section that has no dishes.
+   ------------------------------------------------------------------------ */
+.mc-band{ margin-top: var(--space-9); }
+
+.mc-band__bar{
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+.mc-band__label{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  /* Brush face floor is 1.25rem in this system. */
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+.mc-band--ink .mc-band__bar{ background: var(--color-system-ink); }
+.mc-band--ink .mc-band__label{ color: var(--color-system-cream); }
+.mc-band--gold .mc-band__bar{ background: var(--color-system-gold); }
+.mc-band--gold .mc-band__label{ color: var(--color-system-ink); }
+
+.mc-band__row{
+  display: grid;
+  grid-template-columns: var(--space-7) minmax(0, 1fr);
+  gap: var(--space-5);
+}
+/* The vertical spine. Same tone as the bar above it, so the section reads as
+   one block down the page. */
+.mc-band__spine{
+  border-radius: 0 0 0 var(--radius-sm);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-5) 0;
+}
+.mc-band__spine span{
+  writing-mode: vertical-rl;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+.mc-band--ink .mc-band__spine{ background: var(--color-system-ink); }
+.mc-band--ink .mc-band__spine span{ color: var(--color-system-cream); }
+.mc-band--gold .mc-band__spine{ background: var(--color-system-gold); }
+.mc-band--gold .mc-band__spine span{ color: var(--color-system-ink); }
+
+.mc-band__body{
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: var(--space-6) 0 var(--space-7);
+  min-width: 0;
+}
+/* Ghosted section art. A field ornament, aria-hidden, carrying no meaning, so
+   the one-mark-per-heading rule does not apply to it. Same treatment the gold
+   field on /happy-hour/ uses. */
+.mc-band__art{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: clip;
+}
+.mc-band__art svg{
+  position: absolute;
+  right: -8%;
+  top: 50%;
+  translate: 0 -50%;
+  width: min(38%, 26rem);
+  height: auto;
+  fill: currentColor;
+  color: var(--accent);
+  opacity: .07;
+}
+.mc-band__blurb{
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-5);
+  font-size: var(--text-small);
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+.mc-band__cols{ position: relative; z-index: 1; }
+
+/* --- The dish rows ------------------------------------------------------- */
+.mc-lines{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  align-content: start;
+  column-gap: var(--space-7);
+}
+.mc-line{
+  padding: var(--space-3) 0;
+  border-bottom: var(--stroke-hair) solid var(--rule);
+  break-inside: avoid;
+}
+.mc-line__head{
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.mc-line__name{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-body);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.mc-line__price{
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.mc-line__note{
+  margin-top: var(--space-2);
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+  max-width: 44ch;
+}
+.mc-line__where{
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --- Dietary marks ------------------------------------------------------
+   Rendered only from menu.json `dietary`. Nothing is inferred. The letter is
+   decorative and aria-hidden; the mark's accessible name is the visually
+   hidden label beside it, so a screen reader hears "Vegan" rather than "V".
+   ------------------------------------------------------------------------ */
+.mc-mark{
+  display: inline-grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: .625rem;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+/* MONOCHROME, AND THAT IS A DECISION RATHER THAN A SHORTCUT.
+   The mockups colour the vegan mark green with a raw hex, and the first pass
+   here reached for --color-success, which turned out to be defined only inside
+   noodle-room.css and resolved to nothing: a transparent badge that rendered
+   as an invisible mark on two dishes. Caught on the render, not in the markup.
+
+   Rather than promote a new colour into the token set for an internal review
+   route, the mark is an outlined badge in existing tokens. It is legible in
+   both modes, it does not depend on colour to carry meaning, which matters for
+   a dietary mark, and the legend beneath names it in words. If the client
+   wants colour-coded marks, that is a token decision and a short one. */
+.mc-mark--vegan{
+  border: var(--stroke-hair) solid var(--ink-3);
+  color: var(--ink);
+  background: transparent;
+}
+
+/* --- Preview pane, B1 only ---------------------------------------------- */
+.mc-pane{ min-width: 0; }
+.mc-pane__fig{ margin: 0; position: sticky; top: var(--space-6); }
+.mc-pane__img{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: var(--stroke-hair) solid var(--rule);
+}
+.mc-pane__cap{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+}
+.mc-pane__name{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-small);
+  color: var(--ink);
+}
+.mc-pane__where{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* --- Footer: legend, the data gap, the allergen note --------------------- */
+.mc-foot{
+  margin-top: var(--space-10);
+  padding-top: var(--space-6);
+  border-top: var(--stroke-rule) solid var(--rule-2);
+}
+.mc-foot__h{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--space-4);
+}
+.mc-legend{
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+  max-width: 64ch;
+}
+.mc-legend__item{
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+.mc-legend__item b{ color: var(--ink); font-weight: var(--weight-semibold); }
+.mc-foot__gap{
+  margin-bottom: var(--space-6);
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+  max-width: 64ch;
+}
+.mc-foot__fine{
+  display: grid;
+  gap: var(--space-2);
+  max-width: 72ch;
+}
+.mc-foot__fine p{
+  font-size: var(--text-micro);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-3);
+}
+
+/* --- The two variants ---------------------------------------------------- */
+.page-menu-concept--b2 .mc-lines{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.page-menu-concept--b1 .mc-band__cols{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 17rem);
+  gap: var(--space-7);
+  align-items: start;
+}
+.page-menu-concept--b1 .mc-lines{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* --- Responsive ---------------------------------------------------------
+   The spine is the first thing to go. It is a decorative repeat of a heading
+   that is still on screen, so losing it costs nothing, and keeping a vertical
+   text column at 360px costs a lot.
+   ------------------------------------------------------------------------ */
+@media (max-width: 64rem){
+  .page-menu-concept--b2 .mc-lines{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page-menu-concept--b1 .mc-band__cols{ grid-template-columns: minmax(0, 1fr); }
+  .page-menu-concept--b1 .mc-pane__fig{ position: static; }
+  .page-menu-concept--b1 .mc-pane{ max-width: 24rem; }
+}
+@media (max-width: 48rem){
+  .mc-band__row{ grid-template-columns: var(--space-5) minmax(0, 1fr); gap: var(--space-4); }
+  .page-menu-concept--b2 .mc-lines,
+  .page-menu-concept--b1 .mc-lines{ grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 30rem){
+  .mc-band__row{ grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .mc-band__spine{ display: none; }
+  .mc-band__art svg{ width: 60%; opacity: .05; }
+}
