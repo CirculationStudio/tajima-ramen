@@ -73,6 +73,42 @@
       {%- endif %}
 
       <div class="mc-split{% if variant == 'b1' and featured %} mc-split--peek{% endif %}">
+        {%- if variant == "a2" %}
+        {#- A2: a square thumbnail per dish beside the name, price and
+            description. A dish with no photograph gets the reference's tinted
+            placeholder tile with a ghosted brand mark rather than a gap. -#}
+        <ul class="mc-plates">
+          {%- for dish in rows %}
+          <li class="mc-plate">
+            {%- if dish.image %}
+            <span class="mc-shot">
+              <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="92" height="92">
+            </span>
+            {%- else %}
+            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
+            {%- endif %}
+            <div class="mc-plate__text">
+              <p class="mc-plate__head">
+                <span class="mc-plate__name">{{ dish.name }}
+                  {%- for flag in menuConcepts.legend %}
+                    {%- if flag.flag in dish.dietary %}
+                  <span class="mc-mark mc-mark--{{ flag.flag }}">
+                    <span class="u-visually-hidden">{{ flag.label }}</span>
+                    <svg aria-hidden="true"><use href="#m-{{ flag.flag }}"></use></svg>
+                  </span>
+                    {%- endif %}
+                  {%- endfor %}
+                </span>
+                {%- if showPrices %}<span class="mc-plate__price">{{ dish.price }}</span>{% endif %}
+              </p>
+              {%- if dish.description %}
+              <p class="mc-plate__desc">{{ dish.description }}</p>
+              {%- endif %}
+            </div>
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
         <ul class="mc-lines">
           {%- for dish in rows %}
           <li class="mc-line">
@@ -93,6 +129,7 @@
           </li>
           {%- endfor %}
         </ul>
+        {%- endif %}
 
         {%- if variant == "b1" and featured %}
         {#- The preview pane, the reference's peek card. Sticky beside the
@@ -139,6 +176,13 @@
     Marked from data only. menu.json carries a dietary value on two rows, both vegan;
     {{ menuConcepts.missingFlags | join(", ") }} have no field on any dish yet, so no dish shows those marks.
   </p>
+
+  {%- if variant == "a2" %}
+  {#- One line rather than a caption on each of eleven tiles. Every dish
+      photograph in the manifest was shot at Convoy, and an East Village menu
+      showing them should say so once. -#}
+  <p class="mc-foot__gap">Dish photography was shot at Convoy.</p>
+  {%- endif %}
 
   <div class="mc-foot__fine">
     {%- for line in menuConcepts.footer %}
