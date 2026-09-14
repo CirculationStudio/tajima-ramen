@@ -4,7 +4,13 @@
    The shared body of the two internal menu concepts, built to follow
    _reference/menu-concepts/tajima-ev-menu-B2.html and -B1.html closely.
 
-   EXPECTS  variant "b2" | "b1",  showPrices boolean
+   EXPECTS
+     variant     "b2" (three columns) | "b1" (two columns + peek) | "a2" (photo per dish)
+     showPrices  boolean
+     mcLoc       location id, defaults to east-village
+     mcChrome    true for the standalone review routes (masthead + h1 + legend
+                 + fine print), false when the module sits inside a location
+                 page that already has its own h1 and footer
 
    The reference's structure, reproduced: a coloured spine block down the left
    of each section with rotated display type, no full-width bar; a cut rule
@@ -16,21 +22,31 @@
    DATA. Rows come from menu.json through `dishesFor`, scoped to east-village.
    Nothing is transcribed from the reference HTML.
    =========================================================================== #}
-{%- set evLoc = (locations.items | where("id", "east-village")) | first %}
+{%- set mcLocId = mcLoc | default("east-village") %}
+{%- set mcRoom = (locations.items | where("id", mcLocId)) | first %}
+{%- set mcChromeOn = mcChrome | default(false) %}
 {%- set sections = [
   { key: "izakaya", label: "Izakaya" },
   { key: "ramen",   label: "Ramen" },
   { key: "dessert", label: "Dessert" }
 ] %}
 
+{%- if mcChromeOn %}
 <div class="mc__mast">
-  <p class="mc__kicker">{{ evLoc.address.street }}, {{ evLoc.address.locality }}</p>
-  <h1 class="mc__title">What comes out of <em>East Village.</em></h1>
+  <p class="mc__kicker">{{ mcRoom.address.street }}, {{ mcRoom.address.locality }}</p>
+  <h1 class="mc__title">What comes out of <em>{{ mcRoom.name }}.</em></h1>
   <p class="mc__note">This room's own list. Walk in, no reservations.</p>
 </div>
+{%- else %}
+{#- Inside a location page the page already owns the h1, so the module leads
+    with an h2 and the section names drop to h3. -#}
+<header class="mc__head">
+  <h2 class="mc__title mc__title--inline">What comes out of <em>{{ mcRoom.name }}.</em></h2>
+</header>
+{%- endif %}
 
 {%- for section in sections %}
-{%- set rows = menu.items | dishesFor("east-village", section.key) %}
+{%- set rows = menu.items | dishesFor(mcLocId, section.key) %}
 {%- if rows | length %}
 {%- set tone = menuConcepts.barTones[section.key] %}
 {%- set ornament = menuConcepts.ornaments[section.key] %}
@@ -46,7 +62,7 @@
 </div>
 {%- endif %}
 
-<section class="mc-band mc-band--{{ tone }}" aria-labelledby="mc-{{ section.key }}">
+<section class="mc-band mc-band--{{ tone }}" aria-labelledby="mc-{{ section.key }}{% if not mcChromeOn %}-{{ mcLocId }}{% endif %}">
   {#- The mobile section header. The spine is a vertical block and cannot
       survive a 360px column, so below 47.5rem it is hidden and this sticky
       tone bar takes over, which is exactly what the reference does. Hidden
@@ -59,7 +75,11 @@
         reference is built on. It repeats the heading beside it, so the visible
         text is aria-hidden and the real h2 is visually hidden next to it. -#}
     <div class="mc-band__spine" aria-hidden="true">{{ section.label }}</div>
+    {%- if mcChromeOn %}
     <h2 class="u-visually-hidden" id="mc-{{ section.key }}">{{ section.label }}</h2>
+    {%- else %}
+    <h3 class="u-visually-hidden" id="mc-{{ section.key }}-{{ mcLocId }}">{{ section.label }}</h3>
+    {%- endif %}
 
     <div class="mc-band__body">
       {%- if ornament %}
@@ -159,6 +179,7 @@
 {%- endif %}
 {%- endfor %}
 
+{%- if mcChromeOn %}
 <footer class="mc-foot">
   <h2 class="u-visually-hidden">Menu marks and allergen information</h2>
   <ul class="mc-notes">
@@ -190,3 +211,24 @@
     {%- endfor %}
   </div>
 </footer>
+{%- else %}
+{#- Inside a location page the legend is the only part of the footer that
+    belongs: the allergen fine print already lives in the page's FAQ, and
+    repeating it under every room's menu would be three copies of the same
+    sentence on one screen. -#}
+<footer class="mc-foot mc-foot--inline">
+  <h3 class="u-visually-hidden">Menu marks</h3>
+  <ul class="mc-notes">
+    {%- for flag in menuConcepts.legend %}
+    <li class="mc-notes__item">
+      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#m-{{ flag.flag }}"></use></svg></span>
+      <span><b>{{ flag.label }}.</b> {{ flag.note }}</span>
+    </li>
+    {%- endfor %}
+  </ul>
+  <p class="mc-foot__gap">
+    Marked from data only. Three of the four marks have no field on any dish yet, so no dish shows them.
+    <a class="sect__link" href="/menu/">See the whole menu</a>.
+  </p>
+</footer>
+{%- endif %}

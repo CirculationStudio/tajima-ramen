@@ -305,3 +305,14 @@ For the Convoy, East Village and Plaza Bonita frames the alt deliberately descri
 **`tajima-plaza-bonita-exterior-day.webp`**
 
 > A food court counter under a TAJIMA RAMEN sign in white letters on a dark band, with hexagonal patterned wood cladding, menu screens above the open kitchen, and a red disc carrying the Tajima mark on the wall beside Japanese lettering.
+
+## Added 2026-09-14
+
+### `tajima-maui-exterior.webp`
+
+**PLACED: /tajima-ramen-maui-hawaii/ hero, on preview/location-photos only.**
+
+> The Tajima Ramen storefront in Kihei. A black sign carrying the flame and kanji mark beside the words Tajima Ramen sits above the entrance of a tiled-roof plaza unit, with arched windows either side, a lit OPEN sign and a Kirin sign in the glass, the suite number D-105 on the door, and foliage blurred across the foreground.
+
+Connor-supplied, origin unverified, same standing as the other 21. **No prior Maui room photography exists to check it against.** Two independent checks do corroborate it, and they are the two that condemned the Convoy exterior: the brand mark matches the vector stamp stroke for stroke, and the door reads D-105, matching the published NAP. See its `aiUpscaledNote`.
+

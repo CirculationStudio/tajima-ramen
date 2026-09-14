@@ -493,3 +493,53 @@
   .mc-plate{ grid-template-columns: 4.625rem minmax(0, 1fr); gap: .8125rem; }
   .mc-shot{ width: 4.625rem; height: 4.625rem; }
 }
+
+/* ==========================================================================
+   THE MODULE INSIDE A LOCATION PAGE
+
+   The same component as the review routes, minus the page chrome. It sits in
+   a .sect, so it drops its own outer padding and measure and inherits the
+   section's, and its heading is an h2 rather than the standalone h1.
+   ========================================================================== */
+.mc--inline{
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.mc__head{ margin-bottom: var(--space-6); }
+.mc__title--inline{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--ink);
+}
+.mc__title--inline em{ font-style: normal; color: var(--accent); }
+
+/* The first band sits directly under the heading, so it needs no top margin
+   of its own; the cuts handle the rhythm between the rest. */
+.mc--inline .mc-band:first-of-type{ margin-top: 0; }
+
+/* THE COLUMN RULE HAS TO LIVE ON THE MODULE, NOT THE BODY. The variant rules
+   above are scoped to .page-menu-concept--b2, which only the review route
+   sets, so inside a location page the list fell back to one full-width column
+   and every dish name sat alone on a line. Same three columns as B2 here. */
+.mc--inline .mc-lines{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 2.25rem;
+}
+@media (max-width: 64rem){
+  .mc--inline .mc-lines{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 47.5rem){
+  .mc--inline .mc-lines{ grid-template-columns: minmax(0, 1fr); }
+}
+
+.mc-foot--inline{
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: var(--stroke-hair) solid var(--rule);
+}
+.mc-foot--inline .mc-notes{ margin-bottom: var(--space-4); }
+.mc-foot--inline .mc-foot__gap{ margin-bottom: 0; }

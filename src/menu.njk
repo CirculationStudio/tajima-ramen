@@ -59,7 +59,7 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
                     Noodle Room card's copy is about the noodle machine, so
                     they would be off-subject.
 #}
-{%- set spriteIcons = ["ramen-bowl", "onigiri"] %}
+{%- set spriteIcons = ["ramen-bowl", "onigiri", "chopsticks-noodles"] %}
 {% include "components/icon-sprite.njk" %}
 
 {%- set ramen = menu.items | where("section", "ramen") %}
@@ -89,12 +89,29 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     </div>
 
     <nav class="menu-hero__jumps" aria-label="Jump to section">
+      {#
+        ONE MARK PER CARD, WHERE THE SPRITE HAS ONE THAT MATCHES.
+
+        Ramen takes the bowl and Izakaya takes the chopsticks, which is the
+        same pairing the approved menu concepts use for those two sections.
+        Both are --lg (2.5rem) with the disc, which clears the 2rem floor
+        recorded in mark.css, and both were re-checked at that size in place.
+
+        DESSERT AND ORDER GET NONE, and that is the rule working rather than an
+        omission. The sprite is twelve marks and every one is food or the
+        wordmark: there is no dessert, and Order is an action rather than a
+        subject. The /menu/ Dessert heading already sets this precedent. A mark
+        chosen because a card looked bare is decoration, and decoration is what
+        the one-mark-per-heading rule exists to stop.
+      #}
       <a class="menu-hero__jump" href="#ramen">
+        <span class="mark mark--lg mark--disc menu-hero__jump-mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
         <span class="menu-hero__jump-num">01</span>
         <span class="menu-hero__jump-name">Ramen</span>
         <span class="menu-hero__jump-count">{{ ramen | length }} bowls</span>
       </a>
       <a class="menu-hero__jump" href="#izakaya">
+        <span class="mark mark--lg mark--disc menu-hero__jump-mark" aria-hidden="true"><svg><use href="#i-chopsticks-noodles"></use></svg></span>
         <span class="menu-hero__jump-num">02</span>
         <span class="menu-hero__jump-name">Izakaya</span>
         <span class="menu-hero__jump-count">Small plates</span>

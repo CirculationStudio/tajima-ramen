@@ -1,92 +1,42 @@
 {# ===========================================================================
    Component: location-menu
 
-   Section 4 of the location page template in SITE_ARCHITECTURE.md: "menu
-   section for this location, from menu.json filtered by `locations`. Link to
-   /menu/."
+   Section 4 of the location page template in SITE_ARCHITECTURE.md: this
+   room's menu, from menu.json filtered by `locations`, linking to /menu/.
+
+   REBUILT 2026-09-14. This used to render a plain grouped list of names. It
+   now renders the B2 module from the approved menu concepts, so a location
+   page and the concept routes are the same component rather than two
+   treatments of the same data that can drift apart. Seven pages, one module,
+   filtered per room.
 
    USAGE
      {% set menuLoc = loc.id %}
      {% include "components/location-menu.njk" %}
 
-   Optional: `menuTitle` (safe HTML), `menuNote` (safe HTML), `menuTitleId`.
+   NO PRICES. /menu/ prints none as of 2026-09-10 and the client has not ruled
+   on location pages. Per-room prices DO exist and are complete: every
+   featured dish at every room has a live price in that room's own
+   toastMenus/*.json. Turning them on here is a data decision, not a template
+   change. See the report and menuConcepts.json `_prices`.
 
-   WHY IT READS AS A MENU AND NOT A LIST OF NAMES.
-
-   The rows are grouped under the same three sections the menu page uses, in
-   the same order, and each heading links into that section's anchor on
-   /menu/. That grouping is what makes eleven names parse as a menu rather
-   than as a run of words, and the anchors mean "see the whole menu" lands on
-   the part the reader was already reading.
-
-   NO DESCRIPTIONS, AND THIS WAS MEASURED. The first build of this component
-   printed each dish's description under its name. It read better on any one
-   page and was a regression across five. The descriptions are identical in
-   every room, so carrying them raised the worst pairwise sentence overlap
-   between the five stub pages to 0.438 and Maui's shared-text share to 57 per
-   cent, against 0.424 and 59 before this section existed at all. Dropping
-   them lands at 0.368 and 49, which is the point of adding the section.
-   These are the pages that are noindexed today precisely because they read as
-   each other, so 200 words of identical dish copy on a 400 word page is the
-   opposite of the fix. Descriptions live on /menu/, which is one page and can
-   carry them, and on /tajima-convoy/, under that room's own photographs,
-   where they appear once.
-
-   NO PRICES, and this is not an oversight. menu.json `_priceStatus` records
-   that the brand prices are stale against the live catalogs, that Plaza
-   Bonita runs about two dollars under the other San Diego rooms and Maui runs
-   above them, and therefore that no single price is right for all seven. A
-   per-location menu is the one surface where printing a brand price would be
-   most obviously wrong. /menu/ prints them; this does not.
-
-   Availability comes from `dish.locations`, which was derived from the seven
-   live Toast catalogs by exact name match (menu.json `_availabilityStatus`),
-   not assumed. That is why Plaza Bonita shows seven rows and Convoy eleven.
-
-   Descriptions are menu.json's own and carry its DRAFT PENDING CLIENT
-   APPROVAL status, the same status they already ship under on /menu/. A dish
-   with no description renders without one rather than getting a written one.
+   A room whose filter returns nothing for every section renders nothing at
+   all rather than an empty module. Nothing currently hits that, but Maui is
+   the thinnest at seven rows and no dessert.
    =========================================================================== #}
-{%- set mId = menuTitleId | default("menu-title") %}
-{%- set sections = [
-  { key: "ramen",   label: "Ramen",        anchor: "/menu/#ramen" },
-  { key: "izakaya", label: "Small plates", anchor: "/menu/#izakaya" },
-  { key: "dessert", label: "To finish",    anchor: "/menu/#dessert" }
-] %}
-<section class="sect" aria-labelledby="{{ mId }}">
+{%- set mcAny = (menu.items | dishesFor(menuLoc, "ramen") | length)
+              + (menu.items | dishesFor(menuLoc, "izakaya") | length)
+              + (menu.items | dishesFor(menuLoc, "dessert") | length) %}
+{%- if mcAny %}
+<section class="sect mc-sect" aria-label="Menu at this location">
   <div class="sect__inner">
-    <header class="sect__head">
-      <span class="mark mark--lg mark--disc sect__mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
-      <h2 class="sect__title" id="{{ mId }}">{{ menuTitle | default("What comes out of <em>this room.</em>") | safe }}</h2>
-      {%- if menuNote %}
-      <p class="sect__note">{{ menuNote | safe }}</p>
-      {%- endif %}
-    </header>
-
-    {%- for section in sections %}
-      {%- set rows = menu.items | dishesFor(menuLoc, section.key) %}
-      {%- if rows | length %}
-    <div class="here-group">
-      <h3 class="here-group__title">
-        <a class="here-group__link" href="{{ section.anchor }}">{{ section.label }}</a>
-      </h3>
-      <ul class="here-list">
-        {%- for dish in rows %}
-        <li class="here-list__item">
-          <p class="here-list__head">
-            <span class="here-list__name">{{ dish.name }}</span>
-            {%- if dish.romaji %}<span class="here-list__romaji">{{ dish.romaji }}</span>{% endif %}
-          </p>
-        </li>
-        {%- endfor %}
-      </ul>
+    <div class="mc mc--inline">
+      {%- set mcLoc = menuLoc %}
+      {%- set mcChrome = false %}
+      {%- set variant = "b2" %}
+      {%- set showPrices = false %}
+      {% include "components/menu-concept.njk" %}
     </div>
-      {%- endif %}
-    {%- endfor %}
-
-    {#- The full menu and this room's printable one, under the list they
-        belong to rather than stranded in the section note. -#}
-    {%- set menuLinksLoc = menuLoc %}
-    {% include "components/menu-links.njk" %}
   </div>
 </section>
+{%- endif %}

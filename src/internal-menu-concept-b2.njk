@@ -42,6 +42,9 @@ description: "Internal review page. East Village menu module, three columns with
   carries a price on every row; flipping this to true is the whole change.
 #}
 {%- set showPrices = false %}
+{#- Standalone review route: it owns the masthead, the h1, the legend and
+    the fine print. A location page sets this false and supplies its own. -#}
+{%- set mcChrome = true %}
 {%- set variant = "a2" %}
 
 <div class="mc">
