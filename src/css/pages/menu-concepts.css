@@ -350,6 +350,11 @@
   display: block;
   width: 5.75rem;
   height: 5.75rem;
+  /* The reference fills the tile with --tint, rgba(13,13,10,.045), a wash of
+     ink over the page rather than a surface step. --canvas-2 is this system's
+     nearest token and it is what a tile sits on everywhere else in the build,
+     so the token wins. It reads a shade flatter than the reference by day and,
+     unlike a fixed rgba, it inverts correctly at night. */
   background: var(--canvas-2);
   overflow: hidden;
 }
@@ -360,9 +365,12 @@
   object-position: center;
   display: block;
 }
-/* The reference's placeholder tile. Nothing in the current data triggers it,
-   because every featured East Village dish has a photograph, but a dish added
-   without one gets this rather than a hole in the grid. */
+/* THE REFERENCE'S OWN EMPTY STATE, and on a location page it is not an edge
+   case: five of the seven rooms have no dish photography of their own, so
+   every card in those rooms renders this. The reference specifies it for its
+   own three photo-less dishes, at the same 92px square as a photograph, so the
+   text column starts at the same x all the way down the grid. Ghosted brand
+   mark at 50px and 40% opacity, both the reference's numbers. */
 .mc-shot--none{
   display: flex;
   align-items: center;
@@ -401,6 +409,14 @@
   font-variant-numeric: tabular-nums;
   color: var(--accent);
 }
+/* TWO LINES, AND THIS IS THE ONE PORTED VALUE WORTH A SECOND OPINION.
+   The reference clamps the description to two lines, so it is what this does.
+   But the reference can afford to: every card there is a button that opens a
+   lightbox with the description in full, and this port has no lightbox, so
+   three of Convoy's twelve rows (Spicy Sesame, Chicken and Curry Ramen) end in
+   an ellipsis with nowhere to go. Faithful, and a content loss the mockup does
+   not actually have. Removing these five lines un-clamps it and costs nothing
+   but a ragged card height. Flagged rather than decided. */
 .mc-plate__desc{
   margin-top: .4375rem;
   font-size: .9375rem;
@@ -531,8 +547,18 @@
    760px. Same here, with an intermediate two-column step for B2 so a tablet
    does not jump straight from three columns to one.
    ------------------------------------------------------------------------ */
+/* THE REFERENCE'S OWN BREAKPOINT for the photo grid: 1060px, not this file's
+   usual 64rem. At three columns with a 92px tile the text column is the thing
+   that runs out of room, and it runs out 36px earlier than a list does, which
+   is why the reference gives A2 a breakpoint of its own. Ported as written.
+   Column gap drops 40px to 30px at the same time, also the reference's. */
+@media (max-width: 66.25rem){
+  .page-menu-concept--a2 .mc-plates{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.875rem;
+  }
+}
 @media (max-width: 64rem){
-  .page-menu-concept--a2 .mc-plates{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mc-split--peek{ grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .mc-peek{ position: static; max-width: 24rem; }
 }
@@ -584,14 +610,33 @@
    above are scoped to .page-menu-concept--b2, which only the review route
    sets, so inside a location page the list fell back to one full-width column
    and every dish name sat alone on a line. Same three columns as B2 here. */
+.mc--inline .mc-plates{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 2.5rem;
+}
+/* B2's list, kept so the variant still works if a route asks for it. */
 .mc--inline .mc-lines{
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 2.25rem;
+}
+/* THESE HAVE TO SIT AFTER THE BASE RULE ABOVE, not up with the rest of the
+   responsive block. `.mc--inline .mc-plates` and `.page-menu-concept--a2
+   .mc-plates` are the same specificity, so the later declaration wins whatever
+   media query it is in. Writing the narrow override earlier in the file left
+   the location pages at three columns on a phone: the text column collapsed to
+   0.3px inside an 87px card and every page overflowed by up to 79px. Caught by
+   the overflow sweep, which is why that sweep runs at twelve widths. */
+@media (max-width: 66.25rem){
+  .mc--inline .mc-plates{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.875rem;
+  }
 }
 @media (max-width: 64rem){
   .mc--inline .mc-lines{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 47.5rem){
+  .mc--inline .mc-plates{ grid-template-columns: minmax(0, 1fr); }
   .mc--inline .mc-lines{ grid-template-columns: minmax(0, 1fr); }
 }
 
