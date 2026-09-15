@@ -155,7 +155,21 @@
   top: 100%;
   /* Where TAJIMA starts in the header asset. See the note above. */
   left: 44.4%;
-  margin-top: -.15rem;
+  /* NESTED UNDER THE WORDMARK, NOT FLOATING BETWEEN IT AND THE RULE.
+     
+     Measured before: the wordmark's ink ends 10.9px above this line and the
+     header's bottom rule sits 7.7px below it, so 58.6% of the free space was
+     above and the sign read as drifting down toward the rule rather than
+     hanging off the word. -0.4375rem moves it up 7px against a line box that
+     already starts at the logo box's bottom edge, which puts about a third of
+     the space above and two thirds below.
+     
+     It can go this far up because the asset has empty space under the
+     wordmark: TAJIMA's ink stops at 91.7px while the image box runs to 103.4,
+     so the sign overlaps the picture's padding and none of its ink. The red
+     disc is not a risk either: it ends at 40% of the asset's width and this
+     line starts at 44.4%. */
+  margin-top: -.4375rem;
   font-family: var(--font-display);
   font-style: italic;
   font-size: .875rem;
