@@ -166,6 +166,51 @@
                     </a>
 
                     {#
+                      WHAT MAKES THIS ROOM DIFFERENT FROM THE OTHER SIX, and
+                      the live answer to "can I go now".
+
+                      Added 2026-09-14. Every card carried a neighborhood,
+                      Directions and Order Online, which is the same three
+                      things seven times: nothing on the card helped anyone
+                      choose between rooms, which is the only decision this
+                      panel exists to support.
+
+                      `descriptor` is locations.json's own one-line field, two
+                      or three words each, already written and already
+                      distinguishing ("The original", "Izakaya and bar", "Walk
+                      to Petco"). Nothing is authored here.
+
+                      SUPPRESSED WHERE IT WOULD REPEAT THE LINE BELOW. Maui's
+                      descriptor is "Kihei" and its place line is also "Kihei",
+                      so that card would read the word twice. Same collision
+                      rule the place line itself already follows for Crown
+                      Point. The data is not wrong and is not changed; only
+                      what gets printed is.
+                    #}
+                    {%- set placeLine = loc.neighborhood if (loc.neighborhood and loc.neighborhood != loc.name) else loc.address.locality %}
+                    {%- if loc.descriptor and loc.descriptor != placeLine %}
+                    <p class="loc-card__desc">{{ loc.descriptor }}</p>
+                    {%- endif %}
+
+                    {#
+                      THE LIVE STATUS, the same mechanism as the location pages:
+                      ships hidden and empty, and /src/js/hours.js fills it from
+                      the same `hours` array that feeds openingHoursSpecification,
+                      computed in America/Los_Angeles. It is client-side only and
+                      never enters schema.
+
+                      It is the most useful thing on the card to someone choosing
+                      between rooms at 9pm, and it costs nothing: the code was
+                      already shipping for the location pages.
+
+                      Maui has no hours, so it renders no element at all rather
+                      than a fallback string, exactly as it does in the NAP plate.
+                    #}
+                    {%- if loc.hours and loc.hours.length %}
+                    <span class="loc-card__status" data-hours-status data-hours='{{ loc.hours | dump }}' hidden></span>
+                    {%- endif %}
+
+                    {#
                       Routes STRAIGHT TO TOAST as of 2026-08-05, no longer via
                       /order-online/#<slug>. The click-test that unblocked this
                       confirmed all seven destinations and settled the two
@@ -213,7 +258,7 @@
                       changed; only what gets printed is.
                     #}
                     <p class="loc-card__hood">
-                      <span class="loc-card__place">{%- if loc.neighborhood and loc.neighborhood != loc.name %}{{ loc.neighborhood }}{% else %}{{ loc.address.locality }}{% endif %}</span>
+                      <span class="loc-card__place">{{ placeLine }}</span>
                       <a class="link-quiet" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
                         Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
                         <svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true">
