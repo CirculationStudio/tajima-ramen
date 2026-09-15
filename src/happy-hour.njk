@@ -168,8 +168,12 @@ description: "Happy hour at Tajima Ramen in San Diego. What each room pours, fro
   <div class="sect__inner">
     <header class="sect__head">
       <h2 class="sect__title" id="rooms-title">Six rooms, six <em>bars.</em></h2>
+      {#- The caveat in full, once, where there is room for it. Every card that
+          prints a window repeats the short form under the time. Both strings
+          are in happyHour.json: see _timesNote there. -#}
       <p class="sect__note">
-        What each one pours is confirmed. What time it starts is not, yet. Tap a number and ask.
+        What each one pours is confirmed.
+        {%- if happyHour.timesNote %} {{ happyHour.timesNote }}{% endif %}
       </p>
     </header>
 
@@ -208,16 +212,46 @@ description: "Happy hour at Tajima Ramen in San Diego. What each room pours, fro
         {%- else %}
         <p class="hh-card__bar">{{ hh.bar }}</p>
 
+        {#
+          TWO KINDS OF TIME ON ONE CARD, AND THEY MUST NOT BE READ AS ONE.
+
+          The happy hour window is a discount. The operating hours are when the
+          door is open. They are different data from different sources with
+          different confidence, and the failure this structure exists to prevent
+          is someone leaving the page believing the discount runs until close.
+
+          What keeps them apart: each sits in its own labelled block, the labels
+          say what they are in words rather than relying on order ("Happy hour"
+          against "The room is open"), and the unconfirmed one carries a caveat
+          the confirmed one does not. The happy hour block is first because it is
+          why the reader is on this page.
+
+          Both blocks print through the same dayRange and clockTime filters that
+          the location pages use, so "11:30am to 6pm" and "11:30am to 10pm" are
+          formatted by one rule and the difference a reader sees is the label
+          and the number, never the formatting.
+
+          A FUTURE DATA CHANGE DOES NOT TOUCH THIS TEMPLATE. The window comes
+          from happyHour.json's `windows`, in the same shape as locations.json's
+          `hours`. The caveats come from happyHour.json too and render only when
+          non-empty, so confirming the times is an edit to that file.
+        #}
         {%- if hh.windows | length %}
-        {# Renders only when happyHour.json holds confirmed values. #}
-        <div class="hh-card__hours">
-          {%- for window in hh.windows %}
-          <div class="hh-card__hours-row">
-            <span>{{ window.time }}</span>
-            <span class="hh-card__hours-days">{{ window.days }}</span>
+        <div class="hh-card__block">
+          <p class="hh-card__block-label">Happy hour</p>
+          <div class="hh-card__hours">
+            {%- for window in hh.windows %}
+            <div class="hh-card__hours-row">
+              <span class="hh-card__hours-days">{{ window.days | dayRange }}</span>
+              <span class="hh-card__hours-time">{{ window.opens | clockTime }} to {{ window.closes | clockTime }}</span>
+            </div>
+            {%- endfor %}
           </div>
-          {%- endfor %}
+          {%- if happyHour.timesNoteShort %}
+          <p class="hh-card__caveat">{{ happyHour.timesNoteShort }}</p>
+          {%- endif %}
         </div>
+
         {%- if hh.drinks | length or hh.food | length %}
         <div class="hh-card__lists">
           {%- if hh.drinks | length %}
@@ -243,6 +277,23 @@ description: "Happy hour at Tajima Ramen in San Diego. What each room pours, fro
         <p class="hh-card__pending">The window here is being confirmed.</p>
         {%- endif %}
         {%- endif %}
+
+        {#
+          OPERATING HOURS, ON EVERY CARD, from the same component the location
+          pages use, so the two surfaces cannot drift and the live status works
+          here for free. Outside the three-way branch above for the same reason
+          the phone number is: it is the thing we DO know about every room,
+          including Plaza Bonita, which has no window at all, and it must not be
+          able to go missing from a state nobody thought to check.
+
+          The label is passed in. "Hours" is the ambiguous word on this page,
+          where the card directly above it is also a set of times. See the note
+          at the top of plate-hours.njk.
+        #}
+        <div class="hh-card__block hh-card__block--open">
+          {%- set hoursLabel = "The room is open" %}
+          {% include "components/plate-hours.njk" %}
+        </div>
 
         {#
           Every card carries the number, Plaza Bonita included. The phone is

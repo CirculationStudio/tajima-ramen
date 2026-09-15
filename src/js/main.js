@@ -18,6 +18,11 @@ import "/src/js/mega-menu.js";
 // data-mode before first paint, and this only upgrades the control.
 import "/src/js/theme.js";
 
+// How far down the sticky header has to start, when something else is pinned
+// above it. A no-op on every build with no [data-sticky-bar] element, which is
+// every build except the preview ones.
+import "/src/js/sticky-top.js";
+
 // The live "open until" line under the hours in a location page's NAP plate.
 // A no-op on every page that has no [data-hours-status] element, which is
 // every page except the seven location pages.

@@ -137,6 +137,17 @@ Fallback stacks as written in the reference file:
 
 **Bright Sunshine Caps is display-only, and there is a hard size floor.** It is a brush face: below roughly `1.25rem` it stops being legible, especially over photography. Dish names, location names, section headings and the wordmark: yes. Prices, captions, nav, buttons, body: never. This was a real defect caught in review, not a preference.
 
+**One exception exists, and it is the only one.** The header's night sign (`.hdr__neon`, "At Night" under the wordmark) is set at `0.875rem`, below the floor. It is granted because it fails to be the thing the floor protects: the floor exists so that brush type **carrying meaning** stays readable, and this carries none. It is two decorative words, `aria-hidden`, on a flat header field at 6.01:1, and a reader who cannot parse it has lost nothing because there is nothing in it to lose. At the floor it measured 82px wide against a 58px wordmark, which made it read as a second brand line rather than as a subtitle to the first.
+
+Four tests, and an exception has to pass **all** of them:
+
+1. Decorative. It carries no information the page needs.
+2. `aria-hidden`. It is not in the accessibility tree, so nothing depends on it being read.
+3. Not over photography. It sits on a flat field with measured contrast.
+4. Nothing is lost if it is illegible. If the answer is "the reader would miss something", it is not decorative and the floor applies.
+
+Anything that fails any of the four goes back to `1.25rem`. Do not add a second exception by pointing at this one; point at the four tests.
+
 **No third typeface.** A geometric sans was proposed for nav and buttons during review and rejected. Two families ship.
 
 **No negative letter-spacing on display type.** Brush glyphs collide. Tracking tokens are positive only.
@@ -190,6 +201,17 @@ Strict BEM. Blocks: `hdr`, `hero`, `sect`, `card`, `bowl`, `stmt`, `red`, `neon`
 ### Header
 Sticky, `--header-bg`, backdrop blur, one hairline bottom border. Contains: logo, four nav links, one red Order Online CTA. The logo links home. **The theme toggle lives in the footer**, next to the colophon, as the `tgl` block. It was bound to the logo click in the reference file; that was a prototype affordance and it is resolved.
 
+**Sticky offset. Anything pinned above the header has to be in the header's `top`.**
+
+`.hdr` is `position: sticky; top: var(--sticky-top, 0px)`. It is a variable and not `0` because a second element pinned to the top of the scrollport occupies the same strip, and the one with the higher `z-index` simply covers the other. That is not hypothetical: the preview build's announcement banner is also `position: sticky; top: 0` above the header in stacking order, so on scroll it pinned over the header and the header rendered clipped. Any future announcement bar, cookie strip or seasonal notice does the same thing.
+
+The contract, for anything that pins above the header:
+
+1. Give it `data-sticky-bar`. `src/js/sticky-top.js` sums the heights of those elements and writes the total to `--sticky-top` on `:root`, kept current by a `ResizeObserver` so a bar that wraps to two lines on a phone is measured rather than assumed. A bar in normal flow is ignored, because a bar that scrolls away does not displace anything.
+2. **Also declare a static `--sticky-top` in CSS** next to the bar's own styles, sized to its usual height. With JavaScript off the script does not run and CSS is the only source of the value. A bar that ships without one falls back to `0px` and the clipping comes back.
+
+On a build with no such element the value is unset, the `0px` fallback applies, and the header behaves exactly as it always did. Verified at five scroll positions on three page types in both themes.
+
 ### Logo
 Two assets, swapped by theme, no filters:
 - dark surfaces: `Tajima Logo red logo white text.png`
@@ -238,7 +260,7 @@ The one place red is a background rather than an accent. Cream icon pattern behi
 - **NO** hex codes in CSS rules outside the token blocks.
 - **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves.
 - **NO** glow in day mode.
-- **NO** brush display type below 1.25rem.
+- **NO** brush display type below 1.25rem, with exactly one recorded exception (`.hdr__neon`) and four tests it had to pass. See Typography.
 
 ### Banned filler
 elevated • curated • immersive • culinary journey • authentic (as a claim) • passion / passionate about • dive into • crafted with love • truly • a feast for the senses • our story began • memorable dining experience • guaranteed to keep you coming back • perfectly paired

@@ -96,7 +96,7 @@
 .mega__inner {
   max-width: var(--layout-max);
   margin-inline: auto;
-  padding: var(--space-6) var(--layout-gutter) var(--space-5);
+  padding: var(--space-5) var(--layout-gutter) var(--space-4);
 }
 
 .mega__lede {
@@ -105,7 +105,7 @@
   font-size: var(--text-lead);
   line-height: var(--leading-snug);
   color: var(--color-ink-2);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
   text-transform: none;
   letter-spacing: var(--tracking-normal);
 }
@@ -113,7 +113,7 @@
 .mega__grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-3);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -124,7 +124,7 @@
 }
 
 .mega__foot {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   padding-top: var(--space-4);
   border-top: var(--stroke-hair) solid var(--color-rule);
 }
@@ -183,14 +183,20 @@
    reflowing. No CLS either way, since the box is sized before the image
    arrives.
 
-   3:2 rather than the 4:3 it was: at four across, 4:3 made each card 359px
-   tall and two rows of them could not fit on a laptop screen. This takes 55px
-   off every card without cropping the source any harder than it already was,
-   since 3:2 IS the source ratio. The panel's max-height is the actual
-   guarantee; this is what stops it being needed most of the time. */
+   16:9, and it has come down twice. It was 4:3, which made each card 359px tall
+   at four across and put two rows of them off the bottom of every laptop
+   screen. 3:2 (the source ratio) took 24px off. Then the card gained the room's
+   descriptor and its live open/closed line, which is the content this panel was
+   missing, and put 114px back on. 16:9 is what pays for those two lines.
+
+   A harder crop than the source, and acceptable here: this is a nav thumbnail
+   at about 290px wide, object-fit does the cropping, and a room photograph
+   reads fine in a letterbox. The panel's max-height is the actual guarantee
+   that nothing is ever unreachable; this is what keeps the scrollbar from
+   being needed most of the time. */
 .loc-card__media {
   position: relative;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   background: var(--color-canvas);
   border-bottom: var(--stroke-hair) solid var(--color-rule);
   overflow: hidden;
@@ -267,8 +273,50 @@
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--color-ink);
-  padding: var(--space-4) var(--space-4) 0;
+  padding: var(--space-3) var(--space-4) 0;
 }
+
+/* The room's own line, from locations.json's `descriptor`. Sits directly under
+   the name, in the reading face rather than the UI one, because it is a phrase
+   about the room and not a label. Full ink: it is the thing a reader is
+   actually choosing on. */
+.loc-card__desc{
+  font-family: var(--font-cond);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--ink);
+  padding: var(--space-1) var(--space-4) 0;
+}
+
+/* The live open/closed line. Same treatment as .plate__status on the location
+   pages, deliberately: it is the same fact computed by the same code, and a
+   reader who has seen one should recognise the other. Ships hidden; hours.js
+   reveals it. Monochrome with the accent reserved for the dot, so seven of
+   these in a panel do not turn the grid into a field of coloured text. */
+.loc-card__status{
+  display: block;
+  padding: var(--space-2) var(--space-4) 0;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.loc-card__status[data-open="true"]{ color: var(--ink); }
+.loc-card__status::before{
+  content: "";
+  display: inline-block;
+  width: .4375rem;
+  height: .4375rem;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  vertical-align: .05em;
+  background: currentColor;
+  opacity: .45;
+}
+.loc-card__status[data-open="true"]::before{ background: var(--accent); opacity: 1; }
 
 /* Neighborhood and Directions on one line. Everything on this line is muted,
    so the single button below is unambiguously the card's action.
@@ -291,7 +339,7 @@
   font-size: var(--text-micro);
   line-height: var(--leading-snug);
   color: var(--color-ink-3);
-  padding: var(--space-2) var(--space-4) var(--space-4);
+  padding: var(--space-2) var(--space-4) var(--space-3);
 }
 
 

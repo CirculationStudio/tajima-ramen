@@ -25,9 +25,36 @@
    establishes the containing block the panel needs.
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   STICKY OFFSET, AND WHY IT IS A VARIABLE
+
+   The header pins to the top of the scrollport. If anything else is pinned up
+   there too, the header has to start below it, or the two occupy the same
+   strip and the taller z-index wins by covering the other.
+
+   That is not hypothetical: the preview build's announcement banner is also
+   `position: sticky; top: 0`, with a z-index above the header, so on scroll it
+   pinned over the top of the header and the header rendered clipped. Any
+   future announcement bar, cookie strip or seasonal notice will do the same
+   thing, so this is fixed as a pattern rather than as a banner.
+
+   HOW IT WORKS. Any element pinned above the header carries `data-sticky-bar`
+   and src/js/sticky-top.js writes the sum of their heights into --sticky-top
+   on :root, keeping it current through a ResizeObserver so a bar that wraps to
+   two lines on a phone is measured at its real height rather than an assumed
+   one. On a build with no such element the value is 0px and nothing changes.
+
+   WITH JAVASCRIPT OFF the fallback is whatever --sticky-top is declared as in
+   CSS, which is why a bar must ALSO declare a static value for its own usual
+   height next to its own styles. The script corrects that value, it is not the
+   only source of it. A bar that ships without one falls back to 0px and the
+   old clipping comes back, so declare it.
+
+   DESIGN_SYSTEM.md records this under Sticky offset.
+   -------------------------------------------------------------------------- */
 .hdr {
   position: sticky;
-  top: 0;
+  top: var(--sticky-top, 0px);
   z-index: var(--z-nav);
   background: var(--header-bg);
   backdrop-filter: blur(14px);
@@ -84,31 +111,34 @@
    gone.
 
    IT COSTS THE HEADER NO HEIGHT. Absolutely positioned against .hdr__logo, so
-   the header measures the same 78px in both modes and the nav, which is
+   the header measures the same 79.4px in both modes and the nav, which is
    vertically centred, does not move when the clock flips at 18:00. Verified by
    measuring the header in both modes rather than by looking at it.
 
-   THE SIZE, AND A KNOWN CONFLICT. DESIGN_SYSTEM.md sets a hard 1.25rem floor
-   on the brush face, so 1.25rem is what this is. It does not fit cleanly, and
-   the numbers say so rather than an opinion. Measured at 1280px with the face
-   loaded:
+   IT SITS UNDER THE WORDMARK, NOT UNDER THE WHOLE LOCKUP. The header asset is
+   800x356 with the red disc occupying the left 40% and TAJIMA starting at
+   x=355, which is 44.4% of the width. The sign is offset by that, so it starts
+   where the T does and reads as a subtitle to the word rather than a second
+   line of brand under the entire mark. The percentage resolves against
+   .hdr__logo, whose width is the image's, so it tracks if the logo is ever
+   resized. If the ASSET is ever recut with different proportions, this number
+   is the one to change.
 
-     logo bottom      62.4px
-     ink top          64.2px    1.8px of clearance
-     ink bottom       78.7px
-     header bottom    79.4px    0.7px of clearance
+   THE SIZE, AND A DELIBERATE EXCEPTION TO THE BRUSH FLOOR. 0.875rem is below
+   DESIGN_SYSTEM.md's hard 1.25rem floor on Bright Sunshine Caps, and that is
+   the point rather than an oversight. The floor exists so that brush type
+   CARRYING MEANING stays legible, especially over photography. This carries
+   none: it is two decorative words, aria-hidden, on a flat header field at
+   6.01:1, and a reader who cannot parse it has lost nothing, because there is
+   nothing in it to lose. At the floor it measured 82px wide against a 58px
+   wordmark, which made it a second brand line rather than a subtitle, and it
+   left 0.7px of clearance above the header's bottom rule. At 0.875rem the ink
+   is about 10px against the wordmark's 27px cap height, it sits inside the
+   wordmark's own width, and the clearance conflict is gone.
 
-   14.5px of ink in a 17px gap. Nothing overlaps and nothing clips, but 0.7px
-   off the header's bottom rule is tight, not clean. The three ways out all
-   cost something the brief rules out: setting it smaller breaks the brush
-   floor, adding padding makes the header taller, and shrinking the logo in
-   night mode only makes the mark change size when the clock flips at 18:00.
-   Flagged for a decision rather than solved here. If it is ever set larger
-   than 1.25rem without one of those changes, the ink WILL cross the rule.
-
-   The line box (20px) does overhang the header by 3px. That overhang is empty
-   space above and below the glyphs, not glyph, which is why the visible
-   result still sits inside.
+   DESIGN_SYSTEM.md records this as the one exception and the test it has to
+   pass: decorative, aria-hidden, not over photography, and nothing is lost if
+   it is not read. Anything that fails any of those four goes back to 1.25rem.
 
    THE GLOW is --glow-text, the existing night-only token. It resolves to none
    in day mode by design, which is a second reason this can only be a night
@@ -123,10 +153,12 @@
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
+  /* Where TAJIMA starts in the header asset. See the note above. */
+  left: 44.4%;
+  margin-top: -.15rem;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.25rem;
+  font-size: .875rem;
   line-height: 1;
   letter-spacing: var(--tracking-display);
   white-space: nowrap;
