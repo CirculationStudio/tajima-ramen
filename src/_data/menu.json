@@ -2,7 +2,7 @@
   "_note": "Menu data layer per SITE_ARCHITECTURE.md. One row per dish. Feeds /menu/, the home teaser, and Menu schema. CLAUDE.md is explicit: menu items, descriptions, and prices are NEVER generated or modified without client approval.",
   "_status": "INCOMPLETE AND NOT LAUNCH-READY. This file holds only the ten dishes confirmed in CLIENT_FACTS.md, at brand-level prices. It is NOT the per-location menu. SITE_ARCHITECTURE.md Open Decision #12: we do not know what each location actually serves, Toast is the seed source, and /menu/ cannot ship until that pull happens.",
   "_availabilityStatus": "SEEDED 2026-08-04 from all seven live Toast catalogs. Open Decision #12 closes. Every row's `locations` is derived by exact name match against src/_data/toastMenus/*.json through an explicit alias table, because three separate substring matchers on this project produced wrong answers. TWO ALIASES ARE NAME CONFLICTS, not typos, and are flagged in _nameConflicts below.",
-  "_descriptionStatus": "DRAFT, PENDING CLIENT APPROVAL. Descriptions are ingredient lists carried over from the design concept, with unconfirmed claims removed (the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here). No description asserts anything about flour, hydration, water, alkalinity, aging, or noodle cadence. Amanda must sign these off before launch.",
+  "_descriptionStatus": "TWO KINDS OF DESCRIPTION IN THIS FILE, and they are not equally settled.\n\n1. DRAFT, PENDING CLIENT APPROVAL. The rows carried over from the design concept (tonkotsu, red, black, white, spicy sesame, vegan) are ingredient lists from that artifact with unconfirmed claims removed: the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here, and no description asserts anything about flour, hydration, water, alkalinity, aging or noodle cadence. Amanda must sign these off before launch.\n\n2. THE CLIENT'S OWN WORDS, from their 2026-07 printed menus in public/menus/. Curry Ramen (added 2026-09-10) and, from 2026-09-14, Pork Gyoza, Karaage, Garlic Edamame, Matcha Panna Cotta, Chicken Ramen and Carnitas Ramen. Each carries a _descriptionSource quoting the printed line it came from and naming every room whose menu prints it. These still want a sign-off, but they are transcription rather than drafting, which is a different thing to be asked to approve.\n\nNOTHING IN THIS FILE IS GENERATED, AND NOTHING MAY BE. CLAUDE.md: menu items, descriptions and prices are never generated or modified without explicit client approval. If a dish has no description on the printed menus, it gets a null and waits. Miso Ramen is the one such row: see its _descriptionGap.",
   "_priceStatus": "NOT FOR DISPLAY. RESOLVED 2026-09-10 at client review: /menu/ prints no prices at all, and the per-location printable menus in public/menus/ are the only place a price appears on this site.\n\nTHE FIELD STAYS AND MUST NOT BE RENDERED. It is a record of what the brand prices were, and deleting it would lose that record, but every value in it is stale and none may reach a page. History, for whoever reads this next: as of 2026-08-04 nine of the thirteen were below live Convoy, every ramen by fifty cents except Miso Ramen, which was fifty cents OVER; the four appetiser and dessert prices matched Convoy exactly. Prices also vary by room, with Plaza Bonita below the other San Diego rooms and Maui above them, so a single brand price could never have been right for all seven. The 2026-07 printed menus confirmed both of those findings.\n\nNo `offers` is emitted in schema and none should be. Verified 2026-09-10: no price string reaches any built page, and the schema graph contains no offers and no price.",
   "_carnitasNote": "PERMANENT AND PHOTOGRAPHED, CONFIRMED BY THE CLIENT AT REVIEW 2026-09-10. This supersedes the 2026-08-04 position, which was that the dish ships as a plain line with feature: no and 'no photo, no card, no callout, no hero'. That position came from brand positioning wanting the dish phased out quietly. The client has now said it stays.\n\nWHAT CHANGED AND WHAT DID NOT. It has a photograph on /menu/ now. The 'feature' flag stays FALSE on purpose: setting it true would also put the dish in the location-page bentos and the per-room menu lists, and 'permanent and gets a photo' is not the same instruction as 'promote it everywhere'. If the client wants that too, set feature to true and the rest follows on its own with no template change.\n\nAvailability is confirmed active at all seven locations (live Toast menus, 2026-08-04) and again by all six 2026-07 printed menus in public/menus/. scripts/build-photo-manifest.js no longer excludes Carnitas photographs: five are now in the manifest and one is placed. The other five do-not-feature dishes are unchanged and still have no photograph anywhere.\n\nThis is what finally closes SITE_ARCHITECTURE.md Open Decision #21: DESIGN_SYSTEM.md and voice-tone.md carried blanket bans that contradicted the shipped page, and both are corrected as of 2026-09-10.",
   "items": [
@@ -150,7 +150,7 @@
       "name": "Chicken Ramen",
       "shortName": "Chicken Ramen",
       "emphasis": null,
-      "description": null,
+      "description": "Chicken bone broth, chicken chashu, half a ramen egg, braised takenoko, green onions, baby bok choy, sesame seeds.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md. Pull from the printed menu and get client sign-off.",
       "price": "17.00",
       "feature": true,
@@ -170,7 +170,8 @@
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "imageWidth": 1280,
-      "imageHeight": 854
+      "imageHeight": 854,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy and Plaza Bonita: 'original chicken bone broth, egg noodles, chicken chashu, 1/2 ramen egg, braised takenoko, green onions, baby bok choy, and sesame seeds'. 'original' and 'egg noodles' are dropped by the same house transform that produced the Spicy Sesame and Curry rows, because every bowl here is on house noodles and the line is about what is in this one.\n\nBEYOND THE LITERAL ASK. The request was for the izakaya and dessert rows. This row had the same null and the same source sitting in the same file, and leaving it bare would have left the defect half fixed. Revert it and the carnitas row together if that is not wanted."
     },
     {
       "id": "vegan",
@@ -225,7 +226,8 @@
       "bento": "ramen-miso",
       "tier": null,
       "romaji": null,
-      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred."
+      "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
+      "_descriptionGap": "NULL, AND IT STAYS NULL UNTIL AMANDA SUPPLIES ONE. Checked 2026-09-14 against all six 2026-07 printed menus in public/menus/: none of them carries a Miso Ramen at all, so there is no client text to transcribe. Mercury prints a MISO SOUP ('tofu, green onion, and seaweed'), which is a different dish and must not be borrowed for this row.\n\nThis compounds the name conflict already recorded in _nameConflicts: Toast calls this item Naruto Miso Ramen, the printed menus do not list it, and this file prints 'Miso Ramen'. Two of the three disagree with each other, so ask Amanda what the dish is called and what is in it in the same message. Do not write a description from the ingredients of a soup."
     },
     {
       "id": "curry",
@@ -256,7 +258,7 @@
       "name": "Carnitas Ramen",
       "shortName": "Carnitas Ramen",
       "emphasis": null,
-      "description": null,
+      "description": "Spicy pork bone broth, house made carnitas, half a ramen egg, red radish, cilantro, diced onions, lime wedge, dried oregano.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md. Do NOT write one: this item ships as a plain line and needs no description to do that job.",
       "price": "17.50",
       "feature": false,
@@ -278,7 +280,8 @@
       "tier": null,
       "romaji": null,
       "imageWidth": 1280,
-      "imageHeight": 853
+      "imageHeight": 853,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy and Plaza Bonita: 'spicy pork bone broth, egg noodles, house made carnitas, 1/2 ramen egg, red radish, cilantro, diced onions, lime wedge, and dried oregano'.\n\nTHIS DOES NOT TOUCH OPEN DECISION #4. That decision says carnitas is listed plainly and never gets a hero, card, photo slot or callout. A description is the plain listing's own text, which every other row has; `feature` stays false and nothing else about this row changes.\n\nBEYOND THE LITERAL ASK, same as the chicken row. Revert both together."
     },
     {
       "id": "pork-gyoza",
@@ -286,7 +289,7 @@
       "name": "Pork Gyoza",
       "shortName": "Pork Gyoza",
       "emphasis": null,
-      "description": null,
+      "description": "Pan-fried pork dumplings served with gyoza sauce.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "7.50",
       "feature": true,
@@ -307,7 +310,8 @@
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "imageWidth": 1280,
-      "imageHeight": 853
+      "imageHeight": 853,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy, College Heights, Crown Point, East Village and Mercury: 'pan-fried pork dumplings served with gyoza sauce' (Mercury sets it 'pan fried Pork dumplings', same words).\n\nONE ROOM DIFFERS AND IT IS NOT A TYPO. Plaza Bonita's menu reads 'deep fried pork dumplings served with gyoza sauce'. That room is quick-serve with a different kitchen, so it is plausibly a real difference in how the dish is cooked rather than a proof error. This file is the brand menu speaking for seven rooms, so it carries the form five of six print. Recorded rather than flattened: if Plaza Bonita really deep-fries them, this row is wrong for that room and the fix is an availabilityNote or a per-room description, not a quiet edit here. Ask Amanda."
     },
     {
       "id": "karaage",
@@ -315,7 +319,7 @@
       "name": "Karaage",
       "shortName": "Karaage",
       "emphasis": null,
-      "description": null,
+      "description": "Seasoned deep fried chicken with mayo on the side.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "8.50",
       "feature": true,
@@ -336,7 +340,8 @@
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "imageWidth": 853,
-      "imageHeight": 1280
+      "imageHeight": 1280,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy, College Heights, East Village, Mercury and Plaza Bonita: 'seasoned deep fried chicken with mayo on the side'. The client's own hyphenation is kept: they write 'deep fried' open and 'pan-fried' hyphenated, and tidying that would be editing their copy.\n\nCROWN POINT DIFFERS: its menu reads 'with spicy mayo on the side'. Same situation as the gyoza above, and the same answer: the brand row carries what five of six print, and the difference is recorded rather than averaged away. Ask Amanda whether Crown Point's is a different sauce."
     },
     {
       "id": "garlic-edamame",
@@ -344,7 +349,7 @@
       "name": "Garlic Edamame",
       "shortName": "Garlic Edamame",
       "emphasis": null,
-      "description": null,
+      "description": "Steamed soy beans sautéed with garlic.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "5.50",
       "feature": true,
@@ -366,7 +371,8 @@
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "imageWidth": 854,
-      "imageHeight": 1280
+      "imageHeight": 1280,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text: 'steamed soy beans sautéed with garlic' at Convoy, College Heights, Crown Point and East Village; Mercury sets it 'steamed soy bean sauteed with garlic', singular and without the accent, which is the same line. Plaza Bonita does not carry the dish at all, which matches this row's `locations`.\n\nThe printed heading is 'EDAMAME OR GARLIC EDAMAME', one line for two dishes. This row is the garlic one and the description is the garlic one."
     },
     {
       "id": "matcha-panna-cotta",
@@ -374,7 +380,7 @@
       "name": "Matcha Panna Cotta",
       "shortName": "Matcha Panna Cotta",
       "emphasis": null,
-      "description": null,
+      "description": "Creamy gelatin matcha pudding topped with mixed berries.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "6.00",
       "feature": true,
@@ -393,7 +399,8 @@
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
       "imageWidth": 854,
-      "imageHeight": 1280
+      "imageHeight": 1280,
+      "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy, College Heights, Crown Point, East Village and Mercury: 'creamy gelatin matcha pudding topped with mixed berries'. No variation anywhere. Plaza Bonita prints no dessert section, which matches this row's `locations`."
     }
   ],
   "_bentoNote": "The `bento` value is the grid-cell modifier from the approved tajima-menu concept layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels.",
