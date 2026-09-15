@@ -1,0 +1,51 @@
+{# ===========================================================================
+   Component: the order close on a location page
+
+   Section 7 of the location page template: this kitchen's own Toast URL, from
+   locations.json, click-tested for all seven on 2026-08-05.
+
+   WHY IT IS A COMPONENT, 2026-09-14. It existed on exactly one page
+   (/tajima-college-heights/) and the other six closed on the noodle statement
+   instead, which meant the page whose job is "send someone to this room"
+   ended without an order action. The noodle statement came off the location
+   pages in the same pass: it already carries /about/ and /locations/, and
+   stacking two headline-plus-button units at the foot of every location page
+   made both of them read as boilerplate. Ordering is this page's real job, so
+   it is what closes.
+
+   The noodle line is NOT gone from the site. It is the statement moment on
+   /about/ and on /locations/, where it is the only one. See DESIGN_SYSTEM.md.
+
+   NO NEAREST-NEIGHBOUR LINK. The close routes to /locations/ rather than
+   naming another room: linking all six from every location page is how six
+   pages become one undifferentiated blob to a crawler. Convoy and Mercury are
+   the exception and already carry a deliberate, mutual "the other Kearny Mesa
+   room" section higher up the page.
+
+   ONE PRIMARY CTA PER VIEWPORT. The header's Order Online pill is the other
+   red on the page and it is a screen away by the time anyone reaches this.
+   =========================================================================== #}
+{%- if loc.orderUrl %}
+<section class="sect sect--alt sect--rule" aria-labelledby="order-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="order-title">Order from <em>this kitchen.</em></h2>
+      <p class="sect__note">
+        {#
+          Maui is 2,500 miles from the San Diego set and its brief forbids
+          cross-linking it into them, so it closes on the menu instead of on
+          the other rooms.
+        #}
+        Straight through to the {{ loc.name }} order page.
+        {% if loc.region == "san-diego" %}Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.{% else %}Or see <a class="sect__link" href="/menu/">what comes out of the kitchen</a>.{% endif %}
+      </p>
+    </header>
+    <a class="noodle-band__cta" href="{{ loc.orderUrl }}" rel="noopener">
+      Order from {{ loc.name }}
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+{%- endif %}
