@@ -108,6 +108,36 @@ export default function (eleventyConfig) {
     return `tel:+1${digits}`;
   });
 
+  /**
+   * "22:00" to "10pm", "11:30" to "11:30am".
+   *
+   * WHY THIS EXISTS. locations.json stores hours in ISO 24-hour because that
+   * is what openingHoursSpecification requires, and schema keeps reading the
+   * raw field. Nothing visible does. This is an American restaurant site and
+   * "22:00" reads as a transit timetable, so every surface that prints a
+   * closing time for a person prints it the way a person says it.
+   *
+   * The same rule is implemented a second time in src/js/hours.js, for the
+   * live status line, which cannot import from here. The two must agree: if
+   * you change the shape of the output, change both, or the status line and
+   * the row above it will disagree by two characters and look broken.
+   *
+   * Whole hours drop the minutes ("10pm", not "10:00pm"). Noon is "12pm" and
+   * midnight is "12am". Anything unparseable comes back untouched rather than
+   * mangled, so a bad data value shows itself instead of silently becoming
+   * "12am".
+   */
+  eleventyConfig.addFilter("clockTime", (value) => {
+    const match = /^(\d{1,2}):([0-5]\d)$/.exec(String(value ?? "").trim());
+    if (!match) return value;
+    const h = Number(match[1]);
+    const m = Number(match[2]);
+    if (h > 24) return value;
+    const suffix = h % 24 < 12 ? "am" : "pm";
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    return m === 0 ? `${h12}${suffix}` : `${h12}:${match[2]}${suffix}`;
+  });
+
   eleventyConfig.addFilter("dayRange", (days) => {
     if (!Array.isArray(days) || !days.length) return "";
     const ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

@@ -80,68 +80,7 @@ eleventyComputed:
     <h1 class="page-hero__title" id="page-title">{{ loc.name }}</h1>
     <p class="page-hero__lede">{{ loc.summary }}</p>
 
-    <address class="plate">
-      <span class="plate__item">
-        <span class="plate__label">Address</span>
-        <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
-      </span>
-      <span class="plate__item">
-        <span class="plate__label">Phone</span>
-        <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
-      </span>
-      {% include "components/plate-hours.njk" %}
-      <span class="plate__item">
-        <span class="plate__label">Directions</span>
-        <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
-      </span>
-      <span class="plate__item">
-        <span class="plate__label">Seating</span>
-        <span class="plate__value">Walk in. No reservations.</span>
-      </span>
-      {%- if loc.parking %}
-      <span class="plate__item">
-        <span class="plate__label">Parking</span>
-        <span class="plate__value">{{ loc.parking }}</span>
-      </span>
-      {%- endif %}
-      <span class="plate__item">
-        <span class="plate__label">Menu</span>
-        <a class="plate__value" href="/menu/">See the menu</a>
-      </span>
-      {#
-        HAPPY HOUR ROW, added 2026-09-09, and gated on whether the room has a
-        bar at all. SITE_ARCHITECTURE.md requires /happy-hour/ as a universal
-        internal link on every location page, and four of these five were
-        missing it. Plaza Bonita is the exception and stays without one:
-        CLIENT_FACTS.md says quick-serve, no alcohol, so pointing that room at
-        a page about drinking would be the link contradicting the room. Maui
-        is not in happyHour.json at all, and its brief forbids cross-linking
-        it into the San Diego set.
-
-        The row links, it does not state a time. Windows are unconfirmed
-        everywhere, which is what /happy-hour/ itself says.
-      #}
-      {%- set hh = (happyHour.locations | where("id", loc.id)) | first %}
-      {%- if hh and hh.servesAlcohol %}
-      <span class="plate__item">
-        <span class="plate__label">Happy Hour</span>
-        <a class="plate__value" href="/happy-hour/">See times</a>
-      </span>
-      {%- endif %}
-      {#
-        Added 2026-08-05. These pages had no ordering link of any kind, on a
-        site whose third-biggest page is /order-online/. Straight to this
-        kitchen's own Toast page, from locations.json, click-tested for all
-        seven. The guard stays because it costs nothing, not because a
-        location is missing one.
-      #}
-      {%- if loc.orderUrl %}
-      <span class="plate__item">
-        <span class="plate__label">Order</span>
-        <a class="plate__value" href="{{ loc.orderUrl }}" rel="noopener">Order online</a>
-      </span>
-      {%- endif %}
-    </address>
+    {% include "components/plate.njk" %}
    </div>
 
     {%- if gallery.hero %}
@@ -291,29 +230,4 @@ eleventyComputed:
 
 {% include "components/location-faq.njk" %}
 
-{# The noodle line, universal section 6 of the location page template. #}
-<section class="noodle-band" aria-labelledby="band-title">
-  <div class="noodle-band__inner">
-    <div>
-      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
-      <p class="noodle-band__body">
-        {#
-          Scoped to San Diego on purpose. Crown Point supplies San Diego and
-          Maui is 2,500 miles away, so no "our noodles" claim extends there.
-          SITE_ARCHITECTURE.md Open Decision #1.
-        #}
-        {%- if loc.region == "san-diego" %}
-        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
-        {%- else %}
-        Sam spent two years building a noodle room in Crown Point, on a machine brought over from Japan.
-        {%- endif %}
-      </p>
-    </div>
-    <a class="noodle-band__cta" href="/noodle-room/">
-      See the Noodle Room
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </a>
-  </div>
-</section>
+{% include "components/location-order.njk" %}

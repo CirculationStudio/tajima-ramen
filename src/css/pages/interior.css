@@ -251,6 +251,27 @@
   box-shadow: var(--glow-red);
 }
 
+/* CREAM ON FIRE RED, AND WHY NIGHT IS DIFFERENT. --color-red resolves to
+   --accent, which is #E03C31 by day and brightens to #FF4D40 at night.
+   Measured off the render: cream on the day red is 4.65:1, which clears AA for
+   this 14px semibold label. Cream on the night red is 3.25:1, which does not.
+   The label got harder to read in exactly the mode that was supposed to make
+   things glow.
+
+   Deepening the night field to --color-red-deep puts it at 6.36:1, and the
+   button still reads as a filled block against the night canvas at 3.07:1.
+   Hover then has to go the other way, up to the bright red, which is the
+   right direction anyway: the button lights up when you touch it.
+
+   Day mode is untouched. No new colour: --color-red-deep already exists. */
+[data-mode="night"] .noodle-band__cta{
+  background: var(--color-red-deep);
+}
+[data-mode="night"] .noodle-band__cta:hover,
+[data-mode="night"] .noodle-band__cta:focus-visible{
+  background: var(--color-red);
+}
+
 
 
 

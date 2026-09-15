@@ -85,33 +85,7 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 
       {# Every value from locations.json. No Hours row and no placeholder for
          one: Open Decision #9. #}
-      <address class="plate">
-        <span class="plate__item">
-          <span class="plate__label">Address</span>
-          <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Phone</span>
-          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
-        </span>
-        {% include "components/plate-hours.njk" %}
-        <span class="plate__item">
-          <span class="plate__label">Directions</span>
-          <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Parking</span>
-          <span class="plate__value">{{ loc.parking }}</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Seating</span>
-          <span class="plate__value">Walk in. No reservations.</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Happy Hour</span>
-          <a class="plate__value" href="/happy-hour/">See times</a>
-        </span>
-      </address>
+      {% include "components/plate.njk" %}
     </div>
 
     {#
@@ -225,49 +199,4 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
 #}
 {% include "components/location-faq.njk" %}
 
-<section class="noodle-band" aria-labelledby="band-title">
-  <div class="noodle-band__inner">
-    <div>
-      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
-      <p class="noodle-band__body">
-        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
-      </p>
-    </div>
-    <a class="noodle-band__cta" href="/noodle-room/">
-      See the Noodle Room
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </a>
-  </div>
-</section>
-
-{# ==================== ORDER, AND THE OTHER ROOMS ==================== #}
-{#
-  Section 7: this location's own Toast URL, from locations.json. Verified by
-  click-test 2026-08-05.
-
-  The brief gives this page NO nearest-neighbour link ("Nearest neighbour
-  link: none"), so the close routes to /locations/ instead of naming a room.
-  Linking all six from every location page is how six pages become one
-  undifferentiated blob to a crawler.
-
-  One primary CTA per viewport: the header's Order Online pill is the other
-  red on this page and it is a screen away by the time anyone reaches this.
-#}
-<section class="sect sect--alt sect--rule" aria-labelledby="order-title">
-  <div class="sect__inner">
-    <header class="sect__head">
-      <h2 class="sect__title" id="order-title">Order from <em>this kitchen.</em></h2>
-      <p class="sect__note">
-        Straight through to the College Heights order page. Or see <a class="sect__link" href="/locations/">all six San Diego rooms</a>.
-      </p>
-    </header>
-    <a class="noodle-band__cta" href="{{ loc.orderUrl }}" rel="noopener">
-      Order from {{ loc.name }}
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </a>
-  </div>
-</section>
+{% include "components/location-order.njk" %}

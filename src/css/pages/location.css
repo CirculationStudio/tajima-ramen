@@ -9,14 +9,25 @@
 /* ═══════════════════════════════════════════════════════════════════
    CONVOY HERO EXTRAS · address plate
 ═══════════════════════════════════════════════════════════════════ */
+/* The NAP strip. Three tiers, not one uniform row of nine labelled fields:
+   see the header comment in components/plate.njk for why. `plate` is the
+   whole strip, `plate__head` the address/hours/phone row, `plate__act` the
+   order button and directions, `plate__more` the quiet group. */
 .plate{
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
+  flex-direction: column;
+  gap: var(--space-5);
   margin-top: var(--space-4);
   padding-top: var(--space-5);
   border-top: 1px solid var(--color-rule);
   font-style: normal;
+}
+
+/* --- 1. Where, when, how to reach it ------------------------------- */
+.plate__head{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-7);
 }
 .plate__item{
   display: flex;
@@ -37,6 +48,18 @@
   font-size: var(--text-body);
   color: var(--color-ink-2);
   font-style: normal;
+}
+/* The three fields someone came for read a step up from the rest. */
+.plate__value--lead{
+  font-size: var(--text-lead);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+  line-height: 1.25;
+}
+/* A phone number on a phone is a tap target before it is a fact. */
+a.plate__tel{
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Hours can carry more than one rule (Convoy runs later Fri and Sat, Plaza
@@ -61,6 +84,84 @@
 .plate__hours-time{
   font-variant-numeric: tabular-nums;
 }
+
+/* --- 2. The actions ------------------------------------------------ */
+.plate__act{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+/* The page's primary CTA, and the only filled red in the strip. Square
+   corners, the same shape language as the noodle-band CTA, so this reads as
+   the same button the rest of the site uses rather than a new one. */
+.plate__order{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-red);
+  color: var(--color-cream);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.plate__order:hover,
+.plate__order:focus-visible{ background: var(--color-red-deep); }
+/* Same cream-on-red measurement as .noodle-band__cta, same answer. See the
+   long note there. Day 4.65:1, night would be 3.25:1 on the brightened accent,
+   6.36:1 on the deep red, so night takes the deep red and hover goes bright. */
+[data-mode="night"] .plate__order{ background: var(--color-red-deep); }
+[data-mode="night"] .plate__order:hover,
+[data-mode="night"] .plate__order:focus-visible{ background: var(--color-red); }
+.plate__order svg{ flex: none; }
+/* Secondary. Outlined, not filled: two filled reds side by side would be the
+   competing-primary-CTA failure the design system names. */
+.plate__directions{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 2px;
+  transition: color var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth);
+}
+.plate__directions:hover,
+.plate__directions:focus-visible{ color: var(--color-red); border-color: currentColor; }
+.plate__directions svg{ flex: none; }
+
+/* --- 3. The rest, kept and quieted --------------------------------- */
+.plate__more{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-rule);
+}
+.plate__fact{
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.plate__label--inline{
+  letter-spacing: var(--tracking-wide);
+}
+.plate__value--quiet{
+  font-size: var(--text-small);
+  color: var(--ink-2);
+}
+
 a.plate__value{ transition: color var(--duration-fast) var(--ease-smooth); }
 a.plate__value:hover,
 a.plate__value:focus-visible{ color: var(--color-red); }
@@ -177,7 +278,8 @@ a.plate__value:focus-visible{ color: var(--color-red); }
 
 @media (max-width: 40rem) {
   .diff__cell, .diff__cell--wide, .shot, .shot--wide { grid-column: span 12; }
-  .plate { gap: var(--space-5); }
+  .plate__head { gap: var(--space-4); }
+  .plate__order { width: 100%; justify-content: space-between; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════

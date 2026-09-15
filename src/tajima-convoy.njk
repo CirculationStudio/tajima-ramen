@@ -59,47 +59,12 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       </p>
 
       {#
-        The address plate. Every value from locations.json, none hardcoded.
-        The Hours row is components/plate-hours.njk, shared with the other two
-        location templates so the three cannot drift again.
+        The address plate, components/plate.njk, shared with the other two
+        location templates so the three cannot drift again. They already had:
+        this page carried no Menu row and College Heights carried neither Menu
+        nor Order.
       #}
-      <address class="plate">
-        <span class="plate__item">
-          <span class="plate__label">Address</span>
-          <span class="plate__value">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Phone</span>
-          <a class="plate__value" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
-        </span>
-        {% include "components/plate-hours.njk" %}
-
-        <span class="plate__item">
-          <span class="plate__label">Directions</span>
-          <a class="plate__value" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">Open in Maps<span class="u-visually-hidden">, opens in a new tab</span></a>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Parking</span>
-          <span class="plate__value">{{ loc.parking }}</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Seating</span>
-          <span class="plate__value">Walk in. No reservations.</span>
-        </span>
-        <span class="plate__item">
-          <span class="plate__label">Happy Hour</span>
-          <a class="plate__value" href="/happy-hour/">See times</a>
-        </span>
-        {#
-          REPOINTED 2026-08-05. This sent people to /order-online/, which then
-          asked them to pick the location they were already reading about.
-          Straight to Convoy's own Toast page now, from locations.json.
-        #}
-        <span class="plate__item">
-          <span class="plate__label">Order</span>
-          <a class="plate__value" href="{{ loc.orderUrl }}" rel="noopener">Order online</a>
-        </span>
-      </address>
+      {% include "components/plate.njk" %}
     </div>
 
     {#
@@ -235,33 +200,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
 {%- set menuLoc = locationId %}
 {% include "components/location-menu.njk" %}
 
-{# ==================== THE NOODLE ROOM LINE ==================== #}
-{#
-  Universal section 6 of the location page template: one line saying the
-  noodles are made in our own room, linking to /noodle-room/.
-
-  The cadence caution that stood here is gone, 2026-09-09: the client confirmed
-  crafted daily at all locations. The copy below is unchanged, because it was
-  never wrong, only cautious.
-#}
 {% include "components/location-faq.njk" %}
-
-<section class="noodle-band" aria-labelledby="band-title">
-  <div class="noodle-band__inner">
-    <div>
-      <h2 class="noodle-band__slogan" id="band-title">Better noodles weren't for sale. <em>So we made them.</em></h2>
-      <p class="noodle-band__body">
-        The noodles are made in our own Noodle Room in Crown Point, and the broth is simmered there every morning and driven out before service.
-      </p>
-    </div>
-    <a class="noodle-band__cta" href="/noodle-room/">
-      See the Noodle Room
-      <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </a>
-  </div>
-</section>
 
 {# ==================== NEAREST NEIGHBOUR ==================== #}
 {#
@@ -302,3 +241,5 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
     </header>
   </div>
 </section>
+
+{% include "components/location-order.njk" %}

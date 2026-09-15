@@ -66,6 +66,22 @@
   border-bottom: var(--stroke-hair) solid var(--color-rule-strong);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+
+  /* A CEILING, AND A SCROLLBAR. Measured 2026-09-14: with seven cards the
+     panel is 953px tall, and on every real laptop it ran off the bottom of
+     the screen with `overflow: visible` and no way to reach what was down
+     there. The last row's Order Online buttons were cut off by 13px at
+     1440x900, 29px at 1024x768 and 95px at 1280x800. They were not styled
+     badly; they were unreachable.
+
+     The panel is positioned against the header, so a percentage here resolves
+     against the header's height: `100dvh - 100%` is exactly the screen below
+     the header. dvh rather than vh because a mobile browser's toolbar makes
+     vh lie about the visible area. `overscroll-behavior: contain` keeps a
+     scroll that started in the panel from running on into the page. */
+  max-height: calc(100dvh - 100%);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* `hidden` keeps the panel's links out of the tab order entirely. Restated
@@ -74,10 +90,13 @@
   display: none;
 }
 
+/* Tighter than it was (space-7/space-6), 2026-09-14. This is nav chrome that
+   has to fit under the header on a laptop, not a page section, and the 40px of
+   top padding was 40px of the reason the bottom row fell off the screen. */
 .mega__inner {
   max-width: var(--layout-max);
   margin-inline: auto;
-  padding: var(--space-7) var(--layout-gutter) var(--space-6);
+  padding: var(--space-6) var(--layout-gutter) var(--space-5);
 }
 
 .mega__lede {
@@ -86,7 +105,7 @@
   font-size: var(--text-lead);
   line-height: var(--leading-snug);
   color: var(--color-ink-2);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
   text-transform: none;
   letter-spacing: var(--tracking-normal);
 }
@@ -105,8 +124,8 @@
 }
 
 .mega__foot {
-  margin-top: var(--space-6);
-  padding-top: var(--space-5);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
   border-top: var(--stroke-hair) solid var(--color-rule);
 }
 
@@ -160,14 +179,18 @@
    same photo appears seven times and why it is that photo.
 
    The aspect-ratio is what actually holds the layout: the source is 3:2 and
-   this box is 4:3, so object-fit crops rather than the grid reflowing. No CLS
-   either way, since the box is sized before the image arrives. */
+   this box crops it, so object-fit does the work rather than the grid
+   reflowing. No CLS either way, since the box is sized before the image
+   arrives.
+
+   3:2 rather than the 4:3 it was: at four across, 4:3 made each card 359px
+   tall and two rows of them could not fit on a laptop screen. This takes 55px
+   off every card without cropping the source any harder than it already was,
+   since 3:2 IS the source ratio. The panel's max-height is the actual
+   guarantee; this is what stops it being needed most of the time. */
 .loc-card__media {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   background: var(--color-canvas);
   border-bottom: var(--stroke-hair) solid var(--color-rule);
   overflow: hidden;
@@ -193,18 +216,37 @@
   transform: scale(1.04);
 }
 
-/* The index number moved off-centre and onto a scrim once there was a
-   photograph behind it. Centred over a busy image it was unreadable, and
-   ink-4 on a light plate failed contrast outright. */
+/* The index number, third treatment. It was centred over the image (illegible),
+   then moved to the bottom-left on a text-shadow, which is where it was on
+   2026-09-14 and still read as a numeral dropped onto a photograph rather than
+   a part of the card: it landed on lettuce in some frames and on a white plate
+   in others, and a shadow is not a background.
+
+   It is a block now, flush into the top-left corner, ink with a cream numeral.
+   It carries its own contrast instead of borrowing the photograph's, so it
+   reads the same on all seven cards and will still read when the rooms are
+   finally shot and the seven frames stop being identical. Ink and not red:
+   seven red chips would outshout the card's own action.
+
+   SYSTEM tokens, not themed ones. This block sits on a photograph, which does
+   not change between day and night, so its colours must not either. Written
+   with --color-ink it inverted to near-white in night mode and the cream
+   numeral disappeared into it. A element over a photo is a case for
+   --color-system-*: see the note on those tokens in tokens.css. */
 .loc-card__media-no {
-  position: relative;
-  padding: var(--space-4) var(--space-3) var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--text-h4);
-  line-height: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  min-width: 2.25rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-system-ink);
   color: var(--color-system-cream);
+  font-family: var(--font-display);
+  font-size: var(--text-meta);
+  line-height: 1.1;
+  text-align: center;
   letter-spacing: var(--tracking-display);
-  text-shadow: 0 1px 3px rgb(0 0 0 / 0.75);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -229,11 +271,20 @@
 }
 
 /* Neighborhood and Directions on one line. Everything on this line is muted,
-   so the single button below is unambiguously the card's action. */
+   so the single button below is unambiguously the card's action.
+
+   DIRECTIONS IS PINNED RIGHT, 2026-09-14, and the middot between them is
+   gone. They used to sit as "hood, middot, Directions" in reading order,
+   which meant the Directions link started at a different x in all seven cards
+   ("Kearny Mesa" against "College Area" against "National City") and the row
+   read as ragged rather than as a row. Pinned to the card edge, the link is
+   in the same place on every card and the eye can run straight down the
+   column. The separator is no longer doing any work once there is a gap, so
+   it is not rendered. */
 .loc-card__hood {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
   gap: var(--space-2);
   font-family: var(--font-cond);
   font-weight: var(--weight-light);
@@ -243,9 +294,7 @@
   padding: var(--space-2) var(--space-4) var(--space-4);
 }
 
-.loc-card__sep {
-  color: var(--color-ink-4);
-}
+
 
 .loc-card__link:hover .loc-card__name,
 .loc-card__link:focus-visible .loc-card__name {
@@ -269,7 +318,14 @@
   gap: var(--space-2);
   margin: 0 var(--space-4) var(--space-4);
   padding: var(--space-2) var(--space-4);
-  border: var(--stroke-hair) solid var(--color-rule-strong);
+  /* --ink-3, not --color-rule-strong. The outline is the only thing that makes
+     this a button, and rule-strong is 40% of the accent, which measured 2.85:1
+     against the card by day and 1.07:1 at night: below the 3:1 WCAG asks of a
+     control's boundary in both, and effectively gone at night. --ink-3 is a
+     neutral step already in the ramp and clears 3:1 in both modes. The red
+     comes back on hover and focus, where it is a state change rather than the
+     only cue that this is pressable. */
+  border: var(--stroke-hair) solid var(--ink-3);
   border-radius: 999px;
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);

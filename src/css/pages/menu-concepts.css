@@ -151,9 +151,38 @@
    theme toggle, and at night an ink spine on the near-black canvas is a black
    block on a black page: only its type reads, not its edge. Lifting the ink
    tone to --surface keeps the spine a spine. Same call happy-hour.css makes
-   for its black band, and the gold and red tones need no adjustment. */
+   for its black band, and the gold and red tones need no adjustment.
+
+   THAT LIFT WAS NOT ENOUGH, and measuring says so: --surface is #17151A and
+   the night canvas is #0B0A0C, which is 1.09:1. That is not a block, it is a
+   hole with a label floating in it. Ramen's gold spine sits at 12.67:1 against
+   the same canvas, so two of the three tabs read as tabs and the ink ones did
+   not.
+
+   WHY A HAIRLINE AND NOT A CREAM TAB. The obvious inversion (cream field,
+   dark label) works for Izakaya and breaks Dessert. Dessert is the ink-gold
+   tone, a GOLD label, and gold on cream measures about 1.5:1; the only way to
+   keep it legible on cream is to make its label ink, at which point Izakaya
+   and Dessert are the same tab and the category colour-coding is gone. Red is
+   not available either: it is a tone in this set already (--mc-band--red), so
+   spending it here would give one colour two meanings. The edge is what was
+   missing, so the edge is what gets added: the tab keeps the brand's black
+   block and its label colour, and gains a border that carries its own
+   contrast rather than borrowing the canvas's.
+
+   --ink-3 is rgba(255,254,244,.5), which composites over the tab to
+   rgb(139,138,135): 5.72:1 against the canvas and 5.25:1 against the tab
+   itself, both well past the 3:1 WCAG asks of a non-text boundary. Day mode
+   sets the edge transparent, because at 19.22:1 an ink tab on cream does not
+   need help finding its own outline. */
+.mc-band__spine,
+.mc-band__bar{ border: var(--stroke-hair) solid var(--mc-tone-edge, transparent); }
+
 [data-mode="night"] .mc-band--ink,
-[data-mode="night"] .mc-band--ink-gold{ --mc-tone: var(--surface); }
+[data-mode="night"] .mc-band--ink-gold{
+  --mc-tone: var(--surface);
+  --mc-tone-edge: var(--ink-3);
+}
 
 /* Mobile only. Hidden here, switched on in the narrow media query below. */
 .mc-band__bar{

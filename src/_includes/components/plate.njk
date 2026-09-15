@@ -1,0 +1,121 @@
+{# ===========================================================================
+   Component: plate
+
+   THE NAP strip on every location page. One file, included by
+   tajima-convoy.njk, tajima-college-heights.njk and location-stub.njk, which
+   until now each hand-built their own copy and had already drifted: College
+   Heights carried no Order row at all and no Menu row, Convoy carried Order
+   but no Menu, and the stubs carried both. That drift is the reason this is a
+   component now.
+
+   HIERARCHY, 2026-09-14. The previous strip was nine labelled fields in one
+   uniform wrapping row, every one at the same weight, and it read as a spec
+   sheet. Nothing in it was wrong; nothing in it was prioritised either, and
+   the page's conversion action ("Order online") rendered as plain text in a
+   metadata field, indistinguishable from "Lot parking".
+
+   Three tiers now, in the order someone actually needs them:
+
+     1. .plate__head   Where it is, whether it is open, how to reach it.
+                       Address, hours with the live status, phone. Larger
+                       type, and the phone is a real tel: link at a size you
+                       can hit with a thumb.
+     2. .plate__act    How to order. One real button, the page's primary CTA.
+                       Directions sits beside it as a secondary action,
+                       because "how do I get there" is the other thing a
+                       person does with this strip.
+     3. .plate__more   Everything else, kept in full but quieted: parking,
+                       seating, happy hour, menu. Label and value on one line
+                       each, small, as a group rather than as four peers of
+                       the address.
+
+   EVERY FIELD SURVIVES. This is a hierarchy change, not a cull. The rows that
+   are conditional are conditional on data, not on which template included
+   this: parking is null at Maui, happy hour is gated on the room having a
+   bar, and the order link is gated only because the guard costs nothing.
+
+   All values come from locations.json. Nothing here is hardcoded per page.
+   =========================================================================== #}
+
+{%- set hh = (happyHour.locations | where("id", loc.id)) | first %}
+
+<address class="plate">
+
+  {# ---------------- 1. Where, when, and how to reach it ---------------- #}
+  <div class="plate__head">
+    <div class="plate__item plate__item--lead">
+      <span class="plate__label">Address</span>
+      <span class="plate__value plate__value--lead">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
+    </div>
+
+    {% include "components/plate-hours.njk" %}
+
+    <div class="plate__item plate__item--lead">
+      <span class="plate__label">Phone</span>
+      <a class="plate__value plate__value--lead plate__tel" href="{{ loc.phone | telHref }}">{{ loc.phone }}</a>
+    </div>
+  </div>
+
+  {# ---------------- 2. The actions ----------------
+     The order button is the page's primary CTA and the only red in this
+     strip. The header's Order Online pill is the other red in the viewport,
+     which is why Directions next to it is an outlined secondary and not a
+     second filled button: two filled reds side by side would be the "more
+     than one primary CTA competing" failure DESIGN_SYSTEM.md names.
+
+     Order routes STRAIGHT TO TOAST from locations.json, not via
+     /order-online/, which would ask someone to pick the location they are
+     already reading about. All seven have a URL; the guard stays because it
+     costs nothing. #}
+  <div class="plate__act">
+    {%- if loc.orderUrl %}
+    <a class="plate__order" href="{{ loc.orderUrl }}" rel="noopener">
+      Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+    {%- endif %}
+    <a class="plate__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
+      Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
+      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  {# ---------------- 3. The rest, kept and quieted ----------------
+     Label and value read as one line here rather than stacking, because at
+     this size a stacked pair costs two lines to say "Street parking". #}
+  <div class="plate__more">
+    {%- if loc.parking %}
+    <span class="plate__fact">
+      <span class="plate__label plate__label--inline">Parking</span>
+      <span class="plate__value plate__value--quiet">{{ loc.parking }}</span>
+    </span>
+    {%- endif %}
+    <span class="plate__fact">
+      <span class="plate__label plate__label--inline">Seating</span>
+      <span class="plate__value plate__value--quiet">Walk in. No reservations.</span>
+    </span>
+    {#
+      HAPPY HOUR gated on the room having a bar. Plaza Bonita is quick-serve
+      with no alcohol (CLIENT_FACTS.md), so pointing that room at a page about
+      drinking would be the link contradicting the room. Maui is not in
+      happyHour.json at all, and its brief forbids cross-linking it into the
+      San Diego set. The row links, it does not state a time: windows are
+      unconfirmed everywhere, which is what /happy-hour/ itself says.
+    #}
+    {%- if hh and hh.servesAlcohol %}
+    <span class="plate__fact">
+      <span class="plate__label plate__label--inline">Happy hour</span>
+      <a class="plate__value plate__value--quiet" href="/happy-hour/">See times</a>
+    </span>
+    {%- endif %}
+    <span class="plate__fact">
+      <span class="plate__label plate__label--inline">Menu</span>
+      <a class="plate__value plate__value--quiet" href="/menu/">See the menu</a>
+    </span>
+  </div>
+
+</address>
