@@ -209,6 +209,29 @@ body::before {
    the top of every one, and it takes real layout space so it never covers the
    header.
    ========================================================================== */
+/* THE STATIC HALF OF THE OFFSET. .hdr is `position: sticky; top:
+   var(--sticky-top, 0px)`, and this bar is pinned above it, so the header has
+   to start below this bar's height or this bar covers it. src/js/sticky-top.js
+   measures the real height and overwrites this, which is what makes a bar that
+   wraps to two or three lines on a phone come out right. This value is the
+   JavaScript-off fallback and is the one-line desktop height: 0.6rem padding
+   top and bottom, a 0.8125rem line at 1.35, and the 4px bottom border.
+
+   It is declared here rather than in hdr.css on purpose. The offset belongs to
+   whatever is doing the pinning, so deleting this file's rules with the branch
+   takes the offset with them and the header goes back to top:0 on its own.
+
+   MEASURED, NOT GUESSED, at both heights this bar actually has. One line is
+   41px and the text wraps to two below 460px, where it is 58px. 2.5rem (40px)
+   was the first value here and it left a 1px overlap with JavaScript off,
+   which is the kind of thing that only shows up if you measure it. Rounded up
+   to the exact pixel at each width. */
+:root{ --sticky-top: 2.5625rem; }
+
+@media (max-width: 28.75rem){
+  :root{ --sticky-top: 3.625rem; }
+}
+
 .preview-flag{
   position: sticky;
   top: 0;

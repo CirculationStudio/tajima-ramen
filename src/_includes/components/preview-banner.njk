@@ -15,8 +15,16 @@
    It also pushes the document down by its own height rather than overlaying
    the header, because a banner that covers the nav is a banner someone will
    want removed.
+
+   `data-sticky-bar` IS LOAD-BEARING. This element is sticky at top:0 with a
+   z-index above the header, which is also sticky at top:0, so without an
+   offset the two claim the same strip and this one wins by covering the
+   header. The attribute is how src/js/sticky-top.js finds it and writes its
+   measured height into --sticky-top, which is what .hdr's own `top` reads.
+   See DESIGN_SYSTEM.md, Components, Header, Sticky offset. Removing the
+   attribute brings the clipped header back.
    =========================================================================== #}
-<div class="preview-flag" role="region" aria-label="Preview build notice">
+<div class="preview-flag" data-sticky-bar role="region" aria-label="Preview build notice">
   <p class="preview-flag__text">
     <strong>Preview build.</strong>
     Location photography is AI-enhanced and for review only.
