@@ -137,9 +137,23 @@
      the bottom slightly evens them up. */
   padding-top: var(--space-5);
   padding-bottom: calc(var(--space-5) - 0.26em);
-  /* The block can now never be shorter than its own label plus that padding,
-     which also stops a one-dish section rendering a stubby tab. */
-  min-height: 12rem;
+  /* THE FLOOR IS THE LABEL'S OWN LENGTH, not a number.
+     
+     This was `min-height: 12rem`, a flat 192px for every section, and a flat
+     number is wrong in both directions. It was too much for a short section:
+     Izakaya and Dessert each hold one row of dishes, about 155px of content
+     including the body's padding, and the spine is the taller item in the
+     grid row, so it pushed the whole band to 192px and left an empty block
+     under the dishes before the next section started. It would also have been
+     too little the moment a section label got longer than "Dessert", which is
+     already within 14px of it.
+     
+     In this writing mode the height IS the inline axis, so max-content
+     resolves to exactly the label's own run plus the padding above: 166px for
+     Izakaya, 178px for Dessert, and irrelevant for Ramen, whose dishes are
+     taller than any label. The band closes up to its content and the label
+     still cannot be crushed. Measured, per section, rather than guessed once. */
+  min-height: max-content;
   box-sizing: border-box;
 }
 .mc-band--ink{ --mc-tone: var(--color-system-ink); --mc-tone-fg: var(--color-system-cream); }
