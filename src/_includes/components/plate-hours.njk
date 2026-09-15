@@ -23,7 +23,7 @@
     {%- for rule in loc.hours %}
     <span class="plate__hours-row">
       <span class="plate__hours-days">{{ rule.days | dayRange }}</span>
-      <span class="plate__hours-time">{{ rule.opens }} to {{ rule.closes }}</span>
+      <span class="plate__hours-time">{{ rule.opens | clockTime }} to {{ rule.closes | clockTime }}</span>
     </span>
     {%- endfor %}
   </span>
@@ -39,9 +39,11 @@
     openingHoursSpecification is server-rendered from this same array in
     _data/schema.js and stays the canonical answer.
 
-    Times are the 24 hour strings from the data, matching the rows directly
-    above. "Open until 22:00" beside "11:30 to 22:00" reads as one fact; the
-    same line written as "Open until 10" beside "22:00" reads as two.
+    Times match the rows directly above. Both are 12-hour, via the clockTime
+    filter here and the matching formatter in hours.js: "Open until 10pm"
+    beside "11:30am to 10pm" reads as one fact. The raw 24-hour values stay in
+    locations.json and stay in openingHoursSpecification, which is where ISO
+    time belongs.
 
     Maui has no `hours`, so it renders no status element at all rather than a
     fallback string, which is the same rule its "Call the room" row follows.

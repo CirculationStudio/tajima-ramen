@@ -1,4 +1,4 @@
-// "Open until 22:00" / "Opens at 11:30", per location, computed live.
+// "Open until 10pm" / "Opens at 11:30am", per location, computed live.
 //
 // AN ENHANCEMENT, NEVER A REPLACEMENT. The static hours rows are server
 // rendered from locations.json and stay exactly as they are. This adds one
@@ -77,10 +77,25 @@ function windowsFor(rules, dayIndex) {
   return out.sort((a, b) => a.open - b.open);
 }
 
-function hhmm(minutes) {
+/**
+ * Minutes since midnight to the way an American reads a closing time:
+ * 1320 to "10pm", 690 to "11:30am".
+ *
+ * This is the SECOND implementation of this rule. The first is the clockTime
+ * filter in eleventy.config.js, which formats the published hours row this
+ * line sits directly under. They cannot share code (one runs in the build,
+ * one in the browser) so they have to agree by hand: whole hours drop the
+ * minutes, noon is 12pm, midnight is 12am. If you change one, change both.
+ *
+ * A window that runs to midnight is clamped to 24*60 upstream, and that
+ * lands back on 12am here, which is the right thing to print.
+ */
+function clockTime(minutes) {
   const h = Math.floor(minutes / 60) % 24;
   const m = minutes % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+  const suffix = h < 12 ? "am" : "pm";
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${h12}${suffix}` : `${h12}:${String(m).padStart(2, "0")}${suffix}`;
 }
 
 /**
@@ -94,17 +109,17 @@ export function statusFor(rules, now) {
   const today = windowsFor(rules, now.dayIndex);
   for (const w of today) {
     if (now.minutes >= w.open && now.minutes < w.close) {
-      return { open: true, label: `Open until ${hhmm(w.close)}` };
+      return { open: true, label: `Open until ${clockTime(w.close)}` };
     }
   }
 
   // Not open. The next opening is either later today or on a following day.
   const later = today.find((w) => w.open > now.minutes);
-  if (later) return { open: false, label: `Opens at ${hhmm(later.open)}` };
+  if (later) return { open: false, label: `Opens at ${clockTime(later.open)}` };
 
   for (let step = 1; step <= 7; step += 1) {
     const next = windowsFor(rules, (now.dayIndex + step) % 7);
-    if (next.length) return { open: false, label: `Opens at ${hhmm(next[0].open)}` };
+    if (next.length) return { open: false, label: `Opens at ${clockTime(next[0].open)}` };
   }
   return null;
 }
