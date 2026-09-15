@@ -60,6 +60,23 @@
         width="800"
         height="342"
         fetchpriority="high">
+
+      {#
+        THE NIGHT SIGN. Two words under the wordmark, brush italic, glowing
+        red, pulsing slowly like a tube warming up. Night only: CSS sets it
+        display:none in day mode, which takes it out of the accessibility tree
+        as well as out of the picture, so in day it is not there in any sense.
+
+        It is decoration and says nothing, so aria-hidden even at night. It is
+        NOT a statement about hours: the words are only "At Night" and no time
+        goes near it. The rooms' actual hours live on the location pages and in
+        openingHoursSpecification.
+
+        Inside the logo link and absolutely positioned, so it costs the header
+        no height and the nav does not move when the clock flips the theme.
+        See .hdr__neon in hdr.css for the size it had to be and why.
+      #}
+      <span class="hdr__neon" aria-hidden="true">At Night</span>
     </a>
 
     <nav class="hdr__nav" aria-label="Primary">
@@ -170,14 +187,17 @@
                       is useless in a links list.
                     #}
                     {#
-                      Neighborhood and Directions share one line, separated by
-                      the middot the design system already uses everywhere
-                      ("Since 2001 · San Diego", "Plate 01 · The commissary").
+                      Neighborhood and Directions share one line: the
+                      neighborhood reads from the left edge and Directions is
+                      pinned to the right, so the link sits in the same place
+                      on all seven cards. It used to be "hood, middot,
+                      Directions" in reading order, which put the link at a
+                      different x in every card. The middot is gone with the
+                      arrangement that needed it; see .loc-card__hood.
 
                       The neighborhood had to come OUT of .loc-card__link to do
                       this: the card is already a link and an anchor cannot
-                      nest inside an anchor. The separator is aria-hidden so it
-                      is not announced as punctuation between two list items.
+                      nest inside an anchor.
 
                       Muted and not underlined at rest, per the brief. The
                       external-link glyph is therefore the only at-rest cue
@@ -193,8 +213,7 @@
                       changed; only what gets printed is.
                     #}
                     <p class="loc-card__hood">
-                      {%- if loc.neighborhood and loc.neighborhood != loc.name %}{{ loc.neighborhood }}{% else %}{{ loc.address.locality }}{% endif %}
-                      <span class="loc-card__sep" aria-hidden="true">&middot;</span>
+                      <span class="loc-card__place">{%- if loc.neighborhood and loc.neighborhood != loc.name %}{{ loc.neighborhood }}{% else %}{{ loc.address.locality }}{% endif %}</span>
                       <a class="link-quiet" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
                         Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
                         <svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true">

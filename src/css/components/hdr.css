@@ -53,6 +53,7 @@
    colophon; DESIGN_SYSTEM.md Open Item 2 is closed.
    -------------------------------------------------------------------------- */
 .hdr__logo {
+  position: relative;
   display: block;
   min-height: 2.9rem;
   min-width: 6rem;
@@ -73,6 +74,100 @@
    shipped in an earlier draft and turned the mark pink. */
 [data-mode="day"] .hdr__logo-dark { display: none; }
 [data-mode="night"] .hdr__logo-light { display: none; }
+
+/* --------------------------------------------------------------------------
+   The night sign. Two words under the wordmark, only after dark.
+
+   NOT IN DAY MODE AT ALL. display:none rather than opacity or visibility, so
+   it is out of the accessibility tree as well as out of the picture. The theme
+   is set before paint by theme-init.njk, so it is never briefly there and then
+   gone.
+
+   IT COSTS THE HEADER NO HEIGHT. Absolutely positioned against .hdr__logo, so
+   the header measures the same 78px in both modes and the nav, which is
+   vertically centred, does not move when the clock flips at 18:00. Verified by
+   measuring the header in both modes rather than by looking at it.
+
+   THE SIZE, AND A KNOWN CONFLICT. DESIGN_SYSTEM.md sets a hard 1.25rem floor
+   on the brush face, so 1.25rem is what this is. It does not fit cleanly, and
+   the numbers say so rather than an opinion. Measured at 1280px with the face
+   loaded:
+
+     logo bottom      62.4px
+     ink top          64.2px    1.8px of clearance
+     ink bottom       78.7px
+     header bottom    79.4px    0.7px of clearance
+
+   14.5px of ink in a 17px gap. Nothing overlaps and nothing clips, but 0.7px
+   off the header's bottom rule is tight, not clean. The three ways out all
+   cost something the brief rules out: setting it smaller breaks the brush
+   floor, adding padding makes the header taller, and shrinking the logo in
+   night mode only makes the mark change size when the clock flips at 18:00.
+   Flagged for a decision rather than solved here. If it is ever set larger
+   than 1.25rem without one of those changes, the ink WILL cross the rule.
+
+   The line box (20px) does overhang the header by 3px. That overhang is empty
+   space above and below the glyphs, not glyph, which is why the visible
+   result still sits inside.
+
+   THE GLOW is --glow-text, the existing night-only token. It resolves to none
+   in day mode by design, which is a second reason this can only be a night
+   device: in day it would be flat red text with no sign to it.
+
+   MOTION. The pulse animates the glow and the text's own alpha, never its
+   position or size, so nothing reflows and nothing moves under the reader's
+   eye. 4.5s is slow enough to read as a tube warming rather than a blink.
+   Under prefers-reduced-motion the animation is not applied at all, and the
+   glow is left on: static, lit, no pulse. */
+.hdr__neon {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  white-space: nowrap;
+  pointer-events: none;
+  color: var(--accent);
+  text-shadow: var(--glow-text);
+}
+
+[data-mode="night"] .hdr__neon {
+  display: block;
+}
+
+/* GONE ONCE THE HEADER WRAPS. Below 36rem the nav drops to its own full-width
+   row directly under the logo, and an absolutely positioned line under the
+   logo lands on top of it: measured at 360, 390, 414 and 560px, the sign's box
+   (62 to 82) sits inside the nav's first row (74 to 96) in all four. There is
+   no room beneath the logo at those widths, and the alternative, giving it a
+   row of its own, is the header getting taller, which the brief rules out.
+   A decorative flourish is the right thing to drop when the space runs out. */
+@media (max-width: 36rem) {
+  [data-mode="night"] .hdr__neon { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-mode="night"] .hdr__neon {
+    animation: hdr-neon-pulse 4.5s var(--ease-smooth) infinite;
+  }
+
+  /* Opacity and the glow only. No transform, no font-size, nothing that could
+     move the line or change what it occupies. */
+  @keyframes hdr-neon-pulse {
+    0%, 100% {
+      opacity: 1;
+      text-shadow: var(--glow-text);
+    }
+    50% {
+      opacity: .72;
+      text-shadow: none;
+    }
+  }
+}
 
 /* --------------------------------------------------------------------------
    Nav
