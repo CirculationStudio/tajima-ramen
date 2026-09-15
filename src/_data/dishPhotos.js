@@ -2,147 +2,190 @@ import photos from "./photos.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
 
 /**
- * Which dish photograph, if any, a given location page may show for a given
- * dish.
+ * Which photograph belongs to which dish.
  *
- * WHY THIS EXISTS, AND WHY IT IS NOT menu.json's `image` FIELD.
+ * REBUILT 2026-09-15 FROM CONNOR'S DISH SHEET
+ * (_reference/Tajima_Menu_260915_photos-updated.xlsx, column D).
  *
- * menu.json carries one `image` per dish. That field is correct for /menu/ and
- * for the homepage, which speak for the whole house, and it is what those
- * pages read. It is NOT correct for a location page, because photos.json's
- * `_rule` says in as many words:
+ * WHAT CHANGED, AND WHY THE OLD SHAPE WAS WRONG.
  *
- *   "The filename is the source of truth for what a photo shows. The directory
- *    a file arrived in is never read. A photo reaches a location page only if
- *    its filename names that location."
+ * This file used to return photographs keyed by LOCATION, because photos.json's
+ * `_rule` said a photo reaches a location page only if its filename names that
+ * location. That rule is right for rooms and was wrong for food. Every dish
+ * photograph in the manifest is named for Convoy or Kihei, so the rule made
+ * Mercury, East Village, College Heights, Crown Point and Plaza Bonita look as
+ * though nobody had ever photographed their food. They had: the sheet puts real
+ * coverage at 62 to 100 percent. See the amended `_rule` and `_ruleHistory`.
  *
- * Every dish photograph in menu.json is named tajima-ramen-convoy-*. Rendering
- * those on /tajima-east-village/ would put Convoy's kitchen on another room's
- * page, which is the exact thing that rule forbids. So the A2 module asks this
- * map instead, and a room with no photography of its own gets the placeholder
- * tile rather than a borrowed one.
+ * So the map is now keyed by DISH. A bowl of Tajima Red is the same bowl in
+ * every room.
  *
- * WHAT THIS MEANS IN PRACTICE, measured 2026-09-14: Convoy has 13 of its 14
- * dishes photographed, Maui has 4 of its 8, and Mercury, East Village, College
- * Heights, Crown Point and Plaza Bonita have none at all. That is not this
- * file being strict; it is the shoot that has happened so far. Five rooms
- * rendering all-placeholder is a real result and it is reported rather than
- * papered over by borrowing Convoy's.
+ * NOTHING IS PLACED FROM A FILENAME TOKEN, AND NOTHING EVER WILL BE.
+ * photos.json says its `dish` token is a candidate to inspect and never a
+ * mapping to apply. An earlier draft of this file ignored that and was wrong
+ * twice inside one build: the `chicken` token put a photograph of chicken fried
+ * rice against Chicken Ramen, and the `miso` token put a small bowl of miso
+ * SOUP against Miso Ramen. Both would have shipped on public pages.
  *
- * TWO GATES, BOTH REQUIRED:
- *   1. The manifest's `location` must equal the location id. That field is
- *      derived from the filename by scripts/build-photo-manifest.js, so it is
- *      the rule above, applied.
- *   2. The alt must be real. A photograph still carrying the
- *      [DRAFT, NEEDS REVIEW] placeholder is skipped, because shipping a
- *      photograph with no alt is worse than shipping no photograph.
+ * EVERY ENTRY BELOW WAS OPENED AND LOOKED AT on 2026-09-15. That is not a
+ * formality. Checking the 27 new candidates rejected one outright and held
+ * three more; see REJECTED and HELD.
+ *
+ * NOTHING IS HOTLINKED. The sheet's URLs point at Bunny, but 38 of its 39
+ * photographs are already committed under public/images/photo/ and the 39th is
+ * there under a hyphenated name. The URLs were used to identify files, not to
+ * fetch them.
  */
 
 const DRAFT = /^\[DRAFT/;
 
 /**
- * NOTHING IS PLACED FROM A TOKEN. Every entry below was opened and looked at.
+ * dish id -> filename. Hand-authored, eye-verified, one line per placement.
  *
- * photos.json's own note says its `dish` token is a candidate to inspect and
- * never a mapping to apply, and the first draft of this file ignored that and
- * was wrong twice inside one build:
- *
- *   - the `chicken` token put tajima-ramen-convoy-chicken-fried-rice-01.webp
- *     against Chicken Ramen, because that token groups fried rice, a katsu bun
- *     and teriyaki alongside the actual bowl;
- *   - the `miso` token put miso-soup-large-mercury-only.webp against Miso
- *     Ramen, which is the exact trap the manifest note names: all three files
- *     tokened `miso` are Miso Soup, a small bowl of soup, not Naruto Miso
- *     Ramen.
- *
- * Both would have shipped a photograph of the wrong dish on a location page.
- * So token matching is gone and this table is the whole mapping.
- *
- * CONVOY'S TWELVE come from menu.json's own `image` field, which the
- * _imageGapNote records as "each checked by eye before placing rather than
- * trusted from its dish token". That check already happened; this reuses it
- * rather than repeating it, and the filenames are read out of menu.json at
- * build time so the two cannot drift.
- *
- * MAUI'S FOUR were opened on 2026-09-14, because Maui's fourteen dish
- * photographs carry no token at all:
- *   pork-gyoza-kihei            seven browned dumplings, dipping sauce. Yes.
- *   garlic-edamame-kihei        pods in a wooden bowl with fried garlic. Yes.
- *   spicy-sesame-ramen-kihei    orange sesame broth, ground pork, egg. Yes.
- *   carnitas-ramen-hero-shot    one bowl, centred, on pale wood. Yes.
- *
- * The other ten Maui files are real photographs of dishes menu.json does not
- * carry (chicken chashu bowl, chicken katsu bun, pork katsu curry, curry
- * rice), so they have nowhere to go until those rows exist. Not a fault.
- *
- * tajima-ramen-carnitas-ramen-kihei.webp is ALSO carnitas and is deliberately
- * unused: a wide table flat-lay with three other dishes in frame, which at
- * 92px square reads as a corner of a table rather than a bowl. Left in the
- * manifest with its alt still draft.
+ * WHERE THE SHEET POINTS AT A DIFFERENT FRAME OF A DISH WE ALREADY SHIP, WE
+ * KEEP OURS. The sheet names karaage-02, tonkotsu-03, tajima-red-01,
+ * carnitas-ramen-05 and curry-ramen-01; menu.json already carries -01, -04,
+ * -02, -03 and -03 of those same five dishes, each already eye-checked and each
+ * already carrying written alt. Swapping to the sheet's frame would buy nothing
+ * and cost five alt strings. Those five come in through MENU_JSON below.
  */
-const HAND_VERIFIED = {
-  "tajima-ramen-pork-gyoza-kihei.webp": "pork-gyoza",
-  "tajima-ramen-garlic-edamame-kihei.webp": "garlic-edamame",
-  "tajima-ramen-spicy-sesame-ramen-kihei.webp": "spicy-sesame",
-  "tajima-ramen-carnitas-ramen-hero-shot-kihei.webp": "carnitas",
+const VERIFIED = {
+  // --- checked 2026-09-15, new placements -------------------------------
+  "tebasaki-wings": "tajima-ramen-convoy-tebasaki-wings-01.webp",
+  "crunchy-cucumber-salad": "tajima-ramen-convoy-crunchy-cucumber-salad-01.webp",
+  "chicken-katsu-bun": "tajima-ramen-convoy-chicken-katsu-bun-04.webp",
+  "takoyaki": "tajima-ramen-convoy-takoyaki-01.webp",
+  "kimchi": "tajima-ramen-convoy-kimchi.webp",
+  "shishito-peppers": "shishito-peppers-large-ev-only.webp",
+  "salmon-poke": "tajima-ramen-convoy-salmon-poke-bowl-02.webp",
+  "pork-chashu-fried-rice": "tajima-ramen-convoy-pork-fried-rice-01.webp",
+  "chicken-chashu-fried-rice": "tajima-ramen-convoy-chicken-fried-rice-01.webp",
+  "vegetarian-fried-rice": "tajima-ramen-convoy-vegetarian-fried-rice-02.webp",
+  "chicken-teriyaki": "tajima-ramen-convoy-chicken-teriyaki-01.webp",
+  "pork-chashu-bowl": "tajima-ramen-convoy-pork-chashu-bowl-07.webp",
+  "katsu-curry": "tajima-ramen-convoy-katsu-curry-01.webp",
+  "cinnamon-churros": "tajima-ramen-convoy-cinnamon-churros-01.webp",
+  "edamame": "tajima-ramen-convoy-edamame-02.webp",
+  "california-roll": "tajima-ramen-california-roll-close-up-kihei.webp",
+  "vegetable-gyoza": "tajima-ramen-vegetable-gyoza-kihei.webp",
+
+  // --- Maui's own, checked 2026-09-14 -----------------------------------
+  "pork-gyoza-maui": "tajima-ramen-pork-gyoza-kihei.webp",
+  "garlic-edamame-maui": "tajima-ramen-garlic-edamame-kihei.webp",
+  "spicy-sesame-maui": "tajima-ramen-spicy-sesame-ramen-kihei.webp",
+  "carnitas-maui": "tajima-ramen-carnitas-ramen-hero-shot-kihei.webp",
 };
+
+/**
+ * REJECTED on sight. The sheet asserts these and the photograph does not.
+ *
+ *   Shrimp Fried Rice -> tajima-ramen-shrimp-fried-rice-plated-kihei.webp
+ *     The plate in focus is fried rice with pork, corn, peas, carrots and
+ *     green beans. There is no shrimp in it. The shrimp is in a NOODLE dish on
+ *     a second plate behind it, out of focus. Either the file is misnamed or
+ *     the shot was composed around the wrong plate. Not placed.
+ *
+ * HELD, pending a client answer. Real photographs of the right kind of dish,
+ * but the mapping asserts something nobody has confirmed.
+ *
+ *   Spicy Roll*  -> tajima-ramen-spicy-tuna-roll-kihei.webp
+ *   Tajima Roll* -> tajima-ramen-tajima-roll-kihei.webp
+ *     Both are Kihei photographs the sheet assigns to MERCURY menu rows.
+ *     House-named rolls are the exception the amended `_rule` names: a
+ *     California Roll is a standard construction and travels, a roll a kitchen
+ *     invented and named after itself does not travel on the strength of a
+ *     shared name. Mercury also has a "Mercury Roll" of its own, which is the
+ *     tell. Ask whether Mercury's and Maui's are the same roll.
+ *
+ * NO LOCAL FILE, and each is also on CLIENT_FACTS.md's do-not-feature list, so
+ * fetching them would be work in service of something we may not publish:
+ * Tajima Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Curry Fries,
+ * Jalapeño Bomb. The sheet's photo column is a catalog, not a permission.
+ */
 
 const DISH_IDS = new Set(menu.items.map((item) => item.id));
 
-// menu.json's eye-checked Convoy set, folded in as filename -> dish id.
+// menu.json's own eye-checked set, folded in. `_imageGapNote` records that each
+// was "checked by eye before placing rather than trusted from its dish token",
+// so this reuses that check rather than repeating it, and reads the filenames
+// out of menu.json at build time so the two cannot drift.
+const MENU_JSON = {};
 for (const item of menu.items) {
   if (!item.image) continue;
-  const file = item.image.split("/").pop();
-  if (HAND_VERIFIED[file]) continue;
-  HAND_VERIFIED[file] = item.id;
+  MENU_JSON[item.id] = item.image.split("/").pop();
 }
 
-for (const [file, dishId] of Object.entries(HAND_VERIFIED)) {
+const TABLE = { ...MENU_JSON, ...VERIFIED };
+
+for (const [dishId, file] of Object.entries(TABLE)) {
   if (!photos.photos[file]) {
     throw new Error(
-      `dishPhotos: ${file} is mapped to dish "${dishId}" but is not in the ` +
+      `dishPhotos: dish "${dishId}" maps to ${file}, which is not in the ` +
         `manifest. A file was renamed or removed without updating menu.json ` +
         `or src/_data/dishPhotos.js.`,
-    );
-  }
-  if (!DISH_IDS.has(dishId)) {
-    throw new Error(
-      `dishPhotos: ${file} maps to dish "${dishId}", which is not a row in menu.json.`,
     );
   }
 }
 
 function build() {
-  const byLocation = {};
-  const skippedForDraftAlt = [];
+  // dish id -> photograph. The `-maui` suffixed keys are per-room overrides and
+  // are resolved by byDishAt() below, not here.
+  const byDish = {};
+  const needsAlt = [];
+  const unknownDish = [];
 
-  for (const [file, dishId] of Object.entries(HAND_VERIFIED)) {
+  for (const [dishId, file] of Object.entries(TABLE)) {
     const entry = photos.photos[file];
 
-    // GATE 1: the filename has to name this location. `location` is derived
-    // from the filename by scripts/build-photo-manifest.js, so this IS
-    // photos.json's _rule, applied. A photograph with no location token
-    // belongs to no location page.
-    if (!entry.location) continue;
-
-    // GATE 2: the alt has to be real. A photograph with no alt is worse than
-    // no photograph, and the placeholder tile is a designed state.
+    // The alt has to be real. A photograph with no alt is worse than no
+    // photograph, and the placeholder tile is a designed state, not a failure.
     if (!entry.alt || DRAFT.test(entry.alt.trim())) {
-      skippedForDraftAlt.push({ file, dish: dishId, location: entry.location });
+      needsAlt.push({ dish: dishId, file });
       continue;
     }
 
-    byLocation[entry.location] = byLocation[entry.location] || {};
-    byLocation[entry.location][dishId] = {
+    const record = {
       src: entry.src,
       alt: entry.alt,
       width: entry.width,
       height: entry.height,
       file,
     };
+
+    const roomOverride = dishId.match(/^(.*)-(maui)$/);
+    if (roomOverride) {
+      const [, base, room] = roomOverride;
+      byDish[base] = byDish[base] || {};
+      byDish[base].rooms = byDish[base].rooms || {};
+      byDish[base].rooms[room] = record;
+      continue;
+    }
+
+    if (!DISH_IDS.has(dishId)) {
+      // A row the sheet carries that menu.json does not yet. Not an error
+      // while menu.json is still the 14-row brand list; it becomes one when
+      // the file grows to the sheet's 74. Reported, not thrown.
+      unknownDish.push({ dish: dishId, file });
+    }
+    byDish[dishId] = { ...(byDish[dishId] || {}), ...record };
   }
 
-  return { byLocation, skippedForDraftAlt };
+  return { byDish, needsAlt, unknownDish };
 }
 
-export default build();
+const built = build();
+
+/**
+ * The photograph for a dish as seen from one room.
+ *
+ * Prefers a frame shot in that room when one exists (Maui has four of its own),
+ * and otherwise returns the house frame, because the dish is the same dish.
+ */
+export function photoFor(dishId, locationId) {
+  const entry = built.byDish[dishId];
+  if (!entry) return null;
+  if (entry.rooms && entry.rooms[locationId]) return entry.rooms[locationId];
+  return entry.src ? entry : null;
+}
+
+export default { ...built, photoFor };

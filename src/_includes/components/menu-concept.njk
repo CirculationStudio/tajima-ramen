@@ -40,12 +40,17 @@
   WHERE A2's DISH PHOTOGRAPHS COME FROM, and it is not the same answer on
   every route.
 
-  "location" (a published location page) reads _data/dishPhotos.js, which only
-  hands back a photograph whose FILENAME NAMES THAT ROOM. That is photos.json's
-  own `_rule` and it is the whole reason this variant was not rolled out
-  earlier: every dish photograph in menu.json is named tajima-ramen-convoy-*,
-  so showing them on /tajima-east-village/ would put one room's kitchen on
-  another room's page.
+  "location" (a published location page) asks _data/dishPhotos.js for the
+  photograph of that dish, preferring a frame shot in that room when one exists
+  and falling back to the house frame.
+
+  IT USED TO BE SCOPED BY FILENAME and that is why this variant sat unshipped:
+  photos.json's `_rule` said a photo reaches a location page only if its
+  filename names that location, every dish photograph is named for Convoy or
+  Kihei, and so five of seven rooms rendered placeholder tiles on every card.
+  The rule was written for rooms and was wrong for food. Amended 2026-09-15;
+  see `_rule` and `_ruleHistory` in photos.json. A bowl of Tajima Red is the
+  same bowl in every room.
 
   "site" (the internal review routes) reads menu.json's `image`, the site-wide
   field that /menu/ and the homepage already use. Those routes are noindex
@@ -138,7 +143,7 @@
             dish's name and description are right beside it. -#}
         <ul class="mc-plates">
           {%- for dish in rows %}
-          {%- set shot = dishPhotos.byLocation[mcLocId][dish.id] if mcPhotos == "location" else null %}
+          {%- set shot = dishPhotos.photoFor(dish.id, mcLocId) if mcPhotos == "location" else null %}
           <li class="mc-plate">
             {%- if shot %}
             <span class="mc-shot">
