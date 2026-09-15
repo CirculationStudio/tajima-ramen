@@ -1,30 +1,60 @@
 {# ===========================================================================
    Component: menu-concept
 
-   The shared body of the two internal menu concepts, built to follow
-   _reference/menu-concepts/tajima-ev-menu-B2.html and -B1.html closely.
+   The shared body of the menu module, ported from the approved concepts in
+   _reference/menu-concepts/. A2 is what the location pages render as of
+   2026-09-14; B2 and B1 remain for the internal review routes.
 
    EXPECTS
-     variant     "b2" (three columns) | "b1" (two columns + peek) | "a2" (photo per dish)
-     showPrices  boolean
-     mcLoc       location id, defaults to east-village
-     mcChrome    true for the standalone review routes (masthead + h1 + legend
-                 + fine print), false when the module sits inside a location
-                 page that already has its own h1 and footer
+     variant       "a2" (photo per dish) | "b2" (three columns) | "b1" (two
+                   columns + peek)
+     showPrices    boolean
+     mcLoc         location id, defaults to east-village
+     mcChrome      true for the standalone review routes (masthead + h1 +
+                   legend + fine print), false when the module sits inside a
+                   location page that already has its own h1 and footer
+     mcPhotoScope  "location" (default) | "site". See the note below.
 
    The reference's structure, reproduced: a coloured spine block down the left
    of each section with rotated display type, no full-width bar; a cut rule
-   with a brand mark between sections; dish rows with the name and price both
-   in the brush face on one line and the description beneath; ghosted brand art
-   bottom right of each band; dietary glyphs inline after the name; the legend
-   and fine print at the foot.
+   with a brand mark between sections; a 92px square photograph beside every
+   dish with the name and price in the brush face on one line and the
+   description beneath; ghosted brand art bottom right of each band; dietary
+   glyphs inline after the name; the legend and fine print at the foot.
 
-   DATA. Rows come from menu.json through `dishesFor`, scoped to east-village.
+   WHAT THE A2 PORT DOES NOT CARRY, all reported rather than quietly dropped.
+   The mockup has a fourth band (Rice) that menu.json has no section for; an
+   "Extra ramen toppings" block that is a price list end to end, with no data
+   behind it; prices on every card, which /menu/ pulled on 2026-09-10; and a
+   photo lightbox with a mobile detail sheet, which is interaction rather than
+   layout and was not in the brief. Building any of them would mean
+   transcribing rows out of the reference HTML.
+
+   DATA. Rows come from menu.json through `dishesFor`, scoped to the location.
    Nothing is transcribed from the reference HTML.
    =========================================================================== #}
 {%- set mcLocId = mcLoc | default("east-village") %}
 {%- set mcRoom = (locations.items | where("id", mcLocId)) | first %}
 {%- set mcChromeOn = mcChrome | default(false) %}
+{#-
+  WHERE A2's DISH PHOTOGRAPHS COME FROM, and it is not the same answer on
+  every route.
+
+  "location" (a published location page) reads _data/dishPhotos.js, which only
+  hands back a photograph whose FILENAME NAMES THAT ROOM. That is photos.json's
+  own `_rule` and it is the whole reason this variant was not rolled out
+  earlier: every dish photograph in menu.json is named tajima-ramen-convoy-*,
+  so showing them on /tajima-east-village/ would put one room's kitchen on
+  another room's page.
+
+  "site" (the internal review routes) reads menu.json's `image`, the site-wide
+  field that /menu/ and the homepage already use. Those routes are noindex
+  internal reviews of a DESIGN against the reference's own room, not pages that
+  claim a photograph was taken anywhere, and the footer says in one line that
+  the dish photography was shot at Convoy. Nothing here reaches the public site
+  through that path.
+-#}
+{%- set mcPhotos = mcPhotoScope | default("location") %}
 {%- set sections = [
   { key: "izakaya", label: "Izakaya" },
   { key: "ramen",   label: "Ramen" },
@@ -95,17 +125,31 @@
       <div class="mc-split{% if variant == 'b1' and featured %} mc-split--peek{% endif %}">
         {%- if variant == "a2" %}
         {#- A2: a square thumbnail per dish beside the name, price and
-            description. A dish with no photograph gets the reference's tinted
-            placeholder tile with a ghosted brand mark rather than a gap. -#}
+            description, three across, exactly as the reference does it.
+
+            A DISH WITH NO PHOTOGRAPH GETS THE REFERENCE'S OWN EMPTY STATE: a
+            tinted tile the same 92px square as a photograph, carrying a
+            ghosted brand mark. That keeps the text column starting at the same
+            x down the whole grid, which a text-only card would not, and it is
+            what the mockup specifies for its own three photo-less dishes. No
+            broken image, no filename, no grey rectangle.
+
+            It is aria-hidden and carries no alt, because it says nothing: the
+            dish's name and description are right beside it. -#}
         <ul class="mc-plates">
           {%- for dish in rows %}
+          {%- set shot = dishPhotos.byLocation[mcLocId][dish.id] if mcPhotos == "location" else null %}
           <li class="mc-plate">
-            {%- if dish.image %}
+            {%- if shot %}
             <span class="mc-shot">
-              <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="92" height="92">
+              <img src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" decoding="async" width="{{ shot.width }}" height="{{ shot.height }}">
+            </span>
+            {%- elif mcPhotos == "site" and dish.image %}
+            <span class="mc-shot">
+              <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
             </span>
             {%- else %}
-            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
+            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-{{ ornament }}"></use></svg></span>
             {%- endif %}
             <div class="mc-plate__text">
               <p class="mc-plate__head">

@@ -4,11 +4,20 @@
    Section 4 of the location page template in SITE_ARCHITECTURE.md: this
    room's menu, from menu.json filtered by `locations`, linking to /menu/.
 
-   REBUILT 2026-09-14. This used to render a plain grouped list of names. It
-   now renders the B2 module from the approved menu concepts, so a location
-   page and the concept routes are the same component rather than two
-   treatments of the same data that can drift apart. Seven pages, one module,
-   filtered per room.
+   REBUILT TWICE, 2026-09-14. It was a plain grouped list of names, then the
+   B2 module (a three-column list, no photography), and it is now A2, a port of
+   _reference/menu-concepts/tajima-ev-menu-A2.html: the same three columns with
+   a 92px square photograph beside every dish. One component drives this and
+   the concept routes, so a location page and a review route cannot drift.
+
+   PHOTOGRAPHY IS SCOPED TO THE ROOM. The module reads _data/dishPhotos.js,
+   which only returns a photograph whose filename names this location, which is
+   photos.json's `_rule`. Measured 2026-09-14: Convoy has 13 of its 14 dishes
+   photographed and Maui 4 of its 8; Mercury, East Village, College Heights,
+   Crown Point and Plaza Bonita have no dish photography of their own at all
+   and render the reference's placeholder tile on every card. That is the shoot
+   that has happened, not a fault in this component, and borrowing Convoy's
+   frames to fill it would break the rule the whole manifest is built on.
 
    USAGE
      {% set menuLoc = loc.id %}
@@ -33,7 +42,7 @@
     <div class="mc mc--inline">
       {%- set mcLoc = menuLoc %}
       {%- set mcChrome = false %}
-      {%- set variant = "b2" %}
+      {%- set variant = "a2" %}
       {%- set showPrices = false %}
       {% include "components/menu-concept.njk" %}
     </div>
