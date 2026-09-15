@@ -344,8 +344,79 @@
    it, so the six line up rather than floating at six different heights. */
 .hh-card__phone{ margin-top: auto; }
 
-/* Confirmed-window styling. Nothing renders through this today; it exists so
-   real values from happyHour.json land correctly the day they arrive. */
+/* --------------------------------------------------------------------------
+   THE TWO BLOCKS OF TIME, AND WHAT KEEPS THEM APART
+
+   A card now carries a happy hour window and the room's operating hours. They
+   are different promises and a reader who reads them as one leaves believing
+   the discount runs until close, so the visual job here is separation, not
+   economy: each block has its own label, its own rule above it, and its own
+   weight. The happy hour window is the loud one, because it is why the reader
+   came. The operating hours sit quieter underneath, in the same treatment the
+   location pages give them, which is also a cue that they are the routine fact
+   rather than the offer.
+   -------------------------------------------------------------------------- */
+.hh-card__block{
+  padding-top: var(--space-3);
+  border-top: var(--stroke-hair) solid var(--color-rule);
+}
+.hh-card__block-label{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  /* Red is what makes this block read as the offer at a glance, so it stays
+     red. But --accent on the card measured 4.27:1 by day at 13px semibold,
+     which is under AA for normal text. The deep red clears it, and at night
+     the brightened accent is already at 5.71:1 and is the better colour on a
+     dark card. Same split the order buttons make, for the same reason. */
+  color: var(--color-red-deep);
+  margin-bottom: var(--space-2);
+}
+[data-mode="night"] .hh-card__block-label{ color: var(--accent); }
+/* The caveat travels with the number it qualifies, directly under it, not at
+   the foot of the card where it would read as a footnote about the card. The
+   string is in happyHour.json; see _timesNote there for why it is short. */
+.hh-card__caveat{
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.hh-card__caveat::before{
+  content: "";
+  display: inline-block;
+  width: .4375rem;
+  height: .4375rem;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  vertical-align: .05em;
+  border: var(--stroke-hair) solid currentColor;
+}
+/* The operating-hours block reuses components/plate-hours.njk verbatim, so it
+   arrives wearing .plate__* class names. These restate the few things that
+   assumed the NAP plate's own flex context. Its label is ink, not accent: the
+   accent label above it is the offer, this one is the routine fact. */
+.hh-card__block--open .plate__item{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.hh-card__block--open .plate__label{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.hh-card__block--open .plate__value--hours{ gap: var(--space-1); }
+.hh-card__block--open .plate__hours-days{ min-width: 5rem; }
+
+/* The happy hour window itself. */
 .hh-card__hours{
   font-family: var(--font-cond);
   font-weight: var(--weight-medium);
@@ -361,6 +432,7 @@
 }
 .hh-card__hours-row:last-child{ border-bottom: none; }
 .hh-card__hours-days{ color: var(--ink-3); font-size: var(--text-small); }
+.hh-card__hours-time{ font-variant-numeric: tabular-nums; }
 .hh-card__lists{
   display: grid;
   grid-template-columns: 1fr 1fr;

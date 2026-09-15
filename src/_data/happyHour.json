@@ -1,15 +1,27 @@
 {
-  "_status": "TIMES AND PRICES PULLED, 2026-08-03. This file previously carried per-location happy hour windows and drink and food prices lifted from the happy-hour design concept. None of it appears in CLIENT_FACTS.md, which has no happy hour data at all. It was published for roughly one build and then removed on Steve's call.",
-  "_whyPulled": "A happy hour window is the same class of promise as an opening hour, and CLIENT_FACTS.md forbids publishing opening hours the door does not honor. The failure mode is identical and it is not abstract: someone reads 11:30am to 6:00pm, drives to Convoy at 5, and the window shut at 4. Prices are worse, because CLAUDE.md says menu prices are never published without explicit client approval and nobody at Tajima has seen these.",
-  "_howToRestore": "Get the real windows and prices from Amanda, per location, in writing. Add `windows`, `drinks`, and `food` arrays back to each entry below and the template will render them again: the markup for all three is still in src/happy-hour.njk behind an `if`. Do NOT restore the concept values.",
-  "_whatIsConfirmed": "Only three things on this page trace to CLIENT_FACTS.md. (1) Happy hour exists and is worth a page: it earns 1,361 clicks and 49% CTR on `tajima happy hour`. (2) Plaza Bonita is quick-serve with no alcohol, so it has no happy hour at all. (3) East Village runs Padres game-night beer specials and extended hours on home game nights. That last one is confirmed for EAST VILLAGE ONLY and must not be widened to the other rooms.",
+  "_status": "TIMES ARE BACK, SOURCED BUT NOT CLIENT-CONFIRMED, 2026-09-14. Prices are still pulled and stay pulled. See _timesSource for where the window came from and how far it can be trusted. The concept prices that used to sit in the `drinks` and `food` arrays were removed on Steve's call on 2026-08-03 and nothing here restores them: CLAUDE.md says menu prices are never published without explicit client approval.",
+  "_whyPulled": "HISTORICAL, AND STILL THE STANDARD THIS FILE IS HELD TO. A happy hour window is the same class of promise as an opening hour, and CLIENT_FACTS.md forbids publishing opening hours the door does not honor. The failure mode is not abstract: someone reads a window, drives to Convoy at 5, and it shut at 4.\n\nThe 2026-08-03 removal was of CONCEPT values, invented for a mockup and traceable to nobody. The window published from 2026-09-14 is different in kind: it comes from Tajima's own marketing copy, it is recorded in _timesSource with what is wrong with it, and the page says on its face that it is not confirmed. That is what makes it publishable and the concept values not. Prices are a separate question and stay pulled either way, because CLAUDE.md says menu prices are never published without explicit client approval and nobody at Tajima has seen those.",
+  "_howToRestore": "PRICES ONLY now; the windows are populated. Get the real drink and food prices from Amanda, per location, in writing, and add them to the `drinks` and `food` arrays. The markup is still in src/happy-hour.njk behind an `if`. Do NOT restore the concept values. For the windows, see _timesSource: they are sourced but unconfirmed, and confirming them means editing `timesNote` here rather than editing the template.",
+  "_whatIsConfirmed": "What traces to CLIENT_FACTS.md, as opposed to what is merely sourced. (1) Happy hour exists and is worth a page: it earns 1,361 clicks and 49% CTR on `tajima happy hour`. (2) Plaza Bonita is quick-serve with no alcohol. (3) East Village runs Padres game-night beer specials and extended hours on home game nights, and that one is EAST VILLAGE ONLY and must not be widened. (4) Each room's `bar` line, per its own _barSource.\n\nNOT in this list, and deliberately: the 11:30am to 6pm window. It is sourced, not confirmed. See _timesSource.\n\nCORRECTED 2026-09-09: this entry used to read 'so it has no happy hour at all' after the Plaza Bonita fact. No source supports that and two contradict it. See _plazaReconciliation. No alcohol is the fact; no happy hour is not.",
   "_padresNote": "The concept and the SITE_ARCHITECTURE.md promos module both carry `every tap beer $3.50, all SD locations except Plaza Bonita`. The price and the all-locations scope are NOT in CLIENT_FACTS.md and are pulled with everything else. What survives is the East Village line, which is confirmed, and it is scoped to that room.",
   "locations": [
     {
       "id": "east-village",
       "name": "East Village",
       "tag": "Near Petco Park",
-      "windows": [],
+      "windows": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "18:00"
+        }
+      ],
       "drinks": [],
       "food": [],
       "servesAlcohol": true,
@@ -20,7 +32,19 @@
       "id": "convoy",
       "name": "Convoy",
       "tag": "The original, since 2001",
-      "windows": [],
+      "windows": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "18:00"
+        }
+      ],
       "drinks": [],
       "food": [],
       "servesAlcohol": true,
@@ -31,7 +55,19 @@
       "id": "mercury",
       "name": "Mercury",
       "tag": "Full bar and sushi",
-      "windows": [],
+      "windows": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "18:00"
+        }
+      ],
       "drinks": [],
       "food": [],
       "servesAlcohol": true,
@@ -42,7 +78,19 @@
       "id": "college-heights",
       "name": "College Heights",
       "tag": "Twenty-plus taps",
-      "windows": [],
+      "windows": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "18:00"
+        }
+      ],
       "drinks": [],
       "food": [],
       "servesAlcohol": true,
@@ -53,7 +101,19 @@
       "id": "crown-point",
       "name": "Crown Point",
       "tag": "Next to the Noodle Room",
-      "windows": [],
+      "windows": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "18:00"
+        }
+      ],
       "drinks": [],
       "food": [],
       "servesAlcohol": true,
@@ -81,5 +141,10 @@
   "_servesAlcohol": "Added 2026-09-09. The one alcohol fact CLIENT_FACTS.md states outright is that Plaza Bonita is quick-serve with no alcohol. The other five San Diego rooms each have a confirmed beer or bar programme in CLIENT_FACTS.md: Mercury a full bar with craft cocktails, Japanese whisky and a full wine list, College Heights twenty-plus taps, East Village six of local craft, Crown Point a strong local craft list beside a matcha-forward non-alcoholic programme. This flag exists so a template can decide whether to point a room at /happy-hour/ at all, rather than linking a room with no bar to a page about drinking. Maui is not in this file: it is a different market and SITE_ARCHITECTURE.md forbids cross-linking it into the San Diego set.",
   "_barNote": "Added 2026-09-09. The page needed a reason to exist beyond the times, and this is it: what each room actually pours. Every line traces to CLIENT_FACTS.md and the per-room source is on the entry. No prices anywhere, no windows, and no claim that any of this is discounted at happy hour, because that is the part nobody has confirmed. NO TAP COUNTS EXCEPT THE ONES CLIENT_FACTS.md ITSELF PUBLISHES. College Heights is twenty-plus and East Village is six, both of which that file states in its own words. Convoy's count was pulled on 2026-09-09: see its _barSource. A number counted off a Toast catalog is a snapshot of one day, and a tap list rotates, so it is not a fact this site can keep being right about.",
   "_plazaReconciliation": "RAISED TO HIGH PRIORITY 2026-09-09. THREE independent sources now point the same way and this file's original phrasing pointed the other way.\n\n1. src/_data/toastMenus/plaza-bonita.json carries a priced Happy Hours section, pulled from that room's own live Toast catalog on 2026-08-04.\n2. The room's own Google Business Profile description, in Connor's export of 2026-09-09, tells visitors to come for happy hour and advertises discounted drinks and appetizers. That is the client's own published marketing on their own profile.\n3. Against those, CLIENT_FACTS.md says quick-serve, food court format, limited menu, no alcohol.\n\nTHESE MAY ALL BE TRUE AT ONCE. A food happy hour with discounted appetizers and non-alcoholic drinks is entirely compatible with a room that serves no alcohol, and the GBP copy's 'discounted drinks' does not say alcoholic drinks. So this is probably not a contradiction about alcohol at all; it is that this file once said 'no happy hour at all', which no source supports and two now contradict outright.\n\nTHE SITE IS ALREADY SAFE AND NEEDS NO EDIT TO STAY SAFE. /happy-hour/ publishes only the CLIENT_FACTS.md fact, no alcohol, and 'no happy hour at all' was removed on 2026-09-09. Nothing on the site claims the room has no happy hour and nothing claims it has one.\n\nWHAT TO ASK AMANDA: does Plaza Bonita run a happy hour, and if so what is on it and when? If the answer is yes, this room moves out of the no-alcohol branch on /happy-hour/ and into the normal one, and the GBP description becomes a source we can cite rather than a contradiction we are working around. NOTE THAT THE GBP DESCRIPTION ITSELF IS STILL NOT PUBLISHABLE COPY: it is written against the retired positioning and uses banned language. It is evidence that a happy hour exists, not text we can lift.",
-  "_badgeNote": "OPEN DAILY is the brand guidelines' own badge copy (page 18) and it is now a confirmed fact rather than a borrowed graphic: the hours Connor supplied on 2026-09-09 cover all seven days at all six San Diego rooms. It is scoped to the six. Maui is not on this page."
+  "_badgeNote": "OPEN DAILY is the brand guidelines' own badge copy (page 18) and it is now a confirmed fact rather than a borrowed graphic: the hours Connor supplied on 2026-09-09 cover all seven days at all six San Diego rooms. It is scoped to the six. Maui is not on this page.",
+  "_timesSource": "Monday to Friday, 11:30am to 6pm. Source: Tajima marketing copy supplied by Steve on 2026-09-14.\n\nHOW FAR THIS CAN BE TRUSTED, HONESTLY. This is client collateral, not a client answer. Two things limit it.\n\n1. IT PREDATES A CLOSURE. The copy names North Park, which has been permanently closed since early 2026 and is not in locations.json. A document that still lists a closed room was written before that room closed, so the window in it describes a Tajima that no longer exists in at least one respect. It may describe the current one accurately too. Nobody has said so.\n\n2. IT DOES NOT NAME THE ROOMS. The copy says 'select Tajima locations' and stops there. WE DO NOT GUESS WHICH. The window is applied only where this repo already establishes a bar or tap programme from CLIENT_FACTS.md: Mercury, College Heights, East Village, Convoy and Crown Point. Plaza Bonita is untouched, pours no alcohol, and its food-happy-hour question is still open (see _plazaReconciliation). If Amanda says the window runs at four rooms and not five, the ones to remove are here, not inferred.\n\nONLY THE TIMES WERE TAKEN. The surrounding copy is written in the retired 2025 voice and carries banned filler ('bold flavors', 'unbeatable deals', 'can't-miss prices', 'great vibes'). None of it is on the site and none of it goes on the site. See CLAUDE.md Forbidden Patterns.\n\nWHAT THE PAGE SAYS ABOUT IT. /happy-hour/ prints the window and says plainly that it is not confirmed by the rooms, with the phone number beside it. That line is `timesNote` below. Do not delete it without a written confirmation from Amanda, because without one the page would be presenting sourced times as verified ones.\n\nWHAT TO ASK AMANDA: is 11:30am to 6pm, Monday to Friday, current, and at which rooms?",
+  "timesNote": "These times come from Tajima's own marketing copy, not from the rooms. We are confirming them. Call ahead if you are making the trip for it.",
+  "_timesNote": "TWO STRINGS, ON PURPOSE. `timesNote` is the full sentence and runs once, under the section heading, where there is room to say where the times came from and what to do about it. `timesNoteShort` sits on every card that prints a window, directly under the time, so a reader who takes in one card and nothing else still sees that the number is not settled. Repeating the long sentence five times would be noise, and noise is how a caveat stops being read.\n\nBoth are data, not template copy. When Amanda confirms, soften or empty them here: the card and the section both render the note only if it is non-empty, so nothing in src/happy-hour.njk has to change.",
+  "_windowShape": "The same shape as `hours` in locations.json: a days array and ISO 24-hour opens/closes. It is stored that way so the dayRange and clockTime filters format it, which is what makes a happy hour window and an operating hours row print identically on the same card. Do not store a pre-formatted string here: the last version of this file did, and the two kinds of time on the page would have been formatted by two different rules.",
+  "timesNoteShort": "Being confirmed"
 }

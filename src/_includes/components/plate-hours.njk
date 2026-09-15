@@ -5,7 +5,15 @@
    written out separately in each, which is how Convoy ended up with no Hours
    row at all while the other two carried "Being confirmed. Call the room."
 
-   Expects `loc` in scope.
+   Expects `loc` in scope. Takes one optional variable, `hoursLabel`, which
+   defaults to "Hours".
+
+   WHY THE LABEL IS A VARIABLE. /happy-hour/ renders this component beside a
+   happy hour window, and on that page "Hours" alone is dangerous: two sets of
+   times on one card, one of which is a discount window and one of which is
+   when the door is open, and a reader who conflates them leaves thinking the
+   discount runs until close. That page passes "The room is open". The location
+   pages pass nothing and read "Hours" as before.
 
    Hours confirmed 2026-09-09 by Connor for six of seven. Maui was not
    supplied, so it keeps the honest fallback rather than borrowing a sibling's
@@ -17,7 +25,7 @@
    visible row and the graph cannot drift.
    =========================================================================== #}
 <span class="plate__item">
-  <span class="plate__label">Hours</span>
+  <span class="plate__label">{{ hoursLabel | default("Hours") }}</span>
   {%- if loc.hours and loc.hours.length %}
   <span class="plate__value plate__value--hours">
     {%- for rule in loc.hours %}
