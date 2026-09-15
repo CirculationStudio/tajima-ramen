@@ -336,7 +336,7 @@
     {
       "id": "maui",
       "name": "Maui",
-      "descriptor": "Kihei",
+      "descriptor": "South Maui",
       "url": "/tajima-ramen-maui-hawaii/",
       "schemaId": "https://tajimaramen.com/tajima-ramen-maui-hawaii/#restaurant",
       "region": "hawaii",
@@ -363,7 +363,10 @@
       "noodleNote": "Do NOT extend any 'our noodles' claim here. Crown Point supplies San Diego and Maui is 2,500 miles away. SITE_ARCHITECTURE.md Open Decision #1.",
       "businessName": "Tajima Ramen Maui",
       "orderUrl": "https://order.toasttab.com/online/tajima-ramen-maui-1819-south-kihei-road-d105",
-      "orderUrlNote": null
+      "orderUrlNote": null,
+      "_descriptorSource": "CHANGED FROM \"Kihei\" 2026-09-14, on Steve's instruction that the card name the part of the island.\n\nWHAT THIS IS AND IS NOT. South Maui is the district Kihei sits in, alongside Wailea and Makena. It is derived from this room's own address (1819 South Kihei Road, Kihei, HI 96753), not supplied by the client and not in CLIENT_FACTS.md, so it is geography rather than a client phrase. It wants a one-word confirmation and it is one field to change if the client says the room, or the market, calls it something else.\n\nWHY IT COULD NOT STAY \"Kihei\". `descriptor`, `neighborhood` and `address.locality` were all the same word, so the mega menu card suppressed the descriptor as a duplicate of the place line and Maui was the one card with no line of its own. See the collision rule in components/site-header.njk.",
+      "closesAt": "21:30",
+      "_closesAtSource": "SUPPLIED BY STEVE 2026-09-14, and it is a CLOSING TIME ONLY.\n\nTHIS IS NOT AN `hours` ARRAY AND MUST NOT BECOME ONE BY ACCIDENT. `hours` stays null here. A weekly pattern needs an opening time and a set of days, and neither was supplied, so:\n  - openingHoursSpecification is still NOT emitted for Maui. A schema     entry needs `opens` as well as `closes`, and half of one is a wrong     answer rather than a partial one.\n  - the live open/closed line still does not render here.     js/hours.js computes from windows; with no opening time it cannot     say whether the room is open now, and guessing is the exact failure     _hoursNote exists to prevent.\n\nWHAT IT DOES DO: the mega menu card prints it as a plain closing time, which is what we were told and all we were told. If Connor or Amanda later supply the full week, move it into `hours` in the normal shape, delete this field, and the status line and the graph both light up on their own with no template change."
     }
   ],
   "_summaryNote": "The `summary` is the 'what's different here' line. SITE_ARCHITECTURE.md calls this 'the one section that must not be templated'. Every line traces to CLIENT_FACTS.md. Note Crown Point's: broth going to every San Diego location every morning IS confirmed. Noodles going to every location is NOT. Never widen a broth claim into a noodle claim.",

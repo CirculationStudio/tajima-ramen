@@ -220,6 +220,24 @@
                     #}
                     {%- if loc.hours and loc.hours.length %}
                     <span class="loc-card__status" data-hours-status data-hours='{{ loc.hours | dump }}' hidden></span>
+                    {%- elif loc.closesAt %}
+                    {#
+                      MAUI. A CLOSING TIME, NOT A LIVE STATUS, and the two do
+                      not look alike on purpose.
+
+                      That room has no `hours` array: Connor's 2026-09-09
+                      confirmation covered six of seven and Maui was not
+                      supplied, so it emits no openingHoursSpecification and
+                      js/hours.js cannot compute whether it is open right now.
+                      What we do have, from Steve on 2026-09-14, is the hour it
+                      shuts. The card says exactly that and no more.
+
+                      No dot, because the dot on the other six means "computed
+                      from today's window" and this is not that. See
+                      _closesAtSource in locations.json for what would have to
+                      arrive before this row becomes a real status.
+                    #}
+                    <span class="loc-card__status loc-card__status--static">Closes {{ loc.closesAt | clockTime }}</span>
                     {%- endif %}
 
                     {#
@@ -290,8 +308,31 @@
                 {%- endfor %}
               </ul>
 
+              {#
+                TIJUANA IS A LINE AND AN OUTBOUND LINK, NEVER AN EIGHTH CARD.
+                Added 2026-09-14 on Steve's instruction, in the same treatment
+                /locations/ already uses for it, and for the same reasons:
+                SITE_ARCHITECTURE.md says "Tijuana: outbound link to
+                tajimamx.com. Not a card", CLIENT_FACTS.md has the Tijuana
+                operating count unresolved (older materials reference up to
+                four), and voice-tone.md forbids publishing a global total. A
+                card in this grid would number it and assert a count.
+
+                tajimamx.com is a separate property on a separate domain, in
+                Spanish, so this leaves the site: rel="external noopener" and
+                an out-of-tab cue, the same as the Directions links above.
+              #}
               <p class="mega__foot">
                 <a class="mega__foot-link" href="{{ item.url }}">All locations, with addresses and phone numbers</a>
+                <span class="mega__foot-aside">
+                  South of the border?
+                  <a class="mega__foot-link mega__foot-link--out" href="https://tajimamx.com" rel="external noopener" target="_blank">
+                    Visit Tajima Tijuana<span class="u-visually-hidden">, opens tajimamx.com in a new tab</span>
+                    <svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </span>
               </p>
 
             </div>

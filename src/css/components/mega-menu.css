@@ -123,10 +123,19 @@
   display: flex;
 }
 
+/* Two things on one line: the all-locations link on the left and the Tijuana
+   aside on the right. They wrap to two lines rather than colliding on a narrow
+   panel, and the aside stays left-aligned when they do, because a stray
+   right-aligned orphan reads as a mistake. */
 .mega__foot {
   margin-top: var(--space-4);
   padding-top: var(--space-4);
   border-top: var(--stroke-hair) solid var(--color-rule);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
 }
 
 .mega__foot-link {
@@ -143,6 +152,30 @@
 .mega__foot-link:focus-visible {
   color: var(--color-red);
 }
+
+/* The aside is quieter than the link it sits beside: this panel's job is the
+   seven rooms and the all-locations link, and a second site is an aside. */
+.mega__foot-aside {
+  font-family: var(--font-cond);
+  font-weight: var(--weight-light);
+  font-size: var(--text-micro);
+  color: var(--ink-3);
+}
+.mega__foot-link--out {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-transform: none;
+  letter-spacing: var(--tracking-normal);
+  font-family: var(--font-cond);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-micro);
+  color: var(--ink-2);
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
+  padding-bottom: 1px;
+}
+.mega__foot-link--out svg { flex: none; }
+
 
 /* --------------------------------------------------------------------------
    Block: loc-card
@@ -317,6 +350,11 @@
   opacity: .45;
 }
 .loc-card__status[data-open="true"]::before{ background: var(--accent); opacity: 1; }
+/* Maui's closing time. Not computed, so no dot: the dot on the other six is
+   what says "this was worked out from today's window". See the note in
+   site-header.njk and _closesAtSource in locations.json. */
+.loc-card__status--static{ color: var(--ink-3); }
+.loc-card__status--static::before{ content: none; }
 
 /* Neighborhood and Directions on one line. Everything on this line is muted,
    so the single button below is unambiguously the card's action.
