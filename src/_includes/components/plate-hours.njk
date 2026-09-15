@@ -27,6 +27,26 @@
     </span>
     {%- endfor %}
   </span>
+  {#
+    THE LIVE STATUS. Ships hidden and empty, and /src/js/hours.js fills it
+    from the same `hours` array rendered above, computed in
+    America/Los_Angeles because whether a room is open is a fact about San
+    Diego rather than about the reader.
+
+    An ENHANCEMENT: with JavaScript off this renders nothing at all and the
+    published hours above it are untouched. It is never a replacement for
+    them, and it is deliberately absent from schema.
+    openingHoursSpecification is server-rendered from this same array in
+    _data/schema.js and stays the canonical answer.
+
+    Times are the 24 hour strings from the data, matching the rows directly
+    above. "Open until 22:00" beside "11:30 to 22:00" reads as one fact; the
+    same line written as "Open until 10" beside "22:00" reads as two.
+
+    Maui has no `hours`, so it renders no status element at all rather than a
+    fallback string, which is the same rule its "Call the room" row follows.
+  #}
+  <span class="plate__status" data-hours-status data-hours='{{ loc.hours | dump }}' hidden></span>
   {%- else %}
   <span class="plate__value">Call the room</span>
   {%- endif %}

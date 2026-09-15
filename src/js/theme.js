@@ -5,9 +5,15 @@
 // file only runs after parse, which is fine: it upgrades the control, it does
 // not decide the theme.
 //
-// v2 reverses the v1 "night is permanent" rule. Light and dark both ship, day
-// is the default, and this is a MANUAL toggle: no clock, and deliberately no
-// prefers-color-scheme. See DESIGN_SYSTEM.md, "What changed in v2".
+// THE TOGGLE IS NOW ALSO AN OPT-OUT, 2026-09-14. theme-init.njk runs a clock
+// in America/Los_Angeles for visitors who have never chosen, and reads storage
+// for those who have. The single setItem below is therefore doing two jobs: it
+// remembers the choice, and it permanently stops the clock applying to this
+// visitor. Nothing here clears the key, and nothing should add an expiry: a
+// preference that lapses at 18:00 is the bug this design exists to avoid.
+//
+// prefers-color-scheme is still deliberately not consulted anywhere.
+// See DESIGN_SYSTEM.md, "Theme trigger", which carries the revision history.
 //
 // The control is the footer toggle, next to the colophon. This file does not
 // care which element it is bound to: it binds to [data-theme-toggle], so
@@ -49,6 +55,7 @@ function toggle() {
   // Storage can throw in Safari private mode and under some storage
   // partitioning settings. The theme still switches for this page view; it
   // just will not be remembered, which is the right degradation.
+  // This write is also the clock opt-out. See the note at the top.
   try {
     localStorage.setItem(KEY, root.dataset.mode);
   } catch (e) {}

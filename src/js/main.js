@@ -18,6 +18,11 @@ import "/src/js/mega-menu.js";
 // data-mode before first paint, and this only upgrades the control.
 import "/src/js/theme.js";
 
+// The live "open until" line under the hours in a location page's NAP plate.
+// A no-op on every page that has no [data-hours-status] element, which is
+// every page except the seven location pages.
+import "/src/js/hours.js";
+
 // Scroll reveal, progressive enhancement.
 //
 // Content is visible by default in CSS. We only add the `js-reveal` hook (which

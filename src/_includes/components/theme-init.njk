@@ -4,25 +4,72 @@
 
    /src/js/main.js cannot do this job: type="module" is deferred by spec, so
    it runs after parse and can only correct the attribute after first paint,
-   which is a visible flash of the wrong theme for anyone who chose night.
+   which is a visible flash of the wrong theme.
 
-   The whole job is: read the stored preference, validate it against an
-   allowlist, correct the attribute. Deliberately NOT here: no matchMedia
-   / prefers-color-scheme (v2 is a manual toggle only, no system trigger),
-   no clock, no write, no aria work (the toggle button is not parsed yet).
+   TWO RULES, IN THIS ORDER, AND THE ORDER IS THE WHOLE DESIGN.
 
-   try/catch because localStorage throws in Safari private mode and under some
-   storage-partitioning settings. The catch leaves the server-rendered value
-   from site.json in place, which is the correct degradation.
+   1. A STORED CHOICE WINS AND KEEPS WINNING. If this visitor has ever used
+      the toggle, that value is applied and the clock is not consulted at all,
+      today or ever. A toggle that quietly undoes itself at 18:00 reads as a
+      bug, and the fix for that is not a longer expiry, it is never running
+      the clock again for someone who has expressed a preference.
 
-   The writer half lives in /src/js/theme.js (Phase 2). These two share only
-   the storage key string.
+   2. WITH NO STORED CHOICE, THE CLOCK DECIDES, in America/Los_Angeles.
+      Night from 18:00 to 06:00, day from 06:00 to 18:00.
+
+   WHY THOSE TIMES, AND WHY THAT TIMEZONE. The zone is the restaurant's, not
+   the visitor's: the site should be dark when Tajima is in its evening, not
+   when someone in Berlin is in theirs. 18:00 is after sunset in San Diego for
+   roughly half the year and is squarely inside evening service at every room,
+   which run to 22:00 and to 23:30 on Friday and Saturday. 06:00 is before any
+   room opens, the earliest being Plaza Bonita at 10:00, so the flip back to
+   day never happens while a room is serving.
+
+   FIXED HOURS RATHER THAN ACTUAL SUNSET, deliberately. Sunset in San Diego
+   moves between about 16:45 and 20:00 across the year, so a solar calculation
+   would track the season more closely. It would also put arithmetic, and a
+   failure mode, in a blocking script that runs before the page paints. A
+   fixed boundary is deterministic, is two comparisons, and cannot be wrong in
+   a way anyone notices.
+
+   Both try/catch blocks matter. localStorage throws in Safari private mode
+   and under some storage-partitioning settings; Intl with a named timeZone is
+   universal now but this script must never be the reason a page fails to
+   paint. Either catch leaves the server-rendered value from site.json in
+   place, which is the correct degradation.
+
+   Still deliberately NOT here: prefers-color-scheme. The clock is the
+   restaurant's local evening, which is a different question from what the
+   visitor's OS is set to, and answering both would mean deciding which wins.
+
+   The writer half lives in /src/js/theme.js. These two share only the key.
    =========================================================================== #}
 <script>
   (function () {
+    var KEY = "tajima:mode";
+    var root = document.documentElement;
+
     try {
-      var m = localStorage.getItem("tajima:mode");
-      if (m === "day" || m === "night") document.documentElement.dataset.mode = m;
+      var stored = localStorage.getItem(KEY);
+      if (stored === "day" || stored === "night") {
+        root.dataset.mode = stored;
+        return;
+      }
+    } catch (e) {}
+
+    try {
+      var hour = Number(
+        new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Los_Angeles",
+          hour: "numeric",
+          hour12: false
+        }).format(new Date())
+      );
+      // Some engines format midnight as 24 rather than 0 under hour12:false.
+      if (hour === 24) hour = 0;
+      if (hour >= 0 && hour <= 23) {
+        root.dataset.mode = hour >= 18 || hour < 6 ? "night" : "day";
+      }
     } catch (e) {}
   })();
 </script>
