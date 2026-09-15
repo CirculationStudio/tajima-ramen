@@ -371,3 +371,36 @@ a.plate__value:focus-visible{ color: var(--color-red); }
   .menu-links{ flex-direction: column; align-items: stretch; }
   .menu-links__link{ justify-content: space-between; }
 }
+
+/* --------------------------------------------------------------------------
+   LIVE OPEN / CLOSED STATUS, under the hours in the NAP plate.
+
+   Ships hidden; /src/js/hours.js reveals it. Monochrome rather than the usual
+   green-dot-for-open, because the v2 ramp carries no green and a review route
+   is not what should add one: open is the ink weight, closed is the muted
+   step, and the words carry the meaning on their own.
+   -------------------------------------------------------------------------- */
+.plate__status{
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.plate__status[data-open="true"]{ color: var(--ink); }
+/* The dot is a marker, not the message. */
+.plate__status::before{
+  content: "";
+  display: inline-block;
+  width: .4375rem;
+  height: .4375rem;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  vertical-align: .05em;
+  background: currentColor;
+  opacity: .45;
+}
+.plate__status[data-open="true"]::before{ background: var(--accent); opacity: 1; }

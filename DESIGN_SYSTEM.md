@@ -12,7 +12,7 @@ Three decisions in the previous version are **reversed** here. They were correct
 
 | v1 rule | v2 rule |
 |---|---|
-| Night mode permanent, no theme toggle | **Light and dark both ship.** Manual toggle, no clock or system trigger. **Light is the default.** |
+| Night mode permanent, no theme toggle | **Light and dark both ship.** Clock-driven in the restaurant's timezone, with a manual toggle that overrides it permanently. **Light is the default.** See Theme trigger. |
 | Dark-surface logo is the only asset that ships | **Two logo assets, one per theme.** No CSS filters on the logo, ever. |
 | Sharp corners throughout | **Small radius token set.** 3px controls, 6px cards, 8px media. Full-bleed fields stay sharp. |
 
@@ -31,6 +31,35 @@ The reference implementation is `_reference/tajima-home-v2.html`. When this docu
 | `--color-gold` | `#FFC658` | Sesame Gold | Rules, marks, small fills. Never more than 10% of a view on an editorial page. See The gold field for the one exception. |
 | `--color-cream` | `#FFFEF4` | Off-White | Light canvas, type on dark. |
 | `--color-black` | `#000000` | Black | Logo lockup and pure-black contexts only. |
+
+### Theme trigger
+
+**Clock-driven in America/Los_Angeles, with a manual toggle that wins permanently.**
+
+Two rules, in this order:
+
+1. **A stored choice wins and keeps winning.** If a visitor has ever used the toggle, that value applies and the clock is never consulted for them again. No expiry, and do not add one: a preference that lapses at 18:00 is a toggle that undoes itself, which reads as a bug.
+2. **With no stored choice, the clock decides.** Night from **18:00 to 06:00**, day from **06:00 to 18:00**, in **America/Los_Angeles**.
+
+**The zone is the restaurant's, not the visitor's.** The site should be dark when Tajima is in its evening, not when someone in Berlin is in theirs.
+
+**Why those hours.** 18:00 is after sunset in San Diego for roughly half the year and sits squarely inside evening service at every room (they run to 22:00, and to 23:30 on Friday and Saturday at Convoy). 06:00 is before any room opens, the earliest being Plaza Bonita at 10:00, so the flip back to day never happens while a room is serving.
+
+**Fixed hours rather than actual sunset, deliberately.** Sunset in San Diego moves between about 16:45 and 20:00 across the year, so a solar calculation would track the season better. It would also put arithmetic and a failure mode into a blocking script that runs before first paint. A fixed boundary is two comparisons and cannot be wrong in a way anyone notices.
+
+**`prefers-color-scheme` is still not consulted.** The clock answers "is it evening in San Diego". The OS setting answers a different question, and honouring both means deciding which wins.
+
+Implementation: `_includes/components/theme-init.njk` (blocking, pre-paint, reads storage then the clock) and `js/theme.js` (the toggle, whose single `setItem` is also the clock opt-out). They share only the storage key.
+
+#### Revision history, because this item keeps moving
+
+| | Rule | Why it changed |
+|---|---|---|
+| v1 | Night permanent, no toggle | The original signed direction. |
+| v2 | Light and dark both ship, **manual toggle only, no clock, no system trigger**, light default | Client reversed v1. A clock was explicitly excluded at the time. |
+| **v3, 2026-09-14** | **Clock-driven in America/Los_Angeles, manual toggle overrides permanently** | Requested by Steve. This does not reinstate v1: light is still the default, the toggle is still manual, and a visitor who touches it never sees the clock again. |
+
+**If you are about to change this back to "manual only", read row v3 first.** v2's "no clock" line was correct when written and was superseded on purpose, not forgotten. The thing v2 was protecting against is a theme that changes under the visitor; rule 1 is what protects against that now.
 
 ### Theme ramps
 
@@ -279,6 +308,16 @@ WCAG 2.1 AA.
    **It is machine-upscaled and that is on the record**, flagged `aiUpscaled` in `photos.json` with a note. It is a real photograph of the real room at a resolution it was enlarged into, not generated imagery, and the distinction is written into Banned content above. **Item 3 still wants a Convoy frame from the documentary shoot** and this one gets replaced when that lands.
 
    (The image's `alt` and caption both said "storefront" and were corrected in the v2 port; the photograph is the dining room. That part was already fixed.)
+
+9. **NO SPECIAL-HOURS DATA, AND THE LIVE OPEN STATUS WILL BE WRONG ON A HOLIDAY.** Added 2026-09-14 with the status itself.
+
+   The seven location pages now compute "Open until 22:00" or "Opens at 11:30" in the browser from the `hours` array in `locations.json`. That array carries a weekly pattern and nothing else. **On a holiday closure the page will say a room is open.**
+
+   This is not hypothetical and the data to fix it already exists somewhere else: Connor's 2026-09-09 Google Business Profile export carries a special-hours field, and it showed **2026-07-04 closed at five locations and reduced hours at Plaza Bonita**. That was noted at the time as a field GBP holds if a holiday schedule is ever needed. It is now needed.
+
+   **What closing it takes:** a `specialHours` array on each location (date, plus either closed or an opens/closes pair), a request to Connor for the current and forthcoming dates, and a date check ahead of the weekday lookup in `js/hours.js`. The same array should then feed `openingHoursSpecification` as `OpeningHoursSpecification` entries with `validFrom` and `validThrough`, so the graph and the visible status stay one source, which is the rule the weekly hours already follow.
+
+   **Until then, the honest mitigation is that the static hours rows are unchanged and still authoritative on the page**, and the status is additive: a reader who does not trust it can read the published times directly above it. The status is also absent entirely with JavaScript off and on Maui, which has no hours at all.
 
 8. **LAUNCH BLOCKER: eight media assets load from `cdn.circulationstudio.com/tajima-temp/`.** Separate from item 7 and a different owner: that one is the client's old WordPress site, this one is ours, and "temp" is in the path.
 
