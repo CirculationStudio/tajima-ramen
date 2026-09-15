@@ -125,6 +125,22 @@
   font-size: 1.625rem;
   line-height: 1;
   letter-spacing: .26em;
+  /* BREATHING ROOM AT THE ENDS OF THE WORD. The spine had no padding at all,
+     so a short section pinned the rotated label against both edges of its
+     block: Plaza Bonita and Maui izakaya measured 123px of text in a 130px
+     block, which is under 4px a side. Physical top and bottom padding, which
+     in this writing mode is the axis the text runs along.
+
+     The last letter also needs a little more than the first, because the
+     .26em tracking is applied AFTER every glyph including the final one, so
+     the visual gap at the tail already reads larger than the head. Trimming
+     the bottom slightly evens them up. */
+  padding-top: var(--space-5);
+  padding-bottom: calc(var(--space-5) - 0.26em);
+  /* The block can now never be shorter than its own label plus that padding,
+     which also stops a one-dish section rendering a stubby tab. */
+  min-height: 12rem;
+  box-sizing: border-box;
 }
 .mc-band--ink{ --mc-tone: var(--color-system-ink); --mc-tone-fg: var(--color-system-cream); }
 .mc-band--gold{ --mc-tone: var(--color-system-gold); --mc-tone-fg: var(--color-system-ink); }
