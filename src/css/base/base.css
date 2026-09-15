@@ -201,63 +201,22 @@ body::before {
 }
 
 /* ==========================================================================
-   PREVIEW BRANCH ONLY (preview/location-photos). Delete with the branch.
+   THE PREVIEW BANNER WAS HERE, and it is gone as of 2026-09-14.
 
-   Black and hazard yellow, a pairing that exists nowhere in the brand system,
-   so a screenshot of this build cannot be read as production. Sticky rather
-   than fixed so it scrolls with the document on long pages but is present at
-   the top of every one, and it takes real layout space so it never covers the
-   header.
+   It was a sticky black and hazard-yellow bar at the top of every page of this
+   branch, warning that the location photography is machine-processed and not
+   verified by the client. Removed on request. The indexing protection it sat
+   beside is untouched: the noindex meta in layouts/base.njk, the X-Robots-Tag
+   in public/_headers and public/robots.txt all stay.
+
+   ITS --sticky-top DECLARATION WENT WITH IT, and that is the correct
+   behaviour rather than a loose end. .hdr reads `top: var(--sticky-top, 0px)`,
+   so with no bar declaring a value the fallback applies and the header pins
+   flush to the top exactly as it did before there was ever a banner.
+   src/js/sticky-top.js finds no [data-sticky-bar] element, writes nothing, and
+   costs one querySelectorAll. Verified at five scroll positions on three page
+   types in both themes, with and without JavaScript.
+
+   The mechanism stays because the next announcement bar will need it. See
+   DESIGN_SYSTEM.md, Components, Header, Sticky offset, for the contract.
    ========================================================================== */
-/* THE STATIC HALF OF THE OFFSET. .hdr is `position: sticky; top:
-   var(--sticky-top, 0px)`, and this bar is pinned above it, so the header has
-   to start below this bar's height or this bar covers it. src/js/sticky-top.js
-   measures the real height and overwrites this, which is what makes a bar that
-   wraps to two or three lines on a phone come out right. This value is the
-   JavaScript-off fallback and is the one-line desktop height: 0.6rem padding
-   top and bottom, a 0.8125rem line at 1.35, and the 4px bottom border.
-
-   It is declared here rather than in hdr.css on purpose. The offset belongs to
-   whatever is doing the pinning, so deleting this file's rules with the branch
-   takes the offset with them and the header goes back to top:0 on its own.
-
-   MEASURED, NOT GUESSED, at both heights this bar actually has. One line is
-   41px and the text wraps to two below 460px, where it is 58px. 2.5rem (40px)
-   was the first value here and it left a 1px overlap with JavaScript off,
-   which is the kind of thing that only shows up if you measure it. Rounded up
-   to the exact pixel at each width. */
-:root{ --sticky-top: 2.5625rem; }
-
-@media (max-width: 28.75rem){
-  :root{ --sticky-top: 3.625rem; }
-}
-
-.preview-flag{
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: #111111;
-  border-bottom: 4px solid #FFD400;
-  padding: .6rem 1rem;
-  text-align: center;
-}
-.preview-flag__text{
-  margin: 0;
-  font-family: var(--font-ui, system-ui), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: .8125rem;
-  line-height: 1.35;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: #FFD400;
-}
-.preview-flag__text strong{
-  color: #111111;
-  background: #FFD400;
-  padding: .1em .5em;
-  margin-right: .35em;
-  font-weight: 800;
-}
-@media print {
-  .preview-flag{ position: static; }
-}

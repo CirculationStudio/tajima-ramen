@@ -49,6 +49,11 @@
       opt into anything weaker. Backed by an X-Robots-Tag on /* in
       public/_headers and a blanket robots.txt.
 
+      STILL TRUE AFTER THE BANNER CAME OFF on 2026-09-14. The visible warning
+      was removed on request; this was not, and the two were never the same
+      mechanism. If anything, this matters more now: it is the only thing
+      standing between an unverified photograph and a search result.
+
       When this branch is eventually merged or dropped, THIS BLOCK GOES and
       the `robots` version underneath it is the one that survives. -#}
   <meta name="robots" content="noindex, nofollow">
@@ -99,7 +104,17 @@
 
 <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
 
-  {% include "components/preview-banner.njk" %}
+  {#- THE VISIBLE PREVIEW BANNER IS GONE, 2026-09-14, ON REQUEST. The indexing
+      protection is NOT: see the robots block in the head, public/_headers and
+      public/robots.txt, all three of which stay.
+
+      Those are different jobs. The banner told a HUMAN looking at this deploy
+      that the location photography is machine-processed and unverified. The
+      robots directives tell a CRAWLER not to index it. Removing the first does
+      not weaken the second, but it does mean the warning now exists only in
+      DESIGN_SYSTEM.md and in the aiUpscaled flags on the manifest entries.
+      Anyone merging this branch to production should read the "AI-enhanced
+      location photography" section of DESIGN_SYSTEM.md first. -#}
 
   <a class="skip-link" href="#main">Skip to content</a>
 

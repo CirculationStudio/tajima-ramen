@@ -256,7 +256,7 @@ The one place red is a background rather than an accent. Cream icon pattern behi
 - **NO** Inter, and no third typeface of any kind.
 - **NO** gradients as a brand device.
 - **NO** em dashes anywhere. Site, content, docs, code comments.
-- **NO** AI-generated imagery posing as real photography.
+- **NO** AI-generated imagery posing as real photography. (Machine-UPSCALED real photography is a separate, narrower case: see Banned content, including the merge warning on `preview/location-photos`.)
 - **NO** hex codes in CSS rules outside the token blocks.
 - **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves.
 - **NO** glow in day mode.
@@ -274,6 +274,24 @@ Retired 2025 voice: "All Slurps Welcome," "Come Get Some Slizzurp," "I'm Late fo
   **One file in the build is upscaled:** the `/tajima-convoy/` hero, `tajima-convoy-interior-dining-room-upscaled.jpg`, supplied by the client at review 2026-09-10. It is flagged `aiUpscaled` in `photos.json` with a note saying what was done to it and that it is to be replaced when the shoot lands. It is deliberately **not** flagged `placeholder`, because the placeholder guard fails the build and this photograph has to ship: it is what closed the WordPress hotlink below. Grep `aiUpscaled` to find every such file.
 
   **Where the line moves, it moves toward disclosure, not toward permission.** If a future asset is generated rather than enlarged, it does not get this treatment; it does not go on the site.
+
+  ---
+
+  #### READ THIS BEFORE MERGING `preview/location-photos` TO PRODUCTION
+
+  **22 machine-enhanced location photographs are placed on that branch and the client has not verified any of them.** They are the only thing on it that is not cleared to ship.
+
+  **The visible warning is gone.** Until 2026-09-14 every page of that deploy carried a black and hazard-yellow banner reading "Preview build. Location photography is AI-enhanced and for review only." It was removed on request. Nothing about the photographs changed when it came off, and nobody looking at the preview now is told anything. **The constraint survives only here and in the manifest flags.** That is the whole reason this section exists.
+
+  **What is on that branch:** Connor supplied 21 room photographs on 2026-09-09, processed through ChatGPT from source photography, plus the Maui exterior. They are placed as the location-page heroes, in the galleries, on the seven mega menu cards and on the `/locations/` cards. Every one is flagged `aiUpscaled` with an `aiUpscaledNote` in `photos.json`. Run `grep -l aiUpscaled src/_data/photos.json` and read the notes; `node -e` over `roomPhotos.js` lists which are actually placed.
+
+  **They displace real frames, deliberately.** College Heights normally shows seven genuine photographs and Crown Point three. They are untouched in the repo and they are what production serves today. Merging replaces genuine photography with machine-processed photography on those two rooms.
+
+  **Verification status, from the structural check run when they arrived:** College Heights and Crown Point verify against a known-real control. Maui passes both checks, brand mark and door number against the published NAP. Mercury is consistent but its reference frames are too small to be conclusive. **Convoy fails: its brand mark is distorted, proven against the control.** East Village and Plaza Bonita are unverifiable. None of that is a client sign-off, which is the thing that is actually missing.
+
+  **What indexing protection is still on the branch, and what it is not.** `noindex, nofollow` on every page in `layouts/base.njk`, an `X-Robots-Tag` on `/*` in `public/_headers`, and a blanket `public/robots.txt`. All three stay and all three are branch-only. **They stop a crawler. They do not stop a merge.** Deleting them is part of merging to production, so the moment the merge happens the last mechanical guard is gone too.
+
+  **Before merging, one of two things has to be true:** Sam has confirmed the rooms, or the AI-enhanced set comes out and the genuine frames go back. There is no third option where it ships quietly because the banner is no longer there to argue with.
 - **No fusion framing.** Never Japanese-Mexican, Japanese-Californian, or Baja anything, in any copy or image.
 - **Carnitas Ramen: permanent, and it has a photograph. CORRECTED 2026-09-10, at client review.** This line has now been wrong twice in opposite directions, so read the whole thing. It first read as an outright ban. Open Decision #4 corrected that on 2026-08-04 to 'listed, never featured', on the strength of a Brand Positioning line about phasing the dish out quietly. **The client has now confirmed the dish is permanent and gets a photograph.** It appears on `/menu/` with a photograph. `feature` stays `false`, which keeps it out of the location-page bentos and the per-room lists, because 'permanent and photographed' is not 'promote it everywhere'; flipping that flag is a one-line change if the client asks. The fusion-framing ban above is untouched and still absolute: the dish may be shown, the framing may not. See `menu.json` `_carnitasNote`.
 - **No North Park.** Permanently closed.
