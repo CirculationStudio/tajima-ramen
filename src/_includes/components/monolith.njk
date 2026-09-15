@@ -72,11 +72,29 @@
         Light and dark both ship and day is the default. This is a MANUAL
         control: no clock, no prefers-color-scheme.
 
-        Rendered `hidden`. js/theme.js unhides it and sets aria-pressed on
-        init. Without JS it would be a control that does nothing, so it should
-        not be in the accessibility tree at all. The visible label is the
-        accessible name, so nothing overrides it and WCAG 2.5.3 holds; the
-        icons carry the current state and are decorative.
+        Rendered `hidden`. js/theme.js unhides it on init. Without JS it
+        would be a control that does nothing, so it should not be in the
+        accessibility tree at all.
+
+        IT SAYS WHAT CLICKING DOES, NOT WHICH MODE YOU ARE IN, 2026-09-14.
+        The label was "Night mode", which is the right label for a toggle
+        button carrying aria-pressed but is ambiguous to read: it could mean
+        you are in night mode or that clicking gets you there. It now names
+        the destination, and so does the icon.
+
+        THAT IS WHY aria-pressed IS GONE, and it is not an oversight. The
+        two patterns are alternatives and mixing them is the error: a toggle
+        button keeps one label and reports state through aria-pressed, an
+        action button changes its label and reports no pressed state.
+        "Switch to night mode, pressed" is nonsense in either direction. See
+        the note in js/theme.js.
+
+        BOTH LABELS SHIP AND CSS PICKS ONE, the same way the two icons
+        already work. theme-init.njk settles data-mode before first paint
+        and theme.js runs later, so a JavaScript-written label would be
+        wrong for the instant between them. display:none keeps the unused
+        one out of the accessibility tree, so the accessible name is always
+        the single visible string and WCAG 2.5.3 holds.
 
         js/theme.js binds to [data-theme-toggle], so this can move again
         without touching the script.
@@ -89,7 +107,8 @@
         <svg class="tgl__night" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path d="M13.5 9.9A5.9 5.9 0 0 1 6.1 2.5a5.9 5.9 0 1 0 7.4 7.4Z"/>
         </svg>
-        Night mode
+        <span class="tgl__to-night">Switch to night mode</span>
+        <span class="tgl__to-day">Switch to day mode</span>
       </button>
     </div>
 

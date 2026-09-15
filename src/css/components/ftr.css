@@ -151,6 +151,15 @@
   stroke-linecap: round;
 }
 
-/* The visible icon reports the CURRENT mode, matching aria-pressed. */
-[data-mode="night"] .tgl__day { display: none; }
-[data-mode="day"] .tgl__night { display: none; }
+/* THE ICON AND THE LABEL BOTH NAME THE DESTINATION, not the current mode.
+   They used to report the mode you were in, which paired with the old
+   "Night mode" label and its aria-pressed. Now the button says what pressing
+   it does, so in day mode it shows a moon and reads "Switch to night mode",
+   and in night mode a sun and "Switch to day mode".
+
+   display:none rather than visibility or opacity, so the unused label is out
+   of the accessibility tree and the button has exactly one accessible name. */
+[data-mode="night"] .tgl__night,
+[data-mode="night"] .tgl__to-night { display: none; }
+[data-mode="day"] .tgl__day,
+[data-mode="day"] .tgl__to-day { display: none; }

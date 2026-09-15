@@ -18,6 +18,24 @@
 // The control is the footer toggle, next to the colophon. This file does not
 // care which element it is bound to: it binds to [data-theme-toggle], so
 // moving it again is a markup change only.
+//
+// NOTHING HERE WRITES THE LABEL OR aria-pressed, 2026-09-14, and both of those
+// are deliberate.
+//
+// The button now names what pressing it does ("Switch to night mode") rather
+// than which mode you are in, because the old "Night mode" label could be read
+// either way. Both labels and both icons ship in the markup and CSS shows one,
+// keyed off data-mode, exactly as the icons already worked. That matters for
+// timing: theme-init.njk settles data-mode before first paint and this file
+// runs later, so a label written from here would be wrong for the frames in
+// between.
+//
+// aria-pressed went with it. A toggle button keeps one label and reports state
+// through aria-pressed; an action button changes its label and reports no
+// pressed state. Those are alternatives, and mixing them announces
+// "Switch to night mode, pressed", which is nonsense in both directions. The
+// single visible label is the accessible name and it is always correct,
+// because the other one is display:none and out of the tree.
 
 const KEY = "tajima:mode"; // must match components/theme-init.njk
 const MODES = ["day", "night"];
@@ -26,28 +44,16 @@ const root = document.documentElement;
 const toggles = document.querySelectorAll("[data-theme-toggle]");
 
 if (toggles.length) {
-  // Reveal the control now that we know JS is running, and only now.
-  //
-  // It ships `hidden` with no aria-pressed: without JS it would be a button
-  // that does nothing, and the server cannot know the stored preference, so a
-  // server-rendered pressed state would be announced wrongly on every second
-  // load. The visible label ("Night mode") is the accessible name and nothing
-  // here overrides it, so it names the state it controls and reads correctly
-  // in both directions.
+  // Reveal the control now that we know JS is running, and only now. Without
+  // JS it would be a button that does nothing.
   for (const el of toggles) {
     el.hidden = false;
     el.addEventListener("click", toggle);
   }
-  sync();
 }
 
 function current() {
   return MODES.includes(root.dataset.mode) ? root.dataset.mode : "day";
-}
-
-function sync() {
-  const pressed = current() === "night" ? "true" : "false";
-  for (const el of toggles) el.setAttribute("aria-pressed", pressed);
 }
 
 function toggle() {
@@ -59,5 +65,4 @@ function toggle() {
   try {
     localStorage.setItem(KEY, root.dataset.mode);
   } catch (e) {}
-  sync();
 }
