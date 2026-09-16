@@ -1,0 +1,987 @@
+{
+  "_note": "Which Toast catalog row is which menu.json dish. Hand-built and reviewed 2026-09-16, one entry per distinct Toast row name, with the rooms that serve it and how the match was established. Read by src/_data/roomMenus.js.",
+  "_whyThisExists": "Location pages source their menu from src/_data/toastMenus/*.json, and Toast names do not match menu.json names. The join is what attaches a PHOTOGRAPH and a DIETARY MARK to a row, so a wrong entry here is a customer-facing error rather than a cosmetic one. SITE_ARCHITECTURE.md Open Decision #22 had already found two of them; this is the full sweep of all 106 names.",
+  "_method": "Every name was read against its Toast description and the candidate menu.json row. Name similarity ordered the candidates for review and never accepted one. Where Toast carries no description the match rests on the name alone, and the entry says so.",
+  "_rule": "A row in `unmatched` renders from Toast text alone: no dietary mark and no photograph. That is the safe default and it is never a defect. Moving a row out of `unmatched` is a factual claim about a dish and needs its evidence written into `verifiedBy`.",
+  "_collisionRule": "Two Toast rows in one room must not resolve to the same id, or one photograph and one set of dietary marks lands on two dishes a reader can order side by side. Mercury's Spicy Tuna Poke and Tuna Poke were caught doing exactly that. One exception is registered: East Village serves Salmon and Spicy Tuna hand rolls as two rows and menu.json carries one row reading 'Choice of Salmon or Spicy tuna'.",
+  "_sameNameDifferentDish": "Five rows share a name with a San Diego dish and are not that dish: Maui's California Roll, Tajima Roll, Spicy Roll, Tebasaki Wings and Spicy Sesame Ramen. Each is unmatched with its description quoted. This is the failure mode the table exists to prevent.",
+  "_perRoomVariants": "Six dishes carry materially different descriptions between rooms and are the SAME dish: Chicken Ramen (Convoy has baby spinach and red onions, East Village baby bok choy and green onions, already flagged as _chickenRamenVariance), Karaage (plain mayo at Plaza Bonita, spicy mayo elsewhere), Tajima Red (Maui calls it spicy, San Diego does not), and Pork Gyoza, Cream Cheese Wontons, Takoyaki, Shishito Peppers and Tajima Fries where Maui simply writes a terser line. These are per-room wording, not alias candidates.",
+  "_clientQuestions": [
+    "Maui Vegetable Ramen: is it the Vegan Ramen? Toast calls it VEGETABLE and menu.json calls it VEGAN, and the field that would be inherited is dietary:['vegan']. Maui writes 'HM noodles' where the vegan claim rests on the house-made SPINACH noodle. Vegetarian and vegan are different claims and people rely on the distinction, so neither is asserted.",
+    "Maui Pork Fried Rice and Chicken Fried Rice: are these San Diego's Pork Chashu and Chicken Chashu Fried Rice? Chashu is a specific ingredient, not a word dropped for brevity, and Maui carries no description to decide it."
+  ],
+  "_counts": {
+    "distinctToastNames": 110,
+    "verifiedNames": 60,
+    "unmatchedNames": 50,
+    "toastFoodRowsCovered": 244
+  },
+  "verified": [
+    {
+      "toastName": "163 Roll",
+      "id": "163-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "California Roll",
+      "id": "california-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Carnitas Ramen",
+      "id": "carnitas",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Carnitas Roll",
+      "id": "carnitas-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Chicken Chashu Fried Rice",
+      "id": "chicken-chashu-fried-rice",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Chicken Katsu Bun",
+      "id": "chicken-katsu-bun",
+      "rooms": [
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Chicken Katsu Curry",
+      "id": "katsu-curry",
+      "rooms": [
+        "convoy"
+      ],
+      "verifiedBy": "Toast description 'Curry with breaded deep fried chicken cutlet' against menu.json 'Curry with breaded deep fried chicken cutlet or karaage'. menu.json collapses Convoy's two curry rows into one; see Karaage Curry."
+    },
+    {
+      "toastName": "Chicken Ramen",
+      "id": "chicken",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Chicken Teriyaki",
+      "id": "chicken-teriyaki",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Chili Wontons",
+      "id": "chili-wontons",
+      "rooms": [
+        "college-heights",
+        "convoy"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Cinnamon Churros",
+      "id": "cinnamon-churros",
+      "rooms": [
+        "convoy",
+        "east-village"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Combo A",
+      "id": "combo-a",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "verifiedBy": "menu.json spells the contents into the name: 'Combo A: Tajima Ramen + 1 Onigiri'. Plaza Bonita is the only room with combos."
+    },
+    {
+      "toastName": "Combo B",
+      "id": "combo-b",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "verifiedBy": "As Combo A."
+    },
+    {
+      "toastName": "Combo C",
+      "id": "combo-c",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "verifiedBy": "As Combo A."
+    },
+    {
+      "toastName": "Cream Cheese Wontons",
+      "id": "cream-cheese-wontons",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Crispy Rice Spicy Tuna",
+      "id": "crispy-rice-spicy-tuna",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Crunchy Cucumber Salad",
+      "id": "crunchy-cucumber-salad",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Crunchy Dragon",
+      "id": "crunchy-dragon-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Descriptions agree to 0.93. Toast simply drops the word Roll."
+    },
+    {
+      "toastName": "Curry Fries",
+      "id": "curry-fries",
+      "rooms": [
+        "convoy"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Curry Ramen",
+      "id": "curry",
+      "rooms": [
+        "convoy"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Edamame",
+      "id": "edamame",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Garlic Edamame",
+      "id": "garlic-edamame",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Jalapeno Bomb",
+      "id": "jalapeno-bomb",
+      "rooms": [
+        "convoy"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Karaage",
+      "id": "karaage",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Kimchi",
+      "id": "kimchi",
+      "rooms": [
+        "convoy",
+        "east-village"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Matcha Panna Cotta",
+      "id": "matcha-panna-cotta",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Miso Soup",
+      "id": "miso-soup",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Naruto Miso Ramen",
+      "id": "miso",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Open Decision #22. Toast description is a pork bone MISO broth; the only miso ramen in menu.json. Naruto fishcake is the garnish the Toast name is built on."
+    },
+    {
+      "toastName": "Pork Chashu Bowl",
+      "id": "pork-chashu-bowl",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Pork Chashu Fried Rice",
+      "id": "pork-chashu-fried-rice",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Pork Gyoza",
+      "id": "pork-gyoza",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Rainbow Roll",
+      "id": "rainbow-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Salmon Poke",
+      "id": "salmon-poke",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Salmon Sashimi",
+      "id": "salmon-sashimi",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Salmon Sushi Hand Roll",
+      "id": "sushi-hand-roll",
+      "rooms": [
+        "east-village"
+      ],
+      "verifiedBy": "menu.json carries one row offering 'Choice of Salmon or Spicy tuna'; Toast splits it in two. Same dish, one filling."
+    },
+    {
+      "toastName": "Shishito Peppers",
+      "id": "shishito-peppers",
+      "rooms": [
+        "east-village",
+        "maui"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Shrimp Fried Rice",
+      "id": "shrimp-fried-rice",
+      "rooms": [
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Shrimp Tempura",
+      "id": "shrimp-tempura",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Spam Musubi",
+      "id": "spam-musubi",
+      "rooms": [
+        "college-heights",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Spicy Sesame Ramen",
+      "id": "spicy-sesame",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Spicy Tuna Sushi Hand Roll",
+      "id": "sushi-hand-roll",
+      "rooms": [
+        "east-village"
+      ],
+      "verifiedBy": "The other half of the same split."
+    },
+    {
+      "toastName": "Steam Rice",
+      "id": "steam-rice",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "maui",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tajima Black",
+      "id": "tajima-black",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tajima BLACK Ramen",
+      "id": "tajima-black",
+      "rooms": [
+        "maui"
+      ],
+      "verifiedBy": "Name and room. Description names burnt garlic oil, which is what Tajima Black is."
+    },
+    {
+      "toastName": "Tajima Fries",
+      "id": "tajima-fries",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "east-village",
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tajima Ramen",
+      "id": "tajima-white",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "SITE_ARCHITECTURE.md Open Decision #22 records this rename. Toast description is the tonkotsu base, matching Maui's row that IS named Tajima WHITE Ramen. menu.json tajima-white lists all seven rooms."
+    },
+    {
+      "toastName": "Tajima Red",
+      "id": "tajima-red",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tajima RED Ramen",
+      "id": "tajima-red",
+      "rooms": [
+        "maui"
+      ],
+      "verifiedBy": "Name and room. See the variance note: Maui describes it as SPICY and San Diego does not."
+    },
+    {
+      "toastName": "Tajima Roll",
+      "id": "tajima-roll",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tajima WHITE Ramen",
+      "id": "tajima-white",
+      "rooms": [
+        "maui"
+      ],
+      "verifiedBy": "Maui's own naming. Description matches the SD Tajima Ramen row almost word for word, HM noodles aside."
+    },
+    {
+      "toastName": "Takoyaki",
+      "id": "takoyaki",
+      "rooms": [
+        "convoy",
+        "east-village",
+        "maui",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tebasaki Wings",
+      "id": "tebasaki-wings",
+      "rooms": [
+        "convoy",
+        "crown-point"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Traditional Tonkotsu Ramen",
+      "id": "tonkotsu",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury",
+        "plaza-bonita"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tuna Poke",
+      "id": "tuna-poke",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Tuna Sashimi",
+      "id": "tuna-sashimi",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Vegan Ramen",
+      "id": "vegan",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Vegetable Gyoza",
+      "id": "vegetable-gyoza",
+      "rooms": [
+        "maui"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Vegetable Tempura",
+      "id": "vegetable-tempura",
+      "rooms": [
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Vegetarian Fried Rice",
+      "id": "vegetarian-fried-rice",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "verifiedBy": "Exact name match after case and punctuation normalising."
+    },
+    {
+      "toastName": "Xiao Long Bao",
+      "id": "xiaolongbao",
+      "rooms": [
+        "convoy"
+      ],
+      "verifiedBy": "Spacing only."
+    }
+  ],
+  "unmatched": [
+    {
+      "toastName": "California Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui's is 'Crab mix, avocado, cucumber, topped with tobiko, sesame seeds'. Mercury's is 'Kanikama, avocado, and cucumber'. Description similarity 0.18. photos.json's amended _rule says a California Roll is a standard construction that travels between kitchens; these two catalogs say otherwise."
+    },
+    {
+      "toastName": "Chicken Fried Rice",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui. As Pork Fried Rice: San Diego's is Chicken CHASHU Fried Rice. CLIENT QUESTION."
+    },
+    {
+      "toastName": "Chicken Miso Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Chicken Teriyaki Bowl",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui. menu.json has Chicken Teriyaki (San Diego, served with rice and vegetables) and Teriyaki Chicken (Mercury kids). Three names, and nothing confirms Maui's is either."
+    },
+    {
+      "toastName": "Chocolate Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury lists six mochi flavours as six rows. menu.json has one 'Mochi Ice Cream' row reading 'assorted flavors, ask your server'. Mapping six rows to one id would put one photograph and one identity on six different desserts."
+    },
+    {
+      "toastName": "Eel Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui sushi, not in menu.json."
+    },
+    {
+      "toastName": "French Fries",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "east-village",
+        "mercury"
+      ],
+      "why": "A plain side in four rooms. menu.json has Tajima Fries and Curry Fries and no plain fries."
+    },
+    {
+      "toastName": "Garlic Chili Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Garlic Fried Noodle",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only, and the only noodle dish on the site that is not ramen. Not in menu.json."
+    },
+    {
+      "toastName": "Green Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui sushi, not in menu.json."
+    },
+    {
+      "toastName": "Karaage Curry",
+      "rooms": [
+        "convoy"
+      ],
+      "why": "Convoy serves Karaage Curry AND Chicken Katsu Curry as separate rows. menu.json has one katsu-curry row whose description says 'cutlet or karaage', so the two Toast rows cannot both map to it without one of them claiming the other's dish."
+    },
+    {
+      "toastName": "Katsu Curry Rice",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui. menu.json's katsu-curry is Convoy's dish; Maui's is 'Rice, homemade curry sauce, katsu', a different plate."
+    },
+    {
+      "toastName": "Kimchee Cucumber",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only. Not in menu.json; the nearest row, Crunchy Cucumber Salad, is a different preparation."
+    },
+    {
+      "toastName": "Lychee Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Chocolate Mochi."
+    },
+    {
+      "toastName": "Mango Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Chocolate Mochi."
+    },
+    {
+      "toastName": "Matcha Green Tea Cheese Cake",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only. Not in menu.json."
+    },
+    {
+      "toastName": "Matcha Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Chocolate Mochi."
+    },
+    {
+      "toastName": "Mix Sashimi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury. menu.json's 'Sashimi Combo' is 2+2+2 slices; Toast's is two pieces each on mixed wakame. Close, and not the same plate."
+    },
+    {
+      "toastName": "Negi Toro Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui sushi, not in menu.json."
+    },
+    {
+      "toastName": "NY Cheese Cake",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only. Not in menu.json."
+    },
+    {
+      "toastName": "Philadelphia Roll",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury sushi, not in menu.json."
+    },
+    {
+      "toastName": "Plain Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "Plaza Bonita lists ten onigiri fillings as ten rows; menu.json has one 'Onigiri' row that names the fillings in its description. Same collapse as the mochi."
+    },
+    {
+      "toastName": "Pork Belly Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Pork Fried Rice",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui. San Diego's row is Pork CHASHU Fried Rice, and chashu is a specific ingredient rather than a word dropped for brevity. Maui may be shortening the name or may be serving a different preparation, and with no Toast description there is nothing that decides it. CLIENT QUESTION."
+    },
+    {
+      "toastName": "Regular Fries",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui's plain side. Not in menu.json."
+    },
+    {
+      "toastName": "Salmon Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Seaweed Salad",
+      "rooms": [
+        "college-heights",
+        "east-village",
+        "mercury"
+      ],
+      "why": "Three rooms. Not in menu.json."
+    },
+    {
+      "toastName": "Shrimp Crunchy Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui sushi, not in menu.json."
+    },
+    {
+      "toastName": "Shrimp Tempura Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Spicy Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "menu.json's spicy-roll is a Mercury row. Toast's only 'Spicy Roll' is at Maui, and Mercury instead lists three spicy rolls by fish. The name crosses rooms in the wrong direction."
+    },
+    {
+      "toastName": "Spicy Salmon Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Spicy Salmon Roll",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury lists three spicy rolls by fish. menu.json collapses them into one 'Spicy Roll' row reading 'your choice of fish'. Toast's own 'Spicy Roll' row exists only at Maui, so the collapsed row cannot be keyed by name without crossing rooms."
+    },
+    {
+      "toastName": "Spicy Sesame Ramen",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Convoy names the sesame paste, ground pork, wood ear mushrooms and dried chili. Maui's reads as a plain spicy tonkotsu with chashu and no sesame paste at all. Similarity 0.50 on a dish whose whole identity is the sesame."
+    },
+    {
+      "toastName": "Spicy Tuna Mayo Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Spicy Tuna Poke",
+      "rooms": [
+        "college-heights",
+        "convoy",
+        "mercury"
+      ],
+      "why": "Mercury serves this AND 'Tuna Poke' as separate rows, so they are not the same bowl: menu.json's tuna-poke is 'fresh tuna with sweet shoyu sauce' and this is 'spicy tuna, spicy mayo'. Mapping both would have put one photograph and one dietary mark on two dishes a reader can order side by side. menu.json has no row for the spicy version."
+    },
+    {
+      "toastName": "Spicy Tuna Roll",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Spicy Salmon Roll."
+    },
+    {
+      "toastName": "Spicy Yellowtail Roll",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Spicy Salmon Roll."
+    },
+    {
+      "toastName": "Strawberry Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Chocolate Mochi."
+    },
+    {
+      "toastName": "Sushi Rice",
+      "rooms": [
+        "east-village",
+        "mercury"
+      ],
+      "why": "Two rooms. Not in menu.json."
+    },
+    {
+      "toastName": "Tajima Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui's is 'Topped with HM chashu, avocado cream cheese, spicy mayo, eel sauce, garlic crunchy sauce, green onion'. Mercury's is 'Avocado, kanikama, gobo, asparagus, and kaiware, topped with tuna tataki, butter ponzu cilantro sauce'. Similarity 0.15. Different rolls sharing a name, which is what dishPhotos.js HELD pending an answer. The Toast data answers it."
+    },
+    {
+      "toastName": "Tebasaki Wings",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Convoy: 'Crispy chicken with chili and teriyaki sauce'. Maui: 'Four pieces, crispy chicken, special sauces'. Similarity 0.18, and 'special sauces' names nothing."
+    },
+    {
+      "toastName": "Tofu Curry Rice",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only. Not in menu.json."
+    },
+    {
+      "toastName": "Tofu Fried Rice",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui only. menu.json's Vegetarian Fried Rice is a San Diego row with a different description."
+    },
+    {
+      "toastName": "Toro Taku Roll",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui sushi, not in menu.json."
+    },
+    {
+      "toastName": "Tuna Mayo Onigiri",
+      "rooms": [
+        "plaza-bonita"
+      ],
+      "why": "As Plain Onigiri."
+    },
+    {
+      "toastName": "Vanilla Ice Cream",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui's single flavour. menu.json's 'Ice Cream' row is Convoy only and reads 'Vanilla with strawberry syrup or Matcha with chocolate syrup', which is a different offer."
+    },
+    {
+      "toastName": "Vanilla Mochi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "As Chocolate Mochi."
+    },
+    {
+      "toastName": "Vegetable Ramen",
+      "rooms": [
+        "maui"
+      ],
+      "why": "Maui, and the one where a wrong match publishes a claim rather than a label. The ingredients line up almost exactly with Vegan Ramen (creamy soy broth, marinated tofu, braised takenoko, wood ear mushrooms, baby bok choy, corn, sesame). Three things stop it: Toast calls it VEGETABLE and menu.json calls it VEGAN; Maui's noodle is written 'HM noodles' where the vegan claim rests on the house-made SPINACH noodle; and menu.json's vegan row does not list Maui. The inherited field is dietary:['vegan'], which CLAUDE.md says must come from verified client data only. Vegetarian and vegan are different claims and people with allergies and ethics rely on the distinction. CLIENT QUESTION."
+    },
+    {
+      "toastName": "Vegetable Roll",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury sushi, not in menu.json."
+    },
+    {
+      "toastName": "Yellow Tail Sashimi",
+      "rooms": [
+        "mercury"
+      ],
+      "why": "Mercury. menu.json spells it 'Yellowtail Sashimi' as one word, but see the uncertain list rather than this one."
+    }
+  ]
+}

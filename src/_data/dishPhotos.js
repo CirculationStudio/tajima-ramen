@@ -66,7 +66,6 @@ const VERIFIED = {
   "katsu-curry": "tajima-ramen-convoy-katsu-curry-01.webp",
   "cinnamon-churros": "tajima-ramen-convoy-cinnamon-churros-01.webp",
   "edamame": "tajima-ramen-convoy-edamame-02.webp",
-  "california-roll": "tajima-ramen-california-roll-close-up-kihei.webp",
   "vegetable-gyoza": "tajima-ramen-vegetable-gyoza-kihei.webp",
 
   // --- Maui's own, checked 2026-09-14 -----------------------------------
@@ -77,6 +76,41 @@ const VERIFIED = {
 };
 
 /**
+ * PULLED 2026-09-16, and it had shipped.
+ *
+ *   California Roll -> tajima-ramen-california-roll-close-up-kihei.webp
+ *     A KIHEI photograph on a dish menu.json lists at MERCURY ONLY. It was
+ *     placed under the amended `_rule`, on the reasoning that "a California
+ *     Roll is a standard construction and travels between kitchens". The two
+ *     Toast catalogs say it does not:
+ *
+ *       Maui     Crab mix, avocado, cucumber, topped with tobiko, sesame seeds.
+ *       Mercury  Kanikama, avocado, and cucumber.
+ *
+ *     Description similarity 0.18. Different fillings, different topping, and
+ *     kanikama is not crab. The photograph shows Maui's roll and the page it
+ *     appeared on serves Mercury's.
+ *
+ * THE HOLD ON THE HOUSE-NAMED ROLLS IS RESOLVED, AND THE ANSWER IS NO.
+ *
+ * This file used to ask "are Mercury's and Maui's the same roll?" and hold two
+ * photographs pending an answer. The Toast catalogs answer it:
+ *
+ *   Tajima Roll  Maui     HM chashu, avocado cream cheese, spicy mayo, eel
+ *                         sauce, garlic crunchy sauce, green onion.
+ *                Mercury  Avocado, kanikama, gobo, asparagus and kaiware,
+ *                         topped with tuna tataki, butter ponzu cilantro.
+ *                         Similarity 0.15.
+ *
+ *   Spicy Roll   Toast has one, at MAUI. Mercury does not carry a row of that
+ *                name at all: it lists Spicy Salmon, Spicy Tuna and Spicy
+ *                Yellowtail separately. menu.json's `spicy-roll` is a Mercury
+ *                row collapsing those three, so the name crosses rooms in the
+ *                wrong direction.
+ *
+ * Both stay unplaced, now as a decision rather than a question. See
+ * src/_data/menuAliases.json.
+ *
  * REJECTED on sight. The sheet asserts these and the photograph does not.
  *
  *   Shrimp Fried Rice -> tajima-ramen-shrimp-fried-rice-plated-kihei.webp
@@ -91,11 +125,8 @@ const VERIFIED = {
  *   Spicy Roll*  -> tajima-ramen-spicy-tuna-roll-kihei.webp
  *   Tajima Roll* -> tajima-ramen-tajima-roll-kihei.webp
  *     Both are Kihei photographs the sheet assigns to MERCURY menu rows.
- *     House-named rolls are the exception the amended `_rule` names: a
- *     California Roll is a standard construction and travels, a roll a kitchen
- *     invented and named after itself does not travel on the strength of a
- *     shared name. Mercury also has a "Mercury Roll" of its own, which is the
- *     tell. Ask whether Mercury's and Maui's are the same roll.
+ *     Resolved above on the catalogs rather than left open: they are not the
+ *     same rolls. Still unplaced.
  *
  * NO LOCAL FILE, and each is also on CLIENT_FACTS.md's do-not-feature list, so
  * fetching them would be work in service of something we may not publish:
