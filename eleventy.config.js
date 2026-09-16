@@ -17,6 +17,63 @@ import { fileURLToPath } from "node:url";
 import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
 import tailwindcss from "@tailwindcss/vite";
 import photos from "./src/_data/photos.json" with { type: "json" };
+import menuData from "./src/_data/menu.json" with { type: "json" };
+import menuConcepts from "./src/_data/menuConcepts.json" with { type: "json" };
+import locationsData from "./src/_data/locations.json" with { type: "json" };
+
+/**
+ * THE SPINE TONES HAVE TO SURVIVE CONTACT WITH EVERY ROOM'S ACTUAL MENU.
+ *
+ * The reference gives the menu module four tones and there are eight sections,
+ * so four sections reuse one. Reuse is fine. Two TOUCHING bands wearing the
+ * same tone is not, because then the spine stops separating anything and a
+ * reader sees one long block where there are two sections.
+ *
+ * Which bands touch depends on data, not on the tone table: a room renders only
+ * the sections it has dishes in, so Mercury's seven bands and Plaza Bonita's
+ * three produce different adjacencies from the same assignment. That is exactly
+ * the kind of thing that is correct when written and quietly wrong six weeks
+ * later when a room drops a section.
+ *
+ * So it is checked here, at module load, against every room's real sequence,
+ * and it throws. Same mechanism as the photo manifest's draft-alt guard: a
+ * build that would ship the fault does not complete.
+ */
+function assertNoAdjacentToneClash() {
+  const order = menuConcepts.sectionOrder || [];
+  const tones = menuConcepts.barTones || {};
+  const problems = [];
+
+  for (const loc of locationsData.items) {
+    const bands = order.filter((section) =>
+      menuData.items.some(
+        (item) =>
+          item.section === section &&
+          (item.locations || []).includes(loc.id),
+      ),
+    );
+    for (let i = 0; i < bands.length - 1; i += 1) {
+      const a = bands[i];
+      const b = bands[i + 1];
+      if (tones[a] && tones[a] === tones[b]) {
+        problems.push(`${loc.id}: "${a}" and "${b}" both render ${tones[a]}`);
+      }
+    }
+    const missing = bands.filter((section) => !tones[section]);
+    if (missing.length) {
+      problems.push(`${loc.id}: no tone assigned for ${missing.join(", ")}`);
+    }
+  }
+
+  if (problems.length) {
+    throw new Error(
+      "menuConcepts.barTones: touching bands share a tone, so the spine stops " +
+        "separating them. Reassign in src/_data/menuConcepts.json.\n  " +
+        problems.join("\n  "),
+    );
+  }
+}
+assertNoAdjacentToneClash();
 
 // Static, served-verbatim files (Cloudflare _headers/_redirects,
 // site.webmanifest, fonts, favicons) live in the project-root public/ dir.

@@ -60,11 +60,25 @@
   through that path.
 -#}
 {%- set mcPhotos = mcPhotoScope | default("location") %}
-{%- set sections = [
-  { key: "izakaya", label: "Izakaya" },
-  { key: "ramen",   label: "Ramen" },
-  { key: "dessert", label: "Dessert" }
-] %}
+{#-
+  THE SECTION LIST IS DATA NOW, 2026-09-15. It was three keys hardcoded here,
+  which was true while menu.json held fourteen dishes and three sections. The
+  file is the full catalog since Connor's dish sheet landed and carries eight:
+  izakaya, ramen, rice, sushi, monthly special, dessert, kids, combo.
+
+  A room renders only the sections it has dishes in, so the count varies and
+  that is the point. Mercury renders seven, Plaza Bonita three, the other four
+  San Diego rooms four, Maui two. The old hardcoded three would have hidden
+  thirty-nine of Mercury's forty-seven dishes.
+
+  Order and labels come from menuConcepts.json. The spine tones are checked
+  against every room's real band sequence by a guard in eleventy.config.js that
+  fails the build if two touching bands share a tone.
+-#}
+{%- set sections = [] %}
+{%- for key in menuConcepts.sectionOrder %}
+  {%- set sections = (sections.push({ key: key, label: menuConcepts.sectionLabels[key] }), sections) %}
+{%- endfor %}
 
 {%- if mcChromeOn %}
 <div class="mc__mast">
@@ -88,11 +102,20 @@
 {%- set cut = menuConcepts.cuts[section.key] %}
 {%- set featured = rows | firstWithReviewedPhoto %}
 
-{%- if cut %}
+{%- if not loop.first %}
 {#- The cut. A brand mark sitting in the spine column, then a hairline across
-    the rest. Decorative divider, so it is hidden from assistive technology. -#}
+    the rest. Decorative divider, so it is hidden from assistive technology.
+
+    THE RULE ALWAYS DRAWS, THE MARK ONLY SOMETIMES. Four of the eight sections
+    have no matching sprite icon (sushi, monthly special, kids, combo: the
+    sprite is twelve marks and every one is a ramen component, an izakaya dish
+    or the wordmark). DESIGN_SYSTEM.md says where no icon matches, use none, so
+    those get no mark. They still get the rule, because a band with no cut mark
+    is not a band with no divider: without it Mercury's seven sections would run
+    into each other. The mark column keeps its width either way so the rules all
+    start at the same x. -#}
 <div class="mc-cut" aria-hidden="true">
-  <span class="mc-cut__mark"><svg><use href="#i-{{ cut }}"></use></svg></span>
+  <span class="mc-cut__mark">{% if cut %}<svg><use href="#i-{{ cut }}"></use></svg>{% endif %}</span>
   <span class="mc-cut__rule"></span>
 </div>
 {%- endif %}
@@ -154,7 +177,16 @@
               <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
             </span>
             {%- else %}
-            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-{{ ornament }}"></use></svg></span>
+            {#- The placeholder falls back to the ramen bowl when its own
+                section has no ornament. Four of the eight sections have no
+                matching sprite icon, and without a fallback their tiles
+                rendered as an empty tinted square, which reads as a broken
+                image rather than a designed empty state. The band's ghosted
+                ARTWORK stays absent for those sections, because that is a
+                field ornament and "where no icon matches, use none" still
+                holds there; this is a 92px tile that has to look like
+                something. -#}
+            <span class="mc-shot mc-shot--none" aria-hidden="true"><svg><use href="#i-{{ ornament | default('ramen-bowl') }}"></use></svg></span>
             {%- endif %}
             <div class="mc-plate__text">
               <p class="mc-plate__head">

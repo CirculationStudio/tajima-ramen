@@ -1,6 +1,6 @@
 {
   "_note": "Menu data layer per SITE_ARCHITECTURE.md. One row per dish. Feeds /menu/, the home teaser, and Menu schema. CLAUDE.md is explicit: menu items, descriptions, and prices are NEVER generated or modified without client approval.",
-  "_status": "INCOMPLETE AND NOT LAUNCH-READY. This file holds only the ten dishes confirmed in CLIENT_FACTS.md, at brand-level prices. It is NOT the per-location menu. SITE_ARCHITECTURE.md Open Decision #12: we do not know what each location actually serves, Toast is the seed source, and /menu/ cannot ship until that pull happens.",
+  "_status": "THIS FILE IS NOW THE CATALOG, not a highlight reel. Rebuilt 2026-09-15 from Connor's dish sheet: 73 rows covering the six San Diego rooms, against the 14 it carried before.\n\nWHAT THE OLD NOTE SAID AND WHY IT IS GONE. It read \"INCOMPLETE AND NOT LAUNCH-READY ... this is NOT the per-location menu\" and pointed at Open Decision #12, which the Toast pull closed on 2026-08-04. The sheet closes the rest: per-room availability for every row, from the operator.\n\nWHY IT HAD TO GROW. The sheet shows there is no brand-wide menu worth the name. Eight dishes are served at all six rooms and eight more at five, all missing only Plaza Bonita. Mercury carries 47 rows against Crown Point's 21 and is a substantially different restaurant. A 14-row file could not describe that, so /menu/ was describing a menu nobody serves.\n\nPRICES ARE STILL ABSENT AND STAY ABSENT. Every new row carries price: null. See _priceStatus.",
   "_availabilityStatus": "SEEDED 2026-08-04 from all seven live Toast catalogs. Open Decision #12 closes. Every row's `locations` is derived by exact name match against src/_data/toastMenus/*.json through an explicit alias table, because three separate substring matchers on this project produced wrong answers. TWO ALIASES ARE NAME CONFLICTS, not typos, and are flagged in _nameConflicts below.",
   "_descriptionStatus": "TWO KINDS OF DESCRIPTION IN THIS FILE, and they are not equally settled.\n\n1. DRAFT, PENDING CLIENT APPROVAL. The rows carried over from the design concept (tonkotsu, red, black, white, spicy sesame, vegan) are ingredient lists from that artifact with unconfirmed claims removed: the concept's 'simmered twelve hours' has no source in CLIENT_FACTS.md and is not repeated here, and no description asserts anything about flour, hydration, water, alkalinity, aging or noodle cadence. Amanda must sign these off before launch.\n\n2. THE CLIENT'S OWN WORDS, from their 2026-07 printed menus in public/menus/. Curry Ramen (added 2026-09-10) and, from 2026-09-14, Pork Gyoza, Karaage, Garlic Edamame, Matcha Panna Cotta, Chicken Ramen and Carnitas Ramen. Each carries a _descriptionSource quoting the printed line it came from and naming every room whose menu prints it. These still want a sign-off, but they are transcription rather than drafting, which is a different thing to be asked to approve.\n\nNOTHING IN THIS FILE IS GENERATED, AND NOTHING MAY BE. CLAUDE.md: menu items, descriptions and prices are never generated or modified without explicit client approval. If a dish has no description on the printed menus, it gets a null and waits. Miso Ramen is the one such row: see its _descriptionGap.",
   "_priceStatus": "NOT FOR DISPLAY. RESOLVED 2026-09-10 at client review: /menu/ prints no prices at all, and the per-location printable menus in public/menus/ are the only place a price appears on this site.\n\nTHE FIELD STAYS AND MUST NOT BE RENDERED. It is a record of what the brand prices were, and deleting it would lose that record, but every value in it is stale and none may reach a page. History, for whoever reads this next: as of 2026-08-04 nine of the thirteen were below live Convoy, every ramen by fifty cents except Miso Ramen, which was fifty cents OVER; the four appetiser and dessert prices matched Convoy exactly. Prices also vary by room, with Plaza Bonita below the other San Diego rooms and Maui above them, so a single brand price could never have been right for all seven. The 2026-07 printed menus confirmed both of those findings.\n\nNo `offers` is emitted in schema and none should be. Verified 2026-09-10: no price string reaches any built page, and the schema graph contains no offers and no price.",
@@ -207,19 +207,12 @@
       "name": "Miso Ramen",
       "shortName": "Miso Ramen",
       "emphasis": null,
-      "description": null,
+      "description": "Pork bone broth with miso, pork chashu, half a ramen egg, corn, baby bok choy, fried garlic, green onion, butter, sesame seeds.",
       "descriptionTbc": "No ingredient list confirmed in CLIENT_FACTS.md.",
       "price": "18.50",
       "feature": false,
       "featureNote": "Not in the CLIENT_FACTS.md 'lead with' set. Renders as a plain line, never a hero or card.",
-      "locations": [
-        "convoy",
-        "mercury",
-        "east-village",
-        "college-heights",
-        "crown-point",
-        "plaza-bonita"
-      ],
+      "locations": [],
       "dietary": [],
       "image": null,
       "alt": null,
@@ -227,7 +220,9 @@
       "tier": null,
       "romaji": null,
       "locationsSource": "Derived 2026-08-04 from the seven live Toast catalogs in src/_data/toastMenus/, by exact item-name match through an explicit alias table. Not inferred.",
-      "_descriptionGap": "NULL, AND IT STAYS NULL UNTIL AMANDA SUPPLIES ONE. Checked 2026-09-14 against all six 2026-07 printed menus in public/menus/: none of them carries a Miso Ramen at all, so there is no client text to transcribe. Mercury prints a MISO SOUP ('tofu, green onion, and seaweed'), which is a different dish and must not be borrowed for this row.\n\nThis compounds the name conflict already recorded in _nameConflicts: Toast calls this item Naruto Miso Ramen, the printed menus do not list it, and this file prints 'Miso Ramen'. Two of the three disagree with each other, so ask Amanda what the dish is called and what is in it in the same message. Do not write a description from the ingredients of a soup."
+      "_descriptionGap": "NULL, AND IT STAYS NULL UNTIL AMANDA SUPPLIES ONE. Checked 2026-09-14 against all six 2026-07 printed menus in public/menus/: none of them carries a Miso Ramen at all, so there is no client text to transcribe. Mercury prints a MISO SOUP ('tofu, green onion, and seaweed'), which is a different dish and must not be borrowed for this row.\n\nThis compounds the name conflict already recorded in _nameConflicts: Toast calls this item Naruto Miso Ramen, the printed menus do not list it, and this file prints 'Miso Ramen'. Two of the three disagree with each other, so ask Amanda what the dish is called and what is in it in the same message. Do not write a description from the ingredients of a soup.",
+      "_pulled": "PULLED 2026-09-15. Served at zero locations.\n\nTWO INDEPENDENT SOURCES AGREE and they resolve what was an open question. Connor's 2026-09-15 dish sheet marks this row at zero of six rooms, and all six 2026-07 printed menus in public/menus/ omit the dish entirely. Before today this row claimed all six on the strength of the Toast pull alone.\n\nTHE TOAST CATALOGS STILL DISAGREE and that is recorded, not erased. The live catalogs pulled 2026-08-04 list \"Naruto Miso Ramen\" at all six San Diego rooms. So: two sources say the dish is not served, one says it is, and the one that says it is calls it by a different name. See _nameConflicts.\n\nWHAT TO ASK: is Naruto Miso Ramen still served, and if so why is it on neither the printed menus nor the dish sheet? A Toast catalog can carry a retired item; a printed menu and a hand-kept sheet agreeing that it is gone is the stronger reading, which is why the row is at zero rather than deleted. The row survives with its description and its history so restoring it is one edit.\n\nThe description arrived in the same pass, from the sheet, and is kept: if the dish comes back we will not have to source it again.",
+      "_descriptionSource": "Sourced 2026-09-15 from Connor's dish sheet row 33, through this file's house transform. Written down even though the row is at zero locations, because the dish having a description is not the same question as the dish being served."
     },
     {
       "id": "curry",
@@ -401,6 +396,816 @@
       "imageWidth": 854,
       "imageHeight": 1280,
       "_descriptionSource": "SOURCED 2026-09-14 from the printed menus, same route as the Curry Ramen row. Lifted from the client's own 2026-07 printed menus in public/menus/ and put into this file's house style, the same transform every other row here has had (sentence case, a closing period, the fraction written out, the trailing 'and' dropped). Nothing was written. CLAUDE.md: menu descriptions are never generated.\n\nPrinted text, identical at Convoy, College Heights, Crown Point, East Village and Mercury: 'creamy gelatin matcha pudding topped with mixed berries'. No variation anywhere. Plaza Bonita prints no dessert section, which matches this row's `locations`."
+    },
+    {
+      "id": "tajima-fries",
+      "section": "izakaya",
+      "name": "Tajima Fries",
+      "description": "French fries, minced pork, onion, topped with mozzarella cheese and spicy mayo.",
+      "price": null,
+      "feature": false,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 3. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. ON THE CLIENT_FACTS.md DO-NOT-FEATURE LIST, so `feature` is false: listed plainly, never a hero, card, callout or photo slot. The sheet supplies a photograph for it; a photograph is not a permission."
+    },
+    {
+      "id": "tebasaki-wings",
+      "section": "izakaya",
+      "name": "Tebasaki Wings",
+      "description": "Crispy chicken with chili and teriyaki sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy",
+        "crown-point"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 4. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "crunchy-cucumber-salad",
+      "section": "izakaya",
+      "name": "Crunchy Cucumber Salad",
+      "description": "Chopped crunchy cucumber topped with house made fried chili oil and sesame seeds.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 7. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "cream-cheese-wontons",
+      "section": "izakaya",
+      "name": "Cream Cheese Wontons",
+      "description": "Deep-fried cream cheese in wonton skin served with sweet & sour sauce.",
+      "price": null,
+      "feature": false,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 8. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. ON THE CLIENT_FACTS.md DO-NOT-FEATURE LIST, so `feature` is false: listed plainly, never a hero, card, callout or photo slot. The sheet supplies a photograph for it; a photograph is not a permission."
+    },
+    {
+      "id": "chicken-katsu-bun",
+      "section": "izakaya",
+      "name": "Chicken Katsu Bun",
+      "description": "Steamed bun with crispy chicken cutlet glazed in a house sauce, shredded cabbage, mayo mustard.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 9. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "spam-musubi",
+      "section": "izakaya",
+      "name": "Spam Musubi",
+      "description": "Grilled spam on top of rice with sweet sauce wrapped with nori.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 10. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "crispy-rice-spicy-tuna",
+      "section": "izakaya",
+      "name": "Crispy Rice Spicy Tuna",
+      "description": "Crispy rice topped with avocado, spicy tuna, jalapeño slices drizzled with a sweet sauce.",
+      "price": null,
+      "feature": false,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 11. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. ON THE CLIENT_FACTS.md DO-NOT-FEATURE LIST, so `feature` is false: listed plainly, never a hero, card, callout or photo slot. The sheet supplies a photograph for it; a photograph is not a permission."
+    },
+    {
+      "id": "takoyaki",
+      "section": "izakaya",
+      "name": "Takoyaki",
+      "description": "Octopus fritters topped with brown sauce, mayo, bonito flakes, seaweed flakes.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 12. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "curry-fries",
+      "section": "izakaya",
+      "name": "Curry Fries",
+      "description": "Crunchy fries topped with ground pork, melted mozzarella.",
+      "price": null,
+      "feature": false,
+      "locations": [
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 13. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. ON THE CLIENT_FACTS.md DO-NOT-FEATURE LIST, so `feature` is false: listed plainly, never a hero, card, callout or photo slot. The sheet supplies a photograph for it; a photograph is not a permission."
+    },
+    {
+      "id": "glazed-popcorn-shrimp",
+      "section": "izakaya",
+      "name": "Glazed Popcorn Shrimp",
+      "description": "Tempura battered fried shrimp glazed with sweet chili sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 14. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "jalapeno-bomb",
+      "section": "izakaya",
+      "name": "Jalapeño Bomb",
+      "description": "Deep fried stuffed jalapeño with cream cheese and spicy tuna, topped with spicy mayonnaise and eel sauce.",
+      "price": null,
+      "feature": false,
+      "locations": [
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 15. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. ON THE CLIENT_FACTS.md DO-NOT-FEATURE LIST, so `feature` is false: listed plainly, never a hero, card, callout or photo slot. The sheet supplies a photograph for it; a photograph is not a permission."
+    },
+    {
+      "id": "kimchi",
+      "section": "izakaya",
+      "name": "Kimchi",
+      "description": "Spicy and sour pickled napa cabbage.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy",
+        "east-village"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 16. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "sushi-hand-roll",
+      "section": "izakaya",
+      "name": "Sushi Hand Roll",
+      "description": "Sushi rice, sesame seeds, Japanese seaweed Choice of Salmon or Spicy tuna w/ spicy mayo.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "east-village"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 17. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "shishito-peppers",
+      "section": "izakaya",
+      "name": "Shishito Peppers",
+      "description": "Sautéed sweet chili peppers with garlic.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "east-village"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 18. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "brussels-sprouts-tempura",
+      "section": "izakaya",
+      "name": "Brussels Sprouts Tempura",
+      "description": "Brussels sprouts cooked in tempura style, served with house butter sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 19. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "vegetable-gyoza",
+      "section": "izakaya",
+      "name": "Vegetable Gyoza",
+      "description": "Pan-fried vegetable dumplings served with gyoza sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 20. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "shrimp-tempura",
+      "section": "izakaya",
+      "name": "Shrimp Tempura",
+      "description": "Shrimp fried tempura style.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 21. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "vegetable-tempura",
+      "section": "izakaya",
+      "name": "Vegetable Tempura",
+      "description": "Deep fried mixed vegetables with tempura batter served with tempura sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 22. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "miso-soup",
+      "section": "izakaya",
+      "name": "Miso Soup",
+      "description": "Tofu, green onion, seaweed.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 23. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "onigiri",
+      "section": "izakaya",
+      "name": "Onigiri",
+      "description": "Filled rice ball topped with furikake and wrapped with nori. Options include: Spam Musubi, Tuna mayo, Spicy tuna mayo, Salmon, Shrimp Tempura, Pork Belly, Chicken Miso, Garlic Chili, Plain.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "plaza-bonita"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 24. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "mini-ramen",
+      "section": "ramen",
+      "name": "Mini Ramen",
+      "description": "Original pork bone broth, egg noodles, seasoned ground pork, corn, diced onions, cilantro, sesame seeds (spicy option available).",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "plaza-bonita"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 35. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "salmon-poke",
+      "section": "rice",
+      "name": "Salmon Poke",
+      "description": "Salmon with sweet shoyu sauce, avocado, seaweed salad, wonton crunch, furikake over steamed rice.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [
+        "raw"
+      ],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 36. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. NAME CARRIES AN ASTERISK IN THE SHEET, which is that menu's raw or undercooked marker, so this row is flagged `raw`. That is the first data behind the legend's raw mark."
+    },
+    {
+      "id": "pork-chashu-fried-rice",
+      "section": "rice",
+      "name": "Pork Chashu Fried Rice",
+      "description": "Pork chashu, rice, egg, green peas, carrots, onions, corn, sesame seeds, baby bok choy with fried chili oil on the side.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 37. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "chicken-chashu-fried-rice",
+      "section": "rice",
+      "name": "Chicken Chashu Fried Rice",
+      "description": "Chicken chashu, rice, egg, green peas, carrots, onions, corn, baby bok choy with fried chili oil on the side.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 38. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "vegetarian-fried-rice",
+      "section": "rice",
+      "name": "Vegetarian Fried Rice",
+      "description": "Grilled marinated tofu, rice, egg, green peas, carrots, onions, baby bok choy with fried chili oil on the side.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 39. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "chicken-teriyaki",
+      "section": "rice",
+      "name": "Chicken Teriyaki",
+      "description": "Stir fry chicken with teriyaki sauce served with white rice, broccoli, mixed vegetables.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 40. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "pork-chashu-bowl",
+      "section": "rice",
+      "name": "Pork Chashu Bowl",
+      "description": "Sliced pork chashu with sweet sauce, green onions, sesame seeds on top of white rice.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy",
+        "crown-point",
+        "east-village"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 41. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "katsu-curry",
+      "section": "rice",
+      "name": "Katsu Curry",
+      "description": "Curry with breaded deep fried chicken cutlet or karaage.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 42. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "karaage-bowl",
+      "section": "rice",
+      "name": "Karaage Bowl",
+      "description": "Karaage, shredded cabbage, green onions, sesame seeds, topped with spicy mayo and served over white rice.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 43. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "steam-rice",
+      "section": "rice",
+      "name": "Steam Rice",
+      "description": "Steamed white rice.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 44. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "chicken-katsu-bowl",
+      "section": "rice",
+      "name": "Chicken Katsu Bowl",
+      "description": "Crispy chicken cutlet glazed with house sauce, green onions, half a ramen egg, mustard, sesame seeds, served over white rice.",
+      "price": null,
+      "feature": true,
+      "locations": [],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 45. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "shrimp-fried-rice",
+      "section": "rice",
+      "name": "Shrimp Fried Rice",
+      "description": "Shrimp rice stir-fried with egg, peas, carrots, onions, corn, sesame seeds, baby bok choy, served with fried chili oil on the side.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 46. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "tuna-poke",
+      "section": "rice",
+      "name": "Tuna Poke",
+      "description": "Fresh tuna with sweet shoyu sauce, avocado, seaweed salad, wonton crunch, furikake served over steamed rice.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 47. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "ice-cream",
+      "section": "dessert",
+      "name": "Ice Cream",
+      "description": "Vanilla with strawberry syrup or Matcha with chocolate syrup.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 49. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "cinnamon-churros",
+      "section": "dessert",
+      "name": "Cinnamon Churros",
+      "description": "Crispy churros dusted with cinnamon sugar.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy",
+        "east-village"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 50. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "mochi-ice-cream",
+      "section": "dessert",
+      "name": "Mochi Ice Cream",
+      "description": "Assorted flavors available, ask your server.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 51. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated.",
+      "_descriptionSource": "Sourced 2026-09-15 from the sheet row 51. TWO MECHANICAL FIXES, neither of them a rewording. The sheet separates the two halves of that line with an em dash; it is a comma here, because CLAUDE.md bans em dashes everywhere, data included, and the ban is why the original is described rather than quoted. The sheet ends on an exclamation mark and the house transform appended a period after it, giving two terminators; it ends on one period now. The words are the client's."
+    },
+    {
+      "id": "teriyaki-chicken",
+      "section": "kids",
+      "name": "Teriyaki Chicken",
+      "description": "Served with steamed rice (For guests 12 & under).",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 52. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "california-roll",
+      "section": "sushi",
+      "name": "California Roll",
+      "description": "Kanikama, avocado, cucumber.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 53. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "carnitas-roll",
+      "section": "sushi",
+      "name": "Carnitas Roll",
+      "description": "House-made carnitas mixed with cream cheese, avocado, sliced onion, comes with spicy ponzu sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 54. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "crunchy-dragon-roll",
+      "section": "sushi",
+      "name": "Crunchy Dragon Roll",
+      "description": "Shrimp tempura, kanikama, cucumber, gobo & kaiware; topped with avocado, house-made tempura crunchies & eel sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 55. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "mercury-roll",
+      "section": "sushi",
+      "name": "Mercury Roll",
+      "description": "Deep fried roll with kanikama, avocado, cucumber topped with eel sauce, spicy mayo, masago, green onion.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 56. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "rainbow-roll",
+      "section": "sushi",
+      "name": "Rainbow Roll",
+      "description": "Kanikama, avocado, cucumber topped with salmon, tuna, yellowtail, shrimp.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [
+        "raw"
+      ],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 57. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. NAME CARRIES AN ASTERISK IN THE SHEET, which is that menu's raw or undercooked marker, so this row is flagged `raw`. That is the first data behind the legend's raw mark."
+    },
+    {
+      "id": "spicy-roll",
+      "section": "sushi",
+      "name": "Spicy Roll",
+      "description": "Rolled with kaiware and your choice of fish: salmon, tuna or yellowtail.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [
+        "raw"
+      ],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 58. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. NAME CARRIES AN ASTERISK IN THE SHEET, which is that menu's raw or undercooked marker, so this row is flagged `raw`. That is the first data behind the legend's raw mark.",
+      "_descriptionSource": "Sourced 2026-09-15 from the sheet row 58. PRICES STRIPPED, and this is the only row in the file where the sheet put them inside the description rather than in a price column. The sheet reads \"Choice of: Salmon 10.5 | Tuna 9.5 | Yellowtail 12.5\"; the three fish survive, the three figures do not. /menu/ prints no prices as of 2026-09-10 and a price smuggled into a description is still a published price. See _priceStatus.\n\nWorth knowing that the per-fish pricing is itself a fact: this roll is priced by the fish, which no other row is. If prices are ever turned on, this row needs a shape the `price` field does not have."
+    },
+    {
+      "id": "tajima-roll",
+      "section": "sushi",
+      "name": "Tajima Roll",
+      "description": "Avocado, kanikama, gobo, & persian cucumber; topped with tuna tataki and served with a side of butter ponzu cilantro sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [
+        "raw"
+      ],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 59. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. NAME CARRIES AN ASTERISK IN THE SHEET, which is that menu's raw or undercooked marker, so this row is flagged `raw`. That is the first data behind the legend's raw mark."
+    },
+    {
+      "id": "163-roll",
+      "section": "sushi",
+      "name": "163 Roll",
+      "description": "Spicy tuna, onion, cucumber, avocado, spicy mayo, topped with yuzu marinated yellowtail tataki, cilantro, jalapeno.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [
+        "raw"
+      ],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 60. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated. NAME CARRIES AN ASTERISK IN THE SHEET, which is that menu's raw or undercooked marker, so this row is flagged `raw`. That is the first data behind the legend's raw mark."
+    },
+    {
+      "id": "xiaolongbao",
+      "section": "izakaya",
+      "name": "Xiaolongbao",
+      "description": "Pork soup dumplings served with fresh ginger.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 61. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "chili-wontons",
+      "section": "izakaya",
+      "name": "Chili Wontons",
+      "description": "Shrimp and pork wontons served in house made crunchy chili sauce with green onions.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "college-heights",
+        "convoy"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 62. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "edamame",
+      "section": "izakaya",
+      "name": "Edamame",
+      "description": "Steamed soy bean.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 64. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "tsukune-yakitori",
+      "section": "monthly-special",
+      "name": "Tsukune Yakitori",
+      "description": "Marinated chicken meatball skewer glazed with a soy-based sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 65. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "momo-yakitori",
+      "section": "monthly-special",
+      "name": "Momo Yakitori",
+      "description": "Marinated chicken thigh skewer glazed with a soy-based sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 66. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "beef-yakitori",
+      "section": "monthly-special",
+      "name": "Beef Yakitori",
+      "description": "Marinated sirloin skewer glazed with a soy-based sauce.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 67. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "tuna-sashimi",
+      "section": "monthly-special",
+      "name": "Tuna Sashimi",
+      "description": "5 pieces of sliced tuna.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 68. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "salmon-sashimi",
+      "section": "monthly-special",
+      "name": "Salmon Sashimi",
+      "description": "5 pieces of sliced salmon.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 69. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "yellowtail-sashimi",
+      "section": "monthly-special",
+      "name": "Yellowtail Sashimi",
+      "description": "5 pieces of sliced yellowtail.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 70. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "sashimi-combo",
+      "section": "monthly-special",
+      "name": "Sashimi Combo",
+      "description": "2 salmon, 2 tuna, & 2 yellowtail slices.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 71. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "takowasa",
+      "section": "monthly-special",
+      "name": "Takowasa",
+      "description": null,
+      "price": null,
+      "feature": true,
+      "locations": [
+        "mercury"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 72. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "combo-a",
+      "section": "combo",
+      "name": "Combo A: Tajima Ramen + 1 Onigiri",
+      "description": "Tajima Ramen + 1 Onigiri.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "plaza-bonita"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 73. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "combo-b",
+      "section": "combo",
+      "name": "Combo B: Tajima Ramen + Mini Karaage",
+      "description": "Tajima Ramen + Mini Karaage.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "plaza-bonita"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 74. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
+    },
+    {
+      "id": "combo-c",
+      "section": "combo",
+      "name": "Combo C: Tajima Ramen + Mini Gyoza",
+      "description": "Tajima Ramen + Mini Gyoza.",
+      "price": null,
+      "feature": true,
+      "locations": [
+        "plaza-bonita"
+      ],
+      "dietary": [],
+      "_source": "Added 2026-09-15 from Connor's dish sheet, _reference/Tajima_Menu_260915_photos-updated.xlsx row 75. Availability from that sheet's per-room columns F to K. Description is the sheet's own text through this file's house transform (sentence case, closing period, fraction written out, trailing 'and' dropped): nothing reworded, nothing cut, nothing generated."
     }
   ],
   "_bentoNote": "The `bento` value is the grid-cell modifier from the approved tajima-menu concept layout (dish--ramen-tonkotsu etc). It is layout, not content. `tier` is a positioning label sourced from CLIENT_FACTS.md: tonkotsu is 'the foundation dish' and Red/Black/White are 'the signature trio'. Do not invent new tier labels.",
@@ -408,5 +1213,8 @@
   "_imageStatus": "REPOINTED 2026-08-05 from cdn.circulationstudio.com/tajima-temp/*.jpeg to the committed local WebP in public/images/photo/. Same photographs, matched by exact basename, verified present in photos.json. Reasons: it drops a third-party origin off the image path on /menu/, /, /tajima-convoy/ and /menu/vegan-ramen/, it serves WebP instead of JPEG, and the temp CDN is temporary by name. imageWidth and imageHeight are the manifest real pixel dimensions and exist so templates can stop hardcoding 800x800, which was wrong for every one of these (they are 3:2, not square). ALT TEXT IS UNCHANGED: it was already hand-written here and is better than the photos.json draft placeholders. Only 6 of 13 items carry an image; the other 7 are deliberately imageless rather than mapped on a guess.",
   "_imageGapNote": "Five images added 2026-08-05 from photos already classified as mapped in photos.json, each checked by eye before placing rather than trusted from its dish token. TWO ITEMS ARE DELIBERATELY LEFT WITHOUT ONE. (1) carnitas: Open Decision #4 resolved it as listed plainly on /menu/ and nowhere else, explicitly no photo, no card, no callout. (2) miso: the manifest maps three files to dish 'miso' and ALL THREE ARE MISO SOUP, a small lacquer bowl of soup with scallion and wakame, not Naruto Miso Ramen. The token matched the word, not the dish. Do not place them. The same trap sits on the 'chicken' token, which groups chicken fried rice, chicken katsu bun and chicken teriyaki alongside the real Chicken Ramen: only the two files named chicken-ramen are the bowl. Treat photos.json dish tokens as candidates to inspect, never as a mapping to apply.",
   "_printedMenus": "WHAT THE 2026-07 PRINTED MENUS CORROBORATE, recorded 2026-09-09 without transcribing prices. Files in public/menus/, provenance in src/_data/locationMenus.json.\n\nThe per-location availability in this file, derived from the live Toast catalogs on 2026-08-04, holds up against the client's own print: Curry Ramen appears only on Convoy, matching CLIENT_FACTS.md's College Heights correction; Plaza Bonita offers Tajima Red or White and not Black, matching the `locations` arrays here; East Village carries a sushi hand roll with a salmon or spicy tuna choice, matching the 2026-08-04 correction to CLIENT_FACTS.md; Mercury is the only room with a full sushi section. Two separate sources, derived independently, agree.\n\nITEMS ON THE PRINTED MENUS THAT ARE NOT IN THIS FILE, and this file is not wrong for lacking them: Plaza Bonita has a Mini Ramen, an onigiri range, spam musubi and numbered combo sets; Mercury has a kids section, a monthly-specials izakaya section and a named roll list. This file is the brand menu that /menu/ renders, not a per-room catalog, and expanding it into one is a content decision nobody has taken.",
-  "_availabilityNoteRule": "`availabilityNote` is visible copy and MUST agree with `locations` on the same row. It exists because /menu/ speaks for seven rooms and one row is not available at all of them. Curry Ramen is the only row that carries one today. If `locations` changes, change the note in the same edit or delete it: a stale availability note is worse than none, because it sends someone to a room for a bowl that is not there."
+  "_availabilityNoteRule": "`availabilityNote` is visible copy and MUST agree with `locations` on the same row. It exists because /menu/ speaks for seven rooms and one row is not available at all of them. Curry Ramen is the only row that carries one today. If `locations` changes, change the note in the same edit or delete it: a stale availability note is worse than none, because it sends someone to a room for a bowl that is not there.",
+  "_zeroLocationRows": "SEVEN ROWS ARE SERVED AT ZERO LOCATIONS in Connor's 2026-09-15 sheet: Brussels Sprouts Tempura, Chicken Katsu Bowl, Glazed Popcorn Shrimp, Karaage Bowl, Miso Ramen, Steam Rice, Vegetable Gyoza.\n\nONLY MISO RAMEN IS RESOLVED. It is at zero in the sheet AND absent from all six printed menus, which is two independent sources. See its _pulled note.\n\nTHE OTHER SIX ARE NOT A DECISION, THEY ARE A QUESTION, and the question is narrower than it looks. VEGETABLE GYOZA HAS A REAL, EYE-VERIFIED PHOTOGRAPH in the manifest (tajima-ramen-vegetable-gyoza-kihei.webp: five dumplings in pale green wrappers, browned on one side, with a cup of dipping sauce, visibly a different dish from Pork Gyoza). Nobody photographs a dish they have discontinued. So at least one of these six zeroes is a data gap rather than a deletion, which changes the question from \"should we pull these six\" to \"which of these six is Connor missing\".\n\nASK CONNOR, per row: discontinued, or not yet filled in? Until then they are listed here with empty `locations`, which means they render nowhere and claim nothing. That is the safe state in both directions: no room advertises a dish it does not serve, and no dish is deleted on a maybe.",
+  "_sheetSource": "src: _reference/Tajima_Menu_260915_photos-updated.xlsx, Connor, 2026-09-15. 74 dish rows, one sheet.\n\nCOLUMN LETTERS, stated here because the first brief had them off by one and the next pass should not repeat it:\n  A  Dish Name\n  B  Dish Type\n  C  Dish Description\n  D  Photo of Dish (Link)   <- the Bunny URL. NOT column E.\n  E  # of Locations         <- a count, derived; it agrees with F to K on\n                               every row, checked.\n  F  College Heights\n  G  Convoy\n  H  Crown Point\n  I  East Village\n  J  Mercury\n  K  Plaza Bonita\n\nTHERE IS NO MAUI COLUMN. The sheet speaks for the six San Diego rooms only, so Maui's availability is untouched by it and still comes from the Toast pull of 2026-08-04.\n\nROWS 61 TO 75 ARE APPENDED OUT OF TYPE ORDER, which looks like a second data-entry pass. It matters: reading the sheet naively makes it look as though 39 dishes are served at exactly one room, because that tail splits some dishes the earlier rows already cover. Garlic Edamame is the case that bit: row 5 carries \"Edamame or Garlic Edamame\" at four rooms and row 63 carries \"Garlic Edamame\" at Mercury, and their union is the five rooms this file already had. A naive rebuild would have cut that dish to Mercury only and contradicted five printed menus.",
+  "_descriptionConflicts": "THREE SUBSTANTIVE CONFLICTS between this file's descriptions and Connor's 2026-09-15 sheet. ALL THREE ARE HELD: nothing was overwritten, and each needs a client answer rather than an editorial judgement from us.\n\nFirst, the general case, which is NOT a conflict: the sheet's descriptions are the raw printed-menu strings and this file's are those same strings through the house transform. Same source, different polish. Twelve of the fourteen agree once you account for that, which is a strong corroboration of both.\n\n1. TAJIMA BLACK. The sheet gives it a description identical, word for word, to Tajima Red's and Tajima White's: \"Original pork bone broth with egg noodles, pork chashu, half a ramen egg, corn, baby bok choy, green onions, and sesame seeds\". Three differently-named bowls, one description. This file keeps \"Black garlic oil over tonkotsu. Deeper, darker.\", which is the only one of the three that says what the bowl is. THE SAME DUPLICATED ROW APPEARS IN THE A2 MOCKUP, so both trace to one bad source rather than to two independent errors. The sheet looks wrong here.\n\n2. TRADITIONAL TONKOTSU AND THE RED BOMB. The sheet puts \"topped with red bomb\" on Traditional Tonkotsu. This file puts red bomb on Tajima Red, which is what the name of that bowl means. The Convoy printed menu's columns interleave at exactly this point and are genuinely ambiguous about which bowl the phrase belongs to, so neither reading can be settled from the print. ASK AMANDA which bowl carries the red bomb.\n\n3. VEGAN RAMEN. The sheet is fuller and better: \"Creamy soy based broth, spinach noodles, marinated tofu, braised takenoko, wood ear mushrooms, red radish, baby bok choy, corn, and sesame seeds\" against this file's \"House-made spinach noodles, marinated tofu, soy-based broth.\" The sheet's version also matches the photograph, which shows the takenoko, wood ear and bok choy this file's text omits. It is the better line. It is also a change to client copy, so it is reported rather than taken."
 }

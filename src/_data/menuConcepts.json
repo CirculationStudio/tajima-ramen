@@ -2,17 +2,23 @@
   "_note": "Copy and configuration for the two internal menu concept routes, /internal/menu-concept-b2/ and /internal/menu-concept-b1/. Review routes only. Nothing here is shipping copy and nothing here is linked from the site.",
   "_dataRule": "THE DISH ROWS ARE NOT IN THIS FILE AND MUST NOT BE. Both routes render from menu.json through the same `dishesFor` filter the location pages use, scoped to east-village. The reference mockups in _reference/menu-concepts/ are a DESIGN reference; the data layer is the source of truth. Nothing was transcribed out of their HTML.",
   "_prices": "PRICES ARE OFF on the review routes AND on all seven location pages. The client asked for prices off the main menu page and did not rule on location pages, so off is the default and the decision is Steve's.\n\nTHE DATA IS READY AND COMPLETE, which is the part worth knowing before deciding. Every featured dish at every room has a live price in that room's own src/_data/toastMenus/*.json, pulled 2026-08-04: Convoy 12 of 12, College Heights, Crown Point, East Village and Mercury 11 of 11, Plaza Bonita 7 of 7, Maui 7 of 7 once the trio is matched through an alias (Maui lists them as 'Tajima RED Ramen' rather than 'Tajima Red'). Turning prices on is a data job of wiring toastMenus to the row, not a template change.\n\nDO NOT USE menu.json's `price` FIELD FOR THIS. It is a single stale brand price and _priceStatus marks it not for display. A per-location menu wants the per-location figure, which is exactly what makes this worth doing properly rather than flipping a flag.",
-  "_sectionOrnaments": "Ghosted section art, aria-hidden, from the existing sprite. Field ornaments rather than heading marks, so the one-mark-per-heading rule does not apply, the same call /happy-hour/ makes for its gold field. Dessert carries none: the sprite is twelve food marks and none of them is a dessert, and the /menu/ Dessert heading already sets that precedent.",
+  "_sectionOrnaments": "The ghosted brand mark behind each band. Rice takes ONIGIRI, which is the reference's own choice for that section and the one sprite icon that means rice.\n\nSUSHI, MONTHLY SPECIAL, KIDS AND COMBO GET NONE, and that is the rule working rather than an omission. The sprite is twelve marks and every one is a ramen component, an izakaya dish or the wordmark: there is nothing for raw fish, nothing for a skewer, nothing for a child and nothing for a set meal. DESIGN_SYSTEM.md: where no icon matches, use none. The /menu/ Dessert heading and the four-card hero already set that precedent twice. A mark chosen because a band looked bare is decoration.",
   "ornaments": {
     "izakaya": "chopsticks-noodles",
     "ramen": "ramen-bowl",
+    "rice": "onigiri",
     "dessert": "naruto"
   },
-  "_barTones": "Spine tones, from the reference: izakaya black with cream type, ramen gold with black type, dessert black with GOLD type, which is the reference's fourth tone. Its red tone belongs to the rice section and menu.json has no rice rows, so red goes unused rather than being invented onto a section with no dishes.",
+  "_barTones": "Spine tones. From the reference: izakaya black with cream type, ramen gold with black type, dessert black with GOLD type, and RED for rice, which the reference assigns and which this build could not use until rice had rows. It has twelve now.\n\nTHE REFERENCE ONLY HAS FOUR TONES AND THERE ARE EIGHT SECTIONS, so four sections reuse one. Reuse is fine; two touching bands wearing the same tone is not, because then the spine stops separating anything. The assignment below is checked against every room's real band sequence by a guard in eleventy.config.js that FAILS THE BUILD on an adjacent clash, so this is not eyeballed and cannot rot when a room's menu changes.\n\nWorst case is Mercury, which renders all seven of its sections: ink, gold, red, ink, gold, ink-gold, red. No two touch.",
   "barTones": {
     "izakaya": "ink",
     "ramen": "gold",
-    "dessert": "ink-gold"
+    "rice": "red",
+    "sushi": "ink",
+    "monthly-special": "gold",
+    "dessert": "ink-gold",
+    "kids": "red",
+    "combo": "red"
   },
   "_legend": "Marks render ONLY from menu.json `dietary`. Nothing is inferred from a description. The mockups also show spicy, vegetarian and raw or undercooked marks; no field for any of those exists in menu.json, so they are named as missing rather than guessed at.",
   "legend": [
@@ -53,8 +59,30 @@
   "_legendRule": "The legend lists all four marks because it is a legend: it tells a reader what a mark means if they see one. What DOES NOT happen is inferring the flag onto a dish. Only `dietary` in menu.json drives a mark, and that field is populated on two of fourteen rows, both vegan. `spicy`, `vegetarian` and `raw` have no field at all, so no dish carries those marks and a line under the legend says so.",
   "cuts": {
     "ramen": "ramen-bowl",
+    "rice": "onigiri",
     "dessert": "naruto"
   },
-  "_cuts": "The small mark on the rule between sections, matching the reference's cut device. Mapped to the closest thing in the Tajima sprite: the reference's bowl-of-noodles is our ramen-bowl, and its sesame swirl is our naruto, which is the only swirl the sprite has. Izakaya is the first section so nothing precedes it.",
-  "_rollout": "The B2 module is on all seven location pages as of 2026-09-14 through components/location-menu.njk, filtered per room by the same dishesFor call the concept routes use. One component, seven pages, no copies. A room whose filter returns nothing renders nothing; nothing hits that today, and Plaza Bonita and Maui render two bands rather than three because neither has a dessert row."
+  "_cuts": "The mark that sits in the spine column on the divider above a section. Same sprite limit as the ornaments, so four sections divide with a plain rule and no mark. The rule still draws: a band with no cut mark is not a band with no divider, or Mercury's seven sections would run together. See the markless branch in components/menu-concept.njk.",
+  "_rollout": "The B2 module is on all seven location pages as of 2026-09-14 through components/location-menu.njk, filtered per room by the same dishesFor call the concept routes use. One component, seven pages, no copies. A room whose filter returns nothing renders nothing; nothing hits that today, and Plaza Bonita and Maui render two bands rather than three because neither has a dessert row.",
+  "sectionOrder": [
+    "izakaya",
+    "ramen",
+    "rice",
+    "sushi",
+    "monthly-special",
+    "dessert",
+    "kids",
+    "combo"
+  ],
+  "sectionLabels": {
+    "izakaya": "Izakaya",
+    "ramen": "Ramen",
+    "rice": "Rice",
+    "sushi": "Sushi",
+    "monthly-special": "Monthly Special",
+    "dessert": "Dessert",
+    "kids": "Kids",
+    "combo": "Combo Sets"
+  },
+  "_sectionOrder": "The order every room renders its bands in, and it is the order the printed menus use: small plates, then bowls, then rice, then the raw counter, then the specials board, then dessert, with the kids and combo blocks last because only one room each carries them.\n\nMOVED OUT OF THE TEMPLATE 2026-09-15. menu-concept.njk hardcoded three sections. A room can now render as many as it has: Mercury seven, Plaza Bonita three, the other four rooms four. A section with no rows for a room renders nothing, which is how Crown Point gets four bands and not eight."
 }
