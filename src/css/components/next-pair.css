@@ -120,6 +120,14 @@
     color var(--duration-fast) var(--ease-smooth);
 }
 
+/* NOWRAP HAS A FLOOR. The longest label on the site is five words, "See all
+   six San Diego rooms" on /menu/, and held on one line it pushed the card
+   21px past a 320px viewport. A wrapped label on the narrowest phones beats a
+   page that scrolls sideways. Caught by scripts/sweep-overflow.js. */
+@media (max-width: 22.5rem) {
+  .next-card__cta { white-space: normal; }
+}
+
 .next-card__cta:hover,
 .next-card__cta:focus-visible {
   background: var(--color-red);

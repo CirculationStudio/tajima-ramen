@@ -232,3 +232,32 @@
   .mchoose-sig { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mchoose-mast { padding-top: var(--space-7); }
 }
+
+/* --- Availability, and what only Kihei has -------------------------------
+   Both are facts the page prints rather than sentences somebody wrote, so
+   they are styled quietly: the dish name and its photograph carry the card,
+   and these sit under them as the qualifier they are. */
+.mchoose-sig__where{
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+
+.mchoose-only{
+  margin: var(--space-6) 0 0;
+  max-width: 68ch;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+.mchoose-only__label{
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}

@@ -36,6 +36,7 @@ import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
 import roomMenus from "./roomMenus.js";
+import coreMenu from "./coreMenu.js";
 import menuConcepts from "./menuConcepts.json" with { type: "json" };
 import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
 import locationFaq from "./locationFaq.js";
@@ -287,31 +288,41 @@ const SD_ROOM_IDS = locations.items
   .filter((loc) => loc.region === "san-diego")
   .map((loc) => loc.id);
 
+// THE BRAND MENU IS WHAT /menu/ VISIBLY SHOWS, which is the core set.
+//
+// It was the eight dishes served at all six San Diego rooms, which was right
+// while the page showed those eight. The page shows the core set now, twenty
+// dishes at five or six of the six, and SCHEMA.md rule 2 is the one that
+// matters: the graph mirrors the visible page. Same module the page renders
+// from, so the two move together or neither does.
+//
+// A dish at five of six carries its availability note on the page. There is no
+// schema property for "everywhere except one branch", and inventing one would
+// be worse than leaving it to the Restaurant entities, each of which carries
+// its own room's Menu with the honest list.
 const menuEntity = {
   ...buildMenu({ id: `${site.url}/menu/#menu`, name: `${site.name} menu` }),
   hasMenuSection: undefined,
 };
 {
-  const everywhere = menu.items.filter(
-    (item) => item.listed && SD_ROOM_IDS.every((id) => (item.locations || []).includes(id)),
-  );
-  menuEntity.hasMenuSection = MENU_SECTIONS.map((section) => ({
+  const bySection = new Map();
+  for (const dish of coreMenu.core) {
+    if (!bySection.has(dish.sectionLabel)) bySection.set(dish.sectionLabel, []);
+    bySection.get(dish.sectionLabel).push(dish);
+  }
+  menuEntity.hasMenuSection = [...bySection.entries()].map(([label, dishes]) => ({
     "@type": "MenuSection",
-    name: section.name,
-    hasMenuItem: everywhere
-      .filter((item) => item.section === section.id)
-      .map((item) => {
-        const entry = {
-          "@type": "MenuItem",
-          "@id": `${site.url}/menu/#item-${item.id}`,
-          name: item.name,
-        };
-        if (item.description) entry.description = item.description;
-        if (item.dietary && item.dietary.includes("vegan")) {
-          entry.suitableForDiet = "https://schema.org/VeganDiet";
-        }
-        return entry;
-      }),
+    name: label,
+    hasMenuItem: dishes.map((dish) => {
+      const entry = { "@type": "MenuItem" };
+      if (dish.dishId) entry["@id"] = `${site.url}/menu/#item-${dish.dishId}`;
+      entry.name = dish.name;
+      if (dish.description) entry.description = dish.description;
+      if ((dish.dietary || []).includes("vegan")) {
+        entry.suitableForDiet = "https://schema.org/VeganDiet";
+      }
+      return entry;
+    }),
   })).filter((section) => section.hasMenuItem.length > 0);
 }
 

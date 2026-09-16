@@ -3,7 +3,7 @@ layout: layouts/base.njk
 permalink: /menu/
 pageKey: menu
 title: "Tajima Ramen Menu | Six San Diego Rooms, Six Menus"
-description: "Every Tajima room serves a different menu. Eight dishes are on all six San Diego menus, including tonkotsu, the Tajima Red and White, and karaage. Pick your room to see the rest."
+description: "Every Tajima room serves a different menu. Twenty dishes are on five or six of the six San Diego menus, including tonkotsu, the Tajima Red and karaage. Pick your room to see the rest."
 ---
 {#
   /menu/. REBUILT AS A CHOOSER 2026-09-15, ported from
@@ -12,10 +12,11 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
   ============================ WHY THIS PAGE CHANGED ============================
 
   It was a brand-wide dish list and location pages were a filtered view of it.
-  Connor's 2026-09-15 dish sheet falsifies that premise. Of 73 dishes, EIGHT are
-  served at all six San Diego rooms. Another eight are at five, all missing only
-  Plaza Bonita. Mercury carries 47 against Crown Point's 21 and is a
-  substantially different restaurant rather than a location with extras.
+  The premise does not hold. Counted from the rooms' own Toast catalogs, TEN
+  dishes are served at all six San Diego rooms and another ten at five, every
+  one of those ten missing only Plaza Bonita. Mercury carries 56 against Crown
+  Point's 24 and is a substantially different restaurant rather than a location
+  with extras.
 
   So a shared menu is eight dishes, which is a highlight reel and not a menu
   page. The menu moved to the room. This page's job is getting a reader to the
@@ -64,16 +65,15 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
 {%- for room in sanDiego %}{% set sdRoomIds = (sdRoomIds.push(room.id), sdRoomIds) %}{% endfor %}
 {%- set hawaii = locations.items | where("region", "hawaii") %}
 
-{#- The dishes every San Diego room serves. Computed, never listed by hand:
-    this is the one set on the page that must not drift from menu.json. -#}
-{%- set signature = [] %}
-{%- for dish in menu.items %}
-  {%- set servedEverywhere = dish.listed %}
-  {%- for room in sanDiego %}
-    {%- if room.id not in dish.locations %}{% set servedEverywhere = false %}{% endif %}
-  {%- endfor %}
-  {%- if servedEverywhere %}{% set signature = (signature.push(dish), signature) %}{% endif %}
-{%- endfor %}
+{#- The core set, from src/_data/coreMenu.js. Computed, never listed by hand,
+    and computed from the SAME roomMenus rows the location pages render, so
+    this page and a room's own menu cannot disagree about what it serves.
+
+    It was "served at all six", which was eight dishes and a highlight reel.
+    It is "served at five or more of the six" now, which is twenty, and the
+    data has a seam exactly there: all ten of the five-of-six dishes are
+    missing only Plaza Bonita. See that file for the threshold and why. -#}
+{%- set core = coreMenu.core %}
 
 {# ==================== MASTHEAD ==================== #}
 <section class="mchoose-mast" aria-labelledby="page-title">
@@ -98,21 +98,27 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
 <section class="sect sect--rule" id="signature" aria-labelledby="signature-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <h2 class="sect__title" id="signature-title">On <em>every</em> San Diego menu.</h2>
+      <h2 class="sect__title" id="signature-title">The dishes <em>almost every room</em> shares.</h2>
       <p class="sect__note">
-        {{ signature | length }} dishes are served at all six San Diego rooms. The rest of each
-        menu is that room's own.
+        {{ core | length }} dishes are on five or six of the six San Diego menus, and where one
+        is missing from a room it says so underneath. The rest of every menu is that room's own.
+      </p>
+      {#- THE SCOPE, STATED. Every note below counts the six San Diego rooms.
+          Saying so here is what stops "Not served at Plaza Bonita" from
+          implying anything about Maui, which runs a menu of its own and has
+          its own band further down. -#}
+      <p class="sect__note">
+        Counted across the six San Diego rooms. Maui runs its own menu.
       </p>
     </header>
 
     <ul class="mchoose-sig">
-      {%- for dish in signature %}
-      {%- set shot = dishPhotos.photoFor(dish.id, "convoy") %}
+      {%- for dish in core %}
       <li class="mchoose-sig__item">
-        {%- if shot %}
+        {%- if dish.photo %}
         <span class="mchoose-sig__shot">
-          <img src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" decoding="async"
-            width="{{ shot.width }}" height="{{ shot.height }}">
+          <img src="{{ dish.photo.src }}" alt="{{ dish.photo.alt }}" loading="lazy" decoding="async"
+            width="{{ dish.photo.width }}" height="{{ dish.photo.height }}">
         </span>
         {%- else %}
         <span class="mchoose-sig__shot mchoose-sig__shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
@@ -120,6 +126,11 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
         <p class="mchoose-sig__name">{{ dish.name }}</p>
         {%- if dish.description %}
         <p class="mchoose-sig__desc">{{ dish.description }}</p>
+        {%- endif %}
+        {#- Rendered from the room list rather than written, so the sentence
+            cannot outlive the fact. -#}
+        {%- if dish.missingNote %}
+        <p class="mchoose-sig__where">{{ dish.missingNote }}</p>
         {%- endif %}
       </li>
       {%- endfor %}
@@ -158,14 +169,28 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
     <header class="sect__head">
       <h2 class="sect__title" id="maui-title">And one in <em>Kihei.</em></h2>
       <p class="sect__note">
-        Maui is its own market and its menu is counted from a separate source, so it is listed
-        here rather than ranked with the six.
+        Maui runs a menu of its own. {{ coreMenu.mauiOnly | length }} of its dishes are on no San
+        Diego menu at all, which is why it sits here rather than ranked with the six.
       </p>
     </header>
 
     <div class="mchoose-grid mchoose-grid--single">
       {%- for loc in hawaii %}{% include "components/menu-chooser-card.njk" %}{% endfor %}
     </div>
+
+    {#- WHAT ONLY MAUI SERVES, listed rather than summarised, because "its own
+        menu" is a claim and this is the evidence for it. Computed in
+        coreMenu.js from the same rows Maui's own page renders.
+
+        The four dishes that share a San Diego NAME and are a different
+        preparation are deliberately not in this list: saying Maui is the only
+        room with a California Roll would be false, and saying nothing about it
+        is honest. src/_data/menuAliases.json carries those four with both
+        descriptions. -#}
+    <p class="mchoose-only">
+      <span class="mchoose-only__label">Only in Kihei</span>
+      {{ coreMenu.mauiOnlyNames }}.
+    </p>
   </div>
 </section>
 
@@ -185,7 +210,12 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
         by where they are: the address, today's hours, parking and a route to the door.
       </p>
       <a class="next-card__cta" href="/locations/">
-        See all seven rooms
+        {#- SAID "See all seven rooms" while seven other pages linked the same
+            destination as "all six San Diego rooms". Both were defensible and
+            together they were a contradiction in link text, which the link
+            crawl flags. This page is the San Diego set plus Maui set apart, so
+            it counts the way the rest of the site counts. -#}
+        See all six San Diego rooms
         <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>

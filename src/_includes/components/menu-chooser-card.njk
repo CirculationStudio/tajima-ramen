@@ -14,16 +14,20 @@
    `roomMenuFacts` filter, which computes them from menu.json; see the note on
    that filter for why none of it is authored.
    =========================================================================== #}
-{%- set facts = menu.items | roomMenuFacts(loc.id, sdRoomIds, menuConcepts.sectionOrder, menuConcepts.sectionLabels) %}
+{#- From coreMenu, which counts the rows the room's own page renders. It was
+    a filter over menu.json, which answered a question no page asks now: a card
+    advertising "34 dishes" against a page listing 39 is exactly the drift this
+    pass exists to end. -#}
+{%- set facts = coreMenu.cards[loc.id] %}
 <a class="mchoose-card" href="{{ loc.url }}">
-  <span class="mchoose-card__count">{{ facts.served | length }} dishes</span>
+  <span class="mchoose-card__count">{{ facts.served }} dishes</span>
   <span class="mchoose-card__name">{{ loc.name }}</span>
   <span class="mchoose-card__area">{{ loc.neighborhood }}</span>
   <span class="mchoose-card__blurb">{{ loc.summary }}</span>
-  {%- if facts.rareSections | length or facts.exclusive | length %}
+  {%- if facts.rareSections | length or facts.exclusive %}
   <span class="mchoose-card__tags">
     {%- for label in facts.rareSections %}<span class="mchoose-card__tag">{{ label }}</span>{% endfor %}
-    {%- if facts.exclusive | length %}<span class="mchoose-card__tag">{{ facts.exclusive | length }} only here</span>{% endif %}
+    {%- if facts.exclusive %}<span class="mchoose-card__tag">{{ facts.exclusive }} only here</span>{% endif %}
   </span>
   {%- endif %}
 </a>
