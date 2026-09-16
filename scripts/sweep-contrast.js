@@ -2,24 +2,51 @@
 //
 // WHY PIXELS AND NOT THE DOM.
 //
-// The first version of this walked ancestors looking for a background-color,
-// which is a proxy for what a reader sees, and the proxy was wrong five times
-// out of forty-two. It could not see the red <polygon> behind the happy hour
-// starburst, so it read cream on the gold section field at 1.54 and called a
-// correct, documented design a failure. It could not see the ::after scrim on
-// the red fields either, so it reported cream on pure Fire Red at 4.27 for
-// three runs that actually render at 4.99, 5.39 and 5.47 because a scrim sits
-// between. A gate that cries wolf five times gets ignored the sixth.
+// DO NOT REWRITE THIS TO WALK ANCESTORS FOR background-color. That is the
+// obvious implementation, it is what this started as, and it is wrong. It is
+// a MODEL of what a reader sees rather than a measurement of it, and the page
+// has at least four ways of painting a backdrop that such a model cannot see.
+// All four were live in this repo, and each one produced a confident,
+// specific, false number. A gate that cries wolf gets switched off.
 //
-// So the backdrop is read the way an eye reads it: screenshot the page, find
-// each text run's box, and take the most common colour inside it. SVG paint,
-// pseudo element scrims, gradients, blend modes and stacking all resolve to
-// pixels, so all of them are accounted for without any of them being modelled.
+//   1. SVG PAINT. The happy hour starburst is a red <polygon> with its words
+//      stacked over it in the same grid cell. A walk for background-color
+//      looks straight past the polygon and finds the gold section field two
+//      levels up. Reported cream on gold at 1.54; actually cream on Fire Red
+//      at 4.27, which clears AA for large text and which happy-hour.css
+//      already documents, floor and all.
 //
-// A busy backdrop (no single colour holding a majority of the box) is reported
-// as unmeasurable rather than guessed at, which is the honest answer for text
-// over a photograph. DESIGN_SYSTEM.md requires a scrim plus text-shadow there,
-// and that is an eye check.
+//   2. PSEUDO ELEMENT SCRIMS. The red fields carry an ::after gradient
+//      between the field and the text. getComputedStyle on ELEMENTS never
+//      sees it, so three runs reported cream on pure Fire Red at 4.27 while
+//      rendering at 4.99, 5.39 and 5.47.
+//
+//   3. CLIPPED TEXT. The u-visually-hidden idiom is a 1px box with the text
+//      overflowing and clipped. A Range reports the text's natural layout
+//      width regardless of the clip, so all 38 visually hidden runs were
+//      measured as if painted at full size. They are invisible to an eye, and
+//      contrast is a question about eyes.
+//
+//   4. COORDINATES THAT MOVED. Even sampling pixels is not enough if the
+//      pixels and the boxes come from different moments. fullPage screenshots
+//      scroll the document to stitch themselves, firing every reveal observer
+//      and lazy image on the way, and layout shifts under rectangles measured
+//      at scroll zero. The home page's cream CTA was the proof: an element
+//      whose computed background is cream, at an identical position in both
+//      themes, sampled dark red in night and not in day. There is no reading
+//      of that page on which the number was true.
+//
+// So: one screenshot per viewport, boxes read at the scroll position that
+// produced it, backdrop taken as the dominant colour in a ring around the
+// text with text-coloured pixels excluded. Coordinates and pixels come from a
+// single render, which is the only arrangement where the answer means
+// anything. SVG paint, scrims, gradients, blend modes and stacking are all
+// just pixels, so none of them has to be modelled at all.
+//
+// A busy backdrop (no single colour holding a majority of the ring) is
+// reported as unmeasurable rather than guessed at, which is the honest answer
+// for text over a photograph. DESIGN_SYSTEM.md requires a scrim plus
+// text-shadow there, and that is an eye check, not a computed one.
 //
 // Transitions and animations are disabled first, so nothing is sampled mid
 // fade and two runs are comparable.
@@ -38,6 +65,10 @@ const includeInternal = argv.includes("--all");
 const only = argv.includes("--page") ? argv[argv.indexOf("--page") + 1] : null;
 const saveBaseline = argv.includes("--save-baseline");
 const showUnmeasured = argv.includes("--show-unmeasured");
+// Every measured run with its ratio, pass or fail. For answering "what did
+// changing this token do to the things that were already fine", which is a
+// question about the passing runs and therefore invisible in a failure list.
+const dumpTo = argv.includes("--dump") ? argv[argv.indexOf("--dump") + 1] : null;
 
 // THE BASELINE. This sweep found failures that predate the work it was built
 // to verify. Gating on zero would be red from the first commit and would stop
@@ -102,7 +133,17 @@ function collectRuns() {
     const size = parseFloat(s.fontSize);
     const weight = parseInt(s.fontWeight, 10) || 400;
 
+    // A STABLE ID PER TEXT NODE. Identity was the document position, which is
+    // wrong for anything sticky: the header's wordmark moves with the scroll,
+    // so one element was counted once per viewport step and reported five
+    // times. Tagged on first sight and reused.
+    if (!el.dataset.sweepId) {
+      window.__sweepSeq = (window.__sweepSeq || 0) + 1;
+      el.dataset.sweepId = String(window.__sweepSeq);
+    }
+
     runs.push({
+      uid: el.dataset.sweepId + ":" + text.slice(0, 24),
       // Viewport coords for the pixel sample, document coords for identity.
       vx: rect.left,
       vy: rect.top,
@@ -222,6 +263,7 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 const pages = only ? [only] : builtPages({ includeInternal });
 const failures = [];
 const unmeasured = [];
+const measured = [];
 
 for (const url of pages) {
   for (const mode of ["day", "night"]) {
@@ -282,7 +324,7 @@ for (const url of pages) {
       );
 
       for (const s of sampled) {
-        const id = `${s.cls}|${Math.round(s.x)}|${Math.round(s.y)}|${s.text}`;
+        const id = s.uid;
         if (seen.has(id)) continue;
         seen.add(id);
 
@@ -297,6 +339,14 @@ for (const url of pages) {
           b: s.fg.b * s.fg.a + s.bg.b * (1 - s.fg.a),
         };
         const got = contrast(fg, s.bg);
+        if (dumpTo) {
+          measured.push({
+            url, mode, cls: s.cls, text: s.text, color: s.colorCss,
+            backdrop: `rgb(${s.bg.r}, ${s.bg.g}, ${s.bg.b})`,
+            size: s.size, weight: s.weight, need,
+            got: Math.round(got * 100) / 100,
+          });
+        }
         if (got + 0.005 < need) {
           failures.push({
             url, mode, cls: s.cls, text: s.text,
@@ -338,6 +388,11 @@ if (unmeasured.length) {
       "  (photography, gradients, artwork) and were not measured. DESIGN_SYSTEM.md\n" +
       "  requires a scrim plus text-shadow there, which is an eye check.\n",
   );
+}
+
+if (dumpTo) {
+  fs.writeFileSync(dumpTo, JSON.stringify(measured, null, 2) + "\n");
+  console.log(`  Dumped ${measured.length} measured runs to ${dumpTo}\n`);
 }
 
 const keyOf = (f) => `${f.url}|${f.mode}|${f.cls}|${f.color}|${f.backdrop}|${f.need}`;

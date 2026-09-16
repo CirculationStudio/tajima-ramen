@@ -98,6 +98,16 @@
   --accent-on-media: #FF7A6D;
   --accent-on-media-strong: #FF6A5E;
 
+  /* Red type on a surface that is cream in BOTH themes, the homepage's
+     cream CTA on the red field being the case that named it. Outside
+     [data-mode] for the same reason as the two above: the button's fill is a
+     brand constant and does not follow the theme, so its label must not
+     either. Reading --accent there put the night accent (#FF4D40, a colour
+     for dark canvases) on cream at 3.19 to 1.
+     Same value as the day accent, and it is a separate token rather than a
+     reference to it because the two are only coincidentally equal. */
+  --accent-on-cream: #CC3227;
+
   --gutter: clamp(1.25rem, 4vw, 3rem);
   /* --layout-max (82rem) collides with the legacy 90rem. See tokens-bridge. */
 }
@@ -108,9 +118,22 @@
    Off-White canvas, per Client DNA A4.
 
    Two values here are easy to get wrong:
-   - Accent red is #D8352A, not Fire Red. True Fire Red #E03C31 with white
+   - Accent red is #CC3227, not Fire Red. True Fire Red #E03C31 with white
      text is 4.32:1 and FAILS AA, so it is a fill color, not a text-on-red
-     color at body sizes. #D8352A passes at 4.71:1.
+     color at body sizes.
+
+     THE ACCENT HAS TO PASS ON BOTH DAY SURFACES, NOT ONE. This read #D8352A
+     "passes at 4.71:1", which was true and was measured against --canvas
+     alone. The ramp has two light surfaces and the site renders accent text
+     on both, so the number that mattered was the other one. Sampled off real
+     renders, where the grain and pattern plates darken each surface slightly:
+
+       #D8352A   canvas 4.56   canvas-2 4.25   noodle-room canvas-2 4.12
+       #CC3227   canvas 5.03   canvas-2 4.68   noodle-room canvas-2 4.54
+
+     23 runs across 12 pages sat at 4.25 against the 4.5 that body text needs,
+     every one of them a link. Quote both surfaces when you change this, and
+     measure it with scripts/sweep-contrast.js rather than against a token.
    - Gold is two values. #FFC658 as type on cream is about 1.4:1, effectively
      invisible, so --gold-ink carries type (dark gold here, bright gold at
      night) and true Sesame Gold stays for rules, marks and fills.
@@ -131,7 +154,7 @@
      Raised to .62, which is 5.20:1. The night value is untouched: .5 there is
      already 5.28:1 against the dark canvas. */
   --ink-3: rgba(20, 18, 16, .62);
-  --accent: #D8352A;
+  --accent: #CC3227;
   --rule: rgba(20, 18, 16, .14);
   --rule-2: rgba(20, 18, 16, .26);
   --header-bg: rgba(255, 254, 244, .96);

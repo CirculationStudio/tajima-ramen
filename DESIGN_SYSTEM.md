@@ -73,7 +73,7 @@ Paste these exactly. Both blocks are live in the reference file.
 [data-mode="day"]{               /* DEFAULT */
   --canvas:#FFFEF4; --canvas-2:#F7F4E9; --surface:#FFFFFF;
   --ink:#141210; --ink-2:rgba(20,18,16,.74); --ink-3:rgba(20,18,16,.5);
-  --accent:#D8352A; --rule:rgba(20,18,16,.14); --rule-2:rgba(20,18,16,.26);
+  --accent:#CC3227; --rule:rgba(20,18,16,.14); --rule-2:rgba(20,18,16,.26);
   --header-bg:rgba(255,254,244,.96);
   --gold-ink:#8A6410;
   --glow-red:none; --glow-text:none; --glow-gold:none;
@@ -92,7 +92,18 @@ Paste these exactly. Both blocks are live in the reference file.
 
 ### Two rules that are easy to get wrong
 
-**Accent red differs per theme.** `#D8352A` on cream (4.71:1 with white, passes AA). `#FF4D40` on near-black. True Fire Red `#E03C31` with white text is 4.32:1 and fails, so it is a fill color, not a text-on-red color at body sizes.
+**Accent red differs per theme.** `#CC3227` in day, `#FF4D40` on near-black. True Fire Red `#E03C31` with white text is 4.32:1 and fails, so it is a fill color, not a text-on-red color at body sizes.
+
+**The accent has to pass on BOTH day surfaces.** This said `#D8352A` passes at 4.71:1, which was measured against `--canvas` alone. The ramp has two light surfaces and the site renders accent links on both, so the number that mattered was the other one. Sampled off real renders (the grain and pattern plates darken each surface slightly):
+
+| | `--canvas` | `--canvas-2` | noodle-room `--canvas-2` |
+|---|---|---|---|
+| `#D8352A` | 4.56 | **4.25** | **4.12** |
+| `#CC3227` | 5.03 | 4.68 | 4.54 |
+
+23 runs across 12 pages sat under 4.5, every one a link. Quote both surfaces when changing this, and measure with `scripts/sweep-contrast.js` rather than against a token.
+
+**A third red, for surfaces that do not follow the theme.** `--accent-on-cream` (`#CC3227`) is red type on a fill that is cream in both modes, the homepage's cream CTA being the case that named it. Same idea as `--accent-on-media`: an element's color is determined by what it sits on, not by the theme around it. Reading `--accent` there puts the night accent on a light surface at 3.19:1.
 
 **Gold is two values.** `#FFC658` is nearly invisible as type on cream (about 1.4:1). `--gold-ink` handles type: dark gold on light, bright gold on dark. True Sesame Gold stays for rules, marks and fills in both themes.
 
@@ -258,7 +269,7 @@ The one place red is a background rather than an accent. Cream icon pattern behi
 - **NO** em dashes anywhere. Site, content, docs, code comments.
 - **NO** AI-generated imagery posing as real photography. (Machine-UPSCALED real photography is a separate, narrower case: see Banned content, including the merge warning on `preview/location-photos`.)
 - **NO** hex codes in CSS rules outside the token blocks.
-- **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves.
+- **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves. `/noodle-room/` kept five of them (`philosophy__`, `watch__`, `process__`, `gallery__`, `return-card__`) until 2026-09-16, because that page carries its own palette and was never swept when the rest were. Removed. Four of the five also failed contrast, and recoloring a banned element to make it accessible would have been the wrong fix twice.
 - **NO** glow in day mode.
 - **NO** brush display type below 1.25rem, with exactly one recorded exception (`.hdr__neon`) and four tests it had to pass. See Typography.
 

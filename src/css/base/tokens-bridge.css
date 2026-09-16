@@ -85,7 +85,7 @@
      (#E03C31 Fire Red, which fails AA with white text at body sizes and so is
      a fill only) and the text/accent color (--accent). All 91 references get
      --accent here. In night that is exact, because the legacy night ramp
-     lifted --color-red to the same #FF4D40. In day, fills render at #D8352A
+     lifted --color-red to the same #FF4D40. In day, fills render at the accent
      rather than Fire Red.
 
      Phase 4 moves the genuine FILL sites to the already-existing

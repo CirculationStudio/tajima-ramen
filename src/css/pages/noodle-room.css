@@ -26,6 +26,13 @@
   /* Brand colors */
   --color-red:           #E03C31;
   --color-red-deep:      #B5261C;
+  /* RED THAT IS ALLOWED TO BE TYPE. --color-red is Fire Red and is a fill:
+     on this page's light canvases it measures 3.78 to 4.19 to 1, under the
+     4.5 body text needs. Display-size red is fine, because large text clears
+     at 3.0, so this is for red type at body size on a light surface only.
+     Red type on the dark sections keeps --color-red, where darkening it
+     would make it worse. Matches --accent in the main token ramp. */
+  --color-red-text:      #CC3227;
   --color-red-soft:      rgba(224, 60, 49, 0.08);
   --color-red-line:      rgba(224, 60, 49, 0.22);
   --color-gold:          #FFC658;
@@ -46,7 +53,13 @@
   --color-text:          #0D0D0A;
   --color-text-2:        #2A2A26;
   --color-text-3:        #595951;
-  --color-text-4:        #8C8C82;
+  /* CONTRAST, and it is the fourth step that was wrong, not the ramp.
+     #8C8C82 measures 2.97 to 3.29 to 1 off real renders against this page's
+     two light canvases, and every call site is body-size text: the founder's
+     role under his name, the footer's brand line, the process step numerals.
+     #6B6B62 clears 4.5 on both (5.22 and 4.71) and still reads as a step
+     below --color-text-3. */
+  --color-text-4:        #6B6B62;
 
    
   --color-text-on-dark:    #FFFEF4;
@@ -409,7 +422,7 @@
 [data-experience="noodle-room"] .site-header__mark-name em {
   font-style: italic;
   font-weight: var(--weight-regular);
-  color: var(--color-red);
+  color: var(--color-red-text);
 }
 
 [data-experience="noodle-room"] .site-header__mark-sub {
@@ -787,24 +800,7 @@
   z-index: 3;
 }
 
-[data-experience="noodle-room"] .philosophy__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-  margin-bottom: var(--space-7);
-}
 
-[data-experience="noodle-room"] .philosophy__eyebrow::before {
-  content: '';
-  width: 1.5rem; height: 1px;
-  background: currentColor;
-}
 
 [data-experience="noodle-room"] .philosophy__grid {
   display: grid;
@@ -871,24 +867,7 @@
   margin-inline: auto;
 }
 
-[data-experience="noodle-room"] .watch__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-}
 
-[data-experience="noodle-room"] .watch__eyebrow::before,
-[data-experience="noodle-room"] .watch__eyebrow::after {
-  content: '';
-  width: 2rem; height: 1px;
-  background: currentColor;
-}
 
 [data-experience="noodle-room"] .watch__title {
   font-family: var(--font-display);
@@ -1261,24 +1240,7 @@
   margin-bottom: var(--space-9);
 }
 
-[data-experience="noodle-room"] .process__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-  margin-bottom: var(--space-5);
-}
 
-[data-experience="noodle-room"] .process__eyebrow::before {
-  content: '';
-  width: 1.5rem; height: 1px;
-  background: currentColor;
-}
 
 [data-experience="noodle-room"] .process__title {
   font-family: var(--font-display);
@@ -1423,23 +1385,7 @@
   padding-right: var(--space-5);
 }
 
-[data-experience="noodle-room"] .gallery__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-}
 
-[data-experience="noodle-room"] .gallery__eyebrow::before {
-  content: '';
-  width: 1.5rem; height: 1px;
-  background: currentColor;
-}
 
 [data-experience="noodle-room"] .gallery__title {
   font-family: var(--font-display);
@@ -1674,14 +1620,6 @@
   gap: var(--space-4);
 }
 
-[data-experience="noodle-room"] .return-card__eyebrow {
-  font-family: var(--font-mono);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-red);
-}
 
 [data-experience="noodle-room"] .return-card__title {
   font-family: var(--font-display);
@@ -1733,13 +1671,21 @@
 }
 
 [data-experience="noodle-room"] .return-card__cta--primary {
-  background: var(--color-red);
+  /* DEEP RED, NOT FIRE RED. Cream on Fire Red is 4.27 to 1, which clears AA
+     for large text and fails it for a 14px button label. This button already
+     turned deep red on hover, so it is the colour it was going to be anyway,
+     one interaction earlier, and it measures 6.36. */
+  background: var(--color-red-deep);
   color: var(--color-canvas);
 }
 
 [data-experience="noodle-room"] .return-card__cta--primary:hover,
 [data-experience="noodle-room"] .return-card__cta--primary:focus-visible {
-  background: var(--color-red-deep);
+  /* The base took deep red, which used to be this state, so the hover moves
+     one step further rather than repeating it. Colour, not only movement:
+     translateX alone leaves anyone on prefers-reduced-motion with a button
+     that does not answer. */
+  background: var(--color-ink-warm);
   transform: translateX(3px);
 }
 
@@ -2001,7 +1947,7 @@
 }
 
 [data-experience="noodle-room"] .ingredient__desc a {
-  color: var(--color-red);
+  color: var(--color-red-text);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }

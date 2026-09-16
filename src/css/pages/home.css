@@ -495,10 +495,35 @@
   transform: translateY(-1px);
 }
 
+/* NIGHT NEEDS A DIFFERENT FILL, AND IT IS THE SAME MISTAKE AS RED-AS-TEXT,
+   INVERTED. --accent at night is #FF4D40, which exists so red type can be
+   read against a near-black canvas. Putting cream ON it measures 3.25 to 1
+   and fails: a colour chosen to be legible on dark is not thereby a fill to
+   print cream over. Deep red is the fill, and the hover derives one step
+   further so the state still reads. color-mix off a token, so no new hex.
+
+   :not(.btn--cream) IS LOAD-BEARING. Without it this rule outranks
+   .page-home .btn--cream on specificity and paints the cream CTA red, which
+   put Fire Red type on a dark red field at 1.51 to 1. The sweep caught it on
+   the next run. */
+[data-mode="night"] .page-home .btn:not(.btn--cream) {
+  background: var(--color-red-deep);
+}
+
+[data-mode="night"] .page-home .btn:not(.btn--cream):hover,
+[data-mode="night"] .page-home .btn:not(.btn--cream):focus-visible {
+  background: color-mix(in srgb, var(--color-red-deep) 82%, var(--color-black));
+}
+
 /* Red on the red field is invisible, so the field's CTA is cream. */
 .page-home .btn--cream {
   background: var(--color-cream);
-  color: var(--color-system-red);
+  /* Not Fire Red, which on cream is 4.19 to 1 against the 4.5 a 14px label
+     needs, and which DESIGN_SYSTEM.md already calls a fill rather than a text
+     colour at body sizes. Not --accent either: this button is cream in both
+     themes, so a token that follows data-mode puts the night accent on a
+     light surface. --accent-on-cream is the fixed-surface pair. */
+  color: var(--accent-on-cream);
   box-shadow: none;
 }
 
@@ -667,7 +692,10 @@
   margin-top: var(--space-6);
   font-size: var(--text-small);
   line-height: var(--leading-normal);
-  color: rgba(255, 254, 244, .92);
+  /* Opaque. At .92 this measured 4.31 to 1 on the red field against the 4.5
+     a 16px line needs, and the 8 per cent was buying a softness nobody asked
+     for on the one line that names Maui. */
+  color: var(--color-cream);
 }
 
 .page-home .red__beyond a {
