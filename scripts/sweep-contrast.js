@@ -73,6 +73,37 @@ function audit() {
     return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   }
 
+  // Does an SVG sit under this text, painting the surface it reads against?
+  //
+  // A CSS walk cannot see this. The happy hour starburst is the live case: a
+  // red <polygon> with the words stacked over it in the same grid cell, so
+  // the colour behind the type is SVG paint and the nearest CSS background is
+  // the section field two levels up. Reported as cream on gold at 1.54, which
+  // was never true: it is cream on Fire Red at 4.27, and the CSS says so.
+  // Unmeasurable here, same as text over a photograph.
+  function svgUnder(el, rect) {
+    // CONTAINMENT, not intersection. An arrow or a dietary mark sitting beside
+    // a word shares its line box and intersects it, and it is not behind
+    // anything. Artwork a reader actually reads against encloses the text, so
+    // the test is that the SVG's box contains the text's box and is bigger
+    // than it. Three hops, because a backdrop further away than that is
+    // separated by the elements between.
+    const pad = 2;
+    let node = el;
+    for (let hops = 0; node && hops < 3; hops++, node = node.parentElement) {
+      for (const svg of node.querySelectorAll(":scope > svg")) {
+        if (svg.contains(el)) continue;
+        const r = svg.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) continue;
+        const contains =
+          r.left <= rect.left + pad && r.right >= rect.right - pad &&
+          r.top <= rect.top + pad && r.bottom >= rect.bottom - pad;
+        if (contains && r.width * r.height > rect.width * rect.height) return true;
+      }
+    }
+    return false;
+  }
+
   // The colour actually behind this text: walk up until something opaque,
   // compositing any translucent layers on the way. If an ancestor paints an
   // image or gradient, we stop and say so rather than guess.
@@ -112,7 +143,9 @@ function audit() {
     // Visually hidden text is real to a screen reader and invisible to an eye.
     // Contrast is an eye question, so it is out of scope here.
     const r = el.getBoundingClientRect();
-    if (r.width < 1 || r.height < 1) continue;
+    // The bound is <= 1, not < 1: the u-visually-hidden idiom clips to
+    // exactly 1px, so `< 1` let all 38 of them through to be measured.
+    if (r.width <= 1 || r.height <= 1) continue;
 
     const size = parseFloat(s.fontSize);
     const weight = parseInt(s.fontWeight, 10) || 400;
@@ -121,6 +154,16 @@ function audit() {
 
     const fg = parse(s.color);
     if (!fg) continue;
+
+    if (svgUnder(el, r)) {
+      results.push({
+        overImage: true, text: text.slice(0, 50), color: s.color,
+        backdrop: "SVG artwork", size, weight,
+        cls: (el.getAttribute("class") || "").slice(0, 50),
+      });
+      continue;
+    }
+
     const back = backdrop(el);
 
     const key = `${s.color}|${back.image ? "img" : JSON.stringify(back.color)}|${size}|${weight}`;
@@ -179,6 +222,19 @@ await browser.close();
 await close();
 
 console.log(`\nContrast sweep: ${pages.length} pages, both themes, transitions disabled.\n`);
+
+if (process.argv.includes("--show-unmeasured")) {
+  const by = {};
+  for (const o of overImage) {
+    const k = `${o.backdrop} | .${o.cls || "(none)"}`;
+    by[k] = (by[k] || 0) + 1;
+  }
+  console.log("  Unmeasured runs by backdrop and class:");
+  for (const [k, n] of Object.entries(by).sort((a, b) => b[1] - a[1])) {
+    console.log(`    x${String(n).padStart(2)}  ${k}`);
+  }
+  console.log("");
+}
 
 if (overImage.length) {
   console.log(`  ${overImage.length} text runs sit on an image or gradient and were not`);

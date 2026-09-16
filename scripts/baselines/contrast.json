@@ -1,13 +1,11 @@
 {
   "_note": "Contrast failures known at the time of recording. The sweep fails on anything NOT in here. Fix a colour, then re-record. Do not add an entry to silence a new failure.",
   "_recorded": "2026-09-16",
-  "_count": 44,
+  "_count": 42,
   "keys": [
     "/about/|day|sect__link|rgb(216, 53, 42)|rgb(247, 244, 233)|4.5",
-    "/happy-hour/|day|burst__line|rgb(255, 254, 244)|rgb(255, 198, 88)|3",
     "/happy-hour/|day|hh-padres__body|rgb(255, 254, 244)|rgb(224, 60, 49)|4.5",
     "/happy-hour/|day|hh-padres__kicker|rgb(255, 254, 244)|rgb(224, 60, 49)|4.5",
-    "/happy-hour/|night|burst__line|rgb(255, 254, 244)|rgb(255, 198, 88)|3",
     "/happy-hour/|night|hh-padres__body|rgb(255, 254, 244)|rgb(224, 60, 49)|4.5",
     "/happy-hour/|night|hh-padres__kicker|rgb(255, 254, 244)|rgb(224, 60, 49)|4.5",
     "/locations/|day|loc__go|rgb(216, 53, 42)|rgb(247, 244, 233)|4.5",
