@@ -35,7 +35,7 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
   this page. Both surfaces read loc.orderUrl, so they cannot drift.
 #}
 
-<section class="order-hero" aria-labelledby="page-title">
+<section class="order-hero pattern-section" aria-labelledby="page-title">
   <div class="order-hero__inner">
     <h1 class="order-hero__title" id="page-title">Order Online</h1>
     <p class="order-hero__sub">
@@ -69,6 +69,23 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
         </p>
       </div>
 
+      {#- OPEN OR CLOSED, BEFORE THE CLICK RATHER THAN AFTER IT.
+
+          Everyone on this page has decided to order. Finding out a room is
+          shut after being handed to Toast is the one piece of friction this
+          page can actually remove, and the machinery already exists: js/hours.js
+          binds to [data-hours-status] and the mega menu's location cards use
+          exactly this. No new script.
+
+          RENDERED ONLY WHERE THERE ARE HOURS, which today means not Maui
+          (CLIENT_FACTS.md open question 9, its hours are null). The card is a
+          flex column with margin-top:auto on the CTA, so an absent line closes
+          up instead of leaving a hole: a card MISSING an element reads as
+          broken, a card laid out without one does not. -#}
+      {%- if loc.hours and loc.hours | length %}
+      <span class="order-card__status" data-hours-status data-hours='{{ loc.hours | dump }}' hidden></span>
+      {%- endif %}
+
       {%- if loc.orderUrl %}
       <a class="order-card__cta" href="{{ loc.orderUrl }}" rel="noopener">
         Order from {{ loc.name }}
@@ -86,11 +103,41 @@ description: "Order Tajima Ramen online for pickup or delivery. One link per San
   </div>
 </section>
 
-<section class="loc-close" aria-labelledby="close-title">
-  <div class="loc-close__inner">
-    <h2 class="loc-close__title" id="close-title">Not sure which room?</h2>
-    <p class="loc-close__sub">
-      <a href="/locations/">All six San Diego rooms</a>, with addresses and phone numbers.
-    </p>
+{#- The close was one line pointing at /locations/. It is the `next-pair`
+    block the rest of the site closes on, which is where this page's two
+    required internal links (/locations/ and /menu/) now live properly rather
+    than as inline asides. Still no second CTA inside a card: these sit after
+    all seven, for a reader who did not find their room. -#}
+<section class="next-pair" aria-labelledby="close-title">
+  <div class="next-pair__inner">
+    <h2 class="u-visually-hidden" id="close-title">If you have not found your room</h2>
+
+    <article class="next-card">
+      <h3 class="next-card__title">Addresses, hours, <em>directions.</em></h3>
+      <p class="next-card__body">
+        This page is the order links and nothing else. The locations page has the address,
+        today's hours, parking and a route to the door.
+      </p>
+      <a class="next-card__cta" href="/locations/">
+        See all six San Diego rooms
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </article>
+
+    <article class="next-card">
+      <h3 class="next-card__title">Every room runs <em>its own menu.</em></h3>
+      <p class="next-card__body">
+        Mercury carries fifty-six dishes and Plaza Bonita twenty-three. If you are choosing on
+        food rather than on distance, start there.
+      </p>
+      <a class="next-card__cta" href="/menu/">
+        See what each room serves
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </article>
   </div>
 </section>

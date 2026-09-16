@@ -64,7 +64,11 @@
   letter-spacing: var(--tracking-wide);
   color: var(--color-ink-3);
   margin-top: var(--space-2);
-  margin-bottom: var(--space-6);
+  /* The space before the CTA used to live here. It moved to the status line,
+     which now sits between them, and stays here only when there is no status
+     to carry it. `:last-of-type` is not usable (the CTA is an <a>), so the
+     rule is stated both ways round. */
+  margin-bottom: var(--space-5);
 }
 .order-card__cta{
   margin-top: auto;
@@ -141,3 +145,38 @@
     to { border-color: var(--color-red-line); }
   }
 }
+
+/* --- Open or closed, per card --------------------------------------------
+   Set by js/hours.js, which reveals it only when it can compute a status.
+   Ships `hidden`, so a room with no hours on record (Maui) never flashes an
+   empty line, and the card's flex column closes up rather than leaving the
+   hole where the other six have one. */
+.order-card__status{
+  display: block;
+  margin-bottom: var(--space-5);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+/* THE SAME IDIOM AS THE LOCATION PAGES, deliberately. .plate__status puts the
+   message in ink and lets a dot carry the signal, and the mega menu's cards do
+   the same. The first version here coloured the whole line accent red, which
+   made "OPEN UNTIL 10PM" read like a warning and invented a third treatment
+   for a thing the system already had two consistent ones for. */
+.order-card__status[data-open="true"]{ color: var(--ink); }
+.order-card__status::before{
+  content: "";
+  display: inline-block;
+  width: .4375rem;
+  height: .4375rem;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  vertical-align: .05em;
+  background: var(--ink-3);
+  opacity: .5;
+}
+.order-card__status[data-open="true"]::before{ background: var(--accent); opacity: 1; }
+.order-card__status[hidden]{ display: none; }
