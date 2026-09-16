@@ -306,7 +306,23 @@ This is the template that does the local SEO work. It runs six times with per-lo
 | **Crown Point** | 3782 Ingraham St, San Diego, CA 92109. Houses the commissary and the Noodle Room. Links to `#place` for the Noodle Room via `containedInPlace` inverse. |
 | **Plaza Bonita** | Quick-serve, mall format, **no alcohol**. Mall hours, not restaurant hours. **Needs its own limited `Menu` entity.** `knowsLanguage` is `es`, `en`. Amenity list drops alcohol and adds food court. |
 
-**Three menus, not one.** Convoy, Mercury, East Village, and Crown Point can share the brand `Menu`. College Heights and Plaza Bonita run different menus and must have their own `@id` menu entities. Pointing all six at one menu would publish dishes Plaza Bonita does not sell, which breaks rule 2.
+**Seven menus, one per room. Superseded 2026-09-16.**
+
+This used to read "three menus, not one", with Convoy, Mercury, East Village and Crown Point sharing a brand `Menu` and only College Heights and Plaza Bonita carrying their own. That was already generous and is now simply wrong: every room renders its own Toast catalog, and the counts are not close to each other.
+
+| Room | Dishes rendered |
+|---|---|
+| Mercury | 56 |
+| Convoy | 39 |
+| Maui | 39 |
+| East Village | 33 |
+| College Heights | 30 |
+| Crown Point | 24 |
+| Plaza Bonita | 23 |
+
+So each room has its own `Menu` at `https://tajimaramen.com/[slug]/#menu`, built by `buildRoomMenu()` in `src/_data/schema.js` from the same `_data/roomMenus.js` rows the page renders. Same module, same rows, same order, so rule 2 cannot be broken by drift. The build asserts it: page rows against `MenuItem` count, all seven match.
+
+`MenuItem` `@id`s still point at `/menu/#item-<id>`, because a dish is one entity however many rooms serve it. A row that `menuAliases.json` could not match carries a `name` and a `description` and **no `@id`**: it is a real dish the room really serves, and omitting it to keep identifiers tidy would break rule 2 in the other direction.
 
 ---
 

@@ -637,6 +637,65 @@
   .mc--inline .mc-lines{ grid-template-columns: minmax(0, 1fr); }
 }
 
+/* --- The heading note, and the live-list close ---------------------------
+   Both belong to the location-page form of the module. The note sits under
+   the h2 and says the list is this room's and that Toast is current; the
+   close carries the room's drinks line and its order link.
+
+   ONE PRIMARY CTA PER VIEWPORT is the rule, so this is the only red button in
+   its screen: the module above it is type and photography, and the page's
+   other calls to action sit in their own sections. */
+.mc__note--inline{
+  margin-top: var(--space-3);
+  max-width: 54ch;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+
+.mc-live{
+  margin-top: var(--space-7);
+  padding-top: var(--space-6);
+  border-top: var(--stroke-hair) solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+.mc-live__text{
+  margin: 0;
+  max-width: 48ch;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+.mc-live__cta{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-sm);
+  background: var(--cta-fill);
+  color: var(--color-system-cream);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-meta);
+  line-height: 1;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.mc-live__cta:hover,
+.mc-live__cta:focus-visible{ background: var(--cta-fill-hover); }
+
+@media (max-width: 40rem){
+  .mc-live{ flex-direction: column; align-items: flex-start; }
+  .mc-live__cta{ width: 100%; justify-content: center; }
+}
+
 .mc-foot--inline{
   margin-top: var(--space-7);
   padding-top: var(--space-5);

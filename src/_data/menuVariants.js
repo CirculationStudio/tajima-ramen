@@ -1,7 +1,5 @@
-import menu from "./menu.json" with { type: "json" };
-import menuConcepts from "./menuConcepts.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
-import dishPhotos from "./dishPhotos.js";
+import roomMenus from "./roomMenus.js";
 
 /**
  * WHICH MENU TREATMENT EACH ROOM RENDERS, AND WHY IT IS NOT ONE ANSWER.
@@ -42,31 +40,30 @@ import dishPhotos from "./dishPhotos.js";
  */
 const THRESHOLD = 0.7;
 
-const SECTIONS = new Set(menuConcepts.sectionOrder || []);
-
+/**
+ * COUNTED FROM roomMenus, NOT menu.json, 2026-09-16.
+ *
+ * It used to count menu.json rows filtered by `locations`, which was the same
+ * question the template asked. The template asks a different question now: a
+ * location page renders that room's Toast catalog. Left pointing at menu.json
+ * this file would have gone on reporting coverage against a list no page
+ * shows, and picked the treatment for one menu by measuring another.
+ *
+ * PHASE 2 DELETES THIS FILE. The brief is that every room renders the same
+ * treatment and a dish with no photograph degrades into the designed empty
+ * tile. It is corrected rather than left stale in the meantime, because a
+ * wrong number that nobody has deleted yet is still a wrong number.
+ */
 function coverageFor(locId) {
-  // The denominator is what the page renders, not what menu.json holds: dishes
-  // this room lists, in a section the module has a band for. Mirrors the
-  // `dishesFor` filter. A dish in a section menuConcepts does not order would
-  // never reach a tile, so counting it would report a gap that is not one.
-  const served = menu.items.filter(
-    (dish) =>
-      dish.listed &&
-      SECTIONS.has(dish.section) &&
-      Array.isArray(dish.locations) &&
-      dish.locations.includes(locId),
-  );
-  // photoFor(), not dish.image. It is the function the template calls, and it
-  // applies the draft-alt gate, so a photograph with no written alt counts as
-  // no photograph in both places.
-  const photographed = served.filter((dish) => dishPhotos.photoFor(dish.id, locId));
+  const room = roomMenus.byRoom[locId];
+  if (!room) return { served: 0, photographed: 0, coverage: 0, missing: [] };
+  const rows = room.sections.flatMap((section) => section.items);
+  const photographed = rows.filter((row) => row.photo);
   return {
-    served: served.length,
+    served: rows.length,
     photographed: photographed.length,
-    coverage: served.length ? photographed.length / served.length : 0,
-    missing: served
-      .filter((dish) => !dishPhotos.photoFor(dish.id, locId))
-      .map((dish) => ({ id: dish.id, name: dish.name, section: dish.section })),
+    coverage: rows.length ? photographed.length / rows.length : 0,
+    missing: rows.filter((row) => !row.photo).map((row) => ({ name: row.name, dishId: row.dishId })),
   };
 }
 

@@ -75,10 +75,33 @@
   against every room's real band sequence by a guard in eleventy.config.js that
   fails the build if two touching bands share a tone.
 -#}
-{%- set sections = [] %}
-{%- for key in menuConcepts.sectionOrder %}
-  {%- set sections = (sections.push({ key: key, label: menuConcepts.sectionLabels[key] }), sections) %}
-{%- endfor %}
+{#-
+  WHERE THE ROWS COME FROM, and it is two answers now.
+
+  `mcSections` is passed in by components/location-menu.njk and holds that
+  room's own Toast catalog, already excluded, joined and ordered by
+  _data/roomMenus.js. A published location page carries ITS ROOM'S FULL MENU
+  and that is the whole point of the rebuild.
+
+  With no `mcSections` the module falls back to menu.json filtered by
+  location, which is what the internal review routes at /internal/ still do.
+  They review a DESIGN against the reference's own room, so they should keep
+  reading the reference's own data.
+
+  Either way the component below sees one shape: a list of bands, each with a
+  key, a label and rows carrying name, description, dietary and photo.
+-#}
+{%- set mcBands = [] %}
+{%- if mcSections %}
+  {%- set mcBands = mcSections %}
+{%- else %}
+  {%- for key in menuConcepts.sectionOrder %}
+    {%- set legacyRows = menu.items | dishesFor(mcLocId, key) %}
+    {%- if legacyRows | length %}
+      {%- set mcBands = (mcBands.push({ key: key, label: menuConcepts.sectionLabels[key], items: legacyRows }), mcBands) %}
+    {%- endif %}
+  {%- endfor %}
+{%- endif %}
 
 {%- if mcChromeOn %}
 <div class="mc__mast">
@@ -88,14 +111,29 @@
 </div>
 {%- else %}
 {#- Inside a location page the page already owns the h1, so the module leads
-    with an h2 and the section names drop to h3. -#}
+    with an h2 and the section names drop to h3.
+
+    THE HEADING SAYS WHAT THE LIST IS, 2026-09-16. It read "What comes out of
+    [Room]", which is a voice line rather than a label, and a first-time
+    reader could not tell from it whether they were looking at the full menu,
+    a selection, or that room's specialities. It is the full menu now, so it
+    says so.
+
+    IT DOES NOT PROMISE COMPLETENESS, because it cannot: these rows are a
+    2026-08-04 snapshot of the room's Toast catalog and Toast is where the
+    list actually lives. The note says both things in one sentence rather
+    than hedging the heading into meaning nothing. -#}
 <header class="mc__head">
-  <h2 class="mc__title mc__title--inline">What comes out of <em>{{ mcRoom.name }}.</em></h2>
+  <h2 class="mc__title mc__title--inline">The menu at <em>{{ mcRoom.name }}.</em></h2>
+  <p class="mc__note mc__note--inline">
+    Every room runs its own menu, and this is {{ mcRoom.name }}'s. Toast carries the live
+    list and anything added since.
+  </p>
 </header>
 {%- endif %}
 
-{%- for section in sections %}
-{%- set rows = menu.items | dishesFor(mcLocId, section.key) %}
+{%- for section in mcBands %}
+{%- set rows = section.items %}
 {%- if rows | length %}
 {%- set tone = menuConcepts.barTones[section.key] %}
 {%- set ornament = menuConcepts.ornaments[section.key] %}
@@ -166,7 +204,10 @@
             dish's name and description are right beside it. -#}
         <ul class="mc-plates">
           {%- for dish in rows %}
-          {%- set shot = dishPhotos.photoFor(dish.id, mcLocId) if mcPhotos == "location" else null %}
+          {#- roomMenus resolves the photograph when it builds the row, because
+              it also has to count coverage. A menu.json row from the legacy
+              branch still needs the lookup. -#}
+          {%- set shot = dish.photo if dish.photo else (dishPhotos.photoFor(dish.id, mcLocId) if mcPhotos == "location" else null) %}
           <li class="mc-plate">
             {%- if shot %}
             <span class="mc-shot">

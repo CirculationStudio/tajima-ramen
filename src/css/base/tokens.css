@@ -155,6 +155,14 @@
      already 5.28:1 against the dark canvas. */
   --ink-3: rgba(20, 18, 16, .62);
   --accent: #CC3227;
+  /* THE FILL BEHIND CREAM, WHICH IS NOT THE ACCENT AT NIGHT.
+     --accent is a TEXT colour chosen to read against its own canvas, and at
+     night that is #FF4D40, a lifted red for a near-black page. Cream on it is
+     3.32 to 1. This has now been got wrong twice by two different components,
+     which is a missing token rather than two mistakes, so CTAs read this and
+     the right answer is the default. */
+  --cta-fill: var(--accent);
+  --cta-fill-hover: var(--color-red-deep);
   --rule: rgba(20, 18, 16, .14);
   --rule-2: rgba(20, 18, 16, .26);
   --header-bg: rgba(255, 254, 244, .96);
@@ -176,6 +184,10 @@
   --ink-2: rgba(255, 254, 244, .76);
   --ink-3: rgba(255, 254, 244, .5);
   --accent: #FF4D40;
+  /* Deep red carries cream at 6.36 here. The hover derives one step further
+     rather than repeating the fill; color-mix off a token, so no new hex. */
+  --cta-fill: var(--color-red-deep);
+  --cta-fill-hover: color-mix(in srgb, var(--color-red-deep) 82%, var(--color-black));
   --rule: rgba(255, 254, 244, .14);
   --rule-2: rgba(255, 254, 244, .28);
   --header-bg: rgba(11, 10, 12, .86);

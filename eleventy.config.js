@@ -253,6 +253,25 @@ export default function (eleventyConfig) {
    * So the module's needs are derived from the same data that chooses them.
    * Add a section to menuConcepts and its mark ships wherever the module does.
    */
+  /**
+   * The drink kinds a room's Toast catalog names, as a readable line.
+   *
+   * NO COUNTS. CLIENT_FACTS.md is explicit that tap counts are not
+   * publishable numbers: College Heights is written "twenty-plus" and never
+   * 21, and Convoy's number never goes on the site at all. The catalogs are a
+   * 2026-08-04 snapshot of a rotating tap list, so a roster would be wrong
+   * within weeks even if the counts were allowed. The page names the KIND of
+   * programme a room runs and links to Toast for what is actually pouring.
+   */
+  eleventyConfig.addFilter("drinkLine", (kinds) => {
+    if (!Array.isArray(kinds) || !kinds.length) return "";
+    const label = { beer: "Craft beer", cider: "hard cider", kombucha: "hard kombucha",
+      sake: "sake", shochu: "shochu" };
+    const words = kinds.map((k) => label[k] || k);
+    if (words.length === 1) return words[0];
+    return words.slice(0, -1).join(", ") + " and " + words[words.length - 1];
+  });
+
   eleventyConfig.addFilter("withMenuIcons", (icons, menuConcepts) => {
     const wanted = [
       ...Object.values((menuConcepts || {}).ornaments || {}),

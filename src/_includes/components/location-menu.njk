@@ -2,67 +2,66 @@
    Component: location-menu
 
    Section 4 of the location page template in SITE_ARCHITECTURE.md: this
-   room's menu, from menu.json filtered by `locations`, linking to /menu/.
+   room's menu.
 
-   REBUILT TWICE, 2026-09-14. It was a plain grouped list of names, then the
-   B2 module (a three-column list, no photography), and it is now A2, a port of
-   _reference/menu-concepts/tajima-ev-menu-A2.html: the same three columns with
-   a 92px square photograph beside every dish. One component drives this and
-   the concept routes, so a location page and a review route cannot drift.
+   IT IS THE ROOM'S FULL MENU NOW, 2026-09-16, AND IT COMES FROM TOAST.
 
-   THE VARIANT IS PER ROOM AND IT IS COMPUTED, 2026-09-15. A2 (a photograph
-   per dish) is better where the photography exists and worse where it does
-   not, and coverage runs from 47 percent at Mercury to 100 at Maui. So the
-   room with 20 of 21 dishes shot gets the photographs and the room where 25 of
-   47 tiles would be the ghosted placeholder gets B2, which is complete and
-   correct with no photography at all.
+   It used to be menu.json filtered by a `locations` array, which made every
+   room's page a view onto one reconciled catalog that never reconciled. The
+   division of labour changed: /menu/ carries the signature and core dishes
+   and says where one is missing, a location page carries THAT ROOM'S FULL
+   MENU, and Toast stays the live authority. Rows come from
+   src/_data/roomMenus.js, which reads the room's own Toast catalog, drops the
+   non-dish rows, joins each row through src/_data/menuAliases.json for its
+   dietary marks and its photograph, and resolves the description from this
+   room's Toast, then Convoy's, then menu.json.
 
-   Nothing here names a room. src/_data/menuVariants.js counts live coverage
-   against a 70 percent threshold and prints the table every build, so a room
-   moves to A2 by itself the day its photography lands. If two rooms look
-   different from the other five, that file is the reason, and it is not a bug
-   to fix.
+   A SNAPSHOT, AND THE PAGE SAYS SO. The catalogs were pulled 2026-08-04.
+   Nothing here fetches, the heading does not promise completeness, and the
+   room links to its own Toast page for the current list.
 
    USAGE
      {% set menuLoc = loc.id %}
      {% include "components/location-menu.njk" %}
 
-   NO PRICES. /menu/ prints none as of 2026-09-10 and the client has not ruled
-   on location pages. Per-room prices DO exist and are complete: every
-   featured dish at every room has a live price in that room's own
-   toastMenus/*.json. Turning them on here is a data decision, not a template
-   change. See the report and menuConcepts.json `_prices`.
-
-   A room whose filter returns nothing for every section renders nothing at
-   all rather than an empty module. Nothing currently hits that, but Maui is
-   the thinnest at seven rows and no dessert.
+   NO PRICES. Not here and not anywhere. They are in the catalogs, they are
+   not read, and menuConcepts.json `_prices` has the history.
    =========================================================================== #}
-{#- Does this room have a menu at all? Counted across every section the
-    module can render, from menuConcepts, not the three that were hardcoded
-    here while menu.json held fourteen dishes. Plaza Bonita's third band is
-    combo sets and Mercury has four sections the old three did not name, so a
-    room could have emptied out of all three and still have a full menu. -#}
-{%- set mcAny = 0 %}
-{%- for key in menuConcepts.sectionOrder %}
-  {%- set mcAny = mcAny + (menu.items | dishesFor(menuLoc, key) | length) %}
-{%- endfor %}
-{%- if mcAny %}
-{#- id="menu" IS LOAD-BEARING, 2026-09-15. /menu/ is a room chooser now, so a
-    "See the menu" link on a room page that points there asks a reader standing
-    in Convoy to pick a room. Six links across the NAP plate, both full location
-    templates, the stub and the Maui order close now point at #menu instead,
-    which is this section, on the page they are already on. -#}
-<section class="sect mc-sect" id="menu" aria-label="Menu at this location">
+{%- set room = roomMenus.byRoom[menuLoc] %}
+{%- set roomLoc = (locations.items | where("id", menuLoc)) | first %}
+{%- if room and room.sections | length %}
+{#- id="menu" IS LOAD-BEARING. /menu/ is a room chooser, so a "see the menu"
+    link on a room page that points there asks a reader standing in Convoy to
+    pick a room. Six links across the NAP plate, both full location templates,
+    the stub and the Maui order close point at #menu, which is this section on
+    the page they are already on. -#}
+<section class="sect" id="menu" aria-labelledby="menu-title">
   <div class="sect__inner">
+    <h2 class="u-visually-hidden" id="menu-title">The menu at {{ roomLoc.name }}</h2>
     <div class="mc mc--inline">
       {%- set mcLoc = menuLoc %}
       {%- set mcChrome = false %}
-      {#- The room's own variant, from menuVariants.js. `mcVariantOverride` is
-          set by the internal A/B route at /internal/menu-a2-vs-b2/, which
-          shows both treatments side by side on purpose, and by nothing else. -#}
+      {%- set mcSections = room.sections %}
       {%- set variant = mcVariantOverride | default(menuVariants.byRoom[menuLoc].variant) %}
       {%- set showPrices = false %}
       {% include "components/menu-concept.njk" %}
+    </div>
+
+    {#- ORDERING AND THE LIVE LIST, together, because they are the same answer.
+        The rows above are a snapshot; this is where the menu actually is. -#}
+    <div class="mc-live">
+      <p class="mc-live__text">
+        {%- if roomLoc.drinks and roomLoc.drinks.note %}
+        {{ roomLoc.drinks.note }}
+        {%- elif room.drinks.alcoholic %}
+        {{ room.drinks.kinds | drinkLine }}{% if room.drinks.onTap %} on tap{% endif %}.
+        {%- endif %}
+        For the current menu and to order, {{ roomLoc.name }} is on Toast.
+      </p>
+      <a class="mc-live__cta" href="{{ roomLoc.orderUrl }}" rel="noopener">
+        Order from {{ roomLoc.name }}
+        <span aria-hidden="true">&#8594;</span>
+      </a>
     </div>
   </div>
 </section>

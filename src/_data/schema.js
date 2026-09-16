@@ -35,6 +35,7 @@
 import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
+import roomMenus from "./roomMenus.js";
 import menuConcepts from "./menuConcepts.json" with { type: "json" };
 import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
 import locationFaq from "./locationFaq.js";
@@ -193,16 +194,53 @@ const MENU_SECTIONS = menuConcepts.sectionOrder.map((id) => ({
 //
 // If that ever stops being acceptable, the move is to give each dish a real URL
 // the way /menu/vegan-ramen/ has one, not to renumber the @ids.
+// A ROOM'S MENU IS BUILT FROM THE SAME ROWS THE PAGE RENDERS, 2026-09-16.
+//
+// SCHEMA.md rule 2 is the business-critical one: "If the menu page does not
+// show a dish, the menu schema does not contain it." Location pages render
+// their room's Toast catalog through _data/roomMenus.js now, so reading
+// menu.json here would have published a different menu from the one on the
+// page, on all seven rooms at once, silently. Same module, same rows, same
+// order, so the two cannot drift.
+//
+// The rows it does not recognise are still in the graph. An unmatched Toast
+// row has a name and usually a description and no dish id, so it gets a
+// MenuItem with no @id: it is a real dish the room really serves, and leaving
+// it out to keep the identifiers tidy would break rule 2 in the other
+// direction.
+function buildRoomMenu({ id, name, locationId }) {
+  const room = roomMenus.byRoom[locationId];
+  if (!room) return null;
+  return {
+    "@type": "Menu",
+    "@id": id,
+    name,
+    inLanguage: "en-US",
+    hasMenuSection: room.sections.map((section) => ({
+      "@type": "MenuSection",
+      name: section.label,
+      hasMenuItem: section.items.map((row) => {
+        const entry = { "@type": "MenuItem" };
+        // Only a joined row gets the shared identifier. An unmatched row is a
+        // dish we can name and not one we can point at.
+        if (row.dishId) entry["@id"] = `${site.url}/menu/#item-${row.dishId}`;
+        entry.name = row.name;
+        if (row.description) entry.description = row.description;
+        if ((row.dietary || []).includes("vegan")) {
+          entry.suitableForDiet = "https://schema.org/VeganDiet";
+        }
+        return entry;
+      }),
+    })).filter((section) => section.hasMenuItem.length > 0),
+  };
+}
+
 function buildMenu({ id, name, locationId = null, listedOnly = false }) {
   const items = menu.items.filter(
     (item) =>
       (!locationId || (item.locations || []).includes(locationId)) &&
       // `listed`, NOT `featurable`. SCHEMA.md rule 2: the graph mirrors the
       // visible page, and a location page renders everything the room serves.
-      // This was `featuredOnly`/`item.feature` until 2026-09-15; keeping it
-      // would have omitted Carnitas and the five do-not-feature dishes from
-      // the graph of rooms that serve them, which is both a wrong graph and
-      // the exact contradiction CLIENT_FACTS.md warns about.
       (!listedOnly || item.listed),
   );
 
@@ -422,11 +460,10 @@ const locationPages = Object.fromEntries(
             ]),
           },
           restaurant(loc.id, `${site.url}${loc.url}#menu`),
-          buildMenu({
+          buildRoomMenu({
             id: `${site.url}${loc.url}#menu`,
             name: `${loc.businessName} menu`,
             locationId: loc.id,
-            listedOnly: true,
           }),
           locationFaqNode(loc),
         ].filter(Boolean),
@@ -514,11 +551,10 @@ export default {
         ]),
       },
       restaurant("convoy", `${site.url}/tajima-convoy/#menu`),
-      buildMenu({
+      buildRoomMenu({
         id: `${site.url}/tajima-convoy/#menu`,
         name: "Tajima Ramen Convoy menu",
         locationId: "convoy",
-        listedOnly: true,
       }),
       locationFaqNode(locations.items.find((l) => l.id === "convoy")),
     ].filter(Boolean),
@@ -551,13 +587,10 @@ export default {
       },
       restaurant("college-heights", `${site.url}/tajima-college-heights/#menu`),
       locationFaqNode(locations.items.find((l) => l.id === "college-heights")),
-      buildMenu({
+      buildRoomMenu({
         id: `${site.url}/tajima-college-heights/#menu`,
         name: "Tajima Ramen College Heights menu",
         locationId: "college-heights",
-        // Paired with the page's `dish.listed and locationId in
-        // dish.locations` loop. Change one and you must change the other.
-        listedOnly: true,
       }),
     ].filter(Boolean),
   },

@@ -474,7 +474,9 @@
   align-items: center;
   gap: var(--space-3);
   white-space: nowrap;
-  background: var(--accent);
+  /* --cta-fill, not --accent: see the token. The accent is a text colour and
+     at night it does not carry cream. */
+  background: var(--cta-fill);
   color: var(--color-system-cream);
   padding: var(--space-4) var(--space-7);
   font-family: var(--font-ui);
@@ -491,29 +493,11 @@
 
 .page-home .btn:hover,
 .page-home .btn:focus-visible {
-  background: var(--color-red-deep);
+  background: var(--cta-fill-hover);
   transform: translateY(-1px);
 }
 
-/* NIGHT NEEDS A DIFFERENT FILL, AND IT IS THE SAME MISTAKE AS RED-AS-TEXT,
-   INVERTED. --accent at night is #FF4D40, which exists so red type can be
-   read against a near-black canvas. Putting cream ON it measures 3.25 to 1
-   and fails: a colour chosen to be legible on dark is not thereby a fill to
-   print cream over. Deep red is the fill, and the hover derives one step
-   further so the state still reads. color-mix off a token, so no new hex.
 
-   :not(.btn--cream) IS LOAD-BEARING. Without it this rule outranks
-   .page-home .btn--cream on specificity and paints the cream CTA red, which
-   put Fire Red type on a dark red field at 1.51 to 1. The sweep caught it on
-   the next run. */
-[data-mode="night"] .page-home .btn:not(.btn--cream) {
-  background: var(--color-red-deep);
-}
-
-[data-mode="night"] .page-home .btn:not(.btn--cream):hover,
-[data-mode="night"] .page-home .btn:not(.btn--cream):focus-visible {
-  background: color-mix(in srgb, var(--color-red-deep) 82%, var(--color-black));
-}
 
 /* Red on the red field is invisible, so the field's CTA is cream. */
 .page-home .btn--cream {
