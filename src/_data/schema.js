@@ -35,6 +35,7 @@
 import site from "./site.json" with { type: "json" };
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
+import menuConcepts from "./menuConcepts.json" with { type: "json" };
 import { HAS_FULL_PAGE } from "../_lib/fullPageLocations.js";
 import locationFaq from "./locationFaq.js";
 
@@ -142,39 +143,57 @@ const noodleRoomPlace = {
 // No `offers`: CLIENT_FACTS.md says prices drift and are CONFIRM before schema
 // offers ship. Prices appear as `price` on the MenuItem, matching the visible
 // page, which is the honest floor.
-const MENU_SECTIONS = [
-  { id: "ramen", name: "Ramen" },
-  { id: "izakaya", name: "Izakaya" },
-  { id: "dessert", name: "Dessert" },
-];
+// The sections, in the order the page renders them, READ FROM DATA rather than
+// hardcoded here. Three ids were listed in this file until 2026-09-15, which
+// was right while menu.json held three sections and silently wrong the moment
+// Connor's dish sheet brought it to eight: the College Heights graph carried 18
+// items against 24 on the page, and Mercury's would have carried 19 against 43.
+// A graph that omits half a menu is a rule-2 break as surely as one that adds
+// to it. One source now: menuConcepts.sectionOrder, the same list the template
+// loops.
+const MENU_SECTIONS = menuConcepts.sectionOrder.map((id) => ({
+  id,
+  name: menuConcepts.sectionLabels[id],
+}));
 
 // Builds a Menu entity over a subset of menu.items. `locationId` null means
 // the brand menu on /menu/; a location id filters to what that room actually
 // sells, using menu.json's `locations` column (derived 2026-08-04 from the
 // seven live Toast catalogs, not assumed).
 //
-// `featuredOnly` mirrors a location page's visible menu section, which renders
-// `dish.feature and locationId in dish.locations`. IT MUST STAY PAIRED WITH
+// `listedOnly` mirrors a location page's visible menu section, which renders
+// `dish.listed and locationId in dish.locations`. IT MUST STAY PAIRED WITH
 // THAT TEMPLATE CONDITION. /menu/ renders every dish, featured or not, so it
 // passes false.
 //
-// This is not a cosmetic filter. Without it the College Heights graph listed
-// Carnitas Ramen and Miso Ramen, neither of which the visible page shows,
-// which breaks SCHEMA.md rule 2 outright. Carnitas is worse than a rule-2
-// miss: Open Decision #4 resolved it as "listed plainly on /menu/ and nowhere
-// else," and DESIGN_SYSTEM.md still bans it site-wide. Schema is somewhere
-// else. It shipped into the JSON-LD on the first build of this page and was
-// caught by a banned-word scan of the built HTML, not by reading the template,
-// which is the only place it was visible.
+// This is not a cosmetic filter, and what it filters OUT changed on 2026-09-15.
+// It used to drop Carnitas and Miso from a room's graph because the visible
+// page did not show them. The page shows Carnitas now: `listed` and
+// `featurable` are separate fields, Open Decision #4 is "listed plainly", and
+// the room's page is the room's menu. So the graph carries it too, because the
+// graph mirrors the page. What still drops out is a dish the room does not
+// serve, which is what `locations` is for.
+//
+// The history is worth keeping: Carnitas shipped into this JSON-LD on the first
+// build of the College Heights page, when the visible page did not list it, and
+// was caught by a banned-word scan of the built HTML rather than by reading the
+// template. The lesson was not "keep Carnitas out of schema", it was "keep
+// schema and the page saying the same thing".
 //
 // MenuItem @ids always point at /menu/#item-<id>, on every menu, because the
 // dish is one entity no matter how many rooms serve it. Only the Menu that
 // contains it is per-location.
-function buildMenu({ id, name, locationId = null, featuredOnly = false }) {
+function buildMenu({ id, name, locationId = null, listedOnly = false }) {
   const items = menu.items.filter(
     (item) =>
       (!locationId || (item.locations || []).includes(locationId)) &&
-      (!featuredOnly || item.feature),
+      // `listed`, NOT `featurable`. SCHEMA.md rule 2: the graph mirrors the
+      // visible page, and a location page renders everything the room serves.
+      // This was `featuredOnly`/`item.feature` until 2026-09-15; keeping it
+      // would have omitted Carnitas and the five do-not-feature dishes from
+      // the graph of rooms that serve them, which is both a wrong graph and
+      // the exact contradiction CLIENT_FACTS.md warns about.
+      (!listedOnly || item.listed),
   );
 
   return {
@@ -256,7 +275,24 @@ function locationFaqNode(loc) {
   };
 }
 
-function restaurant(id, menuId = `${site.url}/menu/#menu`) {
+// EVERY ROOM POINTS AT ITS OWN MENU AS OF 2026-09-15, so the default argument
+// is gone and callers must say which. It used to default to the brand menu at
+// /menu/#menu, which was defensible while that page listed every dish and
+// stopped being so on two counts at once: the rooms do not share a menu (8 of
+// 73 dishes are served at all six, and Mercury carries 47 against Crown Point's
+// 21), and /menu/ no longer lists dishes at all. A Restaurant pointing hasMenu
+// at a page that shows a room chooser is a claim with nothing behind it.
+//
+// College Heights had its own from the start, for exactly this reason, recorded
+// in its brief as "pointing it at /menu/#menu would advertise dishes it does
+// not sell". That was true of all seven; it was only written down for one.
+function restaurant(id, menuId) {
+  if (!menuId) {
+    throw new Error(
+      `schema: restaurant("${id}") was called with no menuId. Every room points ` +
+        `at its own Menu entity; there is no brand-wide menu to fall back on.`,
+    );
+  }
   const loc = locations.items.find((item) => item.id === id);
   const entity = {
     "@type": "Restaurant",
@@ -335,7 +371,13 @@ const locationPages = Object.fromEntries(
               { name: loc.name, url: loc.url },
             ]),
           },
-          restaurant(loc.id),
+          restaurant(loc.id, `${site.url}${loc.url}#menu`),
+          buildMenu({
+            id: `${site.url}${loc.url}#menu`,
+            name: `${loc.businessName} menu`,
+            locationId: loc.id,
+            listedOnly: true,
+          }),
           locationFaqNode(loc),
         ].filter(Boolean),
       },
@@ -421,7 +463,13 @@ export default {
           { name: "Convoy", url: "/tajima-convoy/" },
         ]),
       },
-      restaurant("convoy"),
+      restaurant("convoy", `${site.url}/tajima-convoy/#menu`),
+      buildMenu({
+        id: `${site.url}/tajima-convoy/#menu`,
+        name: "Tajima Ramen Convoy menu",
+        locationId: "convoy",
+        listedOnly: true,
+      }),
       locationFaqNode(locations.items.find((l) => l.id === "convoy")),
     ].filter(Boolean),
   },
@@ -457,9 +505,9 @@ export default {
         id: `${site.url}/tajima-college-heights/#menu`,
         name: "Tajima Ramen College Heights menu",
         locationId: "college-heights",
-        // Paired with the page's `dish.feature and locationId in
+        // Paired with the page's `dish.listed and locationId in
         // dish.locations` loop. Change one and you must change the other.
-        featuredOnly: true,
+        listedOnly: true,
       }),
     ].filter(Boolean),
   },

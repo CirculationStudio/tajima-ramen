@@ -327,11 +327,13 @@ function proposedUse(location, dish, type) {
 
   if (dish && typeof dish === "string" && brandLevelAllowed) {
     const item = menu.items.find((i) => i.id === dish);
-    // feature: false means plain line, no photo, no card, no callout. Carnitas
-    // is the live case (Open Decision #4, resolved 2026-08-04): it ships as a
-    // line on /menu/ and must never acquire a photo slot. Proposing one here
-    // would hand someone the exact thing the decision was designed to prevent.
-    if (item && item.feature) {
+    // `featurable`, NOT `listed`. proposedUse advertises a photograph for a
+    // hero or card slot, which is exactly what the do-not-feature list governs.
+    // Carnitas is the live case (Open Decision #4): it is listed on every room
+    // that serves it AND it has a photograph in the menu body, but it must
+    // never acquire a hero. Those were one field until 2026-09-15 and could not
+    // both be expressed; see menu.json `_listedVsFeaturable`.
+    if (item && item.featurable) {
       uses.push("/menu/", "/");
       if (dish === "vegan") uses.push("/menu/vegan-ramen/");
     }

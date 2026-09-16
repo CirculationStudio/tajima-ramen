@@ -133,7 +133,11 @@ description: "Internal review page. Three alternate home page directions on one 
     here for the same reason it is excluded everywhere: it does not appear on
     this site.
   #}
-  {%- set featuredRamen = menu.items | where("section", "ramen") | where("feature", true) %}
+  {#- FIELD RENAME ONLY, 2026-09-15: `feature` split into `listed` and
+    `featurable`. The homepage trio is a hero slot, so this asks the featurable
+    question and the set it returns is unchanged. This route is frozen; nothing
+    else here was touched. -#}
+{%- set featuredRamen = menu.items | where("section", "ramen") | where("featurable", true) %}
 
   <a class="skip-link" href="#hc-main-a">Skip to content</a>
 

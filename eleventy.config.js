@@ -224,7 +224,14 @@ export default function (eleventyConfig) {
     if (!Array.isArray(items) || !locId || !section) return [];
     return items.filter(
       (d) =>
-        d.feature &&
+        // `listed`, NOT `featurable`. This feeds a room's own menu, so the
+        // question is "does this room serve it", not "may it have a hero".
+        // It read `d.feature` until 2026-09-15, which was the same question
+        // while a location page showed a curated bento and became the wrong
+        // one the moment that page became the full menu: it hid Carnitas and
+        // the five do-not-feature dishes from rooms that serve them. See
+        // menu.json `_listedVsFeaturable`.
+        d.listed &&
         d.section === section &&
         Array.isArray(d.locations) &&
         d.locations.includes(locId)
