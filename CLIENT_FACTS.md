@@ -237,6 +237,15 @@ Signature dishes and confirmed prices (current as of the menu file, **prices dri
 
 **Do not feature:** Carnitas Ramen, Tajima Fries, Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeño Bomb. These are real dishes real customers order. They are not hidden, they are not the brand voice.
 
+**What "do not feature" governs, settled 2026-09-16.** Heroes, cards, callouts and the home page. Not the menu body. The dish is listed plainly on the menu of every room that serves it, with its photograph beside it, exactly as Carnitas Ramen has been since 2026-09-10. The two questions are separate and `menu.json` already separates them:
+
+| field | question | answer for these five |
+|---|---|---|
+| `listed` | does it appear on the menu of a room that serves it? | yes, always |
+| `featurable` | may it take a hero, a card, a callout or a home page slot? | no |
+
+This was being enforced as "the photograph does not exist": `scripts/build-photo-manifest.js` dropped the files from the manifest entirely, so no template could reach them even to list the dish plainly. That is a stronger rule than this document states, and it cost eleven usable photographs across five dishes every room serves. The files carry `doNotFeature: true` in `photos.json` now, so a featuring path can still refuse them.
+
 ### Carnitas Ramen: OPEN DECISION, blocks the menu page and its schema
 
 Carnitas Ramen ($17.50) is on the menu at all six SD locations and was the **most-reviewed ramen** in the 2025 five-star sample (15 mentions). It runs 19:1 positive at Mercury. Brand positioning says phase it out quietly and do not feature it in new content.

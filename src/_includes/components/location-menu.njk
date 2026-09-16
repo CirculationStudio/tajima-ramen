@@ -42,7 +42,26 @@
       {%- set mcLoc = menuLoc %}
       {%- set mcChrome = false %}
       {%- set mcSections = room.sections %}
-      {%- set variant = mcVariantOverride | default(menuVariants.byRoom[menuLoc].variant) %}
+      {#- EVERY ROOM RENDERS A2, 2026-09-16. This used to read a computed
+          variant: below 70 per cent dish-photo coverage a room fell back to
+          B2, three columns of type and no photography, on the reasoning that
+          a grid of mostly-empty tiles reads as broken images.
+
+          The premise was that the empty state is a failure to be avoided. It
+          is not: the reference specifies a tinted tile carrying a ghosted
+          brand mark for its own photo-less dishes, which keeps the text
+          column starting at the same x down the whole grid. A dish with no
+          photograph degrades into that, cleanly, and a room does not change
+          shape because of how much of its food has been shot.
+
+          It also made two rooms look different from the other five for a
+          reason no reader could see, and the threshold moved whenever the
+          menus changed: the Toast rebuild alone pushed five of seven rooms
+          under it overnight, Convoy included.
+
+          mcVariantOverride stays for /internal/menu-a2-vs-b2/, which shows
+          both treatments side by side on purpose. -#}
+      {%- set variant = mcVariantOverride | default("a2") %}
       {%- set showPrices = false %}
       {% include "components/menu-concept.njk" %}
     </div>

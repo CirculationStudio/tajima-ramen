@@ -4,7 +4,7 @@
   "_ruleHistory": "The rule above read, in full, until 2026-09-15: \"The filename is the source of truth for what a photo shows. The directory a file arrived in is never read. A photo reaches a location page only if its filename names that location.\" It was written for room photography and applied to everything, which is the whole error. Recorded rather than overwritten so the next person can see that the narrowing was deliberate and what it was narrowed for.",
   "_placeholderRule": "EVERY PHOTOGRAPH ON THIS SITE IS TAJIMA'S OWN. A stand-in is allowed only for a subject no Tajima photograph could ever cover (raw ingredients, dough texture, unbranded noodles, steam, wood or ceramic), never for a room, a storefront, or a plated bowl, and it is never presented as Tajima. Registering one is three hand-authored fields on its entry: placeholder: true, placeholderSource (the URL it came from), and placeholderNote (which real photograph replaces it and who is shooting it). All three are required and a partial registration fails too. src/_data/roomPhotos.js sweeps this whole manifest at module load and THROWS, which fails npm run build, so a placeholder cannot ship by being forgotten. TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build is a client-preview escape hatch only: Cloudflare does not set it, so a placeholder still fails the deploy.",
   "_generated": 233,
-  "_mapped": 205,
+  "_mapped": 216,
   "_unmapped": 28,
   "_mauiFlagged": 13,
   "_doNotFeature": 11,
@@ -182,6 +182,51 @@
       "alt": "[DRAFT, NEEDS REVIEW] ",
       "locationStatus": "UNCONFIRMED-LOCATION"
     },
+    "tajima-appetizer-cream-cheese-wontons-02.webp": {
+      "file": "tajima-appetizer-cream-cheese-wontons-02.webp",
+      "src": "/images/photo/tajima-appetizer-cream-cheese-wontons-02.webp",
+      "location": null,
+      "locationSource": null,
+      "dish": "cream-cheese-wontons",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "locationStatus": "UNCONFIRMED-LOCATION",
+      "doNotFeature": true
+    },
+    "tajima-appetizer-jalapeno-bomb-01.webp": {
+      "file": "tajima-appetizer-jalapeno-bomb-01.webp",
+      "src": "/images/photo/tajima-appetizer-jalapeno-bomb-01.webp",
+      "location": null,
+      "locationSource": null,
+      "dish": "jalapeno-bomb",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "locationStatus": "UNCONFIRMED-LOCATION",
+      "doNotFeature": true
+    },
+    "tajima-appetizer-jalapeno-bomb-02.webp": {
+      "file": "tajima-appetizer-jalapeno-bomb-02.webp",
+      "src": "/images/photo/tajima-appetizer-jalapeno-bomb-02.webp",
+      "location": null,
+      "locationSource": null,
+      "dish": "jalapeno-bomb",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "locationStatus": "UNCONFIRMED-LOCATION",
+      "doNotFeature": true
+    },
     "tajima-appetizer-karaage-02.webp": {
       "file": "tajima-appetizer-karaage-02.webp",
       "src": "/images/photo/tajima-appetizer-karaage-02.webp",
@@ -279,6 +324,21 @@
       ],
       "alt": "[DRAFT, NEEDS REVIEW] ",
       "locationStatus": "UNCONFIRMED-LOCATION"
+    },
+    "tajima-appetizer-tajima-fries-01.webp": {
+      "file": "tajima-appetizer-tajima-fries-01.webp",
+      "src": "/images/photo/tajima-appetizer-tajima-fries-01.webp",
+      "location": null,
+      "locationSource": null,
+      "dish": "tajima-fries",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "locationStatus": "UNCONFIRMED-LOCATION",
+      "doNotFeature": true
     },
     "tajima-appetizer-takoyaki-01.webp": {
       "file": "tajima-appetizer-takoyaki-01.webp",
@@ -1758,6 +1818,70 @@
       ],
       "alt": "Four drinks lined up on a maple counter against a wood panel wall: a white ceramic cup of pale green tea, an orange drink with a red-flecked salt rim, a red drink with a lemon slice, and a dark amber drink with a lemon slice."
     },
+    "tajima-ramen-convoy-cream-cheese-wontons-01.webp": {
+      "file": "tajima-ramen-convoy-cream-cheese-wontons-01.webp",
+      "src": "/images/photo/tajima-ramen-convoy-cream-cheese-wontons-01.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "cream-cheese-wontons",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "Six deep fried wontons folded into points, on a branded paper liner on a white rectangular plate, with a small metal cup of red sweet and sour sauce beside them.",
+      "doNotFeature": true
+    },
+    "tajima-ramen-convoy-crispy-rice-spicy-tuna-01.webp": {
+      "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-01.webp",
+      "src": "/images/photo/tajima-ramen-convoy-crispy-rice-spicy-tuna-01.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "crispy-rice-spicy-tuna",
+      "type": "dish",
+      "width": 854,
+      "height": 1280,
+      "orientation": "portrait",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "doNotFeature": true
+    },
+    "tajima-ramen-convoy-crispy-rice-spicy-tuna-02.webp": {
+      "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-02.webp",
+      "src": "/images/photo/tajima-ramen-convoy-crispy-rice-spicy-tuna-02.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "crispy-rice-spicy-tuna",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "Three blocks of crisped rice on a white rectangular plate, each topped with sliced avocado, a mound of spicy tuna, a slice of jalapeno and a drizzle of dark sweet sauce.",
+      "doNotFeature": true
+    },
+    "tajima-ramen-convoy-crispy-rice-spicy-tuna-05.webp": {
+      "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-05.webp",
+      "src": "/images/photo/tajima-ramen-convoy-crispy-rice-spicy-tuna-05.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "crispy-rice-spicy-tuna",
+      "type": "dish",
+      "width": 1280,
+      "height": 854,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "doNotFeature": true
+    },
     "tajima-ramen-convoy-crunchy-cucumber-salad-01.webp": {
       "file": "tajima-ramen-convoy-crunchy-cucumber-salad-01.webp",
       "src": "/images/photo/tajima-ramen-convoy-crunchy-cucumber-salad-01.webp",
@@ -1823,7 +1947,7 @@
         "/tajima-convoy/"
       ],
       "needsEyes": true,
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Fries under a thick brown curry sauce with ground pork, melted cheese and green herb flakes, photographed close and from the side on a white plate."
     },
     "tajima-ramen-convoy-curry-fries-06.webp": {
       "file": "tajima-ramen-convoy-curry-fries-06.webp",
@@ -1957,6 +2081,22 @@
       ],
       "needsEyes": true,
       "alt": "Garlic edamame in a white bowl, the pods scattered with chopped garlic and sesame seeds."
+    },
+    "tajima-ramen-convoy-jalapeno-bomb-01.webp": {
+      "file": "tajima-ramen-convoy-jalapeno-bomb-01.webp",
+      "src": "/images/photo/tajima-ramen-convoy-jalapeno-bomb-01.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "jalapeno-bomb",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "Halved jalapenos, battered and deep fried and stuffed, under crossing drizzles of orange spicy mayo and dark sweet sauce on a branded paper liner.",
+      "doNotFeature": true
     },
     "tajima-ramen-convoy-karaage-01.webp": {
       "file": "tajima-ramen-convoy-karaage-01.webp",
@@ -2324,6 +2464,22 @@
       ],
       "alt": "Tajima Black, two slices of pork chashu with minced garlic and sesame, half a seasoned egg, baby bok choy, sweetcorn and shredded scallion on dark black garlic broth, in a red bowl"
     },
+    "tajima-ramen-convoy-tajima-fries-02.webp": {
+      "file": "tajima-ramen-convoy-tajima-fries-02.webp",
+      "src": "/images/photo/tajima-ramen-convoy-tajima-fries-02.webp",
+      "location": "convoy",
+      "locationSource": "convoy",
+      "dish": "tajima-fries",
+      "type": "dish",
+      "width": 1280,
+      "height": 853,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-convoy/"
+      ],
+      "alt": "A pile of thick cut fries under melted white cheese, browned minced pork, a drizzle of orange spicy mayo and green herb flakes, on a white plate.",
+      "doNotFeature": true
+    },
     "tajima-ramen-convoy-tajima-red-01.webp": {
       "file": "tajima-ramen-convoy-tajima-red-01.webp",
       "src": "/images/photo/tajima-ramen-convoy-tajima-red-01.webp",
@@ -2546,6 +2702,23 @@
         "/tajima-convoy/"
       ],
       "alt": "Vegetarian Fried Rice on a white plate: three slabs of grilled marinated tofu over fried rice with carrots and corn, a whole baby bok choy alongside, and a steel cup of fried chili oil."
+    },
+    "tajima-ramen-cream-cheese-wonton-kihei.webp": {
+      "file": "tajima-ramen-cream-cheese-wonton-kihei.webp",
+      "src": "/images/photo/tajima-ramen-cream-cheese-wonton-kihei.webp",
+      "location": "maui",
+      "locationSource": "kihei",
+      "dish": null,
+      "type": null,
+      "width": 1600,
+      "height": 1067,
+      "orientation": "landscape",
+      "proposedUse": [
+        "/tajima-ramen-maui-hawaii/"
+      ],
+      "needsEyes": true,
+      "alt": "[DRAFT, NEEDS REVIEW] ",
+      "doNotFeature": true
     },
     "tajima-ramen-edamame-kihei.webp": {
       "file": "tajima-ramen-edamame-kihei.webp",
@@ -3017,7 +3190,7 @@
       "proposedUse": [
         "/tajima-ramen-maui-hawaii/"
       ],
-      "alt": "[DRAFT, NEEDS REVIEW] "
+      "alt": "Fried rice with egg, peas, corn and diced carrot on a white plate, three pink shrimp on top, with a second plate of fried rice behind it out of focus."
     },
     "tajima-ramen-shrimp-fried-rice-plated-kihei.webp": {
       "file": "tajima-ramen-shrimp-fried-rice-plated-kihei.webp",
@@ -3539,67 +3712,67 @@
       "file": "tajima-appetizer-cream-cheese-wontons-02.webp",
       "dish": "Cream Cheese Wontons",
       "location": null,
-      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-appetizer-jalapeno-bomb-01.webp",
       "dish": "Jalapeno Bomb",
       "location": null,
-      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-appetizer-jalapeno-bomb-02.webp",
       "dish": "Jalapeno Bomb",
       "location": null,
-      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-appetizer-tajima-fries-01.webp",
       "dish": "Tajima Fries",
       "location": null,
-      "reason": "\"Tajima Fries\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Tajima Fries\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-cream-cheese-wontons-01.webp",
       "dish": "Cream Cheese Wontons",
       "location": "convoy",
-      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-01.webp",
       "dish": "Crispy Rice Spicy Tuna",
       "location": "convoy",
-      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-02.webp",
       "dish": "Crispy Rice Spicy Tuna",
       "location": "convoy",
-      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-crispy-rice-spicy-tuna-05.webp",
       "dish": "Crispy Rice Spicy Tuna",
       "location": "convoy",
-      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Crispy Rice Spicy Tuna\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-jalapeno-bomb-01.webp",
       "dish": "Jalapeno Bomb",
       "location": "convoy",
-      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Jalapeno Bomb\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-convoy-tajima-fries-02.webp",
       "dish": "Tajima Fries",
       "location": "convoy",
-      "reason": "\"Tajima Fries\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Tajima Fries\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     },
     {
       "file": "tajima-ramen-cream-cheese-wonton-kihei.webp",
       "dish": "Cream Cheese Wontons",
       "location": "maui",
-      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision."
+      "reason": "\"Cream Cheese Wontons\" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it."
     }
   ]
 }

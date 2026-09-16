@@ -68,11 +68,35 @@ const VERIFIED = {
   "edamame": "tajima-ramen-convoy-edamame-02.webp",
   "vegetable-gyoza": "tajima-ramen-vegetable-gyoza-kihei.webp",
 
+  // --- the five off the do-not-feature list, checked 2026-09-16 ---------
+  // Every one opened and looked at before placing, and the alt written from
+  // the frame. "Do not feature" governs heroes, cards and callouts; the menu
+  // body is `listed`, which these always were. Same treatment Carnitas has
+  // had since 2026-09-10.
+  "cream-cheese-wontons": "tajima-ramen-convoy-cream-cheese-wontons-01.webp",
+  "tajima-fries": "tajima-ramen-convoy-tajima-fries-02.webp",
+  "curry-fries": "tajima-ramen-convoy-curry-fries-04.webp",
+  "crispy-rice-spicy-tuna": "tajima-ramen-convoy-crispy-rice-spicy-tuna-02.webp",
+  "jalapeno-bomb": "tajima-ramen-convoy-jalapeno-bomb-01.webp",
+
+  // --- Mercury's own, checked 2026-09-16 --------------------------------
+  // Both filenames say mercury-only and Mercury is the only room that serves
+  // either dish, so nothing travels here.
+  "shrimp-tempura": "shrimp-tempura-large-mercury-only.webp",
+  "miso-soup": "miso-soup-large-mercury-only.webp",
+
   // --- Maui's own, checked 2026-09-14 -----------------------------------
   "pork-gyoza-maui": "tajima-ramen-pork-gyoza-kihei.webp",
   "garlic-edamame-maui": "tajima-ramen-garlic-edamame-kihei.webp",
   "spicy-sesame-maui": "tajima-ramen-spicy-sesame-ramen-kihei.webp",
   "carnitas-maui": "tajima-ramen-carnitas-ramen-hero-shot-kihei.webp",
+  // Checked 2026-09-16. SCOPED TO MAUI ON PURPOSE. Shrimp Fried Rice is on
+  // both Maui's and Mercury's catalogs and NEITHER carries a description, so
+  // the narrowed travel rule in photos.json cannot be satisfied: there is
+  // nothing to compare, which is not the same as agreement. The frame was
+  // shot at Kihei, so it stays at Kihei and Mercury's row renders unshot.
+  // Not the `-plated-` frame, which is REJECTED below.
+  "shrimp-fried-rice-maui": "tajima-ramen-shrimp-fried-rice-kihei.webp",
 };
 
 /**
@@ -118,6 +142,19 @@ const VERIFIED = {
  *     green beans. There is no shrimp in it. The shrimp is in a NOODLE dish on
  *     a second plate behind it, out of focus. Either the file is misnamed or
  *     the shot was composed around the wrong plate. Not placed.
+ *     STILL REJECTED, and it was the frame and not the dish: checked
+ *     2026-09-16, `tajima-ramen-shrimp-fried-rice-kihei.webp` has the shrimp
+ *     on the plate in focus and is placed for Maui above. The
+ *     `pork-chashu-shrimp` frame has its shrimp on the background plate too
+ *     and is also left alone.
+ *
+ *   Vegetable Tempura -> all four frames
+ *     vegetable-tempura-large-mercury-only, and the three
+ *     tajima-appetizer-vegetable-tempura frames. EVERY ONE CONTAINS SHRIMP,
+ *     tails up and unmistakable. PHOTO_AUDIT.md flagged one of them; checked
+ *     2026-09-16, it is the whole set, so this is a mislabelled shoot rather
+ *     than one bad file. Mercury's Vegetable Tempura renders unphotographed
+ *     and a vegetarian reading a shrimp is the reason.
  *
  * HELD, pending a client answer. Real photographs of the right kind of dish,
  * but the mapping asserts something nobody has confirmed.
@@ -128,10 +165,17 @@ const VERIFIED = {
  *     Resolved above on the catalogs rather than left open: they are not the
  *     same rolls. Still unplaced.
  *
- * NO LOCAL FILE, and each is also on CLIENT_FACTS.md's do-not-feature list, so
- * fetching them would be work in service of something we may not publish:
- * Tajima Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Curry Fries,
- * Jalapeño Bomb. The sheet's photo column is a catalog, not a permission.
+ * THAT "NO LOCAL FILE" NOTE WAS WRONG, corrected 2026-09-16. It said the five
+ * do-not-feature dishes had no local file and that fetching them would be work
+ * in service of something we may not publish. All five were on disk the whole
+ * time. What they did not have was a MANIFEST ENTRY: build-photo-manifest.js
+ * was enforcing "do not feature" as "does not exist" and dropping the files
+ * before they reached photos.json, so nothing could see them, including the
+ * note that concluded they were absent.
+ *
+ * Thirteen files across the five dishes, eleven of them newly visible. They
+ * are placed above, each opened and looked at, each with alt written from the
+ * frame.
  */
 
 const DISH_IDS = new Set(menu.items.map((item) => item.id));

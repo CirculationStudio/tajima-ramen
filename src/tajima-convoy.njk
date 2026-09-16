@@ -201,9 +201,9 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   wherever the coverage supports them, Convoy at 26 of 34 included.
 
   It also suggested keying the variant off loc.id in location-menu.njk. Do not.
-  The variant comes from src/_data/menuVariants.js, which counts each room's
-  real coverage against a threshold, so rooms move on their own as the
-  photography lands and no template carries a list of room names.
+  Every room renders the same treatment, a photograph beside every dish,
+  and a dish with no photograph gets the designed empty tile. See
+  components/location-menu.njk for why the computed variant was removed.
 #}
 {%- set menuLoc = locationId %}
 {% include "components/location-menu.njk" %}

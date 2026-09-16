@@ -280,6 +280,18 @@ function print() {
     );
   }
   lines.push("");
+  lines.push("  Dish photography, counted from the rows each page actually renders:");
+  for (const [id, room] of Object.entries(byRoom)) {
+    const rows = room.sections.flatMap((s) => s.items);
+    const shot = rows.filter((r) => r.photo).length;
+    const pct = rows.length ? Math.round((shot / rows.length) * 100) : 0;
+    lines.push(`    ${id.padEnd(17)}${String(shot).padStart(3)}/${String(rows.length).padEnd(3)} ${String(pct).padStart(4)}%`);
+  }
+  lines.push("");
+  lines.push("  EVERY ROOM RENDERS THE SAME TREATMENT. Coverage is reported, not acted on:");
+  lines.push("  a dish with no photograph gets the designed empty tile, which is what the");
+  lines.push("  reference specifies for its own photo-less dishes.");
+  lines.push("");
   lines.push(`  ${report.excluded.length} rows excluded as non-dish. ` +
     `${aliases.unmatched.length} Toast names render without a mark or a photograph, by design.`);
   if (report.unmappedSections.length) {

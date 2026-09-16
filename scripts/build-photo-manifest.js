@@ -197,16 +197,30 @@ const NOTE_EXPAND = {
 // These are real dishes real customers order. They are not hidden, they are
 // not the brand voice."
 //
-// A photograph of one is not a reason to overturn that. These are listed, not
-// silently discarded, because deleting them would hide a real asset from the
-// person who has to decide.
+// CARNITAS RAMEN CAME OFF THIS LIST 2026-09-10, AND THE OTHER FIVE FOLLOW IT
+// 2026-09-16, on the same reading: the dish may be shown, the FEATURING may
+// not.
 //
-// CARNITAS RAMEN IS OFF THIS LIST, 2026-09-10. The client confirmed at review
-// that the dish is permanent and gets a photograph, which supersedes the
-// 2026-08-04 position that it ships as a plain line with no photo. This is the
-// mechanism working as designed: the assets were listed rather than deleted,
-// so when the decision changed there was nothing to recover. The remaining
-// five are unchanged and still have no photograph anywhere on the site.
+// "Do not feature" governs heroes, cards, callouts and the home page. It was
+// being enforced here as "does not exist", by dropping the file from the
+// manifest entirely, which meant no template could reach it even to list the
+// dish plainly with its photograph beside it. That is a stronger rule than
+// CLIENT_FACTS.md states and it cost eleven usable photographs across five
+// dishes every room actually serves.
+//
+// So these files are IN the manifest now, carrying `doNotFeature: true`. The
+// split that already exists in menu.json is the one that matters:
+//
+//   listed      does the dish appear on the menu of a room that serves it?
+//               Yes, always. It is a real dish real customers order.
+//   featurable  may it take a hero, a card, a callout or a home page slot?
+//               No. That is what the client decided and it is unchanged.
+//
+// The menu body is `listed`, not `featurable`. Carnitas has worked exactly
+// this way since 2026-09-10 and nothing about it has been a problem.
+//
+// The flag stays on the entry so a hero or card path can still refuse it, and
+// so the next person can see which photographs are governed.
 const DO_NOT_FEATURE = [
   ["tajima-fries", "Tajima Fries"],
   ["curry-fries", "Curry Fries"],
@@ -483,13 +497,14 @@ for (const file of files) {
     continue;
   }
   if (banned) {
+    // Recorded and KEPT. It falls through to the manifest below.
+    entry.doNotFeature = true;
     doNotFeature.push({
       file,
       dish: banned[1],
       location,
-      reason: `"${banned[1]}" is on the CLIENT_FACTS.md do-not-feature list. NOT USED anywhere. Listed rather than deleted so the asset is visible to whoever decides, but a photograph is not a reason to overturn a positioning decision.`,
+      reason: `"${banned[1]}" is on the CLIENT_FACTS.md do-not-feature list. IN THE MANIFEST and available to the menu body, the same treatment Carnitas Ramen has had since 2026-09-10: listed plainly with its photograph, never a hero, card or callout. The entry carries doNotFeature:true so a featuring path can refuse it.`,
     });
-    continue;
   }
   if ((location === "maui") && isProcess) {
     mauiFlagged.push({

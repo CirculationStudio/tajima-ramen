@@ -62,9 +62,15 @@ One of the five is on the home page. **Four are sitting unused with finished alt
 
 A recognised subject with no location token. Nine are dishes (chicken katsu, miso soup, pork gyoza, karaage); five are the commissary set. **This does not block use on a page that makes no location claim**, such as `/menu/`. It blocks use on a location page.
 
-### 18 files: the do-not-feature list
+### 18 files: the do-not-feature list. RESOLVED 2026-09-16.
 
-Carnitas Ramen, Tajima Fries, Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeño Bomb. **This is current policy, not a stale rule.** The 2026-08-04 Carnitas resolution reads "listed plainly on `/menu/`, `feature: no`, and nowhere else: no photo, no card, no callout, no hero." Excluding the photographs is that decision working correctly.
+Carnitas Ramen, Tajima Fries, Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeño Bomb.
+
+This section read "**This is current policy, not a stale rule**" and concluded that excluding the photographs was the decision working correctly. It was not. "Do not feature" governs heroes, cards and callouts, and it was being enforced as "does not exist" by dropping the files from the manifest, which is a stronger rule than `CLIENT_FACTS.md` states.
+
+All five dishes are now listed with their photographs in the menu body, never a hero or a callout, which is the treatment Carnitas has had since 2026-09-10. Five frames placed, each opened and looked at, each with alt written from the frame.
+
+**The count in this heading was also wrong, and so was the claim that the files were absent.** Thirteen files across the five dishes, eleven of which the manifest was hiding, and `dishPhotos.js` carried a note concluding they had "no local file" at all. They were on disk the whole time. The note could not see them because the thing that would have shown them was the manifest they had been excluded from.
 
 ### 13 files: Maui process
 
