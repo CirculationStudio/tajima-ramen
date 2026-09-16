@@ -239,6 +239,52 @@ export default function (eleventyConfig) {
   });
 
   /**
+   * What distinguishes one room's menu from the others, computed.
+   *
+   * /menu/ is a chooser now and its whole subject is menu difference, so the
+   * cards must not carry hand-written blurbs about what a room serves: those go
+   * stale the first time a menu changes, silently, on the one page whose job is
+   * to be right about it. Everything the card prints comes from here.
+   *
+   * Returns, for one location id:
+   *   served        every dish that room serves
+   *   exclusive     the dishes ONLY that room serves. The single truest answer
+   *                 to "what makes this room different", and Mercury's 24 is
+   *                 the number that made the chooser necessary.
+   *   rareSections  sections this room has that at most two San Diego rooms
+   *                 have. Sushi, the monthly specials board and the kids menu
+   *                 at Mercury; combo sets at Plaza Bonita. Sections almost
+   *                 everyone carries (rice at five rooms, dessert at five) are
+   *                 not distinguishing and are left out.
+   *
+   * A room can legitimately come back with nothing in either list. Crown Point
+   * serves 21 dishes and every one of them is served somewhere else too, so its
+   * card shows a count and no tags. That is the honest answer, not a gap.
+   */
+  eleventyConfig.addFilter("roomMenuFacts", (items, locId, sdRoomIds, sectionOrder, sectionLabels) => {
+    const served = (items || []).filter(
+      (d) => d.listed && Array.isArray(d.locations) && d.locations.includes(locId),
+    );
+    const exclusive = served.filter((d) => d.locations.length === 1);
+
+    const roomsWithSection = (section) =>
+      (sdRoomIds || []).filter((room) =>
+        (items || []).some(
+          (d) => d.section === section && d.listed && (d.locations || []).includes(room),
+        ),
+      ).length;
+
+    const rareSections = (sectionOrder || [])
+      .filter(
+        (section) =>
+          served.some((d) => d.section === section) && roomsWithSection(section) <= 2,
+      )
+      .map((section) => (sectionLabels || {})[section] || section);
+
+    return { served, exclusive, rareSections };
+  });
+
+  /**
    * INTERNAL MENU CONCEPTS ONLY. The first dish in a section whose photograph
    * carries REVIEWED alt in photos.json, as {dish, photo}, or undefined.
    *

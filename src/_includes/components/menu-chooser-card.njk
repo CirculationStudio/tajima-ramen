@@ -1,0 +1,29 @@
+{# ===========================================================================
+   Component: one room card on /menu/
+
+   Expects `loc` and `sdRoomIds`. Ported from the .loc card in
+   _reference/menu-concepts/tajima-menu_mockup-1_location-first.html: name,
+   area, blurb, a tag list, and a dish count in the top right, filling with ink
+   on hover.
+
+   IT IS A LINK, NOT A BUTTON. The mockup's card swaps a client-side view. The
+   rooms have real URLs that already rank, so this goes to the room.
+
+   EVERY VALUE IS DATA. `name`, `neighborhood` and `summary` come from
+   locations.json and are confirmed. The count and the tags come from the
+   `roomMenuFacts` filter, which computes them from menu.json; see the note on
+   that filter for why none of it is authored.
+   =========================================================================== #}
+{%- set facts = menu.items | roomMenuFacts(loc.id, sdRoomIds, menuConcepts.sectionOrder, menuConcepts.sectionLabels) %}
+<a class="mchoose-card" href="{{ loc.url }}">
+  <span class="mchoose-card__count">{{ facts.served | length }} dishes</span>
+  <span class="mchoose-card__name">{{ loc.name }}</span>
+  <span class="mchoose-card__area">{{ loc.neighborhood }}</span>
+  <span class="mchoose-card__blurb">{{ loc.summary }}</span>
+  {%- if facts.rareSections | length or facts.exclusive | length %}
+  <span class="mchoose-card__tags">
+    {%- for label in facts.rareSections %}<span class="mchoose-card__tag">{{ label }}</span>{% endfor %}
+    {%- if facts.exclusive | length %}<span class="mchoose-card__tag">{{ facts.exclusive | length }} only here</span>{% endif %}
+  </span>
+  {%- endif %}
+</a>

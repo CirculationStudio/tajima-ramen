@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Page: /menu/, the room chooser
+
+   Ported from _reference/menu-concepts/tajima-menu_mockup-1_location-first.html,
+   the .mast and .chooser__grid / .loc blocks. The reference's own numbers:
+   three columns at a 2px gap on a rule-coloured ground, 2px ink rules top and
+   bottom, cards padded 26px 24px 24px that fill with ink on hover, a 30px
+   display name, a 13px uppercase red area line, a 14.5px blurb capped at 34ch,
+   11.5px outlined tags, and a count pinned top right.
+
+   WHERE A REFERENCE VALUE MEETS A TOKEN, THE TOKEN WINS and the conflict is
+   named in place. There are three.
+   ========================================================================== */
+
+.mchoose-mast {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-9) var(--layout-gutter) var(--space-7);
+}
+.mchoose-mast__kicker {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  /* The reference sets 14px. 1.25rem is this system's brush floor and the
+     conflict is not negotiable: DESIGN_SYSTEM.md Typography. */
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.mchoose-mast__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: clamp(2.375rem, 6vw, 4rem);
+  line-height: .96;
+  letter-spacing: .005em;
+  color: var(--ink);
+}
+.mchoose-mast__title em { font-style: normal; color: var(--accent); }
+.mchoose-mast__note {
+  margin-top: var(--space-4);
+  max-width: 50ch;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+
+/* --- The signature set ---------------------------------------------------
+   Not in the reference, which has no equivalent section: its chooser goes
+   straight from the masthead to the grid. This page catches brand-level search
+   and cannot show a reader nothing but navigation, so the eight dishes on every
+   San Diego menu run above the grid. Built in the module's own plate language
+   rather than a new one, so the page reads as part of the same system.
+   ------------------------------------------------------------------------ */
+.mchoose-sig {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-5);
+}
+.mchoose-sig__shot {
+  display: block;
+  aspect-ratio: 1;
+  background: var(--canvas-2);
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+}
+.mchoose-sig__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.mchoose-sig__shot--none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.mchoose-sig__shot--none svg {
+  width: 40%;
+  height: 40%;
+  fill: currentColor;
+  opacity: .4;
+}
+.mchoose-sig__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  /* The reference's dish name is 19px; the brush floor is 1.25rem. */
+  font-size: 1.25rem;
+  line-height: 1.14;
+  letter-spacing: .015em;
+  color: var(--ink);
+}
+.mchoose-sig__desc {
+  margin-top: var(--space-2);
+  font-size: var(--text-micro);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+
+/* --- The chooser grid ----------------------------------------------------
+   The reference draws the grid as hairline gaps over a rule-coloured ground,
+   so the 2px "gap" is the ground showing through rather than a border on each
+   card. That is what makes the block read as one table rather than six boxes,
+   and it is why the gap is a hard 2px and not a token: it is a rule weight, not
+   a spacing step.
+   ------------------------------------------------------------------------ */
+.mchoose-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  background: var(--rule);
+  border-top: var(--stroke-thick) solid var(--ink);
+  border-bottom: var(--stroke-thick) solid var(--ink);
+}
+/* Maui, alone under its own heading. It keeps the two ink rules and the card's
+   proportions, but NOT the rule-coloured ground: with one card in a three
+   column grid the ground showed through the two empty cells as a large grey
+   block, which read as a broken layout rather than as a table with one row.
+   The ground exists to draw hairlines BETWEEN cards, and with one card there
+   are none to draw. */
+.mchoose-grid--single {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: transparent;
+}
+
+.mchoose-card {
+  position: relative;
+  display: block;
+  background: var(--canvas);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth);
+}
+/* The reference fills the card with ink on hover and turns the name gold. It
+   is a link here rather than a button, so focus-visible has to do the same
+   thing or a keyboard reader loses the state a mouse reader gets. */
+.mchoose-card:hover,
+.mchoose-card:focus-visible {
+  background: var(--color-system-ink);
+}
+.mchoose-card__count {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.mchoose-card__name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: 1.875rem;
+  line-height: 1;
+  letter-spacing: .02em;
+  color: var(--ink);
+}
+.mchoose-card__area {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mchoose-card__blurb {
+  display: block;
+  margin-top: var(--space-3);
+  max-width: 34ch;
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--ink-3);
+}
+.mchoose-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.mchoose-card__tag {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-2);
+  border: var(--stroke-hair) solid var(--rule-2);
+  color: var(--ink-3);
+}
+
+/* On the inked card every value has to invert, not just the name. The
+   reference turns the name gold and lifts the rest to cream at reduced alpha;
+   these are the system's own night-side tokens doing the same job, so the
+   inked card reads the same in both themes. */
+.mchoose-card:hover .mchoose-card__name,
+.mchoose-card:focus-visible .mchoose-card__name { color: var(--color-system-gold); }
+.mchoose-card:hover .mchoose-card__area,
+.mchoose-card:focus-visible .mchoose-card__area { color: var(--color-system-gold); }
+.mchoose-card:hover .mchoose-card__blurb,
+.mchoose-card:focus-visible .mchoose-card__blurb,
+.mchoose-card:hover .mchoose-card__count,
+.mchoose-card:focus-visible .mchoose-card__count { color: var(--color-system-cream-70); }
+.mchoose-card:hover .mchoose-card__tag,
+.mchoose-card:focus-visible .mchoose-card__tag {
+  border-color: var(--color-system-cream-70);
+  color: var(--color-system-cream-70);
+}
+
+/* --- Responsive ----------------------------------------------------------
+   The reference steps 3 to 2 to 1. Same steps, on this system's breakpoints.
+   ------------------------------------------------------------------------ */
+@media (max-width: 64rem) {
+  .mchoose-grid,
+  .mchoose-grid--single { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mchoose-sig { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 47.5rem) {
+  .mchoose-grid,
+  .mchoose-grid--single { grid-template-columns: minmax(0, 1fr); }
+  .mchoose-sig { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mchoose-mast { padding-top: var(--space-7); }
+}

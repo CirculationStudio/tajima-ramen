@@ -2,410 +2,187 @@
 layout: layouts/base.njk
 permalink: /menu/
 pageKey: menu
-title: "Tajima Ramen Menu | Ramen, Izakaya, and Rice Dishes"
-description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White, spicy sesame, and vegan ramen on house-made spinach noodles, plus izakaya plates."
+title: "Tajima Ramen Menu | Six San Diego Rooms, Six Menus"
+description: "Every Tajima room serves a different menu. Eight dishes are on all six San Diego menus, including tonkotsu, the Tajima Red and White, and karaage. Pick your room to see the rest."
 ---
 {#
-  /menu/. Brief: SITE_ARCHITECTURE.md.
-  P0, and the highest-confidence page on the project: 573 menu queries earning
-  6,160 clicks with no menu page to land on. Target `tajima menu` (2,814
-  clicks, 66.1% CTR).
+  /menu/. REBUILT AS A CHOOSER 2026-09-15, ported from
+  _reference/menu-concepts/tajima-menu_mockup-1_location-first.html.
 
-  NOT LAUNCH-READY, AND THE REASON IS DATA, NOT BUILD. SITE_ARCHITECTURE.md
-  Open Decision #12: we do not have the per-location menus. This page renders
-  the ten dishes confirmed in CLIENT_FACTS.md at brand-level prices. It is not
-  the real menu until the Toast pull happens.
+  ============================ WHY THIS PAGE CHANGED ============================
 
-  Two brief sections could not be built and are absent rather than faked:
+  It was a brand-wide dish list and location pages were a filtered view of it.
+  Connor's 2026-09-15 dish sheet falsifies that premise. Of 73 dishes, EIGHT are
+  served at all six San Diego rooms. Another eight are at five, all missing only
+  Plaza Bonita. Mercury carries 47 against Crown Point's 21 and is a
+  substantially different restaurant rather than a location with extras.
 
-    THE LOCATION SWITCHER (brief section 1) needs the `locations` availability
-    column, which is empty on every row in menu.json. A switcher that filters
-    nothing, or that claims a dish is sold somewhere we have not verified, is
-    worse than no switcher. Three menus genuinely differ (College Heights runs
-    a ramen bar built around one counter, Plaza Bonita is quick-serve with no
-    alcohol, Maui
-    has its own dishes), so this is the whole point of the section.
+  So a shared menu is eight dishes, which is a highlight reel and not a menu
+  page. The menu moved to the room. This page's job is getting a reader to the
+  right room, and showing enough food on the way that a brand-level search
+  lands on something.
 
-    RICE DISHES AND DRINKS (brief sections 5 and 7) have no confirmed items in
-    CLIENT_FACTS.md. Sections render from data, so they simply do not appear.
+  ============================ /menu/ AGAINST /locations/ ============================
 
-  Carnitas Ramen IS listed, and deliberately. Open Decision #4 resolved on
-  2026-08-04: it is active at all seven locations per the live Toast menus, so
-  it appears here plainly with feature: false, no photo, no callout and no
-  fusion framing, and nowhere else on the site. See menu.json `_carnitasNote`.
-  Do not remove it as a violation. DESIGN_SYSTEM.md and voice-tone.md still
-  carry blanket bans that predate the decision and are stale on this one
-  point; that is Open Decision #21, not a bug here.
+  They overlap unless the jobs are separated, and they are:
+
+    /locations/  WHERE CAN I EAT. Addresses, hours, phone numbers, directions,
+                 parking. A reader who knows what they want and needs to know
+                 where to get it.
+
+    /menu/       WHAT DO THEY SERVE. Sorted by menu difference: what each room
+                 has that the others do not, and how many dishes that is. A
+                 reader who has not chosen a room yet and will choose on food.
+
+  Neither page repeats the other's columns. This page prints no address, no
+  hours and no phone number, and its cards link to the room rather than the map.
+
+  ============================ WHAT IS NOT PORTED ============================
+
+  The mockup is a single-page app: it swaps a chooser view for a menu view in
+  the browser and renders both from one JS object. This site is static Eleventy
+  and the rooms already have real URLs. So the cards are links, and the view
+  switcher, the pill bar, the lightbox and the sheet are dropped.
+
+  CONNOR'S CARD COPY IS ALSO NOT PORTED, and that is a fact check rather than a
+  stylistic preference. His blurbs put Crown Point in "Pacific Beach", which
+  contradicts locations.json (locality San Diego, neighborhood Crown Point;
+  Pacific Beach appears only inside a Toast routing slug this repo already flags
+  as not NAP), give East Village as "9th and E" against its 901 E Street, and
+  call Convoy "Late night", which nothing confirms. The cards are built from
+  locations.json's own `summary` and `neighborhood`, which are confirmed and
+  already in the brand voice.
+
+  THE TAGS ARE COMPUTED, NOT AUTHORED. See components/menu-chooser-card.njk.
 #}
 
-{# Only the two marks this page actually uses, so it does not ship the whole
-   84KB sprite. Dessert has no honest icon in the current twelve; see the note
-   at the Dessert heading. #}
-{#
-  EMPTY CELLS, and why they stay empty. Checked photos.json for unused local
-  photography on 2026-09-08; nothing placeable was found.
-
-    Miso Ramen      No photo of the bowl exists locally. The only "miso" files
-                    are miso SOUP, an izakaya appetizer, and photos.json's
-                    _rule makes the filename the source of truth for what a
-                    photo shows. Needs a shot of the bowl. Note _nameConflicts:
-                    Toast calls this "Naruto Miso Ramen".
-    Carnitas Ramen  Five local photos exist and genuinely show the dish, and it
-                    still gets none. menu.json _carnitasNote and Brand
-                    Positioning: listed plainly, "no photo, no card, no
-                    callout, no hero". Deliberately empty. Do not fill.
-    Legend + next   Text and navigation by design. The only unused reviewed
-                    photos are four commissary broth-tank frames, and the
-                    Noodle Room card's copy is about the noodle machine, so
-                    they would be off-subject.
-#}
-{%- set spriteIcons = ["ramen-bowl", "onigiri", "chopsticks-noodles"] %}
+{%- set spriteIcons = ["ramen-bowl", "chopsticks-noodles"] %}
 {% include "components/icon-sprite.njk" %}
 
-{%- set ramen = menu.items | where("section", "ramen") %}
-{%- set izakaya = menu.items | where("section", "izakaya") %}
-{%- set dessert = menu.items | where("section", "dessert") %}
+{%- set sanDiego = locations.items | where("region", "san-diego") %}
+{%- set sdRoomIds = [] %}
+{%- for room in sanDiego %}{% set sdRoomIds = (sdRoomIds.push(room.id), sdRoomIds) %}{% endfor %}
+{%- set hawaii = locations.items | where("region", "hawaii") %}
 
-{# ============================ MENU HERO ============================ #}
-{#
-  REWRITTEN. The concept sub read: "Every noodle, cut daily. Every broth,
-  simmered for twelve. Built in Convoy, since 2001."
-  The simmer time is still unsourced anywhere and stays out. THE CADENCE HALF
-  IS NOW CONFIRMED (2026-09-09, all locations), so "cut daily" is no longer the
-  objection it was; the sub still does not carry it, because this hero says
-  what the page is rather than repeating the slogan two blocks above the fold.
-  The third line is true and is kept.
-#}
-<section class="menu-hero" aria-labelledby="page-title">
-  <div class="menu-hero__inner">
+{#- The dishes every San Diego room serves. Computed, never listed by hand:
+    this is the one set on the page that must not drift from menu.json. -#}
+{%- set signature = [] %}
+{%- for dish in menu.items %}
+  {%- set servedEverywhere = dish.listed %}
+  {%- for room in sanDiego %}
+    {%- if room.id not in dish.locations %}{% set servedEverywhere = false %}{% endif %}
+  {%- endfor %}
+  {%- if servedEverywhere %}{% set signature = (signature.push(dish), signature) %}{% endif %}
+{%- endfor %}
 
-    <div class="menu-hero__lead">
-      <h1 class="menu-hero__title" id="page-title">
-        {{ ramen | length }} bowls.<br><em>One room.</em>
-      </h1>
-      <p class="menu-hero__sub">
-        Broth simmered every morning in Crown Point. Noodles from <a href="/noodle-room/">our own Noodle Room</a>. Built in Convoy, since 2001.
-      </p>
-    </div>
-
-    <nav class="menu-hero__jumps" aria-label="Jump to section">
-      {#
-        ONE MARK PER CARD, WHERE THE SPRITE HAS ONE THAT MATCHES.
-
-        Ramen takes the bowl and Izakaya takes the chopsticks, which is the
-        same pairing the approved menu concepts use for those two sections.
-        Both are --lg (2.5rem) with the disc, which clears the 2rem floor
-        recorded in mark.css, and both were re-checked at that size in place.
-
-        DESSERT AND ORDER GET NONE, and that is the rule working rather than an
-        omission. The sprite is twelve marks and every one is food or the
-        wordmark: there is no dessert, and Order is an action rather than a
-        subject. The /menu/ Dessert heading already sets this precedent. A mark
-        chosen because a card looked bare is decoration, and decoration is what
-        the one-mark-per-heading rule exists to stop.
-      #}
-      <a class="menu-hero__jump" href="#ramen">
-        <span class="mark mark--lg mark--disc menu-hero__jump-mark" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
-        <span class="menu-hero__jump-num">01</span>
-        <span class="menu-hero__jump-name">Ramen</span>
-        <span class="menu-hero__jump-count">{{ ramen | length }} bowls</span>
-      </a>
-      <a class="menu-hero__jump" href="#izakaya">
-        <span class="mark mark--lg mark--disc menu-hero__jump-mark" aria-hidden="true"><svg><use href="#i-chopsticks-noodles"></use></svg></span>
-        <span class="menu-hero__jump-num">02</span>
-        <span class="menu-hero__jump-name">Izakaya</span>
-        <span class="menu-hero__jump-count">Small plates</span>
-      </a>
-      <a class="menu-hero__jump" href="#dessert">
-        <span class="menu-hero__jump-num">03</span>
-        <span class="menu-hero__jump-name">Dessert</span>
-        <span class="menu-hero__jump-count">Matcha</span>
-      </a>
-      <a class="menu-hero__jump" href="/order-online/">
-        <span class="menu-hero__jump-num">04</span>
-        <span class="menu-hero__jump-name">Order</span>
-        <span class="menu-hero__jump-count">Online</span>
-      </a>
-    </nav>
-
+{# ==================== MASTHEAD ==================== #}
+<section class="mchoose-mast" aria-labelledby="page-title">
+  <div class="sect__inner">
+    <p class="mchoose-mast__kicker">{{ site.name }}, San Diego</p>
+    <h1 class="mchoose-mast__title" id="page-title">Six rooms, <em>six menus.</em></h1>
+    <p class="mchoose-mast__note">
+      The bowls below are on every San Diego menu. Everything around them changes room to room.
+      Pick where you are eating.
+    </p>
   </div>
 </section>
 
-{# ============================ RAMEN ============================ #}
-<section class="menu-section" id="ramen" aria-labelledby="ramen-title">
-  <div class="menu-section__inner">
-
-    <header class="menu-section__head reveal reveal--d1">
-      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
-      <h2 class="menu-section__title" id="ramen-title">
-        {{ ramen | length }} bowls. <em>The trio</em> is the house.
-      </h2>
-      {#
-        Brief section 2: one line above the ramen section saying the noodles
-        are made in our own room, linking to /noodle-room/. "This is the only
-        selling on the page." Everything below it is ingredients.
-      #}
-      <p class="menu-section__note">
-        The Tajima Red, Black, and White are the same broth with three finishes. The noodles are made in <a href="/noodle-room/">our own Noodle Room</a> in Crown Point.
+{# ==================== THE SIGNATURE SET ====================
+   The dishes on all six menus. This page catches brand-level search and has to
+   show food, and these are the only dishes it can show without naming a room.
+   The count is printed rather than written out, because if the data changes it
+   is the sentence that goes wrong first. #}
+<section class="sect sect--rule" aria-labelledby="signature-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="signature-title">On <em>every</em> San Diego menu.</h2>
+      <p class="sect__note">
+        {{ signature | length }} dishes are served at all six San Diego rooms. The rest of each
+        menu is that room's own.
       </p>
     </header>
 
-    <div class="bento bento--ramen">
-      {%- for dish in ramen %}
-      <article class="dish {% if dish.featurable %}dish--feature{% else %}dish--quiet{% endif %}{% if dish.bento %} dish--{{ dish.bento }}{% endif %} reveal reveal--d{{ loop.index % 4 + 1 }}">
-        {%- if dish.image %}
-        <div class="dish__photo">
-          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-        </div>
+    <ul class="mchoose-sig">
+      {%- for dish in signature %}
+      {%- set shot = dishPhotos.photoFor(dish.id, "convoy") %}
+      <li class="mchoose-sig__item">
+        {%- if shot %}
+        <span class="mchoose-sig__shot">
+          <img src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" decoding="async"
+            width="{{ shot.width }}" height="{{ shot.height }}">
+        </span>
+        {%- else %}
+        <span class="mchoose-sig__shot mchoose-sig__shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>
         {%- endif %}
-        <div class="dish__body">
-          {#-
-            NO PRICES ON THIS PAGE. Removed 2026-09-10 on the client's
-            instruction at review. This closes the pricing question that had
-            blocked the page since 2026-08-04: the answer is that /menu/ does
-            not print prices at all.
-
-            It is also the right answer on the merits. menu.json's prices were
-            stale against every live catalog, and price varies by room, so a
-            single brand price on a page that speaks for seven rooms was
-            always going to be wrong somewhere. Prices live on the per-location
-            printable menus in public/menus/, which are the client's own
-            current print and are per room by definition.
-
-            The price DATA stays in menu.json. It is a record of what the
-            brand prices were and removing it would lose that; see
-            _priceStatus, which now records that the field is not for display.
-            No `offers` is emitted in schema and none should be.
-          -#}
-          {%- if dish.tier %}
-          <div class="dish__head">
-            <span class="dish__tier{% if dish.tier == 'Signature trio' %} dish__tier--signature{% endif %}">{{ dish.tier }}</span>
-          </div>
-          {%- endif %}
-          <h3 class="dish__name">
-            {%- if dish.emphasis -%}
-              {{ dish.name | replace(dish.emphasis, "") | replace("Ramen", "") | trim }} <em>{{ dish.emphasis }}</em>
-            {%- else -%}
-              {{ dish.name }}
-            {%- endif -%}
-          </h3>
-          {%- if dish.romaji %}
-          <p class="dish__romaji">{{ dish.romaji }}</p>
-          {%- endif %}
-          {#
-            Descriptions come from menu.json only. Items with no confirmed
-            ingredient list render without one rather than getting a written
-            description. CLAUDE.md: menu descriptions are never generated.
-          #}
-          {%- if dish.description %}
-          <p class="dish__desc">{{ dish.description }}</p>
-          {%- endif %}
-          {#
-            AVAILABILITY. This page speaks for seven rooms and one bowl is not
-            served at all of them, so that row says so on its face. Without it a
-            reader would reasonably expect Curry Ramen at their own room and
-            drive to a kitchen that does not make it.
-
-            Copy comes from menu.json `availabilityNote` and must agree with
-            `locations` on the same row; see `_availabilityNoteRule` there. It
-            is not derived from `locations`, because a derived string reads
-            badly the moment a dish is at two rooms rather than one.
-          #}
-          {%- if dish.availabilityNote %}
-          <p class="dish__where">{{ dish.availabilityNote }}</p>
-          {%- endif %}
-          {%- if "vegan" in dish.dietary %}
-          <p class="dish__desc"><a href="/menu/vegan-ramen/">More about the vegan bowl</a></p>
-          {%- endif %}
-        </div>
-      </article>
+        <p class="mchoose-sig__name">{{ dish.name }}</p>
+        {%- if dish.description %}
+        <p class="mchoose-sig__desc">{{ dish.description }}</p>
+        {%- endif %}
+      </li>
       {%- endfor %}
-    </div>
-
+    </ul>
   </div>
 </section>
 
-{# ============================ IZAKAYA ============================ #}
-<section class="menu-section menu-section--alt" id="izakaya" aria-labelledby="izakaya-title">
-  <div class="menu-section__inner">
-
-    <header class="menu-section__head reveal reveal--d1">
-      <span class="mark mark--lg" aria-hidden="true"><svg><use href="#i-onigiri"></use></svg></span>
-      <h2 class="menu-section__title" id="izakaya-title">Small <em>plates.</em></h2>
-      <p class="menu-section__note">
-        Izakaya plates run alongside the bowls. What is on offer varies by room.
+{# ==================== THE CHOOSER ====================
+   The mockup's card grid: three across, hairline gaps on a rule-coloured
+   ground, two-pixel ink rules top and bottom, cards that fill with ink on
+   hover. Each one is a link to that room, not a view swap. #}
+<section class="sect" aria-labelledby="chooser-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="chooser-title">Pick your <em>room.</em></h2>
+      <p class="sect__note">
+        Addresses, hours and directions are on
+        <a class="sect__link" href="/locations/">the locations page</a>. This one sorts by what
+        comes out of the kitchen.
       </p>
     </header>
 
-    <div class="bento bento--izakaya">
-      {%- for dish in izakaya %}
-      <article class="dish dish--quiet reveal reveal--d{{ loop.index % 4 + 1 }}">
-        {#- Added 2026-08-05. This loop rendered no photo block at all, so an
-            izakaya plate could not show one however good its data was. #}
-        {%- if dish.image %}
-        <div class="dish__photo">
-          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-        </div>
-        {%- endif %}
-        <div class="dish__body">
-          <h3 class="dish__name">{{ dish.name }}</h3>
-          {%- if dish.description %}
-          <p class="dish__desc">{{ dish.description }}</p>
-          {%- endif %}
-        </div>
-      </article>
-      {%- endfor %}
+    <div class="mchoose-grid">
+      {%- for loc in sanDiego %}{% include "components/menu-chooser-card.njk" %}{% endfor %}
     </div>
-
   </div>
 </section>
 
-{# ============================ DESSERT ============================ #}
-<section class="menu-section" id="dessert" aria-labelledby="dessert-title">
-  <div class="menu-section__inner">
-
-    <header class="menu-section__head reveal reveal--d1">
-      {# NO MARK. None of the twelve extracted icons depicts anything sweet, and
-         the nearest shapes are a fishcake swirl and a steam curl, both of which
-         would misrepresent what the section holds. Left bare until the rest of
-         the 32-icon library arrives. #}
-      <h2 class="menu-section__title" id="dessert-title">To <em>finish.</em></h2>
+{# ==================== MAUI ====================
+   Set apart, and the separation is the point rather than a layout preference.
+   Connor's sheet has no Maui column, so its dish count comes from a different
+   source on a different date, and SITE_ARCHITECTURE.md forbids ranking it among
+   the San Diego rooms in any case. #}
+<section class="sect sect--alt sect--rule" aria-labelledby="maui-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="maui-title">And one in <em>Kihei.</em></h2>
+      <p class="sect__note">
+        Maui is its own market and its menu is counted from a separate source, so it is listed
+        here rather than ranked with the six.
+      </p>
     </header>
 
-    <div class="bento bento--dessert">
-      {%- for dish in dessert %}
-      <article class="dish dish--quiet reveal reveal--d1">
-        {#- Same addition as the izakaya loop above, same date, same reason. #}
-        {%- if dish.image %}
-        <div class="dish__photo">
-          <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
-        </div>
-        {%- endif %}
-        <div class="dish__body">
-          <h3 class="dish__name">{{ dish.name }}</h3>
-          {%- if dish.description %}
-          <p class="dish__desc">{{ dish.description }}</p>
-          {%- endif %}
-        </div>
-      </article>
-      {%- endfor %}
+    <div class="mchoose-grid mchoose-grid--single">
+      {%- for loc in hawaii %}{% include "components/menu-chooser-card.njk" %}{% endfor %}
     </div>
-
   </div>
 </section>
 
-{# ============================ MENU END ============================ #}
-{#
-  Dietary note. CLIENT_FACTS.md: no gluten-free noodle option exists, some
-  dishes may be prepared GF, and the honest line is to ask staff. Do not imply
-  a GF noodle.
-#}
-<section class="menu-end" aria-labelledby="menu-end-title">
-  <div class="menu-end__inner">
-
-    <div class="menu-end__lead">
-      <h2 class="menu-end__title" id="menu-end-title">
-        Find the room <em>closest to you.</em>
-      </h2>
-      <p class="menu-end__sub">
-        Walk in at every location. Mercury takes reservations by phone, for groups only.
-      </p>
-      <div class="menu-end__actions">
-        <a class="menu-end__cta menu-end__cta--primary" href="/locations/">
-          See the locations
-          <span aria-hidden="true">&#8594;</span>
-        </a>
-        <a class="menu-end__cta menu-end__cta--quiet" href="/order-online/">
-          Order online
-          <span aria-hidden="true">&#8594;</span>
-        </a>
-      </div>
-    </div>
-
-    {#
-      Dietary key. Two changes from the concept:
-        - Its GF line joined the two clauses with an em dash, which the house
-          rule bans everywhere including comments. Rewritten with a comma.
-        - It listed Tajima Fries as vegan as plated. Tajima Fries is on the
-          CLIENT_FACTS.md do-not-feature list and is not in menu.json, so it is
-          not named here.
-      The GF wording stays honest: no GF noodle exists and we do not imply one.
-    #}
-    <aside class="menu-end__legend" aria-label="A note on the menu">
-      <h3 class="menu-end__legend-title">A note on the menu</h3>
-      <dl class="menu-end__legend-list">
-        <dt>Vegan</dt>
-        <dd>The Vegan Ramen is the only fully vegan bowl. It is built on our own spinach noodles. Edamame is vegan as plated.</dd>
-        <dt>Gluten</dt>
-        <dd>There is no gluten-free noodle. Some dishes can be prepared without gluten, so ask the crew.</dd>
-        <dt>Allergens</dt>
-        <dd>Soy, wheat, shellfish, egg, and dairy are present across the menu. Ask and the crew will tell you.</dd>
-        {#
-          PULLED 2026-08-04. This read "Mercury and Maui only." CLIENT_FACTS.md
-          says Mercury is the only SD location with sushi; East Village's live
-          Toast menu has a Sushi Hand Roll section. One of them is wrong and
-          nobody knows which yet, so the exclusivity claim comes off rather
-          than shipping a menu that tells someone a room does not sell what it
-          sells. Open Decision #20. Restore a specific list when Amanda
-          confirms, not before.
-        #}
-        {#
-          RESTORED with real detail 2026-08-04. This said "Mercury and Maui
-          only" until the live catalogs showed East Village carries two sushi
-          hand rolls, then went to a placeholder. Now it can be specific:
-          Mercury is the only full programme in San Diego, East Village has
-          hand rolls, Maui has rolls of its own. Source: the seven catalogs in
-          src/_data/toastMenus/. Open Decision #20, closed.
-        #}
-        <dt>Sushi</dt>
-        <dd>Mercury has the full sushi list in San Diego. East Village keeps two hand rolls. Maui has rolls of its own.</dd>
-      </dl>
-    </aside>
-
-  </div>
-</section>
-
-{# ==================== NEXT: HAPPY HOUR + THE NOODLE ROOM ==================== #}
-{#
-  Added 2026-08-05. /menu/ was underlinked to both: /happy-hour/ appeared
-  nowhere and /noodle-room/ only as an inline mention in the ramen section
-  note. Both are destinations a reader of the menu plausibly wants next, and
-  the Noodle Room is the P0 growth priority.
-
-  ON THE RED. A solid red panel behind either column was considered and
-  rejected. DESIGN_SYSTEM.md: red is "a flame inside the kitchen, not a
-  billboard on the freeway," an accent and never a full field. It would also
-  break the one-primary-CTA-per-viewport rule, because the header already
-  spends that on the Order Online pill, so two filled red panels would put a
-  third and fourth red in the same screen.
-
-  What red does here instead: a 3px rule along the top edge of each card, and
-  a button outline that fills only on hover and focus. Structure and accent,
-  never a field. (This used to also say "the section eyebrow". v2 bans eyebrow
-  labels outright, so those are gone and the top rule carries it alone.)
-
-  The two columns are deliberately equal. Neither is styled as the winner:
-  which one a reader wants depends on why they came to the menu.
-
-  COPY IS SCOPED TO WHAT IS CONFIRMED. No happy hour times or prices: none are
-  in CLIENT_FACTS.md and happyHour.json had its concept values pulled on
-  2026-08-03 precisely because a published window is the same class of promise
-  as a published opening hour. Padres beer specials are East Village only and
-  are named as such. No price is attached to them: SITE_ARCHITECTURE.md's
-  East Village brief carries "$3.50" but happyHour.json pulled that figure as
-  unverified, so the two disagree and the number stays off.
-#}
+{# ==================== WHERE NEXT ====================
+   The `next-card` block, as the rest of the site uses it. This page used to
+   close on happy hour and the Noodle Room; happy hour is per room and the room
+   pages now carry it, so the pair is the two questions this page deliberately
+   does not answer: where the rooms are, and where the noodles come from. #}
 <section class="next-pair" aria-labelledby="next-title">
   <div class="next-pair__inner">
     <h2 class="u-visually-hidden" id="next-title">Where to go next</h2>
 
     <article class="next-card">
-      <h3 class="next-card__title">Happy hour runs <em>by room.</em></h3>
+      <h3 class="next-card__title">Addresses, hours, <em>directions.</em></h3>
       <p class="next-card__body">
-        Each room sets its own window, and Plaza Bonita has no bar at all. East Village runs beer specials on Padres home game nights.
+        This page sorts the rooms by what comes out of the kitchen. The locations page sorts them
+        by where they are: the address, today's hours, parking and a route to the door.
       </p>
-      <a class="next-card__cta" href="/happy-hour/">
-        See happy hour
+      <a class="next-card__cta" href="/locations/">
+        See all seven rooms
         <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
@@ -415,7 +192,8 @@ description: "The Tajima Ramen menu. Tonkotsu, the Tajima Red, Black, and White,
     <article class="next-card">
       <h3 class="next-card__title">Where the bowl <em>begins.</em></h3>
       <p class="next-card__body">
-        Two years to build the room, and a machine that came over from Japan. It makes two noodles right now, the ramen noodle and the spinach noodle that goes into the vegan bowl.
+        Two years to build the room, and a machine that came over from Japan. It makes two noodles
+        right now, the ramen noodle and the spinach noodle that goes into the vegan bowl.
       </p>
       <a class="next-card__cta" href="/noodle-room/">
         Step inside

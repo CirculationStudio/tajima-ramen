@@ -183,6 +183,16 @@ const MENU_SECTIONS = menuConcepts.sectionOrder.map((id) => ({
 // MenuItem @ids always point at /menu/#item-<id>, on every menu, because the
 // dish is one entity no matter how many rooms serve it. Only the Menu that
 // contains it is per-location.
+//
+// THAT FRAGMENT STOPPED RESOLVING TO A VISIBLE ITEM ON 2026-09-15 for all but
+// eight dishes, because /menu/ became a chooser. It is kept anyway and the
+// reason is worth stating: an @id is an identifier, not a link. Its job is to
+// let the seven rooms' Menus refer to one Carnitas Ramen rather than seven, and
+// it does that whether or not the fragment scrolls anywhere. Changing it would
+// break every existing reference to buy nothing.
+//
+// If that ever stops being acceptable, the move is to give each dish a real URL
+// the way /menu/vegan-ramen/ has one, not to renumber the @ids.
 function buildMenu({ id, name, locationId = null, listedOnly = false }) {
   const items = menu.items.filter(
     (item) =>
@@ -222,10 +232,50 @@ function buildMenu({ id, name, locationId = null, listedOnly = false }) {
   };
 }
 
-const menuEntity = buildMenu({
-  id: `${site.url}/menu/#menu`,
-  name: `${site.name} menu`,
-});
+// THE BRAND MENU IS THE EIGHT DISHES ON EVERY SAN DIEGO MENU, and no longer all
+// 73. /menu/ became a room chooser on 2026-09-15 and now shows exactly those
+// eight; SCHEMA.md rule 2 says the graph mirrors the visible page, so this
+// mirrors those eight.
+//
+// The alternative was to drop the entity entirely. It is kept because the eight
+// are a real, checkable claim about the house: these are the dishes you can
+// order at any San Diego Tajima, which is worth being able to state and is the
+// only menu fact that is true without naming a room. Each room's own 13 to 47
+// live on that room's Menu entity.
+//
+// COMPUTED, NOT LISTED. The same filter the page uses. If the sheet changes,
+// the page and the graph move together or neither does.
+const SD_ROOM_IDS = locations.items
+  .filter((loc) => loc.region === "san-diego")
+  .map((loc) => loc.id);
+
+const menuEntity = {
+  ...buildMenu({ id: `${site.url}/menu/#menu`, name: `${site.name} menu` }),
+  hasMenuSection: undefined,
+};
+{
+  const everywhere = menu.items.filter(
+    (item) => item.listed && SD_ROOM_IDS.every((id) => (item.locations || []).includes(id)),
+  );
+  menuEntity.hasMenuSection = MENU_SECTIONS.map((section) => ({
+    "@type": "MenuSection",
+    name: section.name,
+    hasMenuItem: everywhere
+      .filter((item) => item.section === section.id)
+      .map((item) => {
+        const entry = {
+          "@type": "MenuItem",
+          "@id": `${site.url}/menu/#item-${item.id}`,
+          name: item.name,
+        };
+        if (item.description) entry.description = item.description;
+        if (item.dietary && item.dietary.includes("vegan")) {
+          entry.suitableForDiet = "https://schema.org/VeganDiet";
+        }
+        return entry;
+      }),
+  })).filter((section) => section.hasMenuItem.length > 0);
+}
 
 // Location page Restaurant entities. Built from locations.json so the page and
 // the schema carry the same NAP, which is the point of the citation cleanup.
