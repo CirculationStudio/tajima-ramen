@@ -716,3 +716,193 @@
   border-top: var(--stroke-thick) solid var(--ink);
   padding-top: var(--space-3);
 }
+
+/* ==========================================================================
+   THE MENU LIGHTBOX
+
+   Ported from _reference/menu-concepts/tajima-ev-menu-A2.html. The reference
+   ships two dialogs, a centred lightbox above 1061px and a bottom sheet below,
+   and its own CSS breaks at 760 and 1060, so its mobile lightbox rules can
+   never apply. One dialog here: a sheet on narrow viewports, a panel on wide.
+
+   Built by src/js/menu-lightbox.js, which is why nothing below has a no-JS
+   fallback to worry about. No buttons ship in the markup.
+   ========================================================================== */
+
+/* The hit target. Covers the whole plate, so the photograph and the name are
+   one control rather than two. */
+.mc-plate{ position: relative; }
+.mc-plate__hit{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.mc-plate__hit:focus-visible{
+  outline: var(--stroke-thick) solid var(--accent);
+  outline-offset: 3px;
+}
+.mc-band--interactive .mc-plate:hover .mc-plate__name,
+.mc-plate:focus-within .mc-plate__name{ color: var(--accent); }
+
+.mc-lb{
+  width: min(54rem, 100vw);
+  max-width: none;
+  max-height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  overflow: visible;
+  /* EXPLICIT, because the base reset zeroes margins on everything and a
+     <dialog> centres itself with the user agent's `margin: auto`. Without
+     this it pins to the top left of the viewport, which is where it was. */
+  inset: 0;
+  margin: auto;
+}
+.mc-lb::backdrop{ background: rgba(13, 13, 10, .84); }
+
+.mc-lb__panel{
+  background: var(--canvas);
+  border-radius: var(--radius);
+  max-height: 92dvh;
+  overflow: auto;
+  animation: mc-lb-pop var(--duration-fast) var(--ease-smooth);
+}
+@keyframes mc-lb-pop{ from{ transform: scale(.97); opacity: 0; } to{ transform: none; opacity: 1; } }
+
+.mc-lb__bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5);
+  border-bottom: var(--stroke-hair) solid var(--rule);
+}
+.mc-lb__section{
+  font-family: var(--font-display);
+  /* The brush face floor is 1.25rem and this clears it. */
+  font-size: 1.375rem;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+}
+.mc-lb__close{
+  appearance: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.mc-lb__close:hover{ background: var(--canvas-2); }
+
+.mc-lb__stage{
+  position: relative;
+  background: var(--canvas-2);
+  /* `none`, not `pan-y`. With pan-y the browser still claimed the gesture: it
+     sent two pointermove events, about 24px of travel, then pointercancel,
+     which is well before any honest swipe threshold. A surface that handles
+     swipes has to own the gesture outright.
+     The cost is that a drag starting ON the photograph no longer scrolls the
+     panel. The body below it scrolls normally, which is where the text a
+     reader is scrolling towards actually is. */
+  touch-action: none;
+}
+.mc-lb__media{
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.mc-lb__media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* THE IMAGE MUST NOT EAT THE GESTURE. Dragging an <img> starts Chromium's
+     native image drag, which fires pointercancel about 23px in, long before
+     any swipe threshold. That is why the first working version only swiped in
+     one direction: the drag that happened to start on an arrow button was the
+     only one that survived. Events pass through to the stage instead. */
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.mc-lb__none{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+  opacity: .28;
+}
+.mc-lb__none svg{ width: 7rem; height: 7rem; fill: currentColor; }
+
+.mc-lb__arrow{
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(13, 13, 10, .28);
+}
+.mc-lb__arrow:hover:not(:disabled){ background: var(--accent); color: var(--color-system-cream); }
+.mc-lb__arrow:disabled{ opacity: .3; cursor: default; }
+.mc-lb__arrow--prev{ left: var(--space-4); }
+.mc-lb__arrow--next{ right: var(--space-4); }
+
+.mc-lb__body{ padding: var(--space-5) var(--space-6) var(--space-7); }
+.mc-lb__name{
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+}
+.mc-lb__marks{
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mc-lb__desc{
+  margin: var(--space-3) 0 0;
+  max-width: 58ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--ink-2);
+}
+
+/* A sheet on a phone: full width, anchored to the bottom, thumb-reachable. */
+@media (max-width: 47.5rem){
+  .mc-lb{ width: 100vw; margin: auto 0 0; max-height: 100dvh; }
+  .mc-lb__panel{
+    border-radius: var(--radius) var(--radius) 0 0;
+    max-height: 88dvh;
+    animation-name: mc-lb-rise;
+  }
+  @keyframes mc-lb-rise{ from{ transform: translateY(100%); } to{ transform: none; } }
+  .mc-lb__media{ aspect-ratio: 4 / 3; }
+  .mc-lb__arrow{ width: 2.5rem; height: 2.5rem; }
+}
+
+/* Reduced motion. The global reduce rule already kills the animation; this
+   also drops the class the script sets, so the two cannot disagree. */
+.mc-lb--still .mc-lb__panel{ animation: none; }

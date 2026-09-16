@@ -158,7 +158,11 @@
 </div>
 {%- endif %}
 
-<section class="mc-band mc-band--{{ tone }}" aria-labelledby="mc-{{ section.key }}{% if not mcChromeOn %}-{{ mcLocId }}{% endif %}">
+{#- data-mc-band is read by src/js/menu-lightbox.js: it marks a band as one
+    navigable group and carries the label the dialog shows. Stepping is scoped
+    to the section a reader tapped in, so arrows and swipe do not walk out of
+    Ramen and into Dessert. -#}
+<section class="mc-band mc-band--{{ tone }}" data-mc-band="{{ section.label }}" aria-labelledby="mc-{{ section.key }}{% if not mcChromeOn %}-{{ mcLocId }}{% endif %}">
   {#- The mobile section header. The spine is a vertical block and cannot
       survive a 360px column, so below 47.5rem it is hidden and this sticky
       tone bar takes over, which is exactly what the reference does. Hidden
@@ -211,7 +215,12 @@
           <li class="mc-plate">
             {%- if shot %}
             <span class="mc-shot">
-              <img src="{{ shot.src }}" alt="{{ shot.alt }}" loading="lazy" decoding="async" width="{{ shot.width }}" height="{{ shot.height }}">
+              {#- data-full is the original, and it is an ATTRIBUTE rather than
+                  a src so the browser never fetches it until the lightbox
+                  asks. The tile itself is the 184px derivative. -#}
+              <img src="{{ shot.thumb | default(shot.src) }}" alt="{{ shot.alt }}" loading="lazy" decoding="async"
+                width="{{ shot.thumbWidth | default(shot.width) }}" height="{{ shot.thumbHeight | default(shot.height) }}"
+                data-full="{{ shot.src }}" data-full-w="{{ shot.width }}" data-full-h="{{ shot.height }}">
             </span>
             {%- elif mcPhotos == "site" and dish.image %}
             <span class="mc-shot">

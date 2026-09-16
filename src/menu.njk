@@ -117,8 +117,8 @@ description: "Every Tajima room serves a different menu. Twenty dishes are on fi
       <li class="mchoose-sig__item">
         {%- if dish.photo %}
         <span class="mchoose-sig__shot">
-          <img src="{{ dish.photo.src }}" alt="{{ dish.photo.alt }}" loading="lazy" decoding="async"
-            width="{{ dish.photo.width }}" height="{{ dish.photo.height }}">
+          <img src="{{ dish.photo.card | default(dish.photo.src) }}" alt="{{ dish.photo.alt }}" loading="lazy" decoding="async"
+            width="{{ dish.photo.cardWidth | default(dish.photo.width) }}" height="{{ dish.photo.cardHeight | default(dish.photo.height) }}">
         </span>
         {%- else %}
         <span class="mchoose-sig__shot mchoose-sig__shot--none" aria-hidden="true"><svg><use href="#i-ramen-bowl"></use></svg></span>

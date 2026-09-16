@@ -57,3 +57,7 @@ import "/src/js/hours.js";
 
   for (const target of targets) observer.observe(target);
 })();
+
+// The menu lightbox. A no-op on every page with no [data-mc-band], which is
+// every page except the seven location pages and the internal review routes.
+import "/src/js/menu-lightbox.js";
