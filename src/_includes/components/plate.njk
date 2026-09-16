@@ -114,7 +114,10 @@
     {%- endif %}
     <span class="plate__fact">
       <span class="plate__label plate__label--inline">Menu</span>
-      <a class="plate__value plate__value--quiet" href="/menu/">See the menu</a>
+      {#- #menu, not /menu/. This row sits inside this room's own address block;
+          sending it to the chooser would ask a reader to pick the room they are
+          already reading about. See location-menu.njk. -#}
+      <a class="plate__value plate__value--quiet" href="#menu">See the menu</a>
     </span>
   </div>
 

@@ -62,6 +62,9 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
   at Convoy is not evidence about this kitchen.
 #}
 {%- set spriteIcons = ["chopsticks-noodles", "naruto", "ramen-bowl"] %}
+{#- Plus whatever marks menuConcepts gives the module's sections, so a new
+    section cannot ship a <use> pointing at a symbol this page never emitted. -#}
+{%- set spriteIcons = spriteIcons | withMenuIcons(menuConcepts) %}
 {% include "components/icon-sprite.njk" %}
 {% include "components/menu-marks.njk" %}
 
@@ -121,7 +124,7 @@ description: "The Tajima ramen bar on El Cajon Boulevard in the College Area, ne
       <article class="cell diff__cell diff__cell--wide reveal">
         <h3 class="diff__title">The <em>ramen bar.</em></h3>
         <p class="diff__body">
-          Tajima opened this room in 2020 and built it around one long counter. The kitchen is open to it, so the pass is in front of you while you eat. Every bowl on the list comes out of it: tonkotsu, the Red, the Black and the White, spicy sesame, chicken, and the vegan bowl with our house-made spinach noodles. <a class="sect__link" href="/menu/">See the menu</a>.
+          Tajima opened this room in 2020 and built it around one long counter. The kitchen is open to it, so the pass is in front of you while you eat. Every bowl on the list comes out of it: tonkotsu, the Red, the Black and the White, spicy sesame, chicken, and the vegan bowl with our house-made spinach noodles. <a class="sect__link" href="#menu">See the College Heights menu</a>.
         </p>
       </article>
 

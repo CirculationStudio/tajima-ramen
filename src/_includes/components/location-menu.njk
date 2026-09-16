@@ -37,7 +37,12 @@
               + (menu.items | dishesFor(menuLoc, "izakaya") | length)
               + (menu.items | dishesFor(menuLoc, "dessert") | length) %}
 {%- if mcAny %}
-<section class="sect mc-sect" aria-label="Menu at this location">
+{#- id="menu" IS LOAD-BEARING, 2026-09-15. /menu/ is a room chooser now, so a
+    "See the menu" link on a room page that points there asks a reader standing
+    in Convoy to pick a room. Six links across the NAP plate, both full location
+    templates, the stub and the Maui order close now point at #menu instead,
+    which is this section, on the page they are already on. -#}
+<section class="sect mc-sect" id="menu" aria-label="Menu at this location">
   <div class="sect__inner">
     <div class="mc mc--inline">
       {%- set mcLoc = menuLoc %}

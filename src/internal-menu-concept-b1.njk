@@ -29,6 +29,9 @@ description: "Internal review page. East Village menu module, two columns. Not a
   ===========================================================================
 #}
 {%- set spriteIcons = ["ramen-bowl", "chopsticks-noodles", "naruto"] %}
+{#- Plus whatever marks menuConcepts gives the module's sections, so a new
+    section cannot ship a <use> pointing at a symbol this page never emitted. -#}
+{%- set spriteIcons = spriteIcons | withMenuIcons(menuConcepts) %}
 {% include "components/icon-sprite.njk" %}
 {% include "components/menu-marks.njk" %}
 

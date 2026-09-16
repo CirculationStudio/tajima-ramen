@@ -32,6 +32,9 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   NAP comes from locations.json, hours included: confirmed 2026-09-09.
 #}
 {%- set spriteIcons = ["chopsticks-noodles", "naruto", "ramen-bowl"] %}
+{#- Plus whatever marks menuConcepts gives the module's sections, so a new
+    section cannot ship a <use> pointing at a symbol this page never emitted. -#}
+{%- set spriteIcons = spriteIcons | withMenuIcons(menuConcepts) %}
 {% include "components/icon-sprite.njk" %}
 {% include "components/menu-marks.njk" %}
 
@@ -132,7 +135,7 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
       <article class="cell diff__cell reveal">
         <h3 class="diff__title">The full menu, plus izakaya.</h3>
         <p class="diff__body">
-          Every bowl, plus an expanded izakaya list you will not find at the ramen-bar locations. <a class="sect__link" href="/menu/">See the menu</a>.
+          Every bowl, plus an expanded izakaya list you will not find at the ramen-bar locations. <a class="sect__link" href="#menu">See the Convoy menu</a>.
         </p>
       </article>
 

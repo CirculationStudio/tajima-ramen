@@ -239,6 +239,29 @@ export default function (eleventyConfig) {
   });
 
   /**
+   * Merge in every sprite icon the menu module will ask for.
+   *
+   * icon-sprite.njk emits only the symbols a page lists in `spriteIcons`, which
+   * is the right default: a page ships the marks it uses and no more. The trap
+   * is that the module's marks are chosen in menuConcepts.json and the list was
+   * hardcoded in five templates, so adding the rice section on 2026-09-15 put
+   * `<use href="#i-onigiri">` on five location pages and two review routes that
+   * had no onigiri symbol. A `<use>` pointing at a missing symbol renders
+   * nothing at all and throws no error, which is the worst way for this to
+   * fail.
+   *
+   * So the module's needs are derived from the same data that chooses them.
+   * Add a section to menuConcepts and its mark ships wherever the module does.
+   */
+  eleventyConfig.addFilter("withMenuIcons", (icons, menuConcepts) => {
+    const wanted = [
+      ...Object.values((menuConcepts || {}).ornaments || {}),
+      ...Object.values((menuConcepts || {}).cuts || {}),
+    ];
+    return [...new Set([...(icons || []), ...wanted])];
+  });
+
+  /**
    * What distinguishes one room's menu from the others, computed.
    *
    * /menu/ is a chooser now and its whole subject is menu difference, so the

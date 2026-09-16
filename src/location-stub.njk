@@ -61,6 +61,9 @@ eleventyComputed:
 {%- set gallery = roomPhotos[loc.id] %}
 
 {%- set spriteIcons = ["chopsticks-noodles", "naruto", "ramen-bowl"] %}
+{#- Plus whatever marks menuConcepts gives the module's sections, so a new
+    section cannot ship a <use> pointing at a symbol this page never emitted. -#}
+{%- set spriteIcons = spriteIcons | withMenuIcons(menuConcepts) %}
 {% include "components/icon-sprite.njk" %}
 {% include "components/menu-marks.njk" %}
 
@@ -222,7 +225,7 @@ eleventyComputed:
         {%- else %}
         The rest of this room, its photographs and what is different about it, is being written.
         {%- endif %}
-        In the meantime, <a class="sect__link" href="/menu/">the menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
+        In the meantime, <a class="sect__link" href="#menu">this room's menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
       </p>
     </header>
   </div>

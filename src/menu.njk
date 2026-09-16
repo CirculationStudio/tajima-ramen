@@ -92,7 +92,10 @@ description: "Every Tajima room serves a different menu. Eight dishes are on all
    show food, and these are the only dishes it can show without naming a room.
    The count is printed rather than written out, because if the data changes it
    is the sentence that goes wrong first. #}
-<section class="sect sect--rule" aria-labelledby="signature-title">
+{#- id="signature" IS LOAD-BEARING. The homepage bowl tiles and both Noodle
+    Room links point here rather than at the top of the page: they promise food,
+    and the top of this page is a masthead. -#}
+<section class="sect sect--rule" id="signature" aria-labelledby="signature-title">
   <div class="sect__inner">
     <header class="sect__head">
       <h2 class="sect__title" id="signature-title">On <em>every</em> San Diego menu.</h2>
