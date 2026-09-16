@@ -10,14 +10,18 @@
    a 92px square photograph beside every dish. One component drives this and
    the concept routes, so a location page and a review route cannot drift.
 
-   PHOTOGRAPHY IS SCOPED TO THE ROOM. The module reads _data/dishPhotos.js,
-   which only returns a photograph whose filename names this location, which is
-   photos.json's `_rule`. Measured 2026-09-14: Convoy has 13 of its 14 dishes
-   photographed and Maui 4 of its 8; Mercury, East Village, College Heights,
-   Crown Point and Plaza Bonita have no dish photography of their own at all
-   and render the reference's placeholder tile on every card. That is the shoot
-   that has happened, not a fault in this component, and borrowing Convoy's
-   frames to fill it would break the rule the whole manifest is built on.
+   THE VARIANT IS PER ROOM AND IT IS COMPUTED, 2026-09-15. A2 (a photograph
+   per dish) is better where the photography exists and worse where it does
+   not, and coverage runs from 47 percent at Mercury to 100 at Maui. So the
+   room with 20 of 21 dishes shot gets the photographs and the room where 25 of
+   47 tiles would be the ghosted placeholder gets B2, which is complete and
+   correct with no photography at all.
+
+   Nothing here names a room. src/_data/menuVariants.js counts live coverage
+   against a 70 percent threshold and prints the table every build, so a room
+   moves to A2 by itself the day its photography lands. If two rooms look
+   different from the other five, that file is the reason, and it is not a bug
+   to fix.
 
    USAGE
      {% set menuLoc = loc.id %}
@@ -33,9 +37,15 @@
    all rather than an empty module. Nothing currently hits that, but Maui is
    the thinnest at seven rows and no dessert.
    =========================================================================== #}
-{%- set mcAny = (menu.items | dishesFor(menuLoc, "ramen") | length)
-              + (menu.items | dishesFor(menuLoc, "izakaya") | length)
-              + (menu.items | dishesFor(menuLoc, "dessert") | length) %}
+{#- Does this room have a menu at all? Counted across every section the
+    module can render, from menuConcepts, not the three that were hardcoded
+    here while menu.json held fourteen dishes. Plaza Bonita's third band is
+    combo sets and Mercury has four sections the old three did not name, so a
+    room could have emptied out of all three and still have a full menu. -#}
+{%- set mcAny = 0 %}
+{%- for key in menuConcepts.sectionOrder %}
+  {%- set mcAny = mcAny + (menu.items | dishesFor(menuLoc, key) | length) %}
+{%- endfor %}
 {%- if mcAny %}
 {#- id="menu" IS LOAD-BEARING, 2026-09-15. /menu/ is a room chooser now, so a
     "See the menu" link on a room page that points there asks a reader standing
@@ -47,13 +57,10 @@
     <div class="mc mc--inline">
       {%- set mcLoc = menuLoc %}
       {%- set mcChrome = false %}
-      {#- A2 is what ships.  exists for the internal A/B route at
-      /internal/menu-a2-vs-b2/ and nothing else sets it; real location pages
-      always get the default. -#}
-      {#- A2 is what ships. `mcVariantOverride` exists for the internal A/B route
-          at /internal/menu-a2-vs-b2/ and nothing else sets it, so a real
-          location page always gets the default. -#}
-      {%- set variant = mcVariantOverride | default("a2") %}
+      {#- The room's own variant, from menuVariants.js. `mcVariantOverride` is
+          set by the internal A/B route at /internal/menu-a2-vs-b2/, which
+          shows both treatments side by side on purpose, and by nothing else. -#}
+      {%- set variant = mcVariantOverride | default(menuVariants.byRoom[menuLoc].variant) %}
       {%- set showPrices = false %}
       {% include "components/menu-concept.njk" %}
     </div>

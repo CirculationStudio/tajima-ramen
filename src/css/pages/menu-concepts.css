@@ -409,24 +409,21 @@
   font-variant-numeric: tabular-nums;
   color: var(--accent);
 }
-/* TWO LINES, AND THIS IS THE ONE PORTED VALUE WORTH A SECOND OPINION.
-   The reference clamps the description to two lines, so it is what this does.
-   But the reference can afford to: every card there is a button that opens a
-   lightbox with the description in full, and this port has no lightbox, so
-   three of Convoy's twelve rows (Spicy Sesame, Chicken and Curry Ramen) end in
-   an ellipsis with nowhere to go. Faithful, and a content loss the mockup does
-   not actually have. Removing these five lines un-clamps it and costs nothing
-   but a ragged card height. Flagged rather than decided. */
+/* NOT CLAMPED, AND THE REFERENCE'S TWO-LINE CLAMP IS DELIBERATELY DROPPED.
+   The mockup clamps this to two lines and can afford to: every card there is a
+   button that opens a lightbox with the description in full. This port has no
+   lightbox, so a clamped description ends in an ellipsis with nowhere to go.
+   Measured on the real pages before removing it: it truncated 7 of Crown
+   Point's 21 descriptions and 15 of Mercury's 46, and un-clamping cost 44px at
+   Crown Point and 70px at Mercury, under 2 percent of page height either way,
+   because the 92px thumbnail already leaves that room underneath. Twenty-two
+   descriptions back for 2 percent. Do not restore the clamp unless the
+   lightbox comes with it. */
 .mc-plate__desc{
   margin-top: .4375rem;
   font-size: .9375rem;
   line-height: 1.5;
   color: var(--ink-3);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow: hidden;
 }
 
 /* --- B1: the peek card ---------------------------------------------------

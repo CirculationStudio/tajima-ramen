@@ -193,12 +193,17 @@ description: "Tajima Ramen Convoy, the original, on Convoy Street since 2001. Co
   photographs of Convoy's own food, which was the best food section on the
   site and the only one whose photographs were shot in the room they describe.
 
-  Convoy is also the ONE room where the photo variant of this component (a2)
-  would be legitimate: photos.json scopes dish photography to the room whose
-  filename it carries, which is why the other six cannot borrow these. If the
-  rollout should keep Convoy on photographs, set variant to "a2" in
-  components/location-menu.njk behind a check on loc.id and nothing else
-  changes. That is a one-line decision, not a rebuild.
+  SUPERSEDED 2026-09-15 and left here for the history. This said Convoy was
+  the one room where the photo variant (a2) would be legitimate, because
+  photos.json scoped dish photography to the room named in the filename. That
+  rule was written for rooms and was wrong for food: a bowl of Tajima Red is
+  the same bowl in every room. Amended, and the module now renders photographs
+  wherever the coverage supports them, Convoy at 26 of 34 included.
+
+  It also suggested keying the variant off loc.id in location-menu.njk. Do not.
+  The variant comes from src/_data/menuVariants.js, which counts each room's
+  real coverage against a threshold, so rooms move on their own as the
+  photography lands and no template carries a list of room names.
 #}
 {%- set menuLoc = locationId %}
 {% include "components/location-menu.njk" %}
