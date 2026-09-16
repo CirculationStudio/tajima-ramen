@@ -1,20 +1,24 @@
 {# ===========================================================================
    Dietary and preparation glyphs for the menu concepts.
 
-   NOT brand sprite icons. The Tajima sprite is twelve food marks and carries
-   nothing for spicy, vegan, vegetarian or raw. These four are lifted from the
-   reference mockups, which is where they were drawn, so the concepts show the
-   marks the client has already seen rather than substitutes.
+   NOT brand sprite icons. The Tajima sprite carries nothing for vegan,
+   vegetarian or raw, so these three are lifted from the reference mockups,
+   which is where they were drawn.
+
+   SPICY IS NOT HERE ANY MORE, 2026-09-16. It was a hand-drawn #m-spicy, and
+   it was an unclosed outline: three open paths with the pepper's left flank,
+   from (3.8,17.7) back up to the stem, never drawn. It rendered as a hook
+   with a detached spur rather than a chili.
+
+   The approved reference does not use a hand-drawn mark for it. It uses the
+   BRAND chili, which it calls #i-chili-pepper and which is byte identical to
+   src/_includes/icons/chili.svg. So spicy reads the sprite now, and
+   menuConcepts.json's legend names the symbol each mark draws.
 
    Emitted once per page as <symbol>, used by <use>, same pattern as
    icon-sprite.njk.
    =========================================================================== #}
 <svg class="icon-sprite" aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
-  <symbol id="m-spicy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9.4 20.3c5 0 8.6-3.6 8.6-8.4 0-2.2-.9-3.9-2.4-4.9-1.2-.8-2.4-.9-3.2-.6"/>
-    <path d="M12.4 6.4c.3-1.4 1.3-2.7 2.9-3.1.5-.1.9.3.8.8-.3 1.5-1.4 2.6-2.9 3"/>
-    <path d="M9.4 20.3c-2.6 0-4.6-1.2-5.6-2.6"/>
-  </symbol>
   <symbol id="m-vegan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path fill="currentColor" d="M20 4c0 8.5-4.6 13-11.2 13H5.2C5.2 9.5 10.4 4.6 20 4Z"/>
     <path d="M4 21c1.6-4.4 4.4-7.6 8.4-9.7"/>

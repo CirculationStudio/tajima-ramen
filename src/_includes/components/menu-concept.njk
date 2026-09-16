@@ -245,7 +245,7 @@
                     {%- if flag.flag in dish.dietary %}
                   <span class="mc-mark mc-mark--{{ flag.flag }}">
                     <span class="u-visually-hidden">{{ flag.label }}</span>
-                    <svg aria-hidden="true"><use href="#m-{{ flag.flag }}"></use></svg>
+                    <svg aria-hidden="true"><use href="#{{ flag.icon }}"></use></svg>
                   </span>
                     {%- endif %}
                   {%- endfor %}
@@ -268,7 +268,7 @@
                 {%- if flag.flag in dish.dietary %}
               <span class="mc-mark mc-mark--{{ flag.flag }}">
                 <span class="u-visually-hidden">{{ flag.label }}</span>
-                <svg aria-hidden="true"><use href="#m-{{ flag.flag }}"></use></svg>
+                <svg aria-hidden="true"><use href="#{{ flag.icon }}"></use></svg>
               </span>
                 {%- endif %}
               {%- endfor %}
@@ -316,18 +316,21 @@
   <ul class="mc-notes">
     {%- for flag in menuConcepts.legend %}
     <li class="mc-notes__item">
-      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#m-{{ flag.flag }}"></use></svg></span>
+      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#{{ flag.icon }}"></use></svg></span>
       <span><b>{{ flag.label }}.</b> {{ flag.note }}</span>
     </li>
     {%- endfor %}
   </ul>
 
   {#- Named rather than guessed at. menu.json has no field for three of the
-      four marks above, so no dish carries them. -#}
+      legend above, computed from the rows this page renders. -#}
+  {%- set unused = mcBands | unusedFlags(menuConcepts.legend) %}
+  {%- if unused | length %}
   <p class="mc-foot__gap">
-    Marked from data only. menu.json carries a dietary value on two rows, both vegan;
-    {{ menuConcepts.missingFlags | join(", ") }} have no field on any dish yet, so no dish shows those marks.
+    Marked from data only. {{ unused | join(" and ") }} have no field on any dish yet,
+    so nothing on this page carries {% if unused | length > 1 %}those marks{% else %}that mark{% endif %}.
   </p>
+  {%- endif %}
 
   {%- if variant == "a2" %}
   {#- One line rather than a caption on each of eleven tiles. Every dish
@@ -352,13 +355,16 @@
   <ul class="mc-notes">
     {%- for flag in menuConcepts.legend %}
     <li class="mc-notes__item">
-      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#m-{{ flag.flag }}"></use></svg></span>
+      <span class="mc-mark mc-mark--{{ flag.flag }}" aria-hidden="true"><svg><use href="#{{ flag.icon }}"></use></svg></span>
       <span><b>{{ flag.label }}.</b> {{ flag.note }}</span>
     </li>
     {%- endfor %}
   </ul>
+  {%- set unusedInline = mcBands | unusedFlags(menuConcepts.legend) %}
   <p class="mc-foot__gap">
-    Marked from data only. Three of the four marks have no field on any dish yet, so no dish shows them.
+    {%- if unusedInline | length %}
+    Marked from data only. {{ unusedInline | join(" and ") }} have no field on any dish yet.
+    {%- endif %}
     <a class="sect__link" href="/menu/">Compare the other rooms</a>.
   </p>
 </footer>

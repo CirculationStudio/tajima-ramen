@@ -61,22 +61,6 @@
         height="342"
         fetchpriority="high">
 
-      {#
-        THE NIGHT SIGN. Two words under the wordmark, brush italic, glowing
-        red, pulsing slowly like a tube warming up. Night only: CSS sets it
-        display:none in day mode, which takes it out of the accessibility tree
-        as well as out of the picture, so in day it is not there in any sense.
-
-        It is decoration and says nothing, so aria-hidden even at night. It is
-        NOT a statement about hours: the words are only "At Night" and no time
-        goes near it. The rooms' actual hours live on the location pages and in
-        openingHoursSpecification.
-
-        Inside the logo link and absolutely positioned, so it costs the header
-        no height and the nav does not move when the clock flips the theme.
-        See .hdr__neon in hdr.css for the size it had to be and why.
-      #}
-      <span class="hdr__neon" aria-hidden="true">At Night</span>
     </a>
 
     <nav class="hdr__nav" aria-label="Primary">

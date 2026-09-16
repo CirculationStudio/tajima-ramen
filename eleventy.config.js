@@ -263,6 +263,26 @@ export default function (eleventyConfig) {
    * within weeks even if the counts were allowed. The page names the KIND of
    * programme a room runs and links to Toast for what is actually pouring.
    */
+  /**
+   * Which dietary marks the legend lists that NO row on this page carries.
+   *
+   * COMPUTED, because the hardcoded version was wrong. menuConcepts.json held
+   * `missingFlags: ["spicy","vegetarian","raw or undercooked"]` and the
+   * footnote printed it under the legend. Five sushi rows carry
+   * dietary:["raw"] and that mark renders directly above the sentence saying
+   * no dish shows it. A note about the data that the data contradicts is
+   * worse than no note.
+   */
+  eleventyConfig.addFilter("unusedFlags", (bands, legend) => {
+    const seen = new Set();
+    for (const band of bands || []) {
+      for (const row of band.items || []) {
+        for (const flag of row.dietary || []) seen.add(flag);
+      }
+    }
+    return (legend || []).filter((flag) => !seen.has(flag.flag)).map((flag) => flag.label);
+  });
+
   eleventyConfig.addFilter("drinkLine", (kinds) => {
     if (!Array.isArray(kinds) || !kinds.length) return "";
     const label = { beer: "Craft beer", cider: "hard cider", kombucha: "hard kombucha",
@@ -276,6 +296,13 @@ export default function (eleventyConfig) {
     const wanted = [
       ...Object.values((menuConcepts || {}).ornaments || {}),
       ...Object.values((menuConcepts || {}).cuts || {}),
+      // Any BRAND icon the dietary legend names. Spicy draws #i-chili, so
+      // without this the legend points at a symbol the page never emitted and
+      // the mark silently renders as nothing.
+      ...((menuConcepts || {}).legend || [])
+        .map((flag) => flag.icon)
+        .filter((icon) => icon && icon.startsWith("i-"))
+        .map((icon) => icon.slice(2)),
     ];
     return [...new Set([...(icons || []), ...wanted])];
   });

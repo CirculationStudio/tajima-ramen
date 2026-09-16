@@ -246,3 +246,20 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* --- The founder portrait, chapter 05 -------------------------------------
+   The one photograph of a person on the site. Held to a column rather than
+   run full width: this page is a sequence of chapters and a photograph that
+   breaks the measure would read as a feature spread rather than a beat in it.
+   Sits under the paragraph, inside the text column, so the journey rail down
+   the left is uninterrupted. */
+.chapter__figure{
+  margin: var(--space-6) 0 0;
+  max-width: 22rem;
+}
+.chapter__photo{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}

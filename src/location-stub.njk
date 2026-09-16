@@ -210,27 +210,29 @@ eleventyComputed:
 </section>
 {%- endif %}
 
-{# What is still missing differs per room now that four of the five carry a
-   "what is different" section, so the copy has to differ too. Saying "what is
-   different about it is being written" on a page that just said it would be
-   the page contradicting itself two screens apart. #}
-<section class="sect" aria-labelledby="soon-title">
-  <div class="sect__inner">
-    <header class="sect__head">
-      <h2 class="sect__title" id="soon-title">Still to <em>come.</em></h2>
-      <p class="sect__note">
-        Address, phone and hours are right, and they are the same everywhere we publish them.
-        {%- if diffCells %}
-        What this room still needs is its own photographs.
-        {%- else %}
-        The rest of this room, its photographs and what is different about it, is being written.
-        {%- endif %}
-        In the meantime, <a class="sect__link" href="#menu">this room's menu</a> and <a class="sect__link" href="/locations/">the other rooms</a>.
-      </p>
-    </header>
-  </div>
-</section>
+{#
+  THE "STILL TO COME" SECTION IS GONE, 2026-09-16.
 
+  It was a section about what the page did not have: "the rest of this room,
+  its photographs and what is different about it, is being written". That is
+  project status, and a reader who came for a phone number and a menu is not
+  the audience for it. It shipped on five of seven location pages and the
+  structural sweep flagged it on every one.
+
+  Most of what it apologised for has since arrived. These pages carry the
+  room's full menu from its own Toast catalog, its dietary marks, its
+  photography where photography exists, and its order link. What is still
+  missing is missing quietly now, which is the normal state of a page rather
+  than something to announce.
+
+  Nothing was lost with it. Its two links, this room's menu and the other
+  rooms, both survive several times over on the page: /locations/ five times,
+  #menu twice.
+
+  THESE PAGES ARE STILL noindex, and that is unchanged and deliberate. See
+  the header of this file. Removing the noindex is a separate decision per
+  room, made after the page is written rather than as part of writing it.
+#}
 {% include "components/location-faq.njk" %}
 
 {% include "components/location-order.njk" %}

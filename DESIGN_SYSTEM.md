@@ -148,7 +148,9 @@ Fallback stacks as written in the reference file:
 
 **Bright Sunshine Caps is display-only, and there is a hard size floor.** It is a brush face: below roughly `1.25rem` it stops being legible, especially over photography. Dish names, location names, section headings and the wordmark: yes. Prices, captions, nav, buttons, body: never. This was a real defect caught in review, not a preference.
 
-**One exception exists, and it is the only one.** The header's night sign (`.hdr__neon`, "At Night" under the wordmark) is set at `0.875rem`, below the floor. It is granted because it fails to be the thing the floor protects: the floor exists so that brush type **carrying meaning** stays readable, and this carries none. It is two decorative words, `aria-hidden`, on a flat header field at 6.01:1, and a reader who cannot parse it has lost nothing because there is nothing in it to lose. At the floor it measured 82px wide against a 58px wordmark, which made it read as a second brand line rather than as a subtitle to the first.
+**There are no exceptions. Removed 2026-09-16.**
+
+There used to be exactly one: the header's night sign (`.hdr__neon`, "At Night" under the wordmark) at `0.875rem`, granted on four tests it had to pass all of. The sign is gone, and the floor is now a rule with nothing carved out of it, which is a better rule than one with a precedent attached. The four tests below stand as the argument for why nothing gets a second exception, not as a route to one.
 
 Four tests, and an exception has to pass **all** of them:
 
@@ -271,7 +273,7 @@ The one place red is a background rather than an accent. Cream icon pattern behi
 - **NO** hex codes in CSS rules outside the token blocks.
 - **NO** eyebrow labels above headings. A small uppercase kicker with a dash rule above every headline was removed in review as the single most templated element on the page. Headlines carry themselves. `/noodle-room/` kept five of them (`philosophy__`, `watch__`, `process__`, `gallery__`, `return-card__`) until 2026-09-16, because that page carries its own palette and was never swept when the rest were. Removed. Four of the five also failed contrast, and recoloring a banned element to make it accessible would have been the wrong fix twice.
 - **NO** glow in day mode.
-- **NO** brush display type below 1.25rem, with exactly one recorded exception (`.hdr__neon`) and four tests it had to pass. See Typography.
+- **NO** brush display type below 1.25rem. No exceptions. The one that existed (`.hdr__neon`, the header's "At Night" sign) was removed along with the sign on 2026-09-16.
 
 ### Banned filler
 elevated • curated • immersive • culinary journey • authentic (as a claim) • passion / passionate about • dive into • crafted with love • truly • a feast for the senses • our story began • memorable dining experience • guaranteed to keep you coming back • perfectly paired

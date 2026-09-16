@@ -238,6 +238,21 @@ const PROCESS_WORDS = [
 // Subject classification. Type only, never location.
 const ROOM_WORDS = ["dining", "room", "interior", "exterior", "storefront", "bar", "patio", "counter", "seating"];
 
+// PEOPLE. Added 2026-09-16 for the first photograph of a person on the site.
+//
+// NAMED TOKENS ONLY, and "portrait" is deliberately NOT one of them: this
+// repo already uses it as an ORIENTATION suffix, as in
+// tajima-commissary-steam-tanks-01-portrait.webp, and a word that means two
+// things is exactly how a filename rule starts lying. A person is recognised
+// by being named.
+//
+// A photograph of a person carries a consent question no other subject does.
+// CLIENT_FACTS.md open question 14: do not publish a named staff profile
+// without that person's consent and Tajima's approval. Sam is the owner and
+// the client supplied this frame; anybody else added here needs that answered
+// first.
+const PERSON_WORDS = ["morikizono"];
+
 // ---------------------------------------------------------------------------
 // Intrinsic dimensions, so every <img> ships explicit width/height and nothing
 // shifts on load. Handles WebP (VP8 / VP8L / VP8X), JPEG, and PNG.
@@ -322,6 +337,9 @@ function matchDish(stem) {
 
 function classify(stem, dish) {
   if (dish) return "dish";
+  // Before the room test: a portrait taken IN a dining room would otherwise
+  // classify as a photograph OF the dining room.
+  if (PERSON_WORDS.some((w) => stem.includes(w))) return "person";
   if (PROCESS_WORDS.some((w) => stem.includes(w))) return "process";
   if (ROOM_WORDS.some((w) => stem.includes(w))) return "room";
   return null;
@@ -329,6 +347,11 @@ function classify(stem, dish) {
 
 function proposedUse(location, dish, type) {
   const uses = [];
+
+  // A person belongs on the page about that person, and nowhere else by
+  // proposal. /about/ is the only surface on the site that makes a claim
+  // about a human being.
+  if (type === "person") return ["/about/"];
 
   // MAUI IS SCOPED TO ITS OWN PAGE. A Kihei bowl is not proposed for /menu/ or
   // the home teaser even when the filename names a dish that exists on

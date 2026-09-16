@@ -149,71 +149,7 @@
    eye. 4.5s is slow enough to read as a tube warming rather than a blink.
    Under prefers-reduced-motion the animation is not applied at all, and the
    glow is left on: static, lit, no pulse. */
-.hdr__neon {
-  display: none;
-  position: absolute;
-  top: 100%;
-  /* Where TAJIMA starts in the header asset. See the note above. */
-  left: 44.4%;
-  /* NESTED UNDER THE WORDMARK, NOT FLOATING BETWEEN IT AND THE RULE.
-     
-     Measured before: the wordmark's ink ends 10.9px above this line and the
-     header's bottom rule sits 7.7px below it, so 58.6% of the free space was
-     above and the sign read as drifting down toward the rule rather than
-     hanging off the word. -0.4375rem moves it up 7px against a line box that
-     already starts at the logo box's bottom edge, which puts about a third of
-     the space above and two thirds below.
-     
-     It can go this far up because the asset has empty space under the
-     wordmark: TAJIMA's ink stops at 91.7px while the image box runs to 103.4,
-     so the sign overlaps the picture's padding and none of its ink. The red
-     disc is not a risk either: it ends at 40% of the asset's width and this
-     line starts at 44.4%. */
-  margin-top: -.4375rem;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: .875rem;
-  line-height: 1;
-  letter-spacing: var(--tracking-display);
-  white-space: nowrap;
-  pointer-events: none;
-  color: var(--accent);
-  text-shadow: var(--glow-text);
-}
 
-[data-mode="night"] .hdr__neon {
-  display: block;
-}
-
-/* GONE ONCE THE HEADER WRAPS. Below 36rem the nav drops to its own full-width
-   row directly under the logo, and an absolutely positioned line under the
-   logo lands on top of it: measured at 360, 390, 414 and 560px, the sign's box
-   (62 to 82) sits inside the nav's first row (74 to 96) in all four. There is
-   no room beneath the logo at those widths, and the alternative, giving it a
-   row of its own, is the header getting taller, which the brief rules out.
-   A decorative flourish is the right thing to drop when the space runs out. */
-@media (max-width: 36rem) {
-  [data-mode="night"] .hdr__neon { display: none; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-mode="night"] .hdr__neon {
-    animation: hdr-neon-pulse 4.5s var(--ease-smooth) infinite;
-  }
-
-  /* Opacity and the glow only. No transform, no font-size, nothing that could
-     move the line or change what it occupies. */
-  @keyframes hdr-neon-pulse {
-    0%, 100% {
-      opacity: 1;
-      text-shadow: var(--glow-text);
-    }
-    50% {
-      opacity: .72;
-      text-shadow: none;
-    }
-  }
-}
 
 /* --------------------------------------------------------------------------
    Nav

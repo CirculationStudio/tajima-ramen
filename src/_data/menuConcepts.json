@@ -25,28 +25,27 @@
     {
       "flag": "spicy",
       "label": "Spicy",
-      "note": "Built with chili, and it shows. Heat can be dialled down at the counter."
+      "note": "Built with chili, and it shows. Heat can be dialled down at the counter.",
+      "icon": "i-chili"
     },
     {
       "flag": "vegan",
       "label": "Vegan",
-      "note": "No meat, fish, dairy or egg."
+      "note": "No meat, fish, dairy or egg.",
+      "icon": "m-vegan"
     },
     {
       "flag": "vegetarian",
       "label": "Vegetarian",
-      "note": "No meat or fish, but contains dairy or egg."
+      "note": "No meat or fish, but contains dairy or egg.",
+      "icon": "m-vegetarian"
     },
     {
       "flag": "raw",
       "label": "Served raw or undercooked",
-      "note": "Eating raw or undercooked meat, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness."
+      "note": "Eating raw or undercooked meat, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness.",
+      "icon": "m-raw"
     }
-  ],
-  "missingFlags": [
-    "spicy",
-    "vegetarian",
-    "raw or undercooked"
   ],
   "_footerSource": "Every line below is already-approved copy from faq.json, which draws on CLIENT_FACTS.md. NOT transcribed from the mockups' fine print, which carries strings nobody has cleared.",
   "footer": [
@@ -84,5 +83,7 @@
     "kids": "Kids",
     "combo": "Combo Sets"
   },
-  "_sectionOrder": "The order every room renders its bands in, and it is the order the printed menus use: small plates, then bowls, then rice, then the raw counter, then the specials board, then dessert, with the kids and combo blocks last because only one room each carries them.\n\nMOVED OUT OF THE TEMPLATE 2026-09-15. menu-concept.njk hardcoded three sections. A room can now render as many as it has: Mercury seven, Plaza Bonita three, the other four rooms four. A section with no rows for a room renders nothing, which is how Crown Point gets four bands and not eight."
+  "_sectionOrder": "The order every room renders its bands in, and it is the order the printed menus use: small plates, then bowls, then rice, then the raw counter, then the specials board, then dessert, with the kids and combo blocks last because only one room each carries them.\n\nMOVED OUT OF THE TEMPLATE 2026-09-15. menu-concept.njk hardcoded three sections. A room can now render as many as it has: Mercury seven, Plaza Bonita three, the other four rooms four. A section with no rows for a room renders nothing, which is how Crown Point gets four bands and not eight.",
+  "_legendIcons": "Each legend entry names the symbol it draws. Spicy uses the BRAND chili from src/_includes/icons/chili.svg, which is what the approved reference uses (it calls it #i-chili-pepper and the artwork is byte identical to ours). The hand-drawn #m-spicy that used to stand in for it was an unclosed outline: three open paths with the pepper's left flank never drawn, so it rendered as a hook with a detached spur. It looked like a legend-only bug because no dish carries a spicy value, so the legend is the only surface that ever drew it.",
+  "_missingFlags": "REMOVED. It was a hardcoded list reading spicy, vegetarian, 'raw or undercooked', and the last of those was false: five sushi rows carry dietary:['raw'] and the mark renders above the sentence denying it. The footnote is computed from the rendered rows now, in _data/roomMenus.js."
 }
