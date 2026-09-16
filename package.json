@@ -12,12 +12,20 @@
     "prebuild": "npm run test:photos",
     "build": "eleventy",
     "clean": "rm -rf _site .11ty-vite",
-    "test:photos": "node scripts/test-photo-manifest.js"
+    "test:photos": "node scripts/test-photo-manifest.js",
+    "test:structure": "node scripts/sweep-structure.js",
+    "test:overflow": "node scripts/sweep-overflow.js",
+    "test:contrast": "node scripts/sweep-contrast.js",
+    "test:links": "node scripts/crawl-links.js",
+    "test:classes": "node scripts/sweep-classes.js",
+    "test:weight": "node scripts/page-weight.js",
+    "verify": "npm run test:photos && npm run test:structure && npm run test:links && npm run test:overflow && npm run test:contrast && npm run test:classes"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-vite": "^5.0.0",
     "@tailwindcss/vite": "^4.0.0",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4.0.0",
     "vite": "^5.4.8"
   }
