@@ -13,6 +13,44 @@
 
 ## Cloudflare Pages Settings
 
+### The project name, and how to build a preview URL without guessing
+
+**Cloudflare Pages project: `tajima-ramen`.**
+
+Recorded 2026-09-16 because it was not written down anywhere and a preview URL
+had to be recovered from a GitHub check run to be quoted at all. Two forms,
+both real:
+
+```
+Branch alias   https://<branch-slug>.tajima-ramen.pages.dev
+Per deploy     https://<commit-hash-8>.tajima-ramen.pages.dev
+```
+
+The branch slug is the branch name with every non-alphanumeric character
+turned into a hyphen, so `preview/location-photos` becomes
+`preview-location-photos`:
+
+```
+https://preview-location-photos.tajima-ramen.pages.dev
+```
+
+The branch alias follows the branch, so it is the one to send to a reviewer.
+The per-deploy URL is pinned to one commit and is the one to quote when you
+mean a specific state.
+
+**If you ever need to recover this again**, the authoritative source is the
+Cloudflare Pages check on the pushed commit, which carries both URLs in its
+output and the project name in its dashboard link:
+
+```
+gh api repos/CirculationStudio/tajima-ramen/commits/<sha>/check-runs \
+  --jq '.check_runs[] | .output.summary'
+```
+
+Note that `gh api .../deployments` returns empty for this project: Cloudflare
+reports through a check run rather than the GitHub deployments API, so looking
+there suggests nothing has deployed when it has.
+
 ### Build Configuration
 
 ```
