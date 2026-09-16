@@ -40,18 +40,47 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
   doorway.focus();
 })();
 
-// Mute toggle on the hero's background film.
-(function setupMuteToggle() {
-  const video = document.querySelector(".hero__video-media");
-  const button = document.querySelector("[data-video-mute]");
-  const label = document.querySelector("[data-video-mute-label]");
+// Play control on the hero's background film.
+//
+// WAS A MUTE TOGGLE. The film autoplayed and the pill offered sound. It does
+// not autoplay any more, because it is 46.8 MB and this page was transferring
+// 97.8 MB before anybody asked it for anything, so the pill starts it instead.
+// The video carries preload="none", which means nothing is fetched until this
+// runs. The poster is what a visitor sees until then, and for most visits that
+// is the whole of it.
+(function setupHeroFilm() {
+  const video = document.querySelector("[data-hero-film]");
+  const button = document.querySelector("[data-video-play]");
+  const label = document.querySelector("[data-video-play-label]");
   if (!video || !button) return;
 
+  const playIcon = button.querySelector('[data-video-icon="play"]');
+  const pauseIcon = button.querySelector('[data-video-icon="pause"]');
+
+  function paint(playing) {
+    if (label) label.textContent = playing ? "Pause" : "Play";
+    button.setAttribute(
+      "aria-label",
+      playing ? "Pause the background film" : "Play the background film",
+    );
+    if (playIcon) playIcon.hidden = playing;
+    if (pauseIcon) pauseIcon.hidden = !playing;
+  }
+
   button.addEventListener("click", () => {
-    video.muted = !video.muted;
-    if (label) label.textContent = video.muted ? "Muted" : "Sound";
-    button.setAttribute("aria-label", video.muted ? "Unmute the video" : "Mute the video");
+    if (video.paused) {
+      video.play().catch(() => {
+        // Nothing to recover: it stays on its poster, which is a fine state.
+      });
+    } else {
+      video.pause();
+    }
   });
+
+  // Driven off the element's own events rather than off the click, so the
+  // control cannot claim it is playing while the fetch is still in flight.
+  video.addEventListener("play", () => paint(true));
+  video.addEventListener("pause", () => paint(false));
 })();
 
 // The film stage.
@@ -83,7 +112,9 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
     stage.removeAttribute("data-watch-state");
     film.pause();
     film.currentTime = 0;
-    if (posterLoop && !prefersReducedMotion) posterLoop.play().catch(() => {});
+    // The loop is NOT restarted. It carries preload="none" and never played,
+    // so calling play() here would start a download on close, which is the
+    // opposite of the point. The stage under it is ink, which is the design.
     closeBtn.hidden = true;
     playBtn.focus();
   }
@@ -100,11 +131,17 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 })();
 
 // Decorative background videos are motion. Pause them when motion is unwanted.
+//
+// Nothing carries `autoplay` in the markup any more, so this no longer has a
+// download to prevent. It still runs, because a video can be started from a
+// control and a reduced-motion visitor should not get looping footage if they
+// do start one.
 (function respectReducedMotion() {
   if (!prefersReducedMotion) return;
   for (const video of document.querySelectorAll("video[data-decorative]")) {
     video.autoplay = false;
     video.removeAttribute("autoplay");
+    video.removeAttribute("loop");
     video.pause();
   }
 })();

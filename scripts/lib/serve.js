@@ -35,7 +35,12 @@ const TYPES = {
 // overflow harness. It has to be served from THIS origin: an iframe and its
 // parent can only read each other when the origins match, and that is the
 // whole reason the overflow sweep measures the way it does.
-export function serve(root, { port = 0, virtual = {} } = {}) {
+export function serve(rootArg, { port = 0, virtual = {} } = {}) {
+  // Resolved once, up front. The traversal guard below compares against an
+  // absolute path, so a relative root made every request fail the guard and
+  // return "forbidden" for the whole site.
+  const root = path.resolve(rootArg);
+
   const server = http.createServer((req, res) => {
     const route = (req.url || "/").split("?")[0];
     if (Object.prototype.hasOwnProperty.call(virtual, route)) {
@@ -55,7 +60,7 @@ export function serve(root, { port = 0, virtual = {} } = {}) {
     let file = path.join(root, url);
 
     // Never let a crafted path escape the output directory.
-    if (!file.startsWith(path.resolve(root))) {
+    if (!file.startsWith(root)) {
       res.writeHead(403).end("forbidden");
       return;
     }

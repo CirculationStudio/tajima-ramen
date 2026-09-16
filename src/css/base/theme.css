@@ -175,14 +175,24 @@
   /* --- Pattern assets ------------------------------------------------------ */
   /* Day plate. Black line art on white, from the local brand tile, downscaled
      and recompressed to 100KB for use as a background texture (the source is
-     9288px and 1.5MB). The three CDN plates below are red-, white- and
-     yellow-ground and none of them reads on a cream canvas: --pattern-red
-     screens to a pink wash and --pattern-white has no usable contrast. */
+     9288px and 1.5MB). It exists because the red plate does not read on a
+     cream canvas: screened over cream it goes to a pink wash that competes
+     with the type rather than sitting under it.
+     There were two more CDN plates here, white-ground and yellow-ground.
+     Neither was referenced by any rule, so they were two live requests to a
+     temporary origin in service of nothing, and they are gone. */
   --pattern-outline: url("/images/brand/tajima-pattern-day.webp");
 
-  --pattern-red: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-red-background-print.png.png");
-  --pattern-white: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-white-background-print.png.png");
-  --pattern-yellow: url("https://cdn.circulationstudio.com/tajima-temp/tajima%20brand%20assets-yellow-background-print.png");
+  /* Night plate, given the same treatment as the day plate above and for the
+     same reason. It was a 9288x4232 PRINT png served from the temp CDN at
+     1.5MB, which scripts/page-weight.js caught as the largest single asset on
+     the site. It renders at 8 per cent opacity on /about/ and friends and 10
+     per cent on /happy-hour/, so print resolution bought nothing: 1600x729
+     webp, 221KB, under the 300KB budget in CLAUDE.md and inside our own
+     origin. Alpha is preserved, which matters here because the ground is
+     transparent and the blend mode reads it.
+     The source file was named `...print.png.png`. */
+  --pattern-red: url("/images/brand/tajima-pattern-red.webp");
 }
 
 /* ==========================================================================

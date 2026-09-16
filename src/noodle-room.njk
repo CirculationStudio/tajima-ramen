@@ -102,17 +102,32 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
     </dl>
   </div>
 
+  {#
+    NOTHING HERE AUTOPLAYS, AND THAT IS THE POINT.
+
+    This page used to transfer 97.8 MB on initial load, measured by
+    scripts/page-weight.js. `preload="metadata"` was set on all three videos
+    and meant nothing: `autoplay` overrides it, because a video that has been
+    told to play has to be fetched. Two of the three autoplayed, and one of
+    them is the 46.8 MB brand film, which this page embeds TWICE (here, as a
+    decorative loop, and again in the watch stage below).
+
+    So every video is `preload="none"` and none carries `autoplay`. The hero
+    holds its poster and starts on the pill beside it; the film starts on its
+    play button, which is what it always did; the loop behind that button is
+    decorative and the stage under it is already ink, so it simply rests.
+  #}
   <figure class="hero__right">
     <video
       class="hero__video-media"
       src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
       poster="https://cdn.circulationstudio.com/tajima-temp/Tajima%20Ramen%20-%20Offsite%20Kitchen-01-portrait.webp"
-      autoplay
       muted
       loop
       playsinline
-      preload="metadata"
+      preload="none"
       data-decorative
+      data-hero-film
       aria-label="Inside the Tajima kitchen"></video>
     <div class="hero__video-scrim" aria-hidden="true"></div>
     <figcaption class="hero__video-caption">
@@ -120,13 +135,19 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
       Inside the room &middot; Crown Point
     </figcaption>
     <div class="hero__video-controls">
-      <button type="button" class="video-pill" data-video-mute aria-label="Unmute the video">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <line x1="23" y1="9" x2="17" y2="15"></line>
-          <line x1="17" y1="9" x2="23" y2="15"></line>
+      {#- The pill was a mute toggle, which only made sense while the film
+          autoplayed. Nothing autoplays now, so unmuting a stopped video is not
+          a thing anyone can want. It is a play control instead, and the film
+          with its sound and its full controls is in the watch stage below. -#}
+      <button type="button" class="video-pill" data-video-play aria-label="Play the background film">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-video-icon="play">
+          <polygon points="6 4 20 12 6 20 6 4"></polygon>
         </svg>
-        <span data-video-mute-label>Muted</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-video-icon="pause" hidden>
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+        <span data-video-play-label>Play</span>
       </button>
     </div>
   </figure>
@@ -225,18 +246,17 @@ description: "Tajima spent two years building a noodle room in Crown Point, on a
         src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-brand-video-web-1080p.mp4"
         loop
         playsinline
-        preload="metadata"
+        preload="none"
         aria-label="A short film about the Tajima Noodle Room"></video>
 
       <div class="watch__poster" data-watch-poster>
         <video
           class="watch__poster-loop"
           src="https://cdn.circulationstudio.com/tajima-temp/videos/tajima-san-diego-web-background-full.mp4"
-          autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="none"
           data-decorative
           aria-hidden="true"></video>
         <div class="watch__poster-scrim" aria-hidden="true"></div>
