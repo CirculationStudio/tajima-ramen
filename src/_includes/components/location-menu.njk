@@ -47,7 +47,13 @@
     <div class="mc mc--inline">
       {%- set mcLoc = menuLoc %}
       {%- set mcChrome = false %}
-      {%- set variant = "a2" %}
+      {#- A2 is what ships.  exists for the internal A/B route at
+      /internal/menu-a2-vs-b2/ and nothing else sets it; real location pages
+      always get the default. -#}
+      {#- A2 is what ships. `mcVariantOverride` exists for the internal A/B route
+          at /internal/menu-a2-vs-b2/ and nothing else sets it, so a real
+          location page always gets the default. -#}
+      {%- set variant = mcVariantOverride | default("a2") %}
       {%- set showPrices = false %}
       {% include "components/menu-concept.njk" %}
     </div>

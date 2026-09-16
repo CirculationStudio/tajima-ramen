@@ -647,3 +647,16 @@
 }
 .mc-foot--inline .mc-notes{ margin-bottom: var(--space-4); }
 .mc-foot--inline .mc-foot__gap{ margin-bottom: 0; }
+
+/* Internal A/B route only (/internal/menu-a2-vs-b2/), noindex. Delete with the
+   route once the variant call is made. */
+.ab-label{
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--accent);
+  border-top: var(--stroke-thick) solid var(--ink);
+  padding-top: var(--space-3);
+}

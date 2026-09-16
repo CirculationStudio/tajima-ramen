@@ -1,0 +1,56 @@
+---
+layout: layouts/base.njk
+permalink: /internal/menu-a2-vs-b2/
+robots: "noindex, nofollow"
+eleventyExcludeFromCollections: true
+title: "Menu module: A2 against B2 | Internal review, Tajima Ramen"
+description: "Internal. The two menu module treatments rendered from the same data at the two rooms that test them hardest."
+bodyClass: "page-menu-ab"
+---
+{#
+  INTERNAL, NOINDEX, AND DELETABLE ONCE THE CALL IS MADE.
+
+  A2 was built and then held back because five rooms appeared to have no dish
+  photography. That was an artifact of photos.json's filename rule, which was
+  amended on 2026-09-15, so the constraint is gone and the two treatments can
+  be compared on their merits.
+
+  The two rooms here are the ones that test it hardest, from opposite ends.
+  Crown Point has 95% photo coverage across 21 dishes and is the best case for
+  A2. Mercury has 47% across 47 dishes and is the worst: its sushi and monthly
+  specials are almost entirely unphotographed, which is where a photo-per-dish
+  layout has to prove it degrades.
+
+  Both render from the same menu.json rows through the same component. The only
+  difference is `variant`.
+#}
+{%- set spriteIcons = ["chopsticks-noodles", "naruto", "ramen-bowl"] %}
+{%- set spriteIcons = spriteIcons | withMenuIcons(menuConcepts) %}
+{% include "components/icon-sprite.njk" %}
+{% include "components/menu-marks.njk" %}
+
+<section class="sect sect--rule" aria-labelledby="page-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h1 class="sect__title" id="page-title">A2 against <em>B2.</em></h1>
+      <p class="sect__note">
+        Internal. The same rows, the same component, two treatments. Crown Point is the best case
+        for photography at 95% coverage; Mercury is the worst at 47%, and its sushi and specials
+        are where a photo per dish has to show it degrades.
+      </p>
+    </header>
+  </div>
+</section>
+
+{%- for room in [{ id: "crown-point", label: "Crown Point, 21 dishes, 95% photographed" }, { id: "mercury", label: "Mercury, 47 dishes, 47% photographed" }] %}
+{%- for v in ["a2", "b2"] %}
+<section class="sect" aria-label="{{ room.label }}, variant {{ v }}">
+  <div class="sect__inner">
+    <p class="ab-label">{{ v }} &middot; {{ room.label }}</p>
+  </div>
+</section>
+{%- set menuLoc = room.id %}
+{%- set mcVariantOverride = v %}
+{% include "components/location-menu.njk" %}
+{%- endfor %}
+{%- endfor %}
