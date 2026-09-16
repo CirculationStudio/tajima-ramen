@@ -129,3 +129,112 @@ The empty space on this site is **mostly solvable today**. The three pages that 
 ## 7. One thing that is not a photograph problem
 
 `menu.json` supplies its own `alt` for the 11 dishes it images, which bypasses the `roomPhotos.js` draft-alt guard. **Four of those 11 point at manifest entries whose alt is still `[DRAFT, NEEDS REVIEW]`.** The pages are fine, because `menu.json`'s alt is reviewed, but the manifest understates how much reviewed alt exists and the guard cannot see that path. Noted, not a defect to fix blind.
+
+---
+
+## 8. The dish shot list, by room
+
+**Added 2026-09-15**, after the menu rebuild. Sections 1 to 7 above are about
+room, exterior and process photography and still stand. This section is about
+**food**, and it is the first time we have been able to say what is missing
+dish by dish rather than "we need food photos".
+
+Two things made it countable. Connor's dish sheet gave us the real per-room
+menus, 74 dishes against the 14 the site used to hold. And the manifest rule
+that scoped a photograph to the room named in its filename was amended: it is
+right for a room and was wrong for a bowl, because a bowl of Tajima Red is the
+same bowl in every room. Together those turned "five of seven rooms have no
+dish photography" into a real number per room.
+
+### Coverage today
+
+Counted at build time from the photographs we hold with written alt, against
+the dishes each room actually lists. The build prints this table on every run.
+
+| Room | Dishes listed | Photographed | Coverage | Menu renders |
+| --- | ---: | ---: | ---: | --- |
+| Maui | 8 | 8 | 100% | with photographs |
+| Crown Point | 21 | 20 | 95% | with photographs |
+| East Village | 26 | 23 | 88% | with photographs |
+| College Heights | 24 | 19 | 79% | with photographs |
+| Convoy | 34 | 26 | 76% | with photographs |
+| Plaza Bonita | 13 | 8 | 62% | type only |
+| **Mercury** | **47** | **22** | **47%** | **type only** |
+
+**Coverage decides how the menu looks.** Where enough of the dishes are
+photographed, the room's menu renders a photograph beside every dish. Where too
+many would be blank tiles, it renders cleanly as type instead, because a grid
+that is mostly empty frames reads as broken images rather than as a menu. The
+cut is at 70 percent, and it is checked automatically on every build: the day a
+room's photography lands, its menu starts showing food on its own.
+
+**Mercury is the ask.** It is the largest menu we have, 47 dishes, and fewer
+than half are photographed. Its sushi band is one photograph against seven
+blanks and its monthly specials are eight for eight.
+
+### What Mercury needs: 25 dishes
+
+| Section | Count | Dishes |
+| --- | ---: | --- |
+| Monthly Special | 8 | Tsukune Yakitori, Momo Yakitori, Beef Yakitori, Tuna Sashimi, Salmon Sashimi, Yellowtail Sashimi, Sashimi Combo, Takowasa |
+| Sushi | 7 | Carnitas Roll, Crunchy Dragon Roll, Mercury Roll, Rainbow Roll, Spicy Roll, Tajima Roll, 163 Roll |
+| Izakaya | 6 | Tajima Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Shrimp Tempura, Vegetable Tempura, Miso Soup |
+| Rice | 2 | Shrimp Fried Rice, Tuna Poke |
+| Dessert | 1 | Mochi Ice Cream |
+| Kids | 1 | Teriyaki Chicken |
+
+Sushi and the specials board are 15 of the 25 and are the half that matters:
+they are the dishes only Mercury serves, so nothing from another room can ever
+fill them.
+
+### What Plaza Bonita needs: 5 dishes
+
+Onigiri, Mini Ramen, and the three combo sets (Tajima Ramen with an onigiri,
+with mini karaage, with mini gyoza). Small list, and it is the whole gap
+between 62 percent and a menu with photographs. The combos are plated
+presentations nobody has shot, not dishes we hold elsewhere.
+
+### The other five rooms are close, and mostly not a shoot
+
+| Room | Still missing | Of those, a frame already exists in Connor's sheet |
+| --- | ---: | --- |
+| Crown Point | 1 | 1 (Crispy Rice Spicy Tuna) |
+| East Village | 3 | 2 (Tajima Fries, Crispy Rice Spicy Tuna) |
+| College Heights | 5 | 3 (Tajima Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna) |
+| Convoy | 8 | 5 (the above plus Curry Fries, Jalapeño Bomb) |
+
+**These are a permission question, not a photographer's question.** Every one of
+those frames exists and is named in the sheet. They were not placed because all
+five dishes sit on the do-not-feature list in `CLIENT_FACTS.md`, and a
+photograph in the sheet is a catalog entry, not a permission. Carnitas already
+sets the pattern the other way: listed plainly with its photograph in the menu
+body, never a hero or a callout. **If the same ruling covers these five, Crown
+Point reaches 100 percent, East Village and College Heights clear 90, and
+Convoy goes to 91**, with nobody picking up a camera.
+
+It does not rescue Mercury or Plaza Bonita. Mercury would move from 47 to 53
+percent and both rooms would still render as type. Those two need the shoot.
+
+### Two frames we are holding rather than placing
+
+- **Tajima Roll** and **Spicy Roll.** The sheet maps Mercury's menu rows to
+  photographs shot at Kihei. A California Roll is a standard construction and
+  travels between kitchens; a roll a kitchen invented and named after itself
+  does not, and Mercury has a Mercury Roll of its own, which is the tell. Are
+  Mercury's and Maui's the same roll? If yes, two of Mercury's seven sushi gaps
+  close today.
+- **Shrimp Fried Rice.** Rejected on sight. The plate in focus is fried rice
+  with pork and vegetables and no shrimp in it; the shrimp is in a noodle dish
+  on a second plate behind it, out of focus. Either the file is misnamed or the
+  shot was composed around the wrong plate. Worth reshooting either way.
+
+### Priority, if the shoot is one day
+
+1. **Mercury sushi, 7 dishes.** Highest count, exclusive to the room, and the
+   band that reads worst today.
+2. **Mercury monthly specials, 8 dishes.** Same argument, and they are the
+   dishes the room changes seasonally, so a repeatable setup pays off.
+3. **Plaza Bonita, 5 dishes.** Small, and it is that room's entire gap.
+4. **Mercury izakaya and rice, 8 dishes.**
+5. Vegetable Tempura at Mercury replaces the frame we already flagged: the
+   filename says vegetable and the photograph contains shrimp (section 6).
