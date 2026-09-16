@@ -1,19 +1,32 @@
-// The contrast sweep: measured off real renders, both themes, transitions off.
+// The contrast sweep: sampled off rendered pixels, both themes, transitions off.
 //
-// WHY OFF THE RENDER AND NOT OFF THE TOKENS. The tokens are correct and the
-// page can still fail, because what a reader sees is the colour that actually
-// landed after the cascade, any alpha composited against whatever is behind
-// it, and the theme in force at the time. DESIGN_SYSTEM.md already records two
-// traps that only show up this way: accent red is a DIFFERENT hex per theme
-// because true #E03C31 on white is 4.32 and fails, and gold is two values
-// because #FFC658 on cream is about 1.4. Reading the stylesheet would have
-// said both were fine.
+// WHY PIXELS AND NOT THE DOM.
 //
-// Transitions and animations are disabled first, so a value is never sampled
-// mid-fade. A colour caught halfway through a transition is not a colour
-// anybody sees, and it makes the run non-deterministic.
+// The first version of this walked ancestors looking for a background-color,
+// which is a proxy for what a reader sees, and the proxy was wrong five times
+// out of forty-two. It could not see the red <polygon> behind the happy hour
+// starburst, so it read cream on the gold section field at 1.54 and called a
+// correct, documented design a failure. It could not see the ::after scrim on
+// the red fields either, so it reported cream on pure Fire Red at 4.27 for
+// three runs that actually render at 4.99, 5.39 and 5.47 because a scrim sits
+// between. A gate that cries wolf five times gets ignored the sixth.
 //
-// Usage: node scripts/sweep-contrast.js [--all] [--page /menu/]
+// So the backdrop is read the way an eye reads it: screenshot the page, find
+// each text run's box, and take the most common colour inside it. SVG paint,
+// pseudo element scrims, gradients, blend modes and stacking all resolve to
+// pixels, so all of them are accounted for without any of them being modelled.
+//
+// A busy backdrop (no single colour holding a majority of the box) is reported
+// as unmeasurable rather than guessed at, which is the honest answer for text
+// over a photograph. DESIGN_SYSTEM.md requires a scrim plus text-shadow there,
+// and that is an eye check.
+//
+// Transitions and animations are disabled first, so nothing is sampled mid
+// fade and two runs are comparable.
+//
+// Usage:
+//   node scripts/sweep-contrast.js [--all] [--page /menu/] [--show-unmeasured]
+//   node scripts/sweep-contrast.js --save-baseline
 
 import fs from "node:fs";
 import { chromium } from "playwright";
@@ -24,18 +37,11 @@ const argv = process.argv.slice(2);
 const includeInternal = argv.includes("--all");
 const only = argv.includes("--page") ? argv[argv.indexOf("--page") + 1] : null;
 const saveBaseline = argv.includes("--save-baseline");
+const showUnmeasured = argv.includes("--show-unmeasured");
 
-// THE BASELINE, AND WHY THERE IS ONE.
-//
-// This sweep found 44 failing text runs the first time it was ever run, none
-// of them introduced by the work it was built to verify. Gating on zero would
-// mean the gate is red from the first commit, and a gate that is always red
-// stops being read. Gating on "no NEW failures" keeps it useful today and
-// keeps the 44 on the record instead of in a comment.
-//
-// Same shape as test-photo-manifest.js, which compares against the committed
-// manifest rather than asserting a clean slate.
-//
+// THE BASELINE. This sweep found failures that predate the work it was built
+// to verify. Gating on zero would be red from the first commit and would stop
+// being read, so it gates on no NEW failures and keeps the rest on the record.
 // To clear an entry: fix the colour, then re-record with --save-baseline.
 const BASELINE_PATH = new URL("./baselines/contrast.json", import.meta.url);
 
@@ -44,93 +50,16 @@ const FREEZE = `*,*::before,*::after{
   animation-duration:0s!important;transition-duration:0s!important;
 }`;
 
-function audit() {
+// Collect every visible text run with its box, colour and type size.
+function collectRuns() {
   function parse(css) {
     const m = css.match(/rgba?\(([^)]+)\)/);
     if (!m) return null;
     const p = m[1].split(",").map((n) => parseFloat(n.trim()));
     return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
   }
-  function over(fg, bg) {
-    const a = fg.a;
-    return {
-      r: fg.r * a + bg.r * (1 - a),
-      g: fg.g * a + bg.g * (1 - a),
-      b: fg.b * a + bg.b * (1 - a),
-      a: 1,
-    };
-  }
-  function lum(c) {
-    const f = (v) => {
-      v /= 255;
-      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    };
-    return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
-  }
-  function ratio(a, b) {
-    const l1 = lum(a);
-    const l2 = lum(b);
-    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-  }
 
-  // Does an SVG sit under this text, painting the surface it reads against?
-  //
-  // A CSS walk cannot see this. The happy hour starburst is the live case: a
-  // red <polygon> with the words stacked over it in the same grid cell, so
-  // the colour behind the type is SVG paint and the nearest CSS background is
-  // the section field two levels up. Reported as cream on gold at 1.54, which
-  // was never true: it is cream on Fire Red at 4.27, and the CSS says so.
-  // Unmeasurable here, same as text over a photograph.
-  function svgUnder(el, rect) {
-    // CONTAINMENT, not intersection. An arrow or a dietary mark sitting beside
-    // a word shares its line box and intersects it, and it is not behind
-    // anything. Artwork a reader actually reads against encloses the text, so
-    // the test is that the SVG's box contains the text's box and is bigger
-    // than it. Three hops, because a backdrop further away than that is
-    // separated by the elements between.
-    const pad = 2;
-    let node = el;
-    for (let hops = 0; node && hops < 3; hops++, node = node.parentElement) {
-      for (const svg of node.querySelectorAll(":scope > svg")) {
-        if (svg.contains(el)) continue;
-        const r = svg.getBoundingClientRect();
-        if (r.width <= 0 || r.height <= 0) continue;
-        const contains =
-          r.left <= rect.left + pad && r.right >= rect.right - pad &&
-          r.top <= rect.top + pad && r.bottom >= rect.bottom - pad;
-        if (contains && r.width * r.height > rect.width * rect.height) return true;
-      }
-    }
-    return false;
-  }
-
-  // The colour actually behind this text: walk up until something opaque,
-  // compositing any translucent layers on the way. If an ancestor paints an
-  // image or gradient, we stop and say so rather than guess.
-  function backdrop(el) {
-    const layers = [];
-    let node = el;
-    while (node && node !== document.documentElement.parentNode) {
-      const s = getComputedStyle(node);
-      if (s.backgroundImage && s.backgroundImage !== "none") {
-        return { image: true, css: s.backgroundImage.slice(0, 40) };
-      }
-      const c = parse(s.backgroundColor);
-      if (c && c.a > 0) {
-        layers.push(c);
-        if (c.a === 1) {
-          let acc = layers.pop();
-          while (layers.length) acc = over(layers.pop(), acc);
-          return { color: acc };
-        }
-      }
-      node = node.parentElement;
-    }
-    return { color: { r: 255, g: 255, b: 255, a: 1 } };
-  }
-
-  const results = [];
-  const seen = new Set();
+  const runs = [];
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
@@ -139,81 +68,245 @@ function audit() {
     const el = n.parentElement;
     if (!el) continue;
     const s = getComputedStyle(el);
-    if (s.display === "none" || s.visibility === "hidden" || parseFloat(s.opacity) === 0) continue;
-    // Visually hidden text is real to a screen reader and invisible to an eye.
-    // Contrast is an eye question, so it is out of scope here.
-    const r = el.getBoundingClientRect();
-    // The bound is <= 1, not < 1: the u-visually-hidden idiom clips to
-    // exactly 1px, so `< 1` let all 38 of them through to be measured.
-    if (r.width <= 1 || r.height <= 1) continue;
+    if (s.display === "none" || s.visibility === "hidden") continue;
+    if (parseFloat(s.opacity) === 0) continue;
 
-    const size = parseFloat(s.fontSize);
-    const weight = parseInt(s.fontWeight, 10) || 400;
-    const large = size >= 24 || (size >= 18.66 && weight >= 700);
-    const need = large ? 3 : 4.5;
+    // The run's own box, not the element's: an inline element can wrap, and a
+    // block element's box includes padding that is not where the words are.
+    const range = document.createRange();
+    range.selectNodeContents(n);
+    const rect = range.getBoundingClientRect();
+    range.detach();
+
+    // Visually hidden text is real to a screen reader and invisible to an eye,
+    // and contrast is an eye question.
+    //
+    // CHECKED ON THE ELEMENT, NOT THE RANGE. The u-visually-hidden idiom is a
+    // 1px box with the text overflowing and clipped, and a Range reports the
+    // text's natural layout width regardless, so measuring the range let every
+    // one of them through as if it were painted at full size.
+    if (rect.width <= 1 || rect.height <= 1) continue;
+    if (rect.bottom < 0 || rect.right < 0) continue;
+
+    let clipped = false;
+    for (let a = el, hops = 0; a && hops < 3; a = a.parentElement, hops++) {
+      if (a.offsetWidth <= 1 || a.offsetHeight <= 1) { clipped = true; break; }
+      const cs = getComputedStyle(a);
+      if (cs.clipPath && cs.clipPath.replace(/\s/g, "") === "inset(50%)") { clipped = true; break; }
+    }
+    if (clipped) continue;
 
     const fg = parse(s.color);
     if (!fg) continue;
 
-    if (svgUnder(el, r)) {
-      results.push({
-        overImage: true, text: text.slice(0, 50), color: s.color,
-        backdrop: "SVG artwork", size, weight,
-        cls: (el.getAttribute("class") || "").slice(0, 50),
-      });
-      continue;
-    }
+    const size = parseFloat(s.fontSize);
+    const weight = parseInt(s.fontWeight, 10) || 400;
 
-    const back = backdrop(el);
-
-    const key = `${s.color}|${back.image ? "img" : JSON.stringify(back.color)}|${size}|${weight}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-
-    if (back.image) {
-      results.push({
-        overImage: true, text: text.slice(0, 50), color: s.color,
-        backdrop: back.css, size, weight,
-        cls: (el.getAttribute("class") || "").slice(0, 50),
-      });
-      continue;
-    }
-
-    const got = ratio(over(fg, back.color), back.color);
-    if (got + 0.005 < need) {
-      results.push({
-        text: text.slice(0, 50), color: s.color,
-        backdrop: `rgb(${Math.round(back.color.r)}, ${Math.round(back.color.g)}, ${Math.round(back.color.b)})`,
-        size, weight, large, need, got: Math.round(got * 100) / 100,
-        cls: (el.getAttribute("class") || "").slice(0, 50),
-      });
-    }
+    runs.push({
+      // Viewport coords for the pixel sample, document coords for identity.
+      vx: rect.left,
+      vy: rect.top,
+      x: rect.left + window.scrollX,
+      y: rect.top + window.scrollY,
+      w: rect.width,
+      h: rect.height,
+      fg,
+      colorCss: s.color,
+      size,
+      weight,
+      cls: (el.getAttribute("class") || "").slice(0, 50),
+      text: text.slice(0, 50),
+    });
   }
-  return results;
+  return runs;
+}
+
+// Sample each run's backdrop from the screenshot, in the page, via canvas.
+async function sampleBackdrops(dataUrl, runs) {
+  const img = new Image();
+  img.src = dataUrl;
+  await img.decode();
+
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0);
+
+  const out = [];
+  for (const run of runs) {
+    const x = Math.max(0, Math.round(run.vx));
+    const y = Math.max(0, Math.round(run.vy));
+    const w = Math.min(Math.round(run.w), canvas.width - x);
+    const h = Math.min(Math.round(run.h), canvas.height - y);
+    if (w <= 0 || h <= 0) { out.push({ ...run, offscreen: true }); continue; }
+
+    // SAMPLED FROM A RING AROUND THE TEXT, NOT FROM INSIDE IT.
+    //
+    // Inside the box, a large brush glyph is most of the pixels, and once the
+    // text colour is excluded what is left is the antialiased edge, which is
+    // fifty different mid tones and reads as a "busy" backdrop. The wordmark
+    // and the kanji on a flat dark field were all being thrown out that way.
+    // Just outside the box is the field the text sits on, whatever painted it.
+    const pad = 3;
+    const rx = Math.max(0, x - pad);
+    const ry = Math.max(0, y - pad);
+    const rw = Math.min(w + pad * 2, canvas.width - rx);
+    const rh = Math.min(h + pad * 2, canvas.height - ry);
+    const ring = ctx.getImageData(rx, ry, rw, rh).data;
+
+    // Histogram, quantised to 4 levels per channel so antialiasing does not
+    // shatter one background into fifty near identical bins.
+    const bins = new Map();
+    let total = 0;
+    for (let py = 0; py < rh; py++) {
+      for (let px = 0; px < rw; px++) {
+        // Ring only: skip anything inside the text's own box.
+        const insideX = rx + px >= x && rx + px < x + w;
+        const insideY = ry + py >= y && ry + py < y + h;
+        if (insideX && insideY) continue;
+        const i = (py * rw + px) * 4;
+        const r = ring[i] & 0xfc, g = ring[i + 1] & 0xfc, b = ring[i + 2] & 0xfc;
+        // A neighbouring word in the same colour is not the backdrop. Nav
+        // links and inline links sit close enough that their glyphs land in
+        // the ring, and without this they read as a busy field.
+        const dist =
+          Math.abs(r - run.fg.r) + Math.abs(g - run.fg.g) + Math.abs(b - run.fg.b);
+        if (dist < 60) continue;
+        const key = (r << 16) | (g << 8) | b;
+        bins.set(key, (bins.get(key) || 0) + 1);
+        total += 1;
+      }
+    }
+
+    if (!total) { out.push({ ...run, unmeasurable: "no ring to sample" }); continue; }
+
+    let best = 0, bestKey = 0;
+    for (const [key, count] of bins) {
+      if (count > best) { best = count; bestKey = key; }
+    }
+
+    // No colour holds the box: a photograph, a gradient, busy artwork. Say so
+    // rather than pick the most popular pixel and call it the background.
+    const share = best / total;
+    if (share < 0.6) {
+      out.push({ ...run, unmeasurable: `busy backdrop, top colour only ${Math.round(share * 100)}%` });
+      continue;
+    }
+
+    out.push({
+      ...run,
+      bg: { r: (bestKey >> 16) & 0xff, g: (bestKey >> 8) & 0xff, b: bestKey & 0xff },
+      share,
+    });
+  }
+  return out;
+}
+
+function luminance(c) {
+  const f = (v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
+}
+function contrast(a, b) {
+  const l1 = luminance(a), l2 = luminance(b);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 }
 
 const { origin, close } = await serve(SITE);
 const browser = await chromium.launch();
-const page = await browser.newPage();
-await page.addStyleTag; // noop, kept for clarity
+const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
 const pages = only ? [only] : builtPages({ includeInternal });
 const failures = [];
-const overImage = [];
+const unmeasured = [];
 
 for (const url of pages) {
   for (const mode of ["day", "night"]) {
-    await page.goto(origin + url, { waitUntil: "load" });
+    await page.goto(origin + url, { waitUntil: "networkidle" });
     await page.addStyleTag({ content: FREEZE });
-    await page.evaluate((m) => {
-      document.documentElement.setAttribute("data-mode", m);
-    }, mode);
-    // One frame so the attribute change is painted before anything is sampled.
+    await page.evaluate((m) => document.documentElement.setAttribute("data-mode", m), mode);
     await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
-    const found = await page.evaluate(audit);
-    for (const f of found) {
-      if (f.overImage) overImage.push({ url, mode, ...f });
-      else failures.push({ url, mode, ...f });
+
+    // SETTLE THE PAGE BEFORE MEASURING ANYTHING.
+    //
+    // page.screenshot({fullPage:true}) scrolls the document to capture it,
+    // which fires every IntersectionObserver reveal and loads every lazy
+    // image, and layout moves underneath rectangles that were measured at
+    // scroll zero. The cream CTA on the home page was the tell: its box was
+    // read at one position and sampled at another, so a cream button reported
+    // a dark red backdrop. Scroll it all once, come back, then measure.
+    await page.evaluate(async () => {
+      const step = window.innerHeight;
+      for (let y = 0; y < document.body.scrollHeight; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((r) => requestAnimationFrame(r));
+      }
+      window.scrollTo(0, 0);
+      await new Promise((r) => setTimeout(r, 120));
+    });
+    await page.waitForLoadState("networkidle");
+
+    // MEASURED ONE VIEWPORT AT A TIME, NOT FROM A FULL PAGE SCREENSHOT.
+    //
+    // fullPage screenshots scroll the document to stitch themselves together,
+    // and anything that moves during that scroll leaves the rectangles out of
+    // step with the pixels. The cream CTA on the home page was the proof: an
+    // element whose computed background is cream, at an identical position in
+    // both themes, sampled a dark red backdrop in night and not in day. There
+    // is no reading of that page on which the number was true.
+    //
+    // So each screenshot is one viewport, and the boxes are read at the same
+    // scroll position that produced it. Coordinates and pixels come from one
+    // render, which is the only arrangement where the answer means anything.
+    const docHeight = await page.evaluate(() => document.body.scrollHeight);
+    const vh = 900;
+    const seen = new Set();
+
+    for (let top = 0; top < docHeight; top += vh) {
+      await page.evaluate((y) => window.scrollTo(0, y), top);
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+
+      const runs = await page.evaluate(collectRuns);
+      const visible = runs.filter((r) => r.vy >= 0 && r.vy + r.h <= vh);
+      if (!visible.length) continue;
+
+      const shot = await page.screenshot({ type: "png" });
+      const dataUrl = "data:image/png;base64," + shot.toString("base64");
+
+      const sampled = await page.evaluate(
+        ([fn, url, rs]) => new Function("return " + fn)()(url, rs),
+        [sampleBackdrops.toString(), dataUrl, visible],
+      );
+
+      for (const s of sampled) {
+        const id = `${s.cls}|${Math.round(s.x)}|${Math.round(s.y)}|${s.text}`;
+        if (seen.has(id)) continue;
+        seen.add(id);
+
+        if (s.offscreen) continue;
+        if (s.unmeasurable) { unmeasured.push({ url, mode, ...s }); continue; }
+
+        const large = s.size >= 24 || (s.size >= 18.66 && s.weight >= 700);
+        const need = large ? 3 : 4.5;
+        const fg = {
+          r: s.fg.r * s.fg.a + s.bg.r * (1 - s.fg.a),
+          g: s.fg.g * s.fg.a + s.bg.g * (1 - s.fg.a),
+          b: s.fg.b * s.fg.a + s.bg.b * (1 - s.fg.a),
+        };
+        const got = contrast(fg, s.bg);
+        if (got + 0.005 < need) {
+          failures.push({
+            url, mode, cls: s.cls, text: s.text,
+            color: s.colorCss,
+            backdrop: `rgb(${s.bg.r}, ${s.bg.g}, ${s.bg.b})`,
+            size: s.size, weight: s.weight, large, need,
+            got: Math.round(got * 100) / 100,
+          });
+        }
+      }
     }
   }
 }
@@ -221,42 +314,51 @@ for (const url of pages) {
 await browser.close();
 await close();
 
-console.log(`\nContrast sweep: ${pages.length} pages, both themes, transitions disabled.\n`);
+console.log(
+  `\nContrast sweep: ${pages.length} pages, both themes, transitions disabled,\n` +
+    "  backdrops sampled from rendered pixels.\n",
+);
 
-if (process.argv.includes("--show-unmeasured")) {
+if (showUnmeasured) {
   const by = {};
-  for (const o of overImage) {
-    const k = `${o.backdrop} | .${o.cls || "(none)"}`;
+  for (const u of unmeasured) {
+    const k = `${u.unmeasurable} | .${u.cls || "(none)"}`;
     by[k] = (by[k] || 0) + 1;
   }
-  console.log("  Unmeasured runs by backdrop and class:");
+  console.log("  Unmeasured runs:");
   for (const [k, n] of Object.entries(by).sort((a, b) => b[1] - a[1])) {
-    console.log(`    x${String(n).padStart(2)}  ${k}`);
+    console.log(`    x${String(n).padStart(3)}  ${k}`);
   }
   console.log("");
 }
 
-if (overImage.length) {
-  console.log(`  ${overImage.length} text runs sit on an image or gradient and were not`);
-  console.log("  measured. DESIGN_SYSTEM.md requires a scrim plus text-shadow there;");
-  console.log("  that is an eye check, not a computed one.\n");
+if (unmeasured.length) {
+  console.log(
+    `  ${unmeasured.length} text runs sit on a backdrop no single colour holds\n` +
+      "  (photography, gradients, artwork) and were not measured. DESIGN_SYSTEM.md\n" +
+      "  requires a scrim plus text-shadow there, which is an eye check.\n",
+  );
 }
 
-// A failure is identified by where and what, not by the sentence it landed
-// on, so rewording a line does not look like a new defect.
 const keyOf = (f) => `${f.url}|${f.mode}|${f.cls}|${f.color}|${f.backdrop}|${f.need}`;
 
 if (saveBaseline) {
-  const record = {
-    _note:
-      "Contrast failures known at the time of recording. The sweep fails on " +
-      "anything NOT in here. Fix a colour, then re-record. Do not add an " +
-      "entry to silence a new failure.",
-    _recorded: new Date().toISOString().slice(0, 10),
-    _count: failures.length,
-    keys: failures.map(keyOf).sort(),
-  };
-  fs.writeFileSync(BASELINE_PATH, JSON.stringify(record, null, 2) + "\n");
+  fs.writeFileSync(
+    BASELINE_PATH,
+    JSON.stringify(
+      {
+        _note:
+          "Contrast failures known at the time of recording, sampled from " +
+          "rendered pixels. The sweep fails on anything NOT in here. Fix a " +
+          "colour, then re-record. Do not add an entry to silence a new failure.",
+        _recorded: new Date().toISOString().slice(0, 10),
+        _count: failures.length,
+        keys: failures.map(keyOf).sort(),
+      },
+      null,
+      2,
+    ) + "\n",
+  );
   console.log(`  Recorded ${failures.length} known failures to scripts/baselines/contrast.json\n`);
   process.exit(0);
 }
@@ -266,22 +368,16 @@ const baseline = fs.existsSync(BASELINE_PATH)
   : new Set();
 
 const fresh = failures.filter((f) => !baseline.has(keyOf(f)));
-const knownHit = failures.filter((f) => baseline.has(keyOf(f)));
-const fixed = [...baseline].filter((k) => !failures.some((f) => keyOf(f) === k));
+const known = failures.filter((f) => baseline.has(keyOf(f)));
+const cleared = [...baseline].filter((k) => !failures.some((f) => keyOf(f) === k));
 
-if (knownHit.length) {
-  console.log(`  ${knownHit.length} known failures, unchanged. Recorded in scripts/baselines/contrast.json.`);
-}
-if (fixed.length) {
-  console.log(`  ${fixed.length} baseline entries no longer fail. Re-record with --save-baseline.`);
+if (known.length) console.log(`  ${known.length} known failures, unchanged.`);
+if (cleared.length) {
+  console.log(`  ${cleared.length} baseline entries no longer fail. Re-record with --save-baseline.`);
 }
 
 if (!fresh.length) {
-  console.log(
-    failures.length
-      ? "\n  No NEW contrast failures.\n"
-      : "\n  Clean. Every measured text run meets WCAG AA in both themes.\n",
-  );
+  console.log(failures.length ? "\n  No NEW contrast failures.\n" : "\n  Clean in both themes.\n");
   process.exit(0);
 }
 
@@ -289,10 +385,7 @@ console.log(`\n  ${fresh.length} NEW contrast failures:\n`);
 let last = null;
 for (const f of fresh) {
   const head = `${f.url} [${f.mode}]`;
-  if (head !== last) {
-    console.log(`\n  ${head}`);
-    last = head;
-  }
+  if (head !== last) { console.log(`\n  ${head}`); last = head; }
   console.log(
     `    x ${f.got}:1 (needs ${f.need}) ${f.color} on ${f.backdrop}` +
       `  ${Math.round(f.size)}px/${f.weight}${f.large ? " large" : ""}`,
