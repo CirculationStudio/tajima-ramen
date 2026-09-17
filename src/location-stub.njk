@@ -52,19 +52,18 @@ eleventyComputed:
   link the two hand-written pages carry inconsistently between themselves
   (Convoy links Mercury; College Heights links nothing).
 
-  PHOTOGRAPHY, updated 2026-09-17. The hero and gallery below render only for
-  a location with a curated entry in _data/roomPhotos.js. Crown Point's
-  gallery is the genuine, reviewed set that has been in the repo all along.
-  Mercury and East Village have real photography of their own food (see
-  `dishes` in roomPhotos.js) but no usable photography of the rooms
-  themselves, and never have. Plaza Bonita and Maui have no room or dish
-  photography in the repo at all. None of the five carries a hero photo right
-  now: an uncleared, machine-processed set was placed here for client review
-  and came back out per DESIGN_SYSTEM.md's rule (Sam confirms the rooms, or
-  the AI-enhanced set comes out) rather than shipping unconfirmed. The gate
-  means a room with nothing to show renders no photo section at all, which is
-  the difference between a page that does not have one and a page that looks
-  broken.
+  PHOTOGRAPHY. The hero and gallery below render only for a location with a
+  curated entry in _data/roomPhotos.js. All seven rooms currently carry
+  Connor's 2026-09-09 supplied set, machine-processed and flagged aiUpscaled
+  in photos.json: this branch exists so Sam can review it in place, restored
+  here 2026-09-17 after briefly coming out. DESIGN_SYSTEM.md's rule (Sam
+  confirms the rooms, or the AI-enhanced set comes out) governs what merges to
+  main, not what a noindexed preview branch shows the person doing the
+  reviewing. Mercury and East Village additionally have real, non-preview
+  photography of their own food (see `dishes` in roomPhotos.js), unaffected
+  either way. See the PREVIEW BRANCH ONLY note at the top of roomPhotos.js for
+  the full picture, including which rooms have genuine photography to fall
+  back on once this set is confirmed or dropped.
 #}
 {%- set gallery = roomPhotos[loc.id] %}
 
