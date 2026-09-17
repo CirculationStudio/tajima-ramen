@@ -48,6 +48,9 @@
       <span class="plate__value plate__value--lead">{{ loc.address.street }}, {{ loc.address.locality }}, {{ loc.address.region }} {{ loc.address.postalCode }}</span>
     </div>
 
+    {#- The anchor components/location-jump.njk points "Hours" at. Only this
+        template sets it; see the note at the top of plate-hours.njk. -#}
+    {%- set hoursAnchorId = "hours" %}
     {% include "components/plate-hours.njk" %}
 
     <div class="plate__item plate__item--lead">

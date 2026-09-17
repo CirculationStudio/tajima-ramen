@@ -1,0 +1,42 @@
+{# ===========================================================================
+   Component: location-jump
+
+   Four anchors, not a table of contents: Hours, Menu, FAQ, Order, the things
+   a Maps visitor actually arrives wanting, per the mobile audit. Sits right
+   after the NAP plate, before components/location-place.njk.
+
+   NOT STICKY. The compact header (src/js/header-scroll.js) already handles
+   staying reachable while scrolled; a second sticky element would fight it
+   for the same 61px of headroom.
+
+   EACH LINK IS GATED ON THE SECTION IT POINTS TO ACTUALLY RENDERING. A room
+   with no confirmed FAQ or no order URL does not get a link to a section
+   that is not there; same rule components/location-faq.njk and
+   components/location-order.njk already apply to themselves. Hours has no
+   gate: even a room with no confirmed hours (Maui) still renders the
+   "Call the room" fallback inside the same #hours plate row, which is still
+   somewhere worth jumping to.
+
+   USAGE
+     {% set loc = ... %}
+     {% include "components/location-jump.njk" %}
+   =========================================================================== #}
+{%- set jumpRoom = roomMenus.byRoom[loc.id] %}
+{%- set jumpHasMenu = jumpRoom and jumpRoom.sections | length %}
+{%- set jumpHasFaq = (locationFaq[loc.id] | default([])) | length %}
+{%- set jumpHasOrder = loc.orderUrl %}
+
+<nav class="jump" aria-label="Jump to a section on this page">
+  <div class="jump__inner">
+    <a class="jump__link" href="#hours">Hours</a>
+    {%- if jumpHasMenu %}
+    <a class="jump__link" href="#menu">Menu</a>
+    {%- endif %}
+    {%- if jumpHasFaq %}
+    <a class="jump__link" href="#faq-title">FAQ</a>
+    {%- endif %}
+    {%- if jumpHasOrder %}
+    <a class="jump__link" href="#order-title">Order</a>
+    {%- endif %}
+  </div>
+</nav>

@@ -56,8 +56,12 @@
   color: var(--ink);
   line-height: 1.25;
 }
-/* A phone number on a phone is a tap target before it is a fact. */
+/* A phone number on a phone is a tap target before it is a fact. 44px
+   minimum, same floor as .mega__trigger. */
 a.plate__tel{
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   text-decoration: none;
   font-variant-numeric: tabular-nums;
 }
@@ -124,6 +128,7 @@ a.plate__tel{
 .plate__directions{
   display: inline-flex;
   align-items: center;
+  position: relative;
   gap: var(--space-2);
   font-family: var(--font-ui);
   font-weight: var(--weight-medium);
@@ -140,6 +145,19 @@ a.plate__tel{
 .plate__directions:hover,
 .plate__directions:focus-visible{ color: var(--color-red); border-color: currentColor; }
 .plate__directions svg{ flex: none; }
+/* 44px minimum tap target, invisible, same floor as .mega__trigger. A real
+   min-height would push the border-bottom underline away from the text it's
+   supposed to sit under, so the hit area is a centered pseudo-element instead
+   of a taller box. */
+.plate__directions::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
 
 /* --- 3. The rest, kept and quieted --------------------------------- */
 .plate__more{
@@ -165,6 +183,79 @@ a.plate__tel{
 a.plate__value{ transition: color var(--duration-fast) var(--ease-smooth); }
 a.plate__value:hover,
 a.plate__value:focus-visible{ color: var(--color-red); }
+
+/* "See times" / "See the menu": 44px minimum tap target, invisible, same
+   floor as .mega__trigger. Only the linked instances of plate__value--quiet
+   get this; Parking and Seating reuse the same class as plain text and don't
+   need a hit area. Left as an inline element (no display change) so it can't
+   shift the baseline it shares with the label beside it. */
+a.plate__value--quiet{
+  position: relative;
+}
+a.plate__value--quiet::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
+
+/* Clears the compact sticky header (61px) plus a little breathing room, so
+   an anchor jump from .jump does not land a target flush under the header.
+   By the time any of these is clicked the reader is already well past
+   src/js/header-scroll.js's 140px threshold, so 61px, not the 213px full
+   header, is the number that matters here. */
+#hours, #menu, #faq-title, #order-title{
+  scroll-margin-top: 5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   JUMP · four anchors, not a table of contents
+
+   Deliberately smaller than .sect: this is a utility strip, not a content
+   section, so it skips .sect's own space-11 padding and carries no heading.
+   Quiet uppercase micro type, the same face .plate__label already uses one
+   block up, so it reads as continuing the NAP plate's own register rather
+   than opening a second navigation system.
+═══════════════════════════════════════════════════════════════════ */
+.jump{
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+}
+.jump__inner{
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding: var(--space-4) var(--layout-gutter);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+.jump__link{
+  position: relative;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+.jump__link:hover,
+.jump__link:focus-visible{ color: var(--color-red); }
+/* 44px minimum tap target, invisible, same device as a.plate__value--quiet
+   above: the visible row stays a thin one-line strip, only the hit area
+   grows. */
+.jump__link::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    DIFFERENT HERE · the room's own story
