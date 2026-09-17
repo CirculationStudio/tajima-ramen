@@ -6,8 +6,20 @@
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// The doorway. Opens on click, Enter, Space, or Escape, and self-dismisses
-// after four seconds so it can never trap someone behind it.
+// The doorway. Opens on click, Enter, Space, Escape, scroll or swipe, and
+// self-dismisses after four seconds so it can never trap someone behind it.
+//
+// SCROLL AND SWIPE, added 2026-09-16. The doorway is `position: fixed;
+// inset: 0`, opaque, over the whole viewport, and used to open on click,
+// key or the four-second timeout only. A visitor who scrolled instead of
+// tapping — the natural gesture on a touchscreen, and what a swipe or a
+// fling does first — got none of those: the fixed overlay does not move
+// when the page under it scrolls, so scrolling past it just leaves it
+// sitting there, opaque, for however much of the four seconds is left.
+// Reproduced directly against the rendered DOM. A `scroll` listener on
+// `window` covers both: a swipe is a touchmove that becomes a scroll the
+// moment the viewport's offset actually changes, so nothing touch-specific
+// is needed beyond listening for the scroll itself.
 (function setupDoorway() {
   const doorway = document.getElementById("doorway");
   if (!doorway) return;
@@ -35,6 +47,7 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
       openDoor();
     }
   });
+  window.addEventListener("scroll", openDoor, { passive: true });
 
   window.setTimeout(openDoor, 4000);
   doorway.focus();

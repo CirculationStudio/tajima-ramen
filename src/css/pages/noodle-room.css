@@ -455,6 +455,29 @@
 [data-experience="noodle-room"] .site-header__nav-link:focus-visible { color: var(--color-red);
 }
 
+/* Same pill family as .site-header__back: same radius, same mono type, same
+   padding rhythm. Filled, not quiet, since this is the one link here meant
+   to look pressable. Deep red, not Fire Red: cream on Fire Red is 4.27:1,
+   which fails a 14px label; deep red measures 6.36:1, same pairing already
+   used on .return-card__cta--primary. */
+[data-experience="noodle-room"] .site-header__nav-link--order {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  background: var(--color-red-deep);
+  color: var(--color-canvas);
+}
+
+[data-experience="noodle-room"] .site-header__nav-link--order:hover,
+[data-experience="noodle-room"] .site-header__nav-link--order:focus-visible {
+  /* Deeper, not lighter, same move .return-card__cta--primary already makes:
+     the base is already the darkest red on the page, so hover goes to ink
+     rather than back up toward Fire Red, which would also fail contrast. */
+  background: var(--color-ink-warm);
+  color: var(--color-canvas);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    HERO · editorial split, large type, video right
 ═══════════════════════════════════════════════════════════════════ */
@@ -538,7 +561,11 @@
 [data-experience="noodle-room"] .hero__crumbs-sep { color: var(--color-text-4);
 }
 
-[data-experience="noodle-room"] .hero__crumbs-current { color: var(--color-red);
+/* --color-red-text, not --color-red: this sits on .hero__left's light canvas
+   at body-text size, which is exactly the case the comment on --color-red-text
+   describes. --color-red here measured 4.18:1 against the 4.5 floor; the
+   text variant is darkened for precisely this. */
+[data-experience="noodle-room"] .hero__crumbs-current { color: var(--color-red-text);
 }
 
 [data-experience="noodle-room"] .hero__title-block {

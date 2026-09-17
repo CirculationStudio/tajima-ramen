@@ -1,6 +1,6 @@
 {
   "_note": "Contrast failures known at the time of recording, sampled from rendered pixels. The sweep fails on anything NOT in here. Fix a colour, then re-record. Do not add an entry to silence a new failure.",
-  "_recorded": "2026-09-16",
+  "_recorded": "2026-09-17",
   "_count": 0,
   "keys": []
 }
