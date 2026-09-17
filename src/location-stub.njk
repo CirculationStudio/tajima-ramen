@@ -10,7 +10,6 @@ pagination:
 layout: layouts/base.njk
 permalink: "{{ loc.url }}"
 pageKey: locationStub
-noindex: true
 eleventyComputed:
   title: "Tajima Ramen {{ loc.name }} | {{ loc.address.locality }}, {{ loc.address.region }}"
   description: "Tajima Ramen {{ loc.name }}, {{ loc.address.street }}, {{ loc.address.locality }}. Address and phone. Walk in, no reservations."
@@ -18,18 +17,10 @@ eleventyComputed:
 {#
   ============================ STUB PAGES ============================
 
-  THESE ARE NOT FINISHED PAGES AND MUST NOT GO LIVE AS THEY ARE.
-
-  Built tonight for one reason: /locations/ is a P1 page that linked to six
-  URLs that did not exist. Six 404s off the site's router is worse than six
-  thin pages behind a noindex.
-
-  They carry `noindex` deliberately. These URLs have existing traffic on the
-  current site (SITE_ARCHITECTURE.md: existing location URLs do not change
-  precisely because they earn it), and shipping thin content on a page that
-  already ranks is a regression, not a placeholder. Noindex keeps them out of
-  the index until the real page replaces them. Removing the noindex is part of
-  finishing the page, not a separate decision.
+  Built originally for one reason: /locations/ is a P1 page that linked to
+  six URLs that did not exist. Six 404s off the site's router is worse than
+  six thin pages behind a noindex. All five paginate over this one template;
+  which five carry noindex today is no longer uniform, see below.
 
   CONTENT RULE FOR THIS TEMPLATE: everything on the page comes from
   locations.json, which carries the SITE_ARCHITECTURE.md NAP table. Nothing is
@@ -37,26 +28,43 @@ eleventyComputed:
   which was already sourced from CLIENT_FACTS.md for the /locations/ cards, not
   drafted tonight.
 
-  Hours are absent, as everywhere else. Open Decision #9. The page says so
-  and offers the phone number instead of guessing.
+  STATUS AS OF 2026-09-17, from the mobile audit's stub readiness report.
+  `noindex` is computed per room in location-stub.11tydata.js, not a blanket
+  true here any more:
 
-  What each of these still needs before launch, per the location page template
-  in SITE_ARCHITECTURE.md: the "what's different here" section (the one section
-  the brief says must not be templated), this location's menu section, its
-  happy hour block, its nearest-neighbour link, and its GBP and Yelp URLs for
-  `sameAs`. Toast ordering URLs landed 2026-08-05 and photography is partly
-  handled, see below.
+    READY, noindex dropped: Crown Point, Mercury, East Village. Each has a
+    differentiator section, a full menu from its own Toast catalog, confirmed
+    hours, and a full FAQ, the same standard the two hand-written pages meet.
 
-  PHOTOGRAPHY, added 2026-08-05. The gallery below renders ONLY for locations
-  with a curated set in _data/roomPhotos.js, which today is Crown Point alone
-  among the stubs. That is not a cautious rollout, it is what exists: Mercury
-  has two room frames and both are too small to place, East Village's only
-  photograph is a plate of shishito peppers, and Plaza Bonita and Maui have no
-  room photography at all. The gate means those four render no gallery section
-  rather than an empty frame, which is the difference between a page that does
-  not have a section and a page that looks broken.
+    STILL NOINDEXED: Plaza Bonita, blocked on room photography nobody has
+    shot yet. Maui, blocked on hours nobody has supplied and a differentiator
+    section deliberately deferred to a client decision (see the `_maui` note
+    in roomDifferences.json).
 
-  These pages stay `noindex` regardless. A gallery is not a finished page.
+  Hours: confirmed for four of five (locations.json `_hoursNote`, 2026-09-09).
+  Only Maui lacks a real hours array; it has a `closesAt` field instead,
+  which is a closing time, not a weekly pattern, and is not enough for
+  openingHoursSpecification.
+
+  Menu, sameAs (GBP/Yelp) and a plate.njk happy-hour row (for rooms with a bar
+  program) are live for all five: none of these is an outstanding gap. What
+  is still missing from every stub, not a per-room gap: the nearest-neighbour
+  link the two hand-written pages carry inconsistently between themselves
+  (Convoy links Mercury; College Heights links nothing).
+
+  PHOTOGRAPHY, updated 2026-09-17. The hero and gallery below render only for
+  a location with a curated entry in _data/roomPhotos.js. Crown Point's
+  gallery is the genuine, reviewed set that has been in the repo all along.
+  Mercury and East Village have real photography of their own food (see
+  `dishes` in roomPhotos.js) but no usable photography of the rooms
+  themselves, and never have. Plaza Bonita and Maui have no room or dish
+  photography in the repo at all. None of the five carries a hero photo right
+  now: an uncleared, machine-processed set was placed here for client review
+  and came back out per DESIGN_SYSTEM.md's rule (Sam confirms the rooms, or
+  the AI-enhanced set comes out) rather than shipping unconfirmed. The gate
+  means a room with nothing to show renders no photo section at all, which is
+  the difference between a page that does not have one and a page that looks
+  broken.
 #}
 {%- set gallery = roomPhotos[loc.id] %}
 

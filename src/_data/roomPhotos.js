@@ -120,16 +120,16 @@ const CURATED = {
     ],
   },
 
+  // HERO AND GALLERY REMOVED 2026-09-17. Both pointed at Connor's uncleared
+  // set (see the block comment above): DESIGN_SYSTEM.md is explicit that
+  // before merging, either Sam confirms the rooms or the AI-enhanced set
+  // comes out. This room has no genuine photography of its own to fall back
+  // on either (main's roomPhotos.js has never carried a mercury hero or
+  // gallery: "Mercury has exactly two room frames and they are 612x284 and
+  // 1000x750, too small to place"), so it ships with the plain text-only
+  // hero location-stub.njk already falls back to, same as Plaza Bonita and
+  // Maui, rather than with a placeholder or an unconfirmed photograph.
   mercury: {
-    hero: {
-      file: "tajima-mercury-exterior-day.webp",
-      caption: "The Mercury Street frontage",
-    },
-    gallery: [
-      { file: "tajima-mercury-interior-seating-area.webp", caption: "The room from the dining side", tag: "Ninety seats", wide: true },
-      { file: "tajima-mercury-interior-bar-area.webp", caption: "The full bar", tag: "Bar" },
-      { file: "tajima-mercury-exterior-night.webp", caption: "The same frontage after dark", tag: "Night" },
-    ],
     dishes: [
       {
         file: "shrimp-tempura-large-mercury-only.webp",
@@ -143,16 +143,11 @@ const CURATED = {
     ],
   },
 
+  // HERO AND GALLERY REMOVED 2026-09-17, same reasoning as Mercury above:
+  // Connor's set was uncleared, and main's roomPhotos.js has never carried a
+  // room gallery for East Village either ("East Village has one photograph
+  // and it is a plate of shishito peppers, not a room"). Text-only hero.
   "east-village": {
-    hero: {
-      file: "tajima-east-village-exterior-day.webp",
-      caption: "The E Street corner",
-    },
-    gallery: [
-      { file: "tajima-east-village-interior-seating-area.webp", caption: "The dining room", tag: "Sixty-four seats", wide: true },
-      { file: "tajima-east-village-interior-bar-area.webp", caption: "The bar", tag: "Six taps" },
-      { file: "tajima-east-village-exterior-night.webp", caption: "The same corner after dark", tag: "Night" },
-    ],
     dishes: [
       {
         file: "shishito-peppers-large-ev-only.webp",
@@ -162,46 +157,47 @@ const CURATED = {
     ],
   },
 
+  // RESTORED TO THE GENUINE SET 2026-09-17. The hero and gallery above were
+  // Connor's uncleared set, displacing what main's roomPhotos.js has carried
+  // all along: three genuine, reviewed photographs, no hero (this is still a
+  // stub page and the stub hero has no photo slot for Crown Point). These
+  // three are not flagged aiUpscaled and carry reviewed alt in photos.json.
   "crown-point": {
-    hero: {
-      file: "tajima-crown-point-exterior-day.webp",
-      caption: "The Ingraham Street frontage",
-    },
     gallery: [
-      { file: "tajima-crown-point-seating-area.webp", caption: "The dining room under its barrel ceiling", tag: "Before service", wide: true },
-      { file: "tajima-crown-point-bar-area.webp", caption: "The counter, with the red surfboard above it", tag: "Cedar wall" },
-      { file: "tajima-crown-point-exterior-night.webp", caption: "The same frontage after dark", tag: "Night" },
+      {
+        file: "tajima-crown-point-exterior-night-neon-ramen-sign-detail.webp",
+        caption: "The red neon arrow on the corner, at night",
+        tag: "Ingraham Street",
+        wide: true,
+      },
+      {
+        file: "tajima-crown-point-dining-room-arched-wood-ceiling-wide.webp",
+        caption: "The dining room under its barrel-vaulted ceiling",
+        tag: "Before service",
+      },
+      {
+        file: "tajima-crown-point-bar-seating-surfboard-dining-room-view.webp",
+        caption: "The counter, with the red surfboard above it",
+        tag: "Cedar wall",
+      },
     ],
   },
 
-  // PLAZA BONITA: one exterior, no interiors. It gets a hero and NO gallery
-  // section at all, which is the same graceful-degradation rule every other
-  // gated section on this site follows. An empty gallery frame reads as a
-  // broken page; a missing section reads as a page that does not have one.
-  "plaza-bonita": {
-    hero: {
-      file: "tajima-plaza-bonita-exterior-day.webp",
-      caption: "Inside Westfield Plaza Bonita",
-    },
-  },
+  // PLAZA BONITA: hero removed 2026-09-17, same reasoning as Mercury and
+  // East Village above. The one exterior supplied was also Connor's
+  // uncleared set (aiUpscaled in photos.json), and no genuine Plaza Bonita
+  // photography exists in the repo to fall back on. No `hero`, no `gallery`:
+  // this room stays noindexed regardless (see location-stub.11tydata.js),
+  // but DESIGN_SYSTEM.md's rule is unconditional and this room gets the same
+  // treatment as the three above rather than an exception for being hidden.
+  "plaza-bonita": {},
 
-  // MAUI, added 2026-09-14. One exterior, supplied separately from the 21.
-  //
-  // Hero only: there are no Maui interiors, so it takes the same shape as
-  // Plaza Bonita and renders no gallery section rather than an empty frame.
-  //
-  // Its origin is unverified like the rest of this set, and there is no prior
-  // Maui room photography in the repo to compare it against. Two independent
-  // checks do corroborate it and they are the two the Convoy exterior failed:
-  // the brand mark on the sign matches the vector stamp stroke for stroke,
-  // and the door reads D-105, which matches the published NAP for this room.
-  // See its aiUpscaledNote in photos.json. Corroboration, not confirmation.
-  maui: {
-    hero: {
-      file: "tajima-maui-exterior.webp",
-      caption: "South Kihei Road, unit D-105",
-    },
-  },
+  // MAUI: hero removed 2026-09-17, same reasoning. The one exterior was also
+  // Connor's uncleared set and its own note already called it "corroboration,
+  // not confirmation," never a cleared photograph. No prior Maui photography
+  // exists in the repo. Stays noindexed regardless; see the note on Plaza
+  // Bonita above for why it loses the photo anyway.
+  maui: {},
 };
 
 // The one photograph the Locations mega menu shows in all seven cards.
