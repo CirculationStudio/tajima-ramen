@@ -13,6 +13,10 @@ import "/src/css/app.css";
 // Locations mega menu. Global: the header is on every page.
 import "/src/js/mega-menu.js";
 
+// Compacts the sticky header past a scroll threshold. Global for the same
+// reason; a no-op page (no [data-hdr-scroll]) just skips its own body.
+import "/src/js/header-scroll.js";
+
 // Theme toggle. Global for the same reason. Deferred is fine: the blocking
 // inline script in _includes/components/theme-init.njk has already settled
 // data-mode before first paint, and this only upgrades the control.

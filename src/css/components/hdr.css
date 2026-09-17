@@ -313,4 +313,147 @@
   .hdr__nav-link--cta {
     padding: var(--space-3) var(--space-4);
   }
+
+  /* 44px minimum tap target, same floor as .mega__trigger uses at this same
+     breakpoint. One shared rule: Menu/About/Noodle Room were bare 14px text
+     with no padding, and this also backstops the CTA variant, which already
+     has its own padding but landed 7px short. Scoped to mobile only, matching
+     how .mega__trigger scopes its own 44px floor, since the desktop row
+     doesn't need thumb-sized targets and its current-page underline below is
+     tuned for the untouched desktop box height. */
+  .hdr__nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  /* Compensates the current-page underline for the taller box above: it used
+     to sit var(--space-4) below text that filled its whole box. Centering the
+     text in a 44px box already eats most of that gap, so the offset shrinks
+     to match rather than leaving the line stranded under empty padding. */
+  .hdr__nav-link--current::after {
+    bottom: calc(((2.75rem - var(--text-meta)) / 2) - var(--space-4));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   THE COMPACT ROW, added 2026-09-16 off the mobile audit's header proposals
+   (pattern C, the one picked). src/js/header-scroll.js toggles which of
+   .hdr__in--full and .hdr__in--compact carries `hidden`, past a scroll
+   threshold in one direction and a much lower one in the other; see that
+   file for why the two thresholds are not the same number.
+
+   Both rows share .hdr__in's own layout (max-width, centring, the flex row,
+   space-between), so what follows is only what a compact row does
+   differently: it is shorter, and it restates `[hidden]` because a class
+   selector at the same specificity would otherwise beat the UA sheet, the
+   same trap .mega__panel[hidden] already documents.
+   -------------------------------------------------------------------------- */
+.hdr__in--compact {
+  padding-block: var(--space-2);
+}
+
+.hdr__in--full[hidden],
+.hdr__in--compact[hidden] {
+  display: none;
+}
+
+/* A held-out full row still has to occupy zero space while hidden, same as
+   any [hidden] element; nothing extra needed beyond the rule above, since
+   .hdr__in--full carries no display override of its own to fight it. */
+
+/* The brand stamp: the kanji-in-a-circle mark, not the wordmark lockup
+   shrunk down. Red-on-white and red-on-near-black both hold without a theme
+   swap, because nothing in this asset depends on dark ink vanishing on a
+   dark ground the way the wordmark's dark/light pair does. */
+.hdr__mark {
+  display: block;
+  border-radius: 50%;
+  transition: opacity var(--fast) var(--ease);
+}
+
+.hdr__mark:hover {
+  opacity: .82;
+}
+
+.hdr__mark-img {
+  display: block;
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
+.hdr__compact-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Icon-only Locations trigger. 44px minimum on its own terms, not borrowed
+   from the mobile-only rule above .hdr__nav-link uses: the compact row
+   applies at every width header-scroll.js runs at, not only below 36rem. */
+.hdr__mark-loc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: none;
+  border: var(--stroke-hair) solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.hdr__mark-loc:hover,
+.hdr__mark-loc:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hdr__mark-loc[aria-expanded="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hdr__mark-loc-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* The compact CTA reuses .hdr__nav-link--cta's colour, weight and radius
+   exactly; only the box is smaller, and the 44px floor is restated here for
+   the same reason .hdr__mark-loc restates it above. */
+.hdr__in--compact .hdr__nav-link--cta {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   THE SWAP ITSELF. Deliberately not a height transition on the sticky
+   header: animating max-height on a `position: sticky` element risks the
+   browser repainting the scrollport on every frame of the animation, which
+   is exactly the kind of thing that shows up as a layout shift even when the
+   content underneath never actually moves. Instead the swap is the same
+   instant [hidden] toggle .mega__panel already uses, dressed with a short
+   fade-and-settle on whichever row just became visible: no height ever
+   animates, so there is nothing for the scrollport to reflow around.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hdr__in--full,
+  .hdr__in--compact {
+    animation: hdr-row-in var(--fast) var(--ease) 1;
+  }
+
+  @keyframes hdr-row-in {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--space-1) * -1));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }

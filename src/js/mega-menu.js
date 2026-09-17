@@ -40,6 +40,17 @@
 // it can feel stuck. Escape always works here, so it is not a dead end. To
 // switch to the APG behavior, delete trapTab() and its keydown branch: the
 // close-on-focus-out handler already does the rest.
+//
+// TWO TRIGGERS, ONE PANEL, added 2026-09-16 for the header's compact row.
+// components/site-header.njk now ships a second [data-mega-trigger] (the
+// compact row's pin-icon button), wired to the same aria-controls id as the
+// full row's "Locations" button. Only one of the two rows is ever visible at
+// a time (src/js/header-scroll.js owns that switch, by toggling `hidden` on
+// each row), so every place this file used to say "the trigger" now says
+// "every trigger" for state changes, and "the trigger that is currently
+// reachable" for focus. A `root` can also have exactly one trigger, same as
+// before /nav-preview/ and any future single-trigger instance; nothing below
+// assumes there are two.
 
 // Still needed: crossing this boundary while the panel is open leaves it in a
 // layout it was not opened for. See the change handler at the end.
@@ -51,12 +62,26 @@ function focusableIn(root) {
   );
 }
 
-function setupMega(root) {
-  const trigger = root.querySelector("[data-mega-trigger]");
-  const panel = root.querySelector("[data-mega-panel]");
-  if (!trigger || !panel) return;
+// Whichever trigger is not sitting inside a `hidden` row right now. Falls
+// back to the first trigger so a build with no compact row (still every page
+// except through the shared header) behaves exactly as it did with one.
+function activeTrigger(triggers) {
+  return triggers.find((t) => !t.closest("[hidden]")) || triggers[0];
+}
 
-  const isOpen = () => trigger.getAttribute("aria-expanded") === "true";
+function setupMega(root) {
+  const triggers = [...root.querySelectorAll("[data-mega-trigger]")];
+  const panel = root.querySelector("[data-mega-panel]");
+  if (!triggers.length || !panel) return;
+
+  // Open state lives on the panel, not on any one trigger: with two triggers
+  // there is no single element left to ask "aria-expanded === true" and be
+  // sure the answer means the panel.
+  const isOpen = () => panel.hidden === false;
+
+  function setExpanded(value) {
+    for (const t of triggers) t.setAttribute("aria-expanded", String(value));
+  }
 
   function open({ focusFirst = false } = {}) {
     if (isOpen()) {
@@ -64,32 +89,35 @@ function setupMega(root) {
       return;
     }
     panel.hidden = false;
-    trigger.setAttribute("aria-expanded", "true");
+    setExpanded(true);
     if (focusFirst) focusableIn(panel)[0]?.focus();
   }
 
   function close({ returnFocus = false } = {}) {
     if (!isOpen()) return;
     panel.hidden = true;
-    trigger.setAttribute("aria-expanded", "false");
-    if (returnFocus) trigger.focus();
+    setExpanded(false);
+    if (returnFocus) activeTrigger(triggers)?.focus();
   }
 
   // --- pointer ------------------------------------------------------------
   // The only way to open with a pointer. Enter and Space fire click on a
   // <button> natively, so the keyboard gets this for free and there is no
   // separate key handler for them.
-  trigger.addEventListener("click", () => (isOpen() ? close() : open()));
+  for (const trigger of triggers) {
+    trigger.addEventListener("click", () => (isOpen() ? close() : open()));
 
-  // --- keyboard -----------------------------------------------------------
-  trigger.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      open({ focusFirst: true });
-    }
-  });
+    // --- keyboard -----------------------------------------------------------
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        open({ focusFirst: true });
+      }
+    });
+  }
 
   function trapTab(event) {
+    const trigger = activeTrigger(triggers);
     const items = focusableIn(panel);
     if (items.length === 0) return;
     const first = items[0];
