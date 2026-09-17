@@ -28,19 +28,30 @@ const PLACEHOLDER = [
   /\bstill to come\b/i,
 ];
 
-// REGISTERED EXCEPTIONS: held slots that are supposed to ship.
+// REGISTERED HELD SLOTS: content that is deliberately incomplete and is
+// supposed to ship anyway.
 //
 // Same idea as the placeholder registration in _data/roomPhotos.js, which
 // refuses a stand-in photograph unless somebody wrote down where it came from
 // and why. A held slot nobody registered is an oversight; a held slot with a
-// reason attached is a decision. These are reported on every run so they stay
-// visible, and they do not fail the sweep.
+// reason attached is a decision. These are checked directly against every
+// page's rendered text and reported on every run so they stay visible, and
+// they do not fail the sweep.
+//
+// NOT PART OF THE PLACEHOLDER SCAN BELOW. These two used to ship as literal
+// bracketed dev notation, "[Quote pending interview]", which the PLACEHOLDER
+// pattern for a bracketed "pending" string caught, and this table only
+// explained the catch. The mobile audit's punch list called the brackets
+// themselves the defect: a visitor reads dev notation, not copy. Both pages
+// now hold the same statement in their own voice, with no brackets to catch,
+// so they are looked for on their own rather than as an exception to a rule
+// they no longer trip.
 //
 // To retire one, delete the entry and the thing it describes together.
 const REGISTERED = [
   {
     url: "/about/",
-    match: /\[Quote pending interview\]/i,
+    match: /Quote pending an interview\./i,
     why:
       "Sam has not been interviewed. voice-tone.md: no quote is written for " +
       "him and the marker is a launch blocker on purpose. Clears with " +
@@ -48,11 +59,11 @@ const REGISTERED = [
   },
   {
     url: "/noodle-room/",
-    match: /\[Quote pending interview\]/i,
+    match: /Quote pending an interview\./i,
     why:
       "The second held quote, and the one easy to miss: this page attributes " +
       "it to Sam by name in its figcaption, so it is the same blocker as " +
-      "/about/ and clears with the same interview. src/noodle-room.njk:462.",
+      "/about/ and clears with the same interview. src/noodle-room.njk:478.",
   },
 ];
 
@@ -146,6 +157,27 @@ for (const url of pages) {
   images += result.counts.images;
 
   for (const p of result.problems) failures.push({ url, ...p });
+
+  // Held slots first, checked directly against the page rather than as a
+  // side effect of a PLACEHOLDER match. Nothing here carries dev-notation
+  // brackets any more, so nothing here would otherwise trip PLACEHOLDER at
+  // all, and an unmatched entry (the statement was reworded, or the launch
+  // blocker cleared and the block should be gone) is worth knowing about the
+  // same way a matched one is.
+  for (const r of REGISTERED) {
+    if (r.url !== url) continue;
+    const hit = result.text.match(r.match);
+    if (hit) {
+      registered.push({ url, text: hit[0], why: r.why });
+    } else {
+      failures.push({
+        url,
+        kind: "held-slot-missing",
+        detail: "a registered held slot did not match the rendered page",
+        text: r.match.toString(),
+      });
+    }
+  }
 
   for (const rx of PLACEHOLDER) {
     const hit = result.text.match(rx);
