@@ -497,6 +497,10 @@
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
+  /* 44px minimum tap target, same floor as .mega__trigger. A real min-height
+     is safe here: it's a bordered pill, not underlined text, so there's no
+     decoration to detach from the label the way .plate__directions has. */
+  min-height: 2.75rem;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
   border: var(--stroke-hair) solid var(--color-rule-strong);

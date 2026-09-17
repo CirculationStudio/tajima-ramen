@@ -212,7 +212,19 @@
               it also has to count coverage. A menu.json row from the legacy
               branch still needs the lookup. -#}
           {%- set shot = dish.photo if dish.photo else (dishPhotos.photoFor(dish.id, mcLocId) if mcPhotos == "location" else null) %}
-          <li class="mc-plate">
+          {#- BARE ROWS: no photo, no placeholder tile, no description. Toast
+              carries both French Fries (all six rooms) and Mercury's Sushi
+              Rice with description: null, and neither is a row in Connor's
+              sheet or on the July printed menus, checked directly against
+              both. There is nothing to show beside the name, so the ghosted
+              placeholder tile that stands in for a missing PHOTO stops being
+              the right device: pairing it with a missing description too
+              left a 92px square of dead air beside one line of text. A bare
+              row drops the tile and lets .mc-plate--bare collapse to a
+              single column, so the card is short on purpose rather than
+              short by accident. -#}
+          {%- set bare = not shot and not (mcPhotos == "site" and dish.image) and not dish.description %}
+          <li class="mc-plate{% if bare %} mc-plate--bare{% endif %}">
             {%- if shot %}
             <span class="mc-shot">
               {#- data-full is the original, and it is an ATTRIBUTE rather than
@@ -226,7 +238,7 @@
             <span class="mc-shot">
               <img src="{{ dish.image }}" alt="{{ dish.alt }}" loading="lazy" decoding="async" width="{{ dish.imageWidth }}" height="{{ dish.imageHeight }}">
             </span>
-            {%- else %}
+            {%- elif not bare %}
             {#- The placeholder falls back to the ramen bowl when its own
                 section has no ornament. Four of the eight sections have no
                 matching sprite icon, and without a fallback their tiles

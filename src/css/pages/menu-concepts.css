@@ -585,6 +585,15 @@
   .mc-shot{ width: 4.625rem; height: 4.625rem; }
 }
 
+/* A bare row (menu-concept.njk: no photo, no placeholder tile, no
+   description) has only one grid child, .mc-plate__text. Left on the normal
+   two-column template that child still sits in column 2, with an empty
+   5.75rem/4.625rem gutter reserved for the tile beside it. One column, full
+   width, at every size the base and mobile rules above set. */
+.mc-plate--bare{
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* ==========================================================================
    THE MODULE INSIDE A LOCATION PAGE
 
