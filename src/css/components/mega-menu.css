@@ -178,261 +178,61 @@
 
 
 /* --------------------------------------------------------------------------
-   Block: loc-card
+   Block: loc-card, redesigned 2026-09-17.
+
+   Was a photo card, name, descriptor, live status, neighborhood, Directions
+   and an Order button: 359px tall at its shortest past revision. The mobile
+   audit measured 1.5 of them visible in the panel at 390px. This panel's one
+   job is answering "which of these seven is mine", fast, and none of that
+   content did that job; the room's own page a single tap away already has
+   all of it. One link, two lines: the name, the neighborhood. Everything
+   else this used to carry (photo, descriptor, live hours, Directions, Order)
+   is gone from here, not moved, because the room's own page already has it.
    -------------------------------------------------------------------------- */
 .loc-card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: .125rem;
   width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-canvas-3);
   border: var(--stroke-hair) solid var(--color-rule);
-  overflow: hidden;
-  transition: border-color var(--duration-fast) var(--ease-smooth);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth);
 }
 
 .loc-card:hover,
-.loc-card:focus-within {
+.loc-card:focus-visible {
   border-color: var(--color-red-line);
-}
-
-.loc-card__link {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  text-transform: none;
-  letter-spacing: var(--tracking-normal);
-  /* Ends at the name. The neighborhood line below is a sibling, not a child,
-     because it contains a link and anchors cannot nest. */
-  padding-bottom: 0;
-}
-
-/* CARD MEDIA. Photographic since 2026-08-05; was a drawn hatched panel while
-   nothing had been placed. One generic dish across all seven cards, from
-   roomPhotos._placeholder. See the long note in site-header.njk for why the
-   same photo appears seven times and why it is that photo.
-
-   The aspect-ratio is what actually holds the layout: the source is 3:2 and
-   this box crops it, so object-fit does the work rather than the grid
-   reflowing. No CLS either way, since the box is sized before the image
-   arrives.
-
-   16:9, and it has come down twice. It was 4:3, which made each card 359px tall
-   at four across and put two rows of them off the bottom of every laptop
-   screen. 3:2 (the source ratio) took 24px off. Then the card gained the room's
-   descriptor and its live open/closed line, which is the content this panel was
-   missing, and put 114px back on. 16:9 is what pays for those two lines.
-
-   A harder crop than the source, and acceptable here: this is a nav thumbnail
-   at about 290px wide, object-fit does the cropping, and a room photograph
-   reads fine in a letterbox. The panel's max-height is the actual guarantee
-   that nothing is ever unreachable; this is what keeps the scrollbar from
-   being needed most of the time. */
-.loc-card__media {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  background: var(--color-canvas);
-  border-bottom: var(--stroke-hair) solid var(--color-rule);
-  overflow: hidden;
-}
-
-.loc-card__media-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--duration-base) var(--ease-smooth);
-}
-
-/* Matches the treatment .shot__img and .dish__img already get, so a
-   photograph looks the same in the nav as it does on a page. */
-[data-mode="night"] .loc-card__media-img {
-  filter: saturate(1.18) brightness(0.94);
-}
-
-.loc-card__link:hover .loc-card__media-img,
-.loc-card__link:focus-visible .loc-card__media-img {
-  transform: scale(1.04);
-}
-
-/* The index number, third treatment. It was centred over the image (illegible),
-   then moved to the bottom-left on a text-shadow, which is where it was on
-   2026-09-14 and still read as a numeral dropped onto a photograph rather than
-   a part of the card: it landed on lettuce in some frames and on a white plate
-   in others, and a shadow is not a background.
-
-   It is a block now, flush into the top-left corner, ink with a cream numeral.
-   It carries its own contrast instead of borrowing the photograph's, so it
-   reads the same on all seven cards and will still read when the rooms are
-   finally shot and the seven frames stop being identical. Ink and not red:
-   seven red chips would outshout the card's own action.
-
-   SYSTEM tokens, not themed ones. This block sits on a photograph, which does
-   not change between day and night, so its colours must not either. Written
-   with --color-ink it inverted to near-white in night mode and the cream
-   numeral disappeared into it. A element over a photo is a case for
-   --color-system-*: see the note on those tokens in tokens.css. */
-.loc-card__media-no {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  min-width: 2.25rem;
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-system-ink);
-  color: var(--color-system-cream);
-  font-family: var(--font-display);
-  font-size: var(--text-meta);
-  line-height: 1.1;
-  text-align: center;
-  letter-spacing: var(--tracking-display);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loc-card__media-img {
-    transition: none;
-  }
-  .loc-card__link:hover .loc-card__media-img,
-  .loc-card__link:focus-visible .loc-card__media-img {
-    transform: none;
-  }
+  background: var(--color-canvas-2);
 }
 
 .loc-card__name {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
-  font-size: var(--text-h4);
+  font-size: var(--text-small);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--color-ink);
-  padding: var(--space-3) var(--space-4) 0;
 }
 
-/* The room's own line, from locations.json's `descriptor`. Sits directly under
-   the name, in the reading face rather than the UI one, because it is a phrase
-   about the room and not a label. Full ink: it is the thing a reader is
-   actually choosing on. */
-.loc-card__desc{
-  font-family: var(--font-cond);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-small);
-  line-height: var(--leading-snug);
-  color: var(--ink);
-  padding: var(--space-1) var(--space-4) 0;
+.loc-card:hover .loc-card__name,
+.loc-card:focus-visible .loc-card__name {
+  color: var(--color-red);
 }
 
-/* The live open/closed line. Same treatment as .plate__status on the location
-   pages, deliberately: it is the same fact computed by the same code, and a
-   reader who has seen one should recognise the other. Ships hidden; hours.js
-   reveals it. Monochrome with the accent reserved for the dot, so seven of
-   these in a panel do not turn the grid into a field of coloured text. */
-.loc-card__status{
-  display: block;
-  padding: var(--space-2) var(--space-4) 0;
-  font-family: var(--font-ui);
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.loc-card__status[data-open="true"]{ color: var(--ink); }
-.loc-card__status::before{
-  content: "";
-  display: inline-block;
-  width: .4375rem;
-  height: .4375rem;
-  margin-right: var(--space-2);
-  border-radius: 50%;
-  vertical-align: .05em;
-  background: currentColor;
-  opacity: .45;
-}
-.loc-card__status[data-open="true"]::before{ background: var(--accent); opacity: 1; }
-/* Maui's closing time. Not computed, so no dot: the dot on the other six is
-   what says "this was worked out from today's window". See the note in
-   site-header.njk and _closesAtSource in locations.json. */
-.loc-card__status--static{ color: var(--ink-3); }
-.loc-card__status--static::before{ content: none; }
-
-/* Neighborhood and Directions on one line. Everything on this line is muted,
-   so the single button below is unambiguously the card's action.
-
-   DIRECTIONS IS PINNED RIGHT, 2026-09-14, and the middot between them is
-   gone. They used to sit as "hood, middot, Directions" in reading order,
-   which meant the Directions link started at a different x in all seven cards
-   ("Kearny Mesa" against "College Area" against "National City") and the row
-   read as ragged rather than as a row. Pinned to the card edge, the link is
-   in the same place on every card and the eye can run straight down the
-   column. The separator is no longer doing any work once there is a gap, so
-   it is not rendered. */
-.loc-card__hood {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2);
+.loc-card__place {
   font-family: var(--font-cond);
   font-weight: var(--weight-light);
   font-size: var(--text-micro);
   line-height: var(--leading-snug);
   color: var(--color-ink-3);
-  padding: var(--space-2) var(--space-4) var(--space-3);
 }
-
-
-
-.loc-card__link:hover .loc-card__name,
-.loc-card__link:focus-visible .loc-card__name {
-  color: var(--color-red);
-}
-
-/* --------------------------------------------------------------------------
-   The one button on the card.
-
-   Everything above it is muted: the neighborhood line and the Directions link
-   inside it both sit at ink-3, the separator at ink-4. This is the only
-   element with a border, an uppercase UI face, and full ink, so it reads as
-   the action without needing colour to say so. Not red: the header CTA owns
-   the one red per viewport (DESIGN_SYSTEM.md), and seven red pills in an open
-   panel would be the opposite of that rule.
-   -------------------------------------------------------------------------- */
-.loc-card__order {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin: 0 var(--space-4) var(--space-4);
-  padding: var(--space-2) var(--space-4);
-  /* --ink-3, not --color-rule-strong. The outline is the only thing that makes
-     this a button, and rule-strong is 40% of the accent, which measured 2.85:1
-     against the card by day and 1.07:1 at night: below the 3:1 WCAG asks of a
-     control's boundary in both, and effectively gone at night. --ink-3 is a
-     neutral step already in the ramp and clears 3:1 in both modes. The red
-     comes back on hover and focus, where it is a state change rather than the
-     only cue that this is pressable. */
-  border: var(--stroke-hair) solid var(--ink-3);
-  border-radius: 999px;
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-ink);
-  text-align: center;
-  transition:
-    color var(--duration-fast) var(--ease-smooth),
-    border-color var(--duration-fast) var(--ease-smooth);
-}
-
-.loc-card__order:hover,
-.loc-card__order:focus-visible {
-  border-color: var(--color-red);
-}
-
-
-/* Header CTA moved to components/hdr.css in the v2 port. It is header chrome,
-   not part of the Locations disclosure. */
 
 /* --------------------------------------------------------------------------
    Motion. The open/close transition is opt-in: it only exists inside
@@ -472,19 +272,36 @@
    A fixed overlay would fight the sticky header and trap the page behind it.
    Flowing inline means the page simply gets longer, which is what a phone
    expects, and it keeps the scroll position honest when the panel closes.
+
+   .mega AND .mega__trigger NO LONGER GO FULL-WIDTH HERE, as of the dense
+   header rebuild. They used to claim their own full-width row specifically
+   because that was the row: a four-row stack with Locations as row three.
+   The header is two rows now, Locations sits inline with Menu, About and
+   Noodle Room on the second one, and the trigger keeps the same 44px tap
+   floor the rest of that row has without needing the whole line to itself.
    -------------------------------------------------------------------------- */
 @media (max-width: 48rem) {
-  .mega {
-    display: block;
-    width: 100%;
+  /* Belt and braces for the 36-48rem band, where the header itself is still
+     the single inline desktop row (hdr.css's dense two-row grid starts at
+     36rem) but the panel below is already in accordion mode. Wherever the
+     panel can be in accordion mode, the trigger that opens it keeps a real
+     tap target, independent of which header row layout is active. */
+  .mega__trigger {
+    min-height: 2.75rem;
   }
 
-  /* 44px minimum tap target, full row width so the whole line is tappable. */
-  .mega__trigger {
-    width: 100%;
-    justify-content: space-between;
-    padding: var(--space-3) 0;
-    min-height: 2.75rem;
+  /* `.mega`'s base rule (top of file) is `display: inline-flex; align-items:
+     center`, written for desktop, where the panel is `position: absolute`
+     and out of flow, so the trigger is its only real flex item. Here the
+     panel goes `position: static` a few lines down and joins the trigger
+     as a second flex item in that same row: align-items: center then
+     centers the trigger vertically against the panel's full height, which
+     is the trigger floating in the left margin beside the room list.
+     Block layout stacks the trigger above the panel instead, and the panel
+     (a block box, not a flex item) reads its own width rather than sharing
+     the row with the trigger. */
+  .mega {
+    display: block;
   }
 
   /* Accordion, not a full-screen takeover, but CAPPED.
@@ -520,25 +337,7 @@
 
   .mega__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-  }
-
-  .loc-card__media {
-    aspect-ratio: 16 / 9;
-  }
-
-  .loc-card__name {
-    font-size: var(--text-small);
-    padding: var(--space-3) var(--space-3) 0;
-  }
-
-  .loc-card__hood {
-    padding: var(--space-1) var(--space-3) var(--space-3);
-  }
-
-  .loc-card__order {
-    margin: 0 var(--space-3) var(--space-3);
-    min-height: 2.75rem;
+    gap: var(--space-2);
   }
 
   .mega__foot {
@@ -547,16 +346,11 @@
   }
 }
 
-/* Very narrow: one card per row. The horizontal variant is gone: the
-   neighborhood line is a sibling of the card link now, not a child, so laying
-   the card out as a row would strand it beside the media instead of under the
-   name. Stacking is simpler and does not break when the structure moves. */
+/* Very narrow: one card per row. Every screenshot width this header ships at
+   (360, 390, 414px) is under this, so the panel is always this column. */
 @media (max-width: 26rem) {
   .mega__grid {
     grid-template-columns: 1fr;
-  }
-
-  .loc-card__media {
-    aspect-ratio: 21 / 9;
+    gap: var(--space-2);
   }
 }

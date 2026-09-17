@@ -278,39 +278,79 @@
   }
 }
 
-/* WRAP BREAKPOINT, and it has to be 36rem, not the 30rem it used to be.
+/* --------------------------------------------------------------------------
+   DENSE MOBILE HEADER, replacing the four-row stack the mobile audit measured
+   at 213px. Two rows instead, not one: logo and the CTA share a first row,
+   the other four nav items wrap to a second row beneath, full width. Still no
+   burger, still every item visible with no tap to reveal anything, still the
+   full wordmark at the same size as every other breakpoint.
 
-   Measured: logo, gutters and the five nav items need 561px of layout
-   viewport. The old rule fired at 30rem (480px), so between roughly 466px and
-   561px the header could neither fit nor wrap, and every page scrolled
-   horizontally in that band. 36rem (576px) clears 561 with a small margin.
+   THE CTA MOVES OUT OF .hdr__nav FOR THIS. components/site-header.njk renders
+   it as a sibling of .hdr__logo and .hdr__nav now, specifically so it can sit
+   on the grid's first row next to the logo here without dragging the other
+   four nav items up onto that row with it. At desktop widths above this
+   breakpoint the base .hdr__in / .hdr__nav flex rules put it straight back
+   inline with the rest of the nav, unchanged from before this pass.
 
-   This is NOT a phone-width bug, which is what it first looked like: below
-   466px the old rule did fire and the header wrapped correctly. The band is
-   large phones in landscape, small tablets, foldables, and any desktop window
-   dragged narrow. Verified with same-origin iframes, because headless Chrome
-   clamps its own layout viewport to about 485px and will not reproduce
-   anything narrower. */
+   GRID, NOT FLEX-WRAP, for the same reason .hdr__in used to need a
+   `flex-wrap` plus a forced-width nav to fake two rows out of three flex
+   children: a grid states the two rows directly, "logo cta" / "nav nav",
+   rather than relying on wrap order and a width override to land the same
+   place. `.hdr__nav` spans both columns on its own row so its own items can
+   still wrap or scroll horizontally never, they get plenty of width.
+
+   36rem (576px), same breakpoint as before and for the same reason: measured
+   to clear the point where five items in one row stop fitting, checked with
+   same-origin iframes because headless Chrome will not reproduce anything
+   narrower than about 485px in a resized real viewport. */
 @media (max-width: 36rem) {
   .hdr__in {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "logo cta" "nav nav";
+    align-items: center;
+    row-gap: var(--space-3);
+    column-gap: var(--space-4);
+    padding-block: var(--space-3);
+  }
+
+  .hdr__logo {
+    grid-area: logo;
+  }
+
+  .hdr__in > .hdr__nav-link--cta {
+    grid-area: cta;
   }
 
   .hdr__nav {
-    flex-wrap: wrap;
-  }
-
-  .hdr__in {
-    gap: var(--space-3);
-  }
-
-  .hdr__nav {
+    grid-area: nav;
     width: 100%;
     justify-content: flex-start;
-    gap: var(--space-3) var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+  }
+
+  /* 44px minimum tap target, same floor as .mega__trigger. Menu/About/Noodle
+     Room were bare text with no padding; this also backstops the CTA
+     variant, which already has its own padding but landed short on its own.
+     Real box growth, not an invisible hit area: at this density there is no
+     border-bottom or shared baseline nearby for a taller box to detach from,
+     the trap the location plate's equivalent links have to route around. */
+  .hdr__nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  /* Compensates the current-page underline for the taller box above: it used
+     to sit var(--space-4) below text that filled its whole box. Centering the
+     text in a 44px box already eats most of that gap, so the offset shrinks
+     to match rather than leaving the line stranded under empty padding. */
+  .hdr__nav-link--current::after {
+    bottom: calc(((2.75rem - var(--text-meta)) / 2) - var(--space-4));
   }
 
   .hdr__nav-link--cta {
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-2) var(--space-4);
   }
 }
