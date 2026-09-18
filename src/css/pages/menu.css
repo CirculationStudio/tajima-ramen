@@ -5,14 +5,18 @@
    every headline was the single most templated element on the page and is
    banned outright. Headlines carry themselves.
 
-   The bento-in-Convoy pattern. DESIGN_SYSTEM.md names tajima-menu.html as the
-   approved interior-page reference, and the bento grid as the layout system
-   for interior pages.
-
-   Ported from the tajima-menu concept. One change: `.dish` is already a block
-   in the component library (the editorial dish list on the home page), and
-   here it is the bento cell. Every rule below is scoped under `.bento` so the
-   two treatments of the same name cannot overwrite each other.
+   THE BENTO GRID THIS PAGE ONCE USED IS GONE, DELETED 2026-09-18. 0927f57
+   (2026-09-15) replaced /menu/ with the room-chooser and signature grid
+   below; that commit rewrote menu.njk but never touched this file, so the
+   full `.bento`, `.bento--ramen`, `.bento--izakaya`, `.bento--dessert` and
+   `.dish`/`.dish__*` ruleset (roughly 300 lines, base rules plus two
+   responsive blocks) sat here unreferenced by any template for three days.
+   Confirmed dead before deleting: no `.bento`, `.dish--ramen-*`,
+   `.dish--izakaya-*` or `.dish--dessert` class appears in any .njk file.
+   `.bento` itself lives on, unrelated: css/pages/interior.css defines its
+   own `.bento` for /locations/, /menu/vegan-ramen/ and location galleries,
+   a different grid under the same name, which this file's version does not
+   touch, since neither ever referenced the other.
    ========================================================================== */
 
 /* ═══════════════════════════════════════════════════════════════════ MENU HERO · slim editorial banner with section jumps ═══════════════════════════════════════════════════════════════════ */ .menu-hero {
@@ -179,244 +183,6 @@
   line-height: var(--leading-snug);
   color: var(--color-ink-2);
   max-width: 44rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════════ BENTO · the grid system for dishes ═══════════════════════════════════════════════════════════════════ */ .bento {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-4);
-}
-
-/* Ramen bento, 8 cells in a 4-row asymmetric pattern */ .bento--ramen { grid-auto-rows: minmax(18rem, auto);
-}
-
-.bento .dish--ramen-tonkotsu { grid-column: span 7; grid-row: 1;
-}
-
-.bento .dish--ramen-red {      grid-column: span 5; grid-row: 1 / span 2;
-}
-
-.bento .dish--ramen-black {    grid-column: span 4; grid-row: 2;
-}
-
-.bento .dish--ramen-white {    grid-column: span 3; grid-row: 2;
-}
-
-.bento .dish--ramen-sesame {   grid-column: span 6; grid-row: 3;
-}
-
-.bento .dish--ramen-vegan {    grid-column: span 6; grid-row: 3 / span 2;
-}
-
-.bento .dish--ramen-chicken {  grid-column: span 3; grid-row: 4;
-}
-
-.bento .dish--ramen-miso {     grid-column: span 3; grid-row: 4;
-}
-
-/* Izakaya bento, 3 photo cells + 4 quiet cells */ .bento--izakaya { grid-auto-rows: minmax(15rem, auto);
-}
-
-.bento .dish--izakaya-photo { grid-column: span 4;
-}
-
-.bento .dish--izakaya-text { grid-column: span 4;
-}
-
-.bento--izakaya .dish--quiet { grid-column: span 3;
-}
-
-/* Dessert bento, feature plus quiet */ .bento--dessert { grid-auto-rows: minmax(14rem, auto);
-}
-
-.bento .dish--dessert { grid-column: span 8;
-}
-
-.bento--dessert .dish--quiet { grid-column: span 4;
-}
-
-/* DISH, the bento cell.
-   MUST stay scoped under .bento. Unscoped, this rule overwrites the `.dish`
-   block in components/menu.css, which is the home page's editorial dish list,
-   and hands every home teaser card this cell's border and background. */
-/* FALLBACK PLACEMENT. A menu.json row with no `bento` value gets a quiet
-   three-column cell instead of collapsing to an unreadable sliver. Carnitas
-   Ramen is exactly this case: bento is null on purpose, because it is listed
-   plainly with no photo and no callout (menu.json _carnitasNote), and it was
-   rendering broken. Scoped with :not() so it cannot outrank the named
-   placements above, which sit at the same specificity. */
-.bento--ramen .dish:not([class*="dish--ramen-"]),
-.bento--izakaya .dish:not([class*="dish--izakaya-"]):not(.dish--quiet),
-.bento--dessert .dish:not([class*="dish--dessert"]):not(.dish--quiet) {
-  grid-column: span 3;
-}
-
-.bento .dish {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-canvas-2);
-  border: 1px solid var(--color-rule);
-  overflow: hidden;
-  transition:
-    border-color var(--duration-fast) var(--ease-smooth),
-    transform var(--duration-fast) var(--ease-smooth);
-  isolation: isolate;
-  /* v2: bento cells take --radius (6px). Full-bleed color fields stay
-     sharp; these are cards, not fields. */
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.menu-section--alt .dish { background: var(--color-canvas-3);
-}
-
-.bento .dish:hover {
-  border-color: var(--color-red-line);
-  transform: translateY(-2px);
-}
-
-.bento .dish__photo {
-  position: relative;
-  width: 100%;
-  flex: 1 1 auto;
-  overflow: hidden;
-  background: var(--color-canvas-3);
-  min-height: 12rem;
-}
-
-.bento .dish__photo img {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition:
-    transform var(--duration-slow) var(--ease-smooth),
-    filter var(--duration-slow) var(--ease-smooth);
-  filter: brightness(0.94);
-}
-
-.bento .dish:hover .dish__photo img {
-  transform: scale(1.05);
-  filter: brightness(1.04);
-}
-
-.bento .dish__body {
-  display: flex;
-  flex-direction: column;
-  /* 12px, up from 8px, and now the only thing setting internal spacing on
-     this card. `.dish__head` and `.dish__romaji` used to add their own
-     margin-bottom on top of the gap, so the real intervals were sums:
-     8+4 above the name, 8 below it, 8+8 below the romaji. Three different
-     values, none of them written down anywhere. One token now does all of
-     it, and every interval is a scale step rather than an accident of
-     which elements happen to be present. */
-  gap: var(--space-3);
-  padding: var(--space-5) var(--space-5) var(--space-6);
-  background: var(--color-canvas-2);
-}
-
-.menu-section--alt .dish__body { background: var(--color-canvas-3);
-}
-
-.bento .dish__body--alone {
-  padding: var(--space-6);
-  flex: 1 1 auto;
-}
-
-.bento .dish__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-4);
-  /* margin-bottom removed: the body's gap owns vertical rhythm now. */
-}
-
-.bento .dish__tier {
-  font-family: var(--font-ui);
-  font-weight: var(--weight-medium);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-ink-3);
-}
-
-.bento .dish__tier--signature { color: var(--color-red);
-}
-
-.bento .dish__tier--vegan {
-  color: var(--color-canvas);
-  background: var(--color-vegan);
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.bento .dish__price {
-  font-family: var(--font-ui);
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-ink);
-  margin-left: auto;
-}
-
-.bento .dish__name {
-  font-family: var(--font-display);
-  font-weight: var(--weight-regular);
-  font-size: var(--text-h3);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-  color: var(--color-ink);
-}
-
-.bento .dish__name em {
-  font-style: normal;
-  color: var(--color-red);
-}
-
-.bento .dish--small .dish__name,
-.bento .dish--quiet .dish__name {
-  font-size: var(--text-h4);
-}
-
-.bento .dish__romaji {
-  font-family: var(--font-cond);
-  font-weight: var(--weight-regular);
-  font-style: italic;
-  font-size: var(--text-meta);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-ink-3);
-  /* margin-bottom removed: the body's gap owns vertical rhythm now. */
-}
-
-.bento .dish__desc {
-  font-family: var(--font-body);
-  font-weight: var(--weight-light);
-  font-size: var(--text-body);
-  line-height: var(--leading-normal);
-  color: var(--color-ink-2);
-}
-
-.bento .dish--small .dish__desc,
-.bento .dish--quiet .dish__desc {
-  font-size: var(--text-small);
-}
-
-/* Quiet cells, no photo,
-smaller,
-denser */
-.bento .dish--quiet {
-  padding: var(--space-5);
-  background: transparent;
-  border: 1px solid var(--color-rule);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.bento .dish--quiet .dish__head { margin-bottom: var(--space-2);
 }
 
 /* ═══════════════════════════════════════════════════════════════════ DRINKS GRID · simple location-based legend ═══════════════════════════════════════════════════════════════════ */ .drinks-grid {
@@ -596,51 +362,6 @@ denser */
 .menu-section__head { margin-bottom: var(--space-8);
 }
 
-.bento { gap: var(--space-3);
-}
-
-.bento--ramen { grid-auto-rows: minmax(15rem, auto);
-}
-
-.bento .dish--ramen-tonkotsu { grid-column: span 12; grid-row: auto;
-}
-
-.bento .dish--ramen-red { grid-column: span 12; grid-row: auto;
-}
-
-.bento .dish--ramen-black { grid-column: span 6; grid-row: auto;
-}
-
-.bento .dish--ramen-white { grid-column: span 6; grid-row: auto;
-}
-
-.bento .dish--ramen-sesame { grid-column: span 12; grid-row: auto;
-}
-
-.bento .dish--ramen-vegan { grid-column: span 12; grid-row: auto;
-}
-
-.bento .dish--ramen-chicken { grid-column: span 6; grid-row: auto;
-}
-
-.bento .dish--ramen-miso { grid-column: span 6; grid-row: auto;
-}
-
-.bento .dish--izakaya-photo { grid-column: span 6;
-}
-
-.bento .dish--izakaya-text { grid-column: span 12;
-}
-
-.bento--izakaya .dish--quiet { grid-column: span 6;
-}
-
-.bento .dish--dessert { grid-column: span 12;
-}
-
-.bento--dessert .dish--quiet { grid-column: span 12;
-}
-
 .drinks-grid { grid-template-columns: repeat(2, 1fr);
 }
 
@@ -660,19 +381,6 @@ denser */
 }
 
 .menu-section { padding: var(--space-8) var(--layout-gutter);
-}
-
-.bento--ramen { grid-auto-rows: minmax(13rem, auto);
-}
-
-.bento .dish--ramen-black,
-.bento .dish--ramen-white,
-.bento .dish--ramen-chicken,
-.bento .dish--ramen-miso,
-.bento .dish--izakaya-photo { grid-column: span 12;
-}
-
-.bento--izakaya .dish--quiet { grid-column: span 12;
 }
 
 .drinks-grid { grid-template-columns: 1fr;
