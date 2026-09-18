@@ -71,18 +71,17 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
     itself (five-of-six and up) is no longer read directly here; only
     `universalFeaturable`, below. See that file for the threshold and the
     full breakdown. -#}
-{#- BENTO DISHES: served at all six San Diego rooms (coreMenu.universal),
-    minus the standing do-not-feature rows (coreMenu.universalFeaturable).
-    Carnitas Ramen is the case that matters here, added 2026-09-19: it
-    genuinely qualifies as universal, and menu.json's featurable flag
-    (Open Decision #4, "listed plainly everywhere, never a photo, card,
-    hero or callout") is exactly why a bento tile is the wrong place for
-    it regardless. `count === sanDiego.length` still guarantees no
-    missingNote can reach this list; `featurable !== false` guarantees no
-    do-not-feature row can either. Both conditions live in coreMenu.js, not
-    here, so this section reads as a straight loop over whatever the data
-    layer already decided is safe to show. -#}
-{%- set bentoDishes = coreMenu.universalFeaturable %}
+{#- BENTO DISHES: coreMenu.universalFeaturable (served at all six San Diego
+    rooms, minus the standing do-not-feature rows: Carnitas Ramen is the
+    case that matters, on all six menus and still excluded, menu.json's
+    featurable flag / Open Decision #4), reordered and tiered into
+    coreMenu.bentoLayout for the hand-composed grid below. `count ===
+    sanDiego.length` guarantees no missingNote reaches this list;
+    `featurable !== false` guarantees no do-not-feature row does either;
+    both live in coreMenu.js, not here. bentoLayout adds one more thing,
+    also authored in coreMenu.js and not here: which dishes are `feature`
+    tier and which are `quiet`, and the render order the CSS positions by. -#}
+{%- set bentoDishes = coreMenu.bentoLayout %}
 
 {# ==================== MASTHEAD ==================== #}
 <section class="mchoose-mast" aria-labelledby="page-title">
@@ -96,38 +95,35 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
   </div>
 </section>
 
-{# ==================== THE BENTO GRID · universal, featurable dishes ====================
-   RESTORED 2026-09-18, NARROWED AGAIN 2026-09-19. The grid this page shipped
-   with is the one that broke: one shared layout stretched across six rooms
-   with barely-overlapping menus, which is exactly the failure the
-   2026-09-15 rewrite documents at the top of this file. It is not rebuilt
-   from scratch here, because the failure was never the grid mechanics,
-   `.bento`/`.dish` in css/pages/menu.css (git history: bd3059e^, restored
-   intact) draws a card the same way it always did. The failure was scope:
-   a bento cell has no room to print "not served at Plaza Bonita", so
-   nothing that carries an exception belongs in one, and no room to print a
-   client's do-not-feature rule either, so nothing under that rule belongs
-   here regardless of how many rooms serve it. `coreMenu.universalFeaturable`
-   is built to guarantee both: see that file. Photo and name only, one line,
-   since /menu/ has printed no prices since Open Decision #24 resolved that
-   at client review.
+{# ==================== THE BENTO GRID · hand-composed, restored from the real concept ====================
+   RESTORED 2026-09-18, RECOMPOSED 2026-09-19. The uniform four-across grid
+   this section held for one day was a deliberate step back from the
+   original hand-drawn asymmetric layout, taken because the original's own
+   CSS hard-coded eight 2026-06 dish names directly into placement rules
+   (.dish--ramen-tonkotsu and seven siblings) and today's roster does not
+   match those names. The real concept file survived, though: still live
+   at cdn.circulationstudio.com/tajima-temp/design-concepts/tajima-menu.html,
+   checked directly rather than assumed gone, and its actual CSS is what
+   .bento/.dish in css/pages/menu.css already restored intact (git history
+   bd3059e^). What changed this pass is placement: instead of per-dish-name
+   selectors, every grid-column/grid-row rule below reads :nth-child
+   position, and coreMenu.bentoLayout (see that file) is where the one
+   necessarily-curated list lives, feature-or-quiet and render order, kept
+   out of both the CSS and this template. A dish that drops out of
+   universalFeaturable drops out of bentoLayout the same way; a new one
+   nobody has curated yet lands as `quiet` rather than breaking the grid,
+   the same fail-safe direction the original's own fallback cell used.
 
-   THE COUNT IS PRINTED, NEVER HARD-CODED, on purpose: it was eight until
-   Carnitas Ramen's featurable:false rule pulled it to seven, and the count
-   in the heading and the note below both read `bentoDishes | length` so a
-   future change to either list (a room adding or dropping a dish, a
-   different do-not-feature call) updates the sentence along with the grid
-   rather than leaving a stale number for someone to catch later.
+   Photo and name only, one line, since /menu/ has printed no prices since
+   Open Decision #24 resolved that at client review. The count in the
+   heading and the note below still read `bentoDishes | length` rather than
+   a written number.
 
-   Deliberately NOT an attempt at the old hand-placed asymmetric layout
-   (.dish--ramen-tonkotsu and its seven siblings): that layout was hard-coded
-   to eight specific ramen names from the pre-2026-09-15 menu, none of which
-   match today's list (which mixes ramen with Karaage and Pork Gyoza,
-   izakaya dishes the old layout had no slots for at all), and hand-coding
-   dish names into placement CSS is the same fragility this whole pass
-   exists to remove. Even columns instead: four across, no cell reads as
-   more equal than another, an uneven last row is fine, and the grid does
-   not go stale the day the menu or the feature list does. #}
+   FLAGGED, NOT SILENTLY DECIDED: coreMenu.bentoLayout's own comment records
+   that the concept file treats Pork Gyoza as a feature cell (paired with
+   Karaage, both "photo feature", equal size), where this build's request
+   specified Gyoza as quiet. Built to the request; the discrepancy and how
+   to flip it live in that file if the call should go the other way. #}
 {#- id="signature" IS LOAD-BEARING. The homepage bowl tiles and both Noodle
     Room links point here rather than at the top of the page: they promise food,
     and the top of this page is a masthead. -#}
@@ -143,7 +139,7 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
 
     <ul class="bento bento--signature">
       {%- for dish in bentoDishes %}
-      <li class="dish">
+      <li class="dish dish--{{ dish.bentoTier }}">
         {%- if dish.photo %}
         <span class="dish__photo">
           <img src="{{ dish.photo.card | default(dish.photo.src) }}" alt="{{ dish.photo.alt }}" loading="lazy" decoding="async"

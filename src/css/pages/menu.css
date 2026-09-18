@@ -198,32 +198,36 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   BENTO · restored 2026-09-18, scoped to coreMenu.universal only
+   BENTO · restored 2026-09-18, recomposed to the real concept 2026-09-19
    ═══════════════════════════════════════════════════════════════════
 
    Card mechanics ported from git history (bd3059e^) rather than redrawn:
    the grid, the card, the photo box and its hover, the name typography are
-   all the same values that shipped before. NOT ported: `.dish__price`,
-   `.dish__tier` (+ its `--signature`/`--vegan` variants), `.dish__romaji`,
-   `.dish__desc`, `.dish--quiet`/`.dish--small`, and the old fallback-
-   placement rule for a dish with no named cell. None of it is needed:
-   /menu/ prints no prices (Open Decision #24), this section prints no
-   descriptor, and every cell here is the same size, so there is no "named
-   cell vs. fallback cell" distinction left to guard. Restoring dead
-   sub-elements nobody was going to render would just be next week's dead
-   CSS; see the file header for why that specific mistake gets watched for
-   on this page now.
+   all the same values the real concept file carries (still live,
+   cdn.circulationstudio.com/tajima-temp/design-concepts/tajima-menu.html,
+   checked directly). NOT ported: `.dish__price`, `.dish__tier` (+ its
+   `--signature`/`--vegan` variants), `.dish__romaji`, `.dish__desc`, and
+   the old fallback-placement rule for a dish with no named cell. None of
+   it is needed: /menu/ prints no prices (Open Decision #24) and this
+   section prints no descriptor. Restoring dead sub-elements nobody was
+   going to render would just be next week's dead CSS.
 
-   PLACEMENT IS EVEN, NOT HAND-DRAWN. The pre-2026-09-15 grid placed eight
-   NAMED ramen dishes (`.dish--ramen-tonkotsu`, `.dish--ramen-red`, and six
-   more) into a specific asymmetric pattern of spans and row placements.
-   Today's universal eight are a different list, by different names, mixing
-   ramen with Karaage and Pork Gyoza, so none of those old selectors would
-   even match, and hand-writing eight new ones ties this layout to the
-   current dish roster the same way the old one was tied to its. `.dish`
-   below just takes `grid-column: span 3` uniformly, four even cells across
-   a 12-column row, which draws correctly for whatever set of dishes
-   qualifies as universal on any given day. */
+   PLACEMENT READS POSITION, NEVER A NAME. The original's own CSS placed
+   eight dishes by hard-coded name (`.dish--ramen-tonkotsu`, `.dish--ramen-
+   red`, six more), which is exactly why a roster change broke it. Every
+   rule below reads `:nth-child` instead: coreMenu.bentoLayout (see that
+   file) is the one place that decides which dish is 1st, 2nd, ...7th, and
+   feature-or-quiet, and it is the only place that needs to change if the
+   roster does. A dish dropping out of the list just means a shorter grid,
+   not a cell silently matching nothing.
+
+   ONE DEPARTURE FROM THE ORIGINAL, DELIBERATE: its `.dish--quiet` was
+   text-only, no photo box at all ("Quiet cells — no photo, smaller,
+   denser"). Today's seven are all photographed, and the request asked for
+   photo-and-name throughout, smaller for quiet rather than photo-less, so
+   quiet cells here keep `.dish__photo` and only shrink the name via
+   `.dish--quiet .dish__name`, same mechanism the original used for
+   `.dish--small`. */
 .bento {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -234,11 +238,29 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  /* Same row height the original's .bento--ramen used. This grid mixes
+     ramen and izakaya dishes now, so the rule keeps the generic block
+     name rather than a category-specific one. */
+  grid-auto-rows: minmax(18rem, auto);
 }
 
-.bento--signature .dish {
-  grid-column: span 3;
-}
+/* Four feature cells (bentoLayout's 1st-4th), the original's own rhythm:
+   a wide hero, a tall portrait beside it, repeated once. Today's four
+   feature photos are all portrait-oriented (checked in coreMenu.js before
+   writing these), so the alternation crops each about as hard as the
+   original's did, not harder. */
+.bento--signature .dish:nth-child(1) { grid-column: span 7; grid-row: 1; }
+.bento--signature .dish:nth-child(2) { grid-column: span 5; grid-row: 1 / span 2; }
+.bento--signature .dish:nth-child(3) { grid-column: span 7; grid-row: 3; }
+.bento--signature .dish:nth-child(4) { grid-column: span 5; grid-row: 3 / span 2; }
+
+/* Three quiet cells (5th-7th) fill the gaps the tall features leave open:
+   two beside the row-1/2 tall cell, sized to its two landscape-leaning
+   photos (4 and 3 of the remaining 7 columns), one full-width strip below
+   the row-3/4 tall cell for the one landscape quiet photo left. */
+.bento--signature .dish:nth-child(5) { grid-column: span 4; grid-row: 2; }
+.bento--signature .dish:nth-child(6) { grid-column: span 3; grid-row: 2; }
+.bento--signature .dish:nth-child(7) { grid-column: span 7; grid-row: 4; }
 
 .bento .dish {
   position: relative;
@@ -259,10 +281,17 @@
   transform: translateY(-2px);
 }
 
+/* flex: 1 1 auto, NOT a fixed aspect-ratio: the whole point of an
+   asymmetric grid is that a card's own height varies (a 2-row feature
+   cell is roughly twice a 1-row quiet cell's height), and the photo has
+   to fill whatever that turns out to be rather than clipping to one ratio
+   regardless of the card around it. min-height is the floor for the
+   narrowest quiet cells, matching the original's own value exactly. */
 .bento .dish__photo {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  flex: 1 1 auto;
+  min-height: 12rem;
   overflow: hidden;
   background: var(--color-canvas-3);
 }
@@ -292,14 +321,15 @@
   }
 }
 
-/* The no-photo fallback. Every one of today's eight has a photograph (see
+/* The no-photo fallback. Every one of today's seven has a photograph (see
    menu.njk), so this is a guard against a future menu change leaving one
    without, not a state any current build reaches. */
 .bento .dish__photo--none {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4 / 3;
+  flex: 1 1 auto;
+  min-height: 12rem;
   color: var(--accent);
   background: var(--color-canvas-3);
 }
@@ -320,22 +350,57 @@
 .bento .dish__name {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
-  font-size: var(--text-h4);
+  font-size: var(--text-h3);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--color-ink);
 }
 
+/* Quiet tier reads one step smaller, same mechanism (and same target size,
+   --text-h4) the original used for .dish--small/.dish--quiet. */
+.bento .dish--quiet .dish__name {
+  font-size: var(--text-h4);
+}
+
+/* Tablet: the original's own collapse, features to a full-width stack,
+   quiet cells paired two across (one alone on the last row when there are
+   three, which is fine). */
 @media (max-width: 64rem) {
-  .bento--signature .dish {
-    grid-column: span 4;
+  .bento--signature {
+    grid-auto-rows: minmax(15rem, auto);
+  }
+  .bento--signature .dish:nth-child(1),
+  .bento--signature .dish:nth-child(2),
+  .bento--signature .dish:nth-child(3),
+  .bento--signature .dish:nth-child(4) {
+    grid-column: span 12;
+    grid-row: auto;
+  }
+  .bento--signature .dish:nth-child(5),
+  .bento--signature .dish:nth-child(6),
+  .bento--signature .dish:nth-child(7) {
+    grid-column: span 6;
+    grid-row: auto;
   }
 }
 
+/* Mobile: everything full width, one column, same floor as the original's
+   own narrowest step. */
 @media (max-width: 40rem) {
-  .bento--signature .dish {
-    grid-column: span 6;
+  .bento--signature {
+    grid-auto-rows: minmax(13rem, auto);
+  }
+  /* :nth-child(n), not a bare .dish, matched to every child on purpose:
+     the tablet rule above targets specific children at three-class
+     specificity (.bento--signature .dish:nth-child(5)), and a bare
+     `.bento--signature .dish` here is only two classes, so it loses to
+     that rule even though this media query also matches and comes later
+     in the file. Measured, not assumed: quiet cells stayed half-width
+     at 360-414px until this was an nth-child selector too. */
+  .bento--signature .dish:nth-child(n) {
+    grid-column: span 12;
+    grid-row: auto;
   }
 }
 

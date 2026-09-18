@@ -149,6 +149,75 @@ const universal = core
  */
 const universalFeaturable = universal.filter((item) => item.featurable !== false);
 
+/**
+ * BENTO LAYOUT: the hand-composed asymmetric grid, restored 2026-09-19 from
+ * the real June concept file (cdn.circulationstudio.com/tajima-temp/
+ * design-concepts/tajima-menu.html, still live, checked directly rather
+ * than assumed gone). Which dish reads as a feature is an editorial call,
+ * not a computable fact the way availability or featurable is, so it is
+ * authored here, in exactly one place, rather than in CSS selectors keyed
+ * to specific dish names. That was the original's actual failure shape:
+ * .dish--ramen-tonkotsu et al hard-coded eight 2026-06 dish names directly
+ * into placement rules, so when the roster moved on, the CSS simply had
+ * nothing left to match. This list can go stale the same way, but going
+ * stale here means one array to update, not a grid quietly losing cells.
+ *
+ * ORDER IS THE MECHANISM, NOT THE CLASS NAME. Every CSS placement rule
+ * below reads :nth-child position, never a dish name, so `bentoLayout`'s
+ * job is entirely to decide feature-or-quiet and put dishes in the order
+ * the grid expects (features first, in the order they should be drawn,
+ * then quiet cells). A dish that drops out of universalFeaturable just
+ * drops out here too (.find() returns undefined, filtered); a new one
+ * that was never curated falls to `quiet` by default, the same
+ * fail-safe direction the original's unnamed-dish fallback cell used.
+ *
+ * THE SPLIT, checked against the real concept file rather than guessed:
+ * Traditional Tonkotsu Ramen and Tajima Red were literally the original's
+ * two biggest cells (class dish--feature, spans 7 and 5x2 of 12).
+ * Spicy Sesame Ramen carried dish--feature too. Karaage was explicitly
+ * commented "photo feature" in the concept's izakaya row. Tajima White
+ * and Chicken Ramen were never given dish--feature in the original ramen
+ * row (the implicit quiet tier there). FLAG: Pork Gyoza was ALSO
+ * commented "photo feature" in the concept, paired with Karaage at equal
+ * size (both dish--izakaya-photo, span 4) — the request that produced
+ * this list proposed Gyoza as quiet, which the concept file does not
+ * support. Built to the request as given; see the report for the
+ * discrepancy and how to flip it if that was the wrong call.
+ */
+// Order matters here as much as tier: CSS places every cell by
+// :nth-child position (see menu.css), so this is also where "White gets
+// the span-4 slot, Chicken gets span-3, Gyoza gets the wide span-7 strip"
+// actually gets decided, informed by each dish's real photo orientation
+// (checked in coreMenu.universalFeaturable before writing this: White and
+// Chicken are landscape-leaning, Gyoza is landscape at 0.67, all three
+// read better in wide-ish quiet cells than square ones).
+const BENTO_ORDER = [
+  { name: "Traditional Tonkotsu Ramen", tier: "feature" },
+  { name: "Tajima Red", tier: "feature" },
+  { name: "Spicy Sesame Ramen", tier: "feature" },
+  { name: "Karaage", tier: "feature" },
+  { name: "Tajima Ramen", tier: "quiet" },
+  { name: "Chicken Ramen", tier: "quiet" },
+  { name: "Pork Gyoza", tier: "quiet" },
+];
+const bentoNamed = new Set(BENTO_ORDER.map((row) => row.name));
+const bentoLayout = [
+  ...BENTO_ORDER
+    .map((row) => {
+      const dish = universalFeaturable.find((d) => d.name === row.name);
+      return dish ? { ...dish, bentoTier: row.tier } : null;
+    })
+    .filter(Boolean),
+  // A dish universalFeaturable carries that BENTO_ORDER has no opinion on
+  // yet (the roster grew, or gained a new featurable row since this list
+  // was last touched) falls here, quiet by default rather than dropped:
+  // the same fail-safe direction the original's own unnamed-dish fallback
+  // cell used.
+  ...universalFeaturable
+    .filter((d) => !bentoNamed.has(d.name))
+    .map((d) => ({ ...d, bentoTier: "quiet" })),
+];
+
 // What only Maui serves. Split, because "no San Diego room has this dish" and
 // "a San Diego room has a dish of the same name and it is not this one" are
 // different claims and the second is the one that misleads.
@@ -231,6 +300,7 @@ export default {
   core,
   universal,
   universalFeaturable,
+  bentoLayout,
   nextBand,
   mauiOnly,
   mauiSameName,
