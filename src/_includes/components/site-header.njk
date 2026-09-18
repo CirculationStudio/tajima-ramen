@@ -28,14 +28,23 @@
    `hidden` when closed, so its links are out of the tab order entirely rather
    than merely invisible.
 
-   EACH CARD IS ONE LINK NOW, not a card wrapping a second nested link. The
-   mobile audit measured 1.5 cards visible in the panel at 390px: the photo,
-   the descriptor, the live-status line, the neighborhood-plus-Directions row
-   and the Order button between them made a seven-room panel that needed
-   scrolling to see four rooms. This panel exists to answer one question fast,
-   "which of these seven is mine", not to repeat what each room's own page
-   already says. A room name and its neighborhood, one link, is what that
-   question needs; the room's own page is one tap further for everything else.
+   EACH CARD RENDERS TWICE NOW, MOBILE AND DESKTOP, CSS-TOGGLED, 2026-09-18.
+   The dense header rebuild (2026-09-17) made every card one link, name and
+   neighborhood: the mobile audit had measured 1.5 of the old photo cards
+   visible in the panel at 390px, and this panel exists to answer one
+   question fast, "which of these seven is mine". Right call for a phone.
+   The bug was landing it unscoped: the rewrite deleted the photo,
+   descriptor, live-status, Directions and Order elements outright instead of
+   confining the simplification to mobile, so 1280-1440px lost all of it too,
+   the same four-across compact link a phone gets.
+
+   Fixed by keeping both. `.loc-card` is the mobile link exactly as the
+   rebuild built it, one link, two lines. `.loc-card-full` is the pre-rebuild
+   card restored verbatim under its own block name so nothing collides with
+   `.loc-card`'s classes, with the room's own page one tap further for
+   everything it doesn't repeat. mega-menu.css shows one or the other by
+   width, at 48rem, the breakpoint the panel itself already uses to switch
+   from a floating dropdown to a mobile accordion.
 #}
 
 {#
@@ -142,10 +151,87 @@
                 #}
                 {%- set placeLine = loc.neighborhood if (loc.neighborhood and loc.neighborhood != loc.name) else loc.address.locality %}
                 <li class="mega__cell">
+                  {#- THE MOBILE CARD, unchanged since the dense header rebuild
+                      (2026-09-17): one link, two lines, name and neighborhood.
+                      Correct for a panel that has to show seven of these
+                      without scrolling on a phone. Hidden at desktop widths by
+                      mega-menu.css; see .loc-card-full below for what desktop
+                      shows instead. -#}
                   <a class="loc-card" href="{{ loc.url }}">
                     <span class="loc-card__name">{{ loc.name }}</span>
                     <span class="loc-card__place">{{ placeLine }}</span>
                   </a>
+
+                  {#- THE DESKTOP CARD, restored 2026-09-18. The dense header
+                      rebuild deleted this entirely rather than scoping it to
+                      desktop, which is the bug: a floating dropdown at
+                      1280-1440px showed the same two-line mobile link, four
+                      across, with no photo, descriptor, live status,
+                      Directions or Order button. This is that markup, ported
+                      back from the commit before the rebuild (2566263^) with
+                      a distinct loc-card-full block name throughout so
+                      nothing here can collide with .loc-card/.loc-card__name/
+                      .loc-card__place above, which stay exactly as built for
+                      mobile. mega-menu.css hides this block below 48rem, the
+                      same breakpoint the panel itself already uses to switch
+                      from a floating dropdown to a mobile accordion (not the
+                      36rem the header chrome switches at): a rich card in a
+                      narrow accordion column would be the reverse of this
+                      bug, desktop styling at mobile width. -#}
+                  <article class="loc-card-full">
+                    <a class="loc-card-full__link" href="{{ loc.url }}">
+                      {#- Same placeholder photo policy as before the rebuild:
+                          one real Tajima photograph (Karaage, served at all
+                          seven, menu.json-confirmed) standing in for the
+                          rooms with no photography of their own yet. See
+                          roomPhotos._placeholder. loading="lazy" matters:
+                          this panel ships hidden, so nothing fetches until
+                          someone opens it. -#}
+                      {%- set cardPhoto = roomPhotos[loc.id].hero or roomPhotos._placeholder %}
+                      <span class="loc-card-full__media" aria-hidden="true">
+                        <img
+                          class="loc-card-full__media-img"
+                          src="{{ cardPhoto.src }}"
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          width="{{ cardPhoto.width }}"
+                          height="{{ cardPhoto.height }}">
+                        <span class="loc-card-full__media-no">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+                      </span>
+                      <span class="loc-card-full__name">{{ loc.name }}</span>
+                    </a>
+
+                    {#- Suppressed where it would repeat placeLine, same rule
+                        Maui's plate uses (its descriptor and place are both
+                        "Kihei"). -#}
+                    {%- if loc.descriptor and loc.descriptor != placeLine %}
+                    <p class="loc-card-full__desc">{{ loc.descriptor }}</p>
+                    {%- endif %}
+
+                    {%- if loc.hours and loc.hours.length %}
+                    <span class="loc-card-full__status" data-hours-status data-hours='{{ loc.hours | dump }}' hidden></span>
+                    {%- elif loc.closesAt %}
+                    {#- Maui: a closing time, not a live status. No hours
+                        array, so no dot (the dot on the other six means
+                        "computed from today's window"). -#}
+                    <span class="loc-card-full__status loc-card-full__status--static">Closes {{ loc.closesAt | clockTime }}</span>
+                    {%- endif %}
+
+                    <p class="loc-card-full__hood">
+                      <span class="loc-card-full__place">{{ placeLine }}</span>
+                      <a class="link-quiet" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                        Directions<span class="u-visually-hidden"> to {{ loc.name }}, opens in a new tab</span>
+                        <svg width="9" height="9" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </a>
+                    </p>
+
+                    <a class="loc-card-full__order" href="{{ loc.orderUrl }}" rel="noopener">
+                      Order online<span class="u-visually-hidden"> from {{ loc.name }}</span>
+                    </a>
+                  </article>
                 </li>
                 {%- endfor %}
               </ul>
