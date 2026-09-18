@@ -24,10 +24,13 @@
   <span class="mchoose-card__name">{{ loc.name }}</span>
   <span class="mchoose-card__area">{{ loc.neighborhood }}</span>
   <span class="mchoose-card__blurb">{{ loc.summary }}</span>
-  {%- if facts.rareSections | length or facts.exclusive %}
+  {#- The "N only here" tag (facts.exclusive, a bare dish count) is gone on
+      request: computed and accurate, but a number with no noun read as
+      confusing rather than informative. rareSections stays; those are
+      section names, not counts, and read as intended. -#}
+  {%- if facts.rareSections | length %}
   <span class="mchoose-card__tags">
     {%- for label in facts.rareSections %}<span class="mchoose-card__tag">{{ label }}</span>{% endfor %}
-    {%- if facts.exclusive %}<span class="mchoose-card__tag">{{ facts.exclusive }} only here</span>{% endif %}
   </span>
   {%- endif %}
 </a>
