@@ -173,47 +173,41 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
   </div>
 </section>
 
-{# ==================== ALSO ON OUR MENU · the plain catalog ====================
-   ADDED 2026-09-19. Everything in menu.json that isn't one of the seven
-   bento dishes above, 65 items today, read straight from menu.json
-   (coreMenu.catalogRest) rather than through the room-filtered
-   roomMenus/coreMenu.universal pipeline the rest of this page uses: this
-   section makes no per-dish availability claim, so it doesn't need one.
-   The one line above the grid carries that instead of 65 individual
-   missingNotes.
+{# ==================== ALSO ON OUR MENU · curated photo grid ====================
+   REBUILT 2026-09-19. Held the full 65-item catalogRest list, grouped by
+   section, for one day; that was a second full menu on the page and
+   duplicated the room chooser's actual job (browsing/filtering by room).
+   This is a small curated sample instead, coreMenu.catalogPhotoPicks:
+   name and thumbnail only, no descriptions, no section headers, no links.
+   Deliberately smaller and quieter than the bento above it (no hover-zoom,
+   no feature/quiet tiers, no card border), so it stays visibly secondary
+   to both the bento (the highlight reel) and the chooser below (where the
+   full room-by-room list actually lives).
 
-   NO PHOTOS, ANYWHERE IN THIS SECTION, Carnitas Ramen included. Carnitas
-   stays on the standing "do not feature" list (CLIENT_FACTS.md: no photo,
-   card, hero or callout, ever) and a plain-text catalog entry, identical
-   in treatment to Steam Rice or a combo set, is exactly what that rule
-   already allows: listed, not featured. The rest of the section is
-   text-only by the same design, not a special case around Carnitas, so
-   nothing here reads as more prominent than anything else on purpose.
-
-   GROUPED BY SECTION, computed in coreMenu.js: 65 undifferentiated names
-   in one block would be a wall of text, and the grouping is purely
-   organizational (the tiles inside a group are still all the same size,
-   same weight), so it doesn't cross into the feature/quiet distinction
-   the bento grid above uses. #}
+   THE PICKS AND THE EXCLUSIONS ARE BOTH NAMED IN coreMenu.js, not here:
+   CATALOG_PICKS is a curated editorial list, same shape as BENTO_ORDER,
+   and Carnitas Ramen is left off it by hand, the standing "do not feature"
+   rule applied a second time rather than trusted to cascade automatically. #}
 <section class="sect sect--rule" aria-labelledby="catalog-title">
   <div class="sect__inner">
     <header class="sect__head">
       <h2 class="sect__title" id="catalog-title">Also on our <em>menu.</em></h2>
       <p class="sect__note">
-        What's actually on offer varies by room. This is the full list; pick a room below to see what it serves.
+        A few more from the full list. What's actually on offer varies by room; pick one below to see everything it serves.
       </p>
     </header>
 
-    {%- for band in coreMenu.catalogRest %}
-    <div class="mcat-band">
-      <h3 class="mcat-band__title">{{ band.label }}</h3>
-      <ul class="mcat-grid">
-        {%- for dish in band.items %}
-        <li class="mcat-tile">{{ dish.name }}</li>
-        {%- endfor %}
-      </ul>
-    </div>
-    {%- endfor %}
+    <ul class="mcat-photo-grid">
+      {%- for dish in coreMenu.catalogPhotoPicks %}
+      <li class="mcat-photo-tile">
+        <span class="mcat-photo-tile__photo">
+          <img src="{{ dish.photo.thumb }}" alt="{{ dish.photo.alt }}" loading="lazy" decoding="async"
+            width="{{ dish.photo.thumbWidth }}" height="{{ dish.photo.thumbHeight }}">
+        </span>
+        <span class="mcat-photo-tile__name">{{ dish.name }}</span>
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 

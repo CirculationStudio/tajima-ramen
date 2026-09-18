@@ -2,6 +2,7 @@ import roomMenus from "./roomMenus.js";
 import locations from "./locations.json" with { type: "json" };
 import menu from "./menu.json" with { type: "json" };
 import menuConcepts from "./menuConcepts.json" with { type: "json" };
+import dishPhotos from "./dishPhotos.js";
 
 /**
  * THE CORE SET FOR /menu/, AND WHAT IT IS COUNTED ACROSS.
@@ -296,15 +297,13 @@ for (const id of [...SAN_DIEGO, "maui"]) {
 }
 
 /**
- * THE REST OF THE CATALOG, for the "Also on our menu" section, added
- * 2026-09-19. Deliberately NOT room-filtered like everything above:
+ * THE REST OF THE CATALOG, the pool the "Also on our menu" photo grid picks
+ * from. Deliberately NOT room-filtered like everything above:
  * `core`/`universal`/`bentoLayout` all answer "which rooms serve this",
  * counted from the Toast-sourced roomMenus rows, because the sections that
  * use them make availability claims ("on all six menus", a missingNote).
- * This section doesn't; it's the plain catalog, and its one line of copy
- * says availability varies by room rather than asserting anything
- * per-dish, so it reads straight from menu.json itself, unfiltered by
- * which room actually has a given item on the floor today.
+ * This section doesn't; it reads straight from menu.json itself, unfiltered
+ * by which room actually has a given item on the floor today.
  *
  * EXCLUDES ONLY THE SEVEN BENTO DISHES, by id (bentoLayout carries
  * `dishId`, which is menu.json's own `id` for all seven today; matching by
@@ -313,37 +312,59 @@ for (const id of [...SAN_DIEGO, "maui"]) {
  * `name` field for that id is also "Tajima White" — no mismatch today, but
  * id is the actual join key everywhere else on this page and this stays
  * consistent with that rather than trusting display text to match).
- *
- * GROUPED BY SECTION here, not in the template: menuConcepts.json already
- * defines the section order and labels every room's own full menu uses,
- * so reusing them is the same "one source of truth" reasoning as
- * everything else on this page, and it means menu.njk stays a straight
- * loop rather than needing Nunjucks to group on its own.
- *
- * FLAG, NOT A FILTER: six of these items carry menu.json `locations: []`,
- * meaning Connor's dish sheet had them at zero confirmed rooms as of
- * 2026-09-15 and nobody has since said whether that means discontinued or
- * just not yet filled in (menu.json's own _zeroLocationRows note has the
- * full history). "No filtering by room" was the instruction, so they are
- * included here rather than quietly dropped, but this is worth a second
- * look before this section ships somewhere more permanent: unlike "varies
- * by room", "we don't know if this room serves it at all" is not what the
- * caveat copy above the grid actually says.
  */
 const bentoIds = new Set(bentoLayout.map((d) => d.dishId));
 const catalogRestItems = menu.items.filter(
   (item) => item.listed !== false && !bentoIds.has(item.id),
 );
-const catalogRest = menuConcepts.sectionOrder
-  .map((key) => ({
-    key,
-    label: menuConcepts.sectionLabels[key],
-    items: catalogRestItems.filter((item) => item.section === key),
+
+/**
+ * CATALOG PHOTO PICKS, rebuilt 2026-09-19. The section used to print all 65
+ * catalogRestItems as a grouped text list; that was the full catalog and
+ * read as one, which is not this section's job (the room chooser below it
+ * already is the browsing/filtering layer). This is a small curated sample
+ * with real photography, same editorial-call shape as BENTO_ORDER above:
+ * which dishes represent the rest of the menu is a judgment call, not a
+ * computable fact, so it is named here, in one place, rather than inferred
+ * from an arbitrary rule (first N alphabetically, most sections covered,
+ * etc.) that would pick differently every time the catalog changes.
+ *
+ * TWO STANDING EXCLUSIONS, both automatic: the seven bento dishes
+ * (catalogRestItems already leaves them out) and Carnitas Ramen, left off
+ * this list by hand rather than filtered by flag. `featurable: false`
+ * (Open Decision #4) already keeps it out of the bento; this list is a
+ * second, independent place a name could put it back into a photographed
+ * card, so it is simply never one of the picks here, the same standing
+ * rule applied a second time rather than trusted to cascade from the flag.
+ *
+ * EVERY PICK IS CHECKED AGAINST dishPhotos BELOW, not assumed: a name here
+ * with no real (non-draft) photograph on file is filtered out rather than
+ * rendering a blank tile, so this list can safely outlive any one photo's
+ * status.
+ */
+const CATALOG_PICKS = [
+  "Takoyaki",
+  "Chicken Katsu Bun",
+  "Crispy Rice Spicy Tuna",
+  "Garlic Edamame",
+  "Tebasaki Wings",
+  "Tajima Black",
+  "Curry Ramen",
+  "Salmon Poke",
+  "Katsu Curry",
+  "Vegetarian Fried Rice",
+  "Chicken Teriyaki",
+  "Matcha Panna Cotta",
+];
+const catalogPhotoPicks = CATALOG_PICKS
+  .map((name) => catalogRestItems.find((item) => item.name === name))
+  .filter(Boolean)
+  .map((item) => ({
+    name: item.name,
+    dishId: item.id,
+    photo: dishPhotos.byDish[item.id] || null,
   }))
-  .filter((band) => band.items.length);
-const catalogRestZeroLocation = catalogRestItems.filter(
-  (item) => !item.locations || item.locations.length === 0,
-);
+  .filter((item) => item.photo && item.photo.src);
 
 function report() {
   const lines = ["", `/menu/ core set: served at ${THRESHOLD} or more of the ${SAN_DIEGO.length} San Diego rooms`, ""];
@@ -356,6 +377,10 @@ function report() {
   lines.push("");
   lines.push(`  Maui: ${mauiOnly.length} dishes no San Diego room serves, plus ${mauiSameName.length} that share a San Diego name and are a different preparation.`);
   lines.push("");
+  lines.push(`  Catalog photo picks: ${catalogPhotoPicks.length} of ${CATALOG_PICKS.length} curated names resolved to a real photo.`);
+  const missingPicks = CATALOG_PICKS.filter((name) => !catalogPhotoPicks.some((p) => p.name === name));
+  if (missingPicks.length) lines.push(`    dropped, no usable photo: ${missingPicks.join(", ")}`);
+  lines.push("");
   console.log(lines.join("\n"));
 }
 report();
@@ -367,8 +392,7 @@ export default {
   universal,
   universalFeaturable,
   bentoLayout,
-  catalogRest,
-  catalogRestZeroLocation,
+  catalogPhotoPicks,
   nextBand,
   mauiOnly,
   mauiSameName,
