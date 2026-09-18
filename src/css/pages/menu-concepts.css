@@ -776,11 +776,22 @@
   background: none;
   color: var(--ink);
   overflow: visible;
-  /* EXPLICIT, because the base reset zeroes margins on everything and a
-     <dialog> centres itself with the user agent's `margin: auto`. Without
-     this it pins to the top left of the viewport, which is where it was. */
   inset: 0;
-  margin: auto;
+  /* A FIXED TOP OFFSET, NOT `margin: auto` CENTRING. Centring was the actual
+     source of the arrow drift this file used to carry, and fixing the stage's
+     own height (below) does not fix it on its own: `.mc-lb__body` still
+     grows and shrinks with the description, the panel's total height still
+     changes because of that, and a vertically centred box moves every time
+     its height does. The bar and the stage sit above the body, so centring
+     drags them, and the arrows anchored to the stage, up and down with a
+     description's line count. A fixed top instead means the bar and the
+     stage sit at the same spot on every dish; only the panel's bottom edge
+     moves, into empty space the description was always going to need.
+     Horizontal stays centred, which has no equivalent problem: width is
+     fixed by the rule above and never varies by dish.
+     6vh clears typical browser chrome and reads as a deliberate reveal
+     rather than a jump-cut to the very top of the screen. */
+  margin: 6vh auto 0;
 }
 .mc-lb::backdrop{ background: rgba(13, 13, 10, .84); }
 
@@ -834,8 +845,25 @@
      reader is scrolling towards actually is. */
   touch-action: none;
 }
+/* FIXED HEIGHT, VIEWPORT-RELATIVE, NOT ASPECT-RATIO. It was `aspect-ratio: 3/2`,
+   which sizes off the PANEL'S WIDTH, a constant, so on paper the box should
+   not have moved between dishes. It did anyway, for a reason one width-based
+   measurement will not catch: `.mc-lb` centres itself with `margin: auto`,
+   and `.mc-lb__body` below this box is NOT fixed height, so a longer
+   description makes the whole panel taller. A taller centred panel sits
+   higher in the viewport, which drags this box, and the arrows pinned to it,
+   up along with it. Measured: 50px of vertical drift across real dish
+   descriptions on one page, at a viewport tall enough that the panel was not
+   already pinned to its max-height ceiling (at that ceiling every panel is
+   the same height regardless of description length, which is what made this
+   easy to miss testing on a shorter screen).
+
+   A height in vh breaks that chain at the source: this box no longer answers
+   to the width it happens to render at OR the text below it, only to the
+   viewport, which does not change between two dishes on the same visit. The
+   arrows, positioned against this box next, inherit that stability for free. */
 .mc-lb__media{
-  aspect-ratio: 3 / 2;
+  height: 46vh;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -843,7 +871,15 @@
 .mc-lb__media img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* WAS `cover`. A fixed-height box means an off-ratio photograph gets
+     cropped to fit it, on top of whatever crop the source file already
+     carries, and this is the one view on the site meant to show a dish
+     properly. `contain` shows the whole frame, letterboxed on the stage's
+     own canvas-2 ground rather than Connor's reference's --ink (this site's
+     lightbox is a light surface throughout; a dark letterbox bar would be
+     the one dark element on the page). See the menu lightbox crop report for
+     which photographs this actually changes. */
+  object-fit: contain;
   display: block;
   /* THE IMAGE MUST NOT EAT THE GESTURE. Dragging an <img> starts Chromium's
      native image drag, which fires pointercancel about 23px in, long before
@@ -864,10 +900,16 @@
 }
 .mc-lb__none svg{ width: 7rem; height: 7rem; fill: currentColor; }
 
+/* PINNED TO THE STAGE'S BOTTOM EDGE, not vertically centred. With the stage
+   now a fixed height, centring would already have stopped drifting between
+   dishes, so this is a placement choice on top of that fix rather than a
+   second attempt at the same one: it reads as one stable control anchored to
+   the frame rather than a mark floating over whatever photograph is behind
+   it, and it lands closer to a thumb on the mobile sheet, where the stage
+   sits above the reachable half of the screen. */
 .mc-lb__arrow{
   position: absolute;
-  top: 50%;
-  translate: 0 -50%;
+  bottom: var(--space-4);
   width: 2.75rem;
   height: 2.75rem;
   display: grid;
@@ -911,13 +953,41 @@
 /* A sheet on a phone: full width, anchored to the bottom, thumb-reachable. */
 @media (max-width: 47.5rem){
   .mc-lb{ width: 100vw; margin: auto 0 0; max-height: 100dvh; }
+  /* FIXED HEIGHT HERE TOO, not `max-height`. The sheet is anchored to the
+     bottom of the screen rather than centred, so it does not have the exact
+     drift the desktop rule above describes (nothing here recentres), but a
+     bottom anchor has its own version: `max-height` on a bottom-anchored box
+     lets the box grow upward with its content, which still moves the bar and
+     the stage, and the arrows pinned to the stage, up and down by dish. A
+     fixed height stops the sheet itself from changing size at all: the bar
+     and stage occupy the same fraction of it on every dish, and only the
+     body's own internal scroll (below) absorbs a longer description. */
   .mc-lb__panel{
     border-radius: var(--radius) var(--radius) 0 0;
-    max-height: 88dvh;
+    height: 88dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     animation-name: mc-lb-rise;
   }
+  .mc-lb__bar{ flex: none; }
+  .mc-lb__stage{ flex: none; }
+  /* The one thing allowed to scroll on mobile: this file's "no scrolling"
+     requirement is scoped to desktop, where the fixed top offset above
+     already guarantees it without needing this. A phone screen is not
+     guaranteed to fit bar plus stage plus the longest real description
+     (193 characters, checked against every room's menu) inside 88dvh, so
+     this is the safety valve, not the intended path for a typical dish. */
+  .mc-lb__body{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
   @keyframes mc-lb-rise{ from{ transform: translateY(100%); } to{ transform: none; } }
-  .mc-lb__media{ aspect-ratio: 4 / 3; }
+  /* Same fixed-height fix as the desktop rule, smaller because the sheet
+     shares the screen with the body text below it rather than a whole
+     viewport's width to draw from. */
+  .mc-lb__media{ height: 38vh; }
   .mc-lb__arrow{ width: 2.5rem; height: 2.5rem; }
 }
 

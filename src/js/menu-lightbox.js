@@ -53,6 +53,7 @@ function build() {
 
   const el = {
     panel: dialog.querySelector(".mc-lb__panel"),
+    body: dialog.querySelector(".mc-lb__body"),
     section: dialog.querySelector(".mc-lb__section"),
     media: dialog.querySelector(".mc-lb__media"),
     name: dialog.querySelector(".mc-lb__name"),
@@ -69,24 +70,35 @@ function build() {
   let at = 0;
   let opener = null;
 
-  // One band's rows. Navigation is scoped to the section a reader tapped in,
-  // which is what the brief asks for: stepping out of Ramen and into Dessert
-  // without a boundary is disorienting rather than convenient.
-  function read(band) {
-    return [...band.querySelectorAll(".mc-plate")].map((plate) => {
-      const img = plate.querySelector(".mc-shot img");
-      const marks = [...plate.querySelectorAll(".mc-mark .u-visually-hidden")].map((m) => m.textContent.trim());
-      return {
-        name: plate.querySelector(".mc-plate__name").childNodes[0].textContent.trim(),
-        desc: (plate.querySelector(".mc-plate__desc") || {}).textContent || "",
-        marks,
-        full: img ? img.dataset.full : null,
-        alt: img ? img.alt : "",
-        width: img ? img.dataset.fullW : null,
-        height: img ? img.dataset.fullH : null,
-        plate,
-      };
-    });
+  // EVERY ROW ON THE PAGE, ACROSS EVERY BAND, in document order. Navigation
+  // used to stop at the band a reader tapped in, which sounded like a feature
+  // (stay oriented within Ramen) and read as a dead end in practice: reaching
+  // the last dish in Izakaya just stopped, with no way to keep going into
+  // Ramen short of closing the dialog and tapping back in. One continuous
+  // sequence for the whole page instead; `bandLabel` travels with each item
+  // so the section indicator in the bar still updates as you cross a
+  // boundary, which is the part of "stay oriented" worth keeping.
+  function read(bands) {
+    const rows = [];
+    for (const band of bands) {
+      const bandLabel = band.dataset.mcBand || "";
+      for (const plate of band.querySelectorAll(".mc-plate")) {
+        const img = plate.querySelector(".mc-shot img");
+        const marks = [...plate.querySelectorAll(".mc-mark .u-visually-hidden")].map((m) => m.textContent.trim());
+        rows.push({
+          name: plate.querySelector(".mc-plate__name").childNodes[0].textContent.trim(),
+          desc: (plate.querySelector(".mc-plate__desc") || {}).textContent || "",
+          marks,
+          full: img ? img.dataset.full : null,
+          alt: img ? img.alt : "",
+          width: img ? img.dataset.fullW : null,
+          height: img ? img.dataset.fullH : null,
+          plate,
+          bandLabel,
+        });
+      }
+    }
+    return rows;
   }
 
   function preload(index) {
@@ -120,6 +132,11 @@ function build() {
       el.media.replaceChildren(empty);
     }
 
+    // Travels with the item now, not fixed at open time: crossing a band
+    // boundary mid-navigation must relabel the bar, or the indicator lies
+    // about which section the reader is actually looking at.
+    el.section.textContent = item.bandLabel;
+
     el.name.textContent = item.name;
     el.desc.textContent = item.desc;
     el.desc.hidden = !item.desc;
@@ -130,7 +147,12 @@ function build() {
     // mobile, which is two behaviours for one control.
     el.prev.disabled = at === 0;
     el.next.disabled = at === items.length - 1;
+    // Two different elements scroll depending on viewport: the whole panel
+    // on desktop (rare, only past the fixed-top offset's safety-net cap),
+    // just the body on the mobile sheet (see menu-concepts.css). Resetting
+    // whichever one is not the active scroller is a harmless no-op.
     el.panel.scrollTop = 0;
+    el.body.scrollTop = 0;
 
     preload(at + 1);
     preload(at - 1);
@@ -142,10 +164,8 @@ function build() {
     paint(next);
   }
 
-  function open(band, index, trigger) {
-    items = read(band);
+  function open(index, trigger) {
     opener = trigger;
-    el.section.textContent = band.dataset.mcBand || "";
     paint(index);
     dialog.showModal();
   }
@@ -218,16 +238,23 @@ function build() {
   stage.addEventListener("pointercancel", release);
   stage.addEventListener("pointerleave", release);
 
+  // ONE READ, ONCE, FOR THE WHOLE PAGE. items[] is now the full cross-band
+  // sequence, built before any hit target is wired, so each button can close
+  // over its own position in that single array rather than a per-band index
+  // that would need translating later.
+  items = read(bands);
+
   // The hit targets, one per plate, built here so no-JS ships no dead control.
   for (const band of bands) {
     const plates = [...band.querySelectorAll(".mc-plate")];
-    plates.forEach((plate, index) => {
+    plates.forEach((plate) => {
+      const index = items.findIndex((item) => item.plate === plate);
       const hit = document.createElement("button");
       hit.type = "button";
       hit.className = "mc-plate__hit";
       const name = plate.querySelector(".mc-plate__name").childNodes[0].textContent.trim();
       hit.setAttribute("aria-label", `${name}, see it larger`);
-      hit.addEventListener("click", () => open(band, index, hit));
+      hit.addEventListener("click", () => open(index, hit));
       plate.appendChild(hit);
     });
     if (plates.length) band.classList.add("mc-band--interactive");
