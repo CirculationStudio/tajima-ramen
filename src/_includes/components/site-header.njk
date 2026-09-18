@@ -38,13 +38,21 @@
    confining the simplification to mobile, so 1280-1440px lost all of it too,
    the same four-across compact link a phone gets.
 
-   Fixed by keeping both. `.loc-card` is the mobile link exactly as the
-   rebuild built it, one link, two lines. `.loc-card-full` is the pre-rebuild
-   card restored verbatim under its own block name so nothing collides with
-   `.loc-card`'s classes, with the room's own page one tap further for
-   everything it doesn't repeat. mega-menu.css shows one or the other by
-   width, at 48rem, the breakpoint the panel itself already uses to switch
-   from a floating dropdown to a mobile accordion.
+   Fixed by keeping both. `.loc-card-full` is the pre-rebuild card restored
+   verbatim under its own block name so nothing collides with `.loc-card`'s
+   classes, with the room's own page one tap further for everything it
+   doesn't repeat. mega-menu.css shows one or the other by width, at 48rem,
+   the breakpoint the panel itself already uses to switch from a floating
+   dropdown to a mobile accordion.
+
+   `.loc-card` GAINED A SECOND TAP TARGET, 2026-09-19: Directions, alongside
+   the room link, not inside it (an anchor cannot nest inside another
+   anchor). It is no longer literally "one link", the name above is kept
+   for the parts still true, two lines and no photo. Confirmed before
+   building this: `.loc-card` and `.loc-card-full` are two independent
+   components, never shared markup, so this change is mobile-only by
+   construction and touches nothing on the desktop card, which already had
+   its own Directions link before the rebuild ever happened.
 #}
 
 {#
@@ -151,16 +159,33 @@
                 #}
                 {%- set placeLine = loc.neighborhood if (loc.neighborhood and loc.neighborhood != loc.name) else loc.address.locality %}
                 <li class="mega__cell">
-                  {#- THE MOBILE CARD, unchanged since the dense header rebuild
-                      (2026-09-17): one link, two lines, name and neighborhood.
-                      Correct for a panel that has to show seven of these
-                      without scrolling on a phone. Hidden at desktop widths by
+                  {#- THE MOBILE CARD. Name and neighborhood link to the room,
+                      unchanged since the dense header rebuild (2026-09-17);
+                      still correct for a panel showing seven of these without
+                      scrolling on a phone. Hidden at desktop widths by
                       mega-menu.css; see .loc-card-full below for what desktop
-                      shows instead. -#}
-                  <a class="loc-card" href="{{ loc.url }}">
-                    <span class="loc-card__name">{{ loc.name }}</span>
-                    <span class="loc-card__place">{{ placeLine }}</span>
-                  </a>
+                      shows instead.
+
+                      DIRECTIONS ADDED 2026-09-19, on request. Two separate
+                      links now, not one: the card itself can no longer be a
+                      single <a>, since an anchor cannot nest inside another
+                      anchor and Directions needs its own tap target rather
+                      than living inside the room link. loc.url and
+                      loc | mapsUrl are the same two fields every other
+                      surface on the site already reads (locations.json,
+                      via the mapsUrl filter the desktop card and /locations/
+                      both use); nothing here is hardcoded. -#}
+                  <div class="loc-card">
+                    <a class="loc-card__link" href="{{ loc.url }}">
+                      <span class="loc-card__name">{{ loc.name }}</span>
+                      <span class="loc-card__place">{{ placeLine }}</span>
+                    </a>
+                    <a class="loc-card__directions" href="{{ loc | mapsUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Directions to {{ loc.name }}, opens in a new tab">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 1.5h7.5V9M12.5 1.5 5.5 8.5M9 12.5H1.5V5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </a>
+                  </div>
 
                   {#- THE DESKTOP CARD, restored 2026-09-18. The dense header
                       rebuild deleted this entirely rather than scoping it to

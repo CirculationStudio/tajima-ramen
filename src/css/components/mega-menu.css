@@ -178,43 +178,65 @@
 
 
 /* --------------------------------------------------------------------------
-   Block: loc-card, THE MOBILE CARD, redesigned 2026-09-17, unchanged since.
+   Block: loc-card, THE MOBILE CARD, redesigned 2026-09-17, split into two
+   tap targets 2026-09-19.
 
    Was a photo card, name, descriptor, live status, neighborhood, Directions
    and an Order button: 359px tall at its shortest past revision. The mobile
    audit measured 1.5 of them visible in the panel at 390px. This panel's one
    job is answering "which of these seven is mine", fast, and none of that
    content did that job; the room's own page a single tap away already has
-   all of it. One link, two lines: the name, the neighborhood.
+   all of it. Name and neighborhood, one link, two lines, is still the whole
+   story for choosing a room.
 
-   EVERYTHING ELSE MOVED TO .loc-card-full, IT DID NOT LEAVE. The 2026-09-17
-   rebuild deleted the photo/descriptor/status/hood/order markup and CSS
-   outright instead of scoping the simplification to mobile, so the same
-   two-line link rendered at 1280 and 1440px too, four across, with no photo
-   or Order button. Below 48rem this block is the whole story. At 48rem and
-   above, mega-menu.css hides it and shows .loc-card-full instead: see that
-   block, and the visibility rules at the bottom of this file.
+   DIRECTIONS DOES NOT FIT INSIDE THAT LINK, ON PURPOSE. It is a second
+   question ("get me there", not "tell me about it") and needed its own
+   answer once asked for, so `.loc-card` is now the row container, not the
+   link itself: `.loc-card__link` carries name and neighborhood exactly as
+   before, `.loc-card__directions` is a second, independent tap target
+   beside it. An anchor cannot nest inside another anchor, which is the
+   structural reason two links replaced one rather than a reason to hide
+   Directions inside the existing one.
+
+   EVERYTHING BEYOND THAT MOVED TO .loc-card-full, IT DID NOT LEAVE. The
+   2026-09-17 rebuild deleted the photo/descriptor/status/hood/order markup
+   and CSS outright instead of scoping the simplification to mobile, so the
+   same two-line link rendered at 1280 and 1440px too. Below 48rem this
+   block (now with Directions) is the whole story. At 48rem and above,
+   mega-menu.css hides it and shows .loc-card-full instead, which already
+   carries its own Directions link and needed no change here.
    -------------------------------------------------------------------------- */
 .loc-card {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: .125rem;
+  align-items: stretch;
   width: 100%;
   min-height: 2.75rem;
-  padding: var(--space-2) var(--space-4);
   background: var(--color-canvas-3);
   border: var(--stroke-hair) solid var(--color-rule);
-  text-decoration: none;
   transition:
     border-color var(--duration-fast) var(--ease-smooth),
     background var(--duration-fast) var(--ease-smooth);
 }
 
 .loc-card:hover,
-.loc-card:focus-visible {
+.loc-card:focus-within {
   border-color: var(--color-red-line);
   background: var(--color-canvas-2);
+}
+
+.loc-card__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .125rem;
+  flex: 1 1 auto;
+  /* Lets the name/place stack truncate or wrap rather than push the
+     Directions target off the card's edge on a narrow phone; flex items
+     default to a content-based minimum width that would otherwise fight
+     this. */
+  min-width: 0;
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
 }
 
 .loc-card__name {
@@ -227,8 +249,32 @@
   color: var(--color-ink);
 }
 
-.loc-card:hover .loc-card__name,
-.loc-card:focus-visible .loc-card__name {
+.loc-card__link:hover .loc-card__name,
+.loc-card__link:focus-visible .loc-card__name {
+  color: var(--color-red);
+}
+
+/* The Directions target. Square, same 44px floor as the row itself, an
+   icon only: the room name is already on screen two inches to its left, so
+   repeating it in visible text here would be noise, not clarity. Carries
+   the full accessible name instead (aria-label, not a visible label), same
+   pattern .loc-card-full's Directions link already uses via its
+   visually-hidden span. A hairline rule separates it from the name link so
+   the two tap targets read as two, not one wide button with a stray icon
+   in it. */
+.loc-card__directions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.75rem;
+  border-left: var(--stroke-hair) solid var(--color-rule);
+  color: var(--color-ink-3);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.loc-card__directions:hover,
+.loc-card__directions:focus-visible {
   color: var(--color-red);
 }
 
