@@ -225,7 +225,6 @@ Signature dishes and confirmed prices (current as of the menu file, **prices dri
 - Spicy Sesame Ramen, $17.50. A widely-praised crave dish.
 - Chicken Ramen, $17.00.
 - Vegan Ramen, $17.00. **House-made spinach noodles.** Vegan credibility predates the craft pivot (Best of 2017 Runner-Up, Vegan in San Diego).
-- Miso Ramen, $18.50.
 - Pork Gyoza, $7.50.
 - Karaage, $8.50. Most universally available izakaya item across all locations.
 - Garlic Edamame, $5.50. Most-mentioned appetizer in five-star reviews.
@@ -234,6 +233,14 @@ Signature dishes and confirmed prices (current as of the menu file, **prices dri
 **Menus differ by location.** Convoy, Mercury, East Village, and Crown Point run the full menu. **College Heights runs a pared-down ramen-bar menu. Plaza Bonita runs a limited quick-serve menu with no alcohol.** ~~Mercury and Maui are the only locations with sushi.~~ **CORRECTED 2026-08-04: false. East Village carries two sushi hand rolls. Mercury has the only full sushi programme in San Diego; Maui has rolls of its own. Publish scale, never exclusivity.** Publishing one menu across six locations advertises dishes some of them do not sell, and this finding is the proof: nobody had checked, and the assumption was wrong somewhere.
 
 **Lead with:** tonkotsu, the Red/Black/White trio, Spicy Sesame, Vegan, Chicken, Pork Gyoza, Karaage, Garlic Edamame, Matcha Panna Cotta.
+
+### Naruto Miso Ramen: RESOLVED 2026-09-18, half of `SITE_ARCHITECTURE.md` Open Decision #22
+
+**Not a menu item.** Connor confirms it was a one-week Comic-Con special, not a standing dish. This is why the August 4 Toast pull listed it at all six San Diego rooms (Comic-Con was late July, still on the register when the catalogs were pulled) while every one of the six 2026-07 printed menus and Connor's own dish sheet omit it. Three sources, correctly read: the printed menus and the dish sheet were never wrong, the Toast pull was catching a special that had not yet been cleared from the system.
+
+`menu.json`'s `miso` row is deleted, not zeroed: this was previously carried at zero locations pending an answer (`_pulled`, 2026-09-15), and the answer is that it never belonged as a standing row at all. `src/_data/roomMenus.js` now excludes it by name from the Toast ingest as well, so a future catalog pull cannot reintroduce it silently. The Mercury **Miso Soup** (`tofu, green onion, and seaweed`) is a different, real dish and is unaffected.
+
+Still open, the other half of Open Decision #22: **Tajima White** vs **Tajima Ramen**/**Tajima WHITE Ramen**, a naming decision, not a data error. Not addressed here.
 
 **Do not feature:** Carnitas Ramen, Tajima Fries, Curry Fries, Cream Cheese Wontons, Crispy Rice Spicy Tuna, Jalapeño Bomb. These are real dishes real customers order. They are not hidden, they are not the brand voice.
 

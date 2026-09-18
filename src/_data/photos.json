@@ -5,7 +5,7 @@
   "_placeholderRule": "EVERY PHOTOGRAPH ON THIS SITE IS TAJIMA'S OWN. A stand-in is allowed only for a subject no Tajima photograph could ever cover (raw ingredients, dough texture, unbranded noodles, steam, wood or ceramic), never for a room, a storefront, or a plated bowl, and it is never presented as Tajima. Registering one is three hand-authored fields on its entry: placeholder: true, placeholderSource (the URL it came from), and placeholderNote (which real photograph replaces it and who is shooting it). All three are required and a partial registration fails too. src/_data/roomPhotos.js sweeps this whole manifest at module load and THROWS, which fails npm run build, so a placeholder cannot ship by being forgotten. TAJIMA_ALLOW_PLACEHOLDERS=1 npm run build is a client-preview escape hatch only: Cloudflare does not set it, so a placeholder still fails the deploy.",
   "_generated": 234,
   "_mapped": 217,
-  "_unmapped": 28,
+  "_unmapped": 25,
   "_mauiFlagged": 13,
   "_doNotFeature": 11,
   "photos": {
@@ -61,15 +61,16 @@
       "src": "/images/photo/miso-soup-large-mercury-only.webp",
       "location": "mercury",
       "locationSource": "handwritten note \"large-mercury-only\" in the filename",
-      "dish": null,
-      "type": null,
+      "dish": "miso-soup",
+      "type": "dish",
       "width": 1280,
       "height": 853,
       "orientation": "landscape",
       "proposedUse": [
+        "/menu/",
+        "/",
         "/tajima-mercury/"
       ],
-      "needsEyes": true,
       "alt": "A red lacquer bowl of miso soup with sliced scallion and a strip of wakame, on a wooden table."
     },
     "shishito-peppers-large-ev-only.webp": {
@@ -249,13 +250,15 @@
       "src": "/images/photo/tajima-appetizer-miso-soup-01.webp",
       "location": null,
       "locationSource": null,
-      "dish": null,
-      "type": null,
+      "dish": "miso-soup",
+      "type": "dish",
       "width": 1280,
       "height": 853,
       "orientation": "landscape",
-      "proposedUse": [],
-      "needsEyes": true,
+      "proposedUse": [
+        "/menu/",
+        "/"
+      ],
       "alt": "[DRAFT, NEEDS REVIEW] ",
       "locationStatus": "UNCONFIRMED-LOCATION"
     },
@@ -264,13 +267,15 @@
       "src": "/images/photo/tajima-appetizer-miso-soup-02.webp",
       "location": null,
       "locationSource": null,
-      "dish": null,
-      "type": null,
+      "dish": "miso-soup",
+      "type": "dish",
       "width": 1280,
       "height": 853,
       "orientation": "landscape",
-      "proposedUse": [],
-      "needsEyes": true,
+      "proposedUse": [
+        "/menu/",
+        "/"
+      ],
       "alt": "[DRAFT, NEEDS REVIEW] ",
       "locationStatus": "UNCONFIRMED-LOCATION"
     },
@@ -3557,10 +3562,6 @@
   },
   "UNMAPPED": [
     {
-      "file": "miso-soup-large-mercury-only.webp",
-      "reason": "Filename matches more than one dish on menu.json (miso, miso-soup). Not guessed, and dish is left null. A human has to say which, in src/_data/dishPhotos.js, or confirm it is a dish that is not on menu.json at all. The entry is kept so its alt text and dimensions survive the ruling."
-    },
-    {
       "file": "tajima-appetizer-brussel-sprouts-01.webp",
       "reason": "No recognised location token, no dish match, and no recognised subject. Could be an unknown abbreviation; expansions are never invented. Needs a human ruling on what this shows."
     },
@@ -3583,14 +3584,6 @@
     {
       "file": "tajima-appetizer-chicken-katsu-bun-pork-01.webp",
       "reason": "Filename matches more than one dish on menu.json (chicken, chicken-katsu-bun). Not guessed, and dish is left null. A human has to say which, in src/_data/dishPhotos.js, or confirm it is a dish that is not on menu.json at all. The entry is kept so its alt text and dimensions survive the ruling."
-    },
-    {
-      "file": "tajima-appetizer-miso-soup-01.webp",
-      "reason": "Filename matches more than one dish on menu.json (miso, miso-soup). Not guessed, and dish is left null. A human has to say which, in src/_data/dishPhotos.js, or confirm it is a dish that is not on menu.json at all. The entry is kept so its alt text and dimensions survive the ruling."
-    },
-    {
-      "file": "tajima-appetizer-miso-soup-02.webp",
-      "reason": "Filename matches more than one dish on menu.json (miso, miso-soup). Not guessed, and dish is left null. A human has to say which, in src/_data/dishPhotos.js, or confirm it is a dish that is not on menu.json at all. The entry is kept so its alt text and dimensions survive the ruling."
     },
     {
       "file": "tajima-appetizer-seaweed-salad-01.webp",

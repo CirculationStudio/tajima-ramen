@@ -47,6 +47,14 @@ const EXCLUDE_ITEM = {
   "Extra Broth": "a ramen add-on, priced per portion",
   "Extra Appetizers Toppings": "modifier row, price null",
   "Matcha refreshers, sodas and teas": "a price band across a category, not a dish",
+  // RESOLVED 2026-09-18, not a data gap: Connor confirms this was a one-week
+  // Comic-Con special (late July 2026), never a standing menu item. The
+  // August 4 Toast pull still had it in the catalog at all six San Diego
+  // rooms, which is exactly why it needs an explicit exclusion here rather
+  // than being left to age out: a room's POS can carry a dead special
+  // indefinitely, and the next Toast pull would silently reintroduce it
+  // otherwise. See menu.json _nameConflicts and CLIENT_FACTS.md.
+  "Naruto Miso Ramen": "a one-week Comic-Con special, not a menu item",
 };
 const DRINK_SECTION = /^Drinks\b|^Beverages$/i;
 

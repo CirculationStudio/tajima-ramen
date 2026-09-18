@@ -34,6 +34,23 @@ import locations from "./locations.json" with { type: "json" };
  */
 const THRESHOLD = 5;
 
+/**
+ * EXCLUDED FROM THE SIGNATURE SET ON CURATION GROUNDS, NOT AVAILABILITY.
+ *
+ * The 5-of-6 threshold answers "is this dish everywhere", which surfaces
+ * plain staples right alongside the dishes that actually make the case for
+ * Tajima: Steam Rice is served at all six San Diego rooms and that is a true,
+ * uninteresting fact. A reader meeting the brand for the first time through
+ * /menu/'s highlight reel should not meet steamed rice before Tonkotsu.
+ *
+ * SCOPED TO `core` AND `nextBand` ONLY. A room's own full menu (roomMenus,
+ * unaffected) and its chooser-card dish count (`cards`, unaffected) still
+ * carry the dish; it is a real, ordinary side and nothing here disputes that.
+ * This list is a home-page-of-the-menu curation call, not a data correction,
+ * which is the same distinction menu.json draws with `featurable`.
+ */
+const EXCLUDE_FROM_CORE = new Set(["Steam Rice"]);
+
 const SAN_DIEGO = locations.items
   .filter((loc) => loc.region === "san-diego")
   .map((loc) => loc.id);
@@ -95,10 +112,10 @@ function entry(item) {
 
 const all = [...tally.values()].map(entry);
 const core = all
-  .filter((item) => item.count >= THRESHOLD)
+  .filter((item) => item.count >= THRESHOLD && !EXCLUDE_FROM_CORE.has(item.name))
   .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 const nextBand = all
-  .filter((item) => item.count === THRESHOLD - 1)
+  .filter((item) => item.count === THRESHOLD - 1 && !EXCLUDE_FROM_CORE.has(item.name))
   .sort((a, b) => a.name.localeCompare(b.name));
 
 // What only Maui serves. Split, because "no San Diego room has this dish" and
