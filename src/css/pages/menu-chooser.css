@@ -46,63 +46,6 @@
   color: var(--ink-3);
 }
 
-/* --- The signature set ---------------------------------------------------
-   Not in the reference, which has no equivalent section: its chooser goes
-   straight from the masthead to the grid. This page catches brand-level search
-   and cannot show a reader nothing but navigation, so the eight dishes on every
-   San Diego menu run above the grid. Built in the module's own plate language
-   rather than a new one, so the page reads as part of the same system.
-   ------------------------------------------------------------------------ */
-.mchoose-sig {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-6) var(--space-5);
-}
-.mchoose-sig__shot {
-  display: block;
-  aspect-ratio: 1;
-  background: var(--canvas-2);
-  overflow: hidden;
-  margin-bottom: var(--space-3);
-}
-.mchoose-sig__shot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-.mchoose-sig__shot--none {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
-.mchoose-sig__shot--none svg {
-  width: 40%;
-  height: 40%;
-  fill: currentColor;
-  opacity: .4;
-}
-.mchoose-sig__name {
-  font-family: var(--font-display);
-  font-weight: var(--weight-regular);
-  /* The reference's dish name is 19px; the brush floor is 1.25rem. */
-  font-size: 1.25rem;
-  line-height: 1.14;
-  letter-spacing: .015em;
-  color: var(--ink);
-}
-.mchoose-sig__desc {
-  margin-top: var(--space-2);
-  font-size: var(--text-micro);
-  line-height: var(--leading-normal);
-  color: var(--ink-3);
-}
-
 /* --- The chooser grid ----------------------------------------------------
    The reference draws the grid as hairline gaps over a rule-coloured ground,
    so the 2px "gap" is the ground showing through rather than a border on each
@@ -224,26 +167,15 @@
 @media (max-width: 64rem) {
   .mchoose-grid,
   .mchoose-grid--single { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .mchoose-sig { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 47.5rem) {
   .mchoose-grid,
   .mchoose-grid--single { grid-template-columns: minmax(0, 1fr); }
-  .mchoose-sig { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mchoose-mast { padding-top: var(--space-7); }
 }
 
-/* --- Availability, and what only Kihei has -------------------------------
-   Both are facts the page prints rather than sentences somebody wrote, so
-   they are styled quietly: the dish name and its photograph carry the card,
-   and these sit under them as the qualifier they are. */
-.mchoose-sig__where{
-  margin: var(--space-2) 0 0;
-  font-size: var(--text-micro);
-  line-height: var(--leading-normal);
-  color: var(--ink-3);
-}
-
+/* --- What only Kihei has --------------------------------------------------
+   A fact the page prints rather than a sentence somebody wrote. */
 .mchoose-only{
   margin: var(--space-6) 0 0;
   max-width: 68ch;

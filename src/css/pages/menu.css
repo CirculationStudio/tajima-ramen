@@ -5,18 +5,30 @@
    every headline was the single most templated element on the page and is
    banned outright. Headlines carry themselves.
 
-   THE BENTO GRID THIS PAGE ONCE USED IS GONE, DELETED 2026-09-18. 0927f57
-   (2026-09-15) replaced /menu/ with the room-chooser and signature grid
-   below; that commit rewrote menu.njk but never touched this file, so the
-   full `.bento`, `.bento--ramen`, `.bento--izakaya`, `.bento--dessert` and
-   `.dish`/`.dish__*` ruleset (roughly 300 lines, base rules plus two
-   responsive blocks) sat here unreferenced by any template for three days.
-   Confirmed dead before deleting: no `.bento`, `.dish--ramen-*`,
-   `.dish--izakaya-*` or `.dish--dessert` class appears in any .njk file.
-   `.bento` itself lives on, unrelated: css/pages/interior.css defines its
-   own `.bento` for /locations/, /menu/vegan-ramen/ and location galleries,
-   a different grid under the same name, which this file's version does not
-   touch, since neither ever referenced the other.
+   THE BENTO GRID, DELETED THEN PARTLY RESTORED, both 2026-09-18. 0927f57
+   (2026-09-15) replaced /menu/ with the room-chooser and a signature grid;
+   that commit rewrote menu.njk but never touched this file, so the full
+   `.bento`, `.bento--ramen`, `.bento--izakaya`, `.bento--dessert` and
+   `.dish`/`.dish__*` ruleset (roughly 300 lines) sat here unreferenced for
+   three days before a same-day pass deleted it as confirmed-dead CSS.
+
+   It came back hours later, deliberately narrower. `.bento .dish` below is
+   the same card, ported back from git history (bd3059e^) rather than
+   redrawn, but it now renders exactly one list: `coreMenu.universal`, the
+   dishes served at all six San Diego rooms with no exception. The three
+   named modifiers (`--ramen`, `--izakaya`, `--dessert`) and their hand-
+   placed per-dish-name cells are NOT back: that hard-coding to specific
+   ramen names is what made the original grid impossible to keep matching a
+   menu that changes, and `universal` is explicitly the one list a fixed
+   layout cannot misrepresent, since count === every room rules out a
+   per-room exception by construction. See menu.njk for the fuller version
+   of this note next to where the section actually renders.
+
+   `.bento` the class name itself is otherwise unrelated to this page:
+   css/pages/interior.css defines its own `.bento` for /locations/,
+   /menu/vegan-ramen/ and location galleries, a different grid under the
+   same name that this file's version has never referenced or been
+   referenced by.
    ========================================================================== */
 
 /* ═══════════════════════════════════════════════════════════════════ MENU HERO · slim editorial banner with section jumps ═══════════════════════════════════════════════════════════════════ */ .menu-hero {
@@ -183,6 +195,148 @@
   line-height: var(--leading-snug);
   color: var(--color-ink-2);
   max-width: 44rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENTO · restored 2026-09-18, scoped to coreMenu.universal only
+   ═══════════════════════════════════════════════════════════════════
+
+   Card mechanics ported from git history (bd3059e^) rather than redrawn:
+   the grid, the card, the photo box and its hover, the name typography are
+   all the same values that shipped before. NOT ported: `.dish__price`,
+   `.dish__tier` (+ its `--signature`/`--vegan` variants), `.dish__romaji`,
+   `.dish__desc`, `.dish--quiet`/`.dish--small`, and the old fallback-
+   placement rule for a dish with no named cell. None of it is needed:
+   /menu/ prints no prices (Open Decision #24), this section prints no
+   descriptor, and every cell here is the same size, so there is no "named
+   cell vs. fallback cell" distinction left to guard. Restoring dead
+   sub-elements nobody was going to render would just be next week's dead
+   CSS; see the file header for why that specific mistake gets watched for
+   on this page now.
+
+   PLACEMENT IS EVEN, NOT HAND-DRAWN. The pre-2026-09-15 grid placed eight
+   NAMED ramen dishes (`.dish--ramen-tonkotsu`, `.dish--ramen-red`, and six
+   more) into a specific asymmetric pattern of spans and row placements.
+   Today's universal eight are a different list, by different names, mixing
+   ramen with Karaage and Pork Gyoza, so none of those old selectors would
+   even match, and hand-writing eight new ones ties this layout to the
+   current dish roster the same way the old one was tied to its. `.dish`
+   below just takes `grid-column: span 3` uniformly, four even cells across
+   a 12-column row, which draws correctly for whatever set of dishes
+   qualifies as universal on any given day. */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+
+.bento--signature {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bento--signature .dish {
+  grid-column: span 3;
+}
+
+.bento .dish {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-rule);
+  overflow: hidden;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+  isolation: isolate;
+  border-radius: var(--radius);
+}
+
+.bento .dish:hover {
+  border-color: var(--color-red-line);
+  transform: translateY(-2px);
+}
+
+.bento .dish__photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-canvas-3);
+}
+
+.bento .dish__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform var(--duration-slow) var(--ease-smooth),
+    filter var(--duration-slow) var(--ease-smooth);
+  filter: brightness(0.94);
+}
+
+.bento .dish:hover .dish__photo img {
+  transform: scale(1.05);
+  filter: brightness(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento .dish__photo img,
+  .bento .dish:hover .dish__photo img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* The no-photo fallback. Every one of today's eight has a photograph (see
+   menu.njk), so this is a guard against a future menu change leaving one
+   without, not a state any current build reaches. */
+.bento .dish__photo--none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  color: var(--accent);
+  background: var(--color-canvas-3);
+}
+
+.bento .dish__photo--none svg {
+  width: 30%;
+  height: 30%;
+  fill: currentColor;
+  opacity: .4;
+}
+
+.bento .dish__body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4) var(--space-4) var(--space-5);
+}
+
+.bento .dish__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h4);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+@media (max-width: 64rem) {
+  .bento--signature .dish {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 40rem) {
+  .bento--signature .dish {
+    grid-column: span 6;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════ DRINKS GRID · simple location-based legend ═══════════════════════════════════════════════════════════════════ */ .drinks-grid {

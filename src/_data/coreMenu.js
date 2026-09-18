@@ -118,6 +118,22 @@ const nextBand = all
   .filter((item) => item.count === THRESHOLD - 1 && !EXCLUDE_FROM_CORE.has(item.name))
   .sort((a, b) => a.name.localeCompare(b.name));
 
+/**
+ * UNIVERSAL: served at every one of the six San Diego rooms, no exception,
+ * no missingNote. The bento grid on /menu/ is scoped to exactly this list
+ * and nothing wider (2026-09-18), on purpose: the bento system's 2026-09-15
+ * removal happened because it tried to show one shared layout across rooms
+ * whose menus barely overlap, a failure mode that starts the moment a card
+ * carries a "not served at Plaza Bonita" exception. `core` (5-of-6 and up)
+ * still has exactly that exception baked into `missingNote`; `universal`
+ * cannot, by construction, since count === sanDiego.length is what admits a
+ * row here. Sorted by name rather than carrying `core`'s count-first sort,
+ * since every row here ties at the same count and count is not the story.
+ */
+const universal = core
+  .filter((item) => item.count === SAN_DIEGO.length)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
 // What only Maui serves. Split, because "no San Diego room has this dish" and
 // "a San Diego room has a dish of the same name and it is not this one" are
 // different claims and the second is the one that misleads.
@@ -198,6 +214,7 @@ export default {
   threshold: THRESHOLD,
   sanDiego: SAN_DIEGO,
   core,
+  universal,
   nextBand,
   mauiOnly,
   mauiSameName,
