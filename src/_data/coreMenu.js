@@ -1,5 +1,7 @@
 import roomMenus from "./roomMenus.js";
 import locations from "./locations.json" with { type: "json" };
+import menu from "./menu.json" with { type: "json" };
+import menuConcepts from "./menuConcepts.json" with { type: "json" };
 
 /**
  * THE CORE SET FOR /menu/, AND WHAT IT IS COUNTED ACROSS.
@@ -293,6 +295,56 @@ for (const id of [...SAN_DIEGO, "maui"]) {
   };
 }
 
+/**
+ * THE REST OF THE CATALOG, for the "Also on our menu" section, added
+ * 2026-09-19. Deliberately NOT room-filtered like everything above:
+ * `core`/`universal`/`bentoLayout` all answer "which rooms serve this",
+ * counted from the Toast-sourced roomMenus rows, because the sections that
+ * use them make availability claims ("on all six menus", a missingNote).
+ * This section doesn't; it's the plain catalog, and its one line of copy
+ * says availability varies by room rather than asserting anything
+ * per-dish, so it reads straight from menu.json itself, unfiltered by
+ * which room actually has a given item on the floor today.
+ *
+ * EXCLUDES ONLY THE SEVEN BENTO DISHES, by id (bentoLayout carries
+ * `dishId`, which is menu.json's own `id` for all seven today; matching by
+ * id rather than name is what keeps this correct even though the bento
+ * tile for `tajima-white` displays as "Tajima White" while menu.json's own
+ * `name` field for that id is also "Tajima White" — no mismatch today, but
+ * id is the actual join key everywhere else on this page and this stays
+ * consistent with that rather than trusting display text to match).
+ *
+ * GROUPED BY SECTION here, not in the template: menuConcepts.json already
+ * defines the section order and labels every room's own full menu uses,
+ * so reusing them is the same "one source of truth" reasoning as
+ * everything else on this page, and it means menu.njk stays a straight
+ * loop rather than needing Nunjucks to group on its own.
+ *
+ * FLAG, NOT A FILTER: six of these items carry menu.json `locations: []`,
+ * meaning Connor's dish sheet had them at zero confirmed rooms as of
+ * 2026-09-15 and nobody has since said whether that means discontinued or
+ * just not yet filled in (menu.json's own _zeroLocationRows note has the
+ * full history). "No filtering by room" was the instruction, so they are
+ * included here rather than quietly dropped, but this is worth a second
+ * look before this section ships somewhere more permanent: unlike "varies
+ * by room", "we don't know if this room serves it at all" is not what the
+ * caveat copy above the grid actually says.
+ */
+const bentoIds = new Set(bentoLayout.map((d) => d.dishId));
+const catalogRestItems = menu.items.filter(
+  (item) => item.listed !== false && !bentoIds.has(item.id),
+);
+const catalogRest = menuConcepts.sectionOrder
+  .map((key) => ({
+    key,
+    label: menuConcepts.sectionLabels[key],
+    items: catalogRestItems.filter((item) => item.section === key),
+  }))
+  .filter((band) => band.items.length);
+const catalogRestZeroLocation = catalogRestItems.filter(
+  (item) => !item.locations || item.locations.length === 0,
+);
+
 function report() {
   const lines = ["", `/menu/ core set: served at ${THRESHOLD} or more of the ${SAN_DIEGO.length} San Diego rooms`, ""];
   lines.push(`  ${core.length} dishes qualify. Counted from roomMenus, the same rows the location pages render.`);
@@ -315,6 +367,8 @@ export default {
   universal,
   universalFeaturable,
   bentoLayout,
+  catalogRest,
+  catalogRestZeroLocation,
   nextBand,
   mauiOnly,
   mauiSameName,

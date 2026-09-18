@@ -173,6 +173,50 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
   </div>
 </section>
 
+{# ==================== ALSO ON OUR MENU · the plain catalog ====================
+   ADDED 2026-09-19. Everything in menu.json that isn't one of the seven
+   bento dishes above, 65 items today, read straight from menu.json
+   (coreMenu.catalogRest) rather than through the room-filtered
+   roomMenus/coreMenu.universal pipeline the rest of this page uses: this
+   section makes no per-dish availability claim, so it doesn't need one.
+   The one line above the grid carries that instead of 65 individual
+   missingNotes.
+
+   NO PHOTOS, ANYWHERE IN THIS SECTION, Carnitas Ramen included. Carnitas
+   stays on the standing "do not feature" list (CLIENT_FACTS.md: no photo,
+   card, hero or callout, ever) and a plain-text catalog entry, identical
+   in treatment to Steam Rice or a combo set, is exactly what that rule
+   already allows: listed, not featured. The rest of the section is
+   text-only by the same design, not a special case around Carnitas, so
+   nothing here reads as more prominent than anything else on purpose.
+
+   GROUPED BY SECTION, computed in coreMenu.js: 65 undifferentiated names
+   in one block would be a wall of text, and the grouping is purely
+   organizational (the tiles inside a group are still all the same size,
+   same weight), so it doesn't cross into the feature/quiet distinction
+   the bento grid above uses. #}
+<section class="sect sect--rule" aria-labelledby="catalog-title">
+  <div class="sect__inner">
+    <header class="sect__head">
+      <h2 class="sect__title" id="catalog-title">Also on our <em>menu.</em></h2>
+      <p class="sect__note">
+        What's actually on offer varies by room. This is the full list; pick a room below to see what it serves.
+      </p>
+    </header>
+
+    {%- for band in coreMenu.catalogRest %}
+    <div class="mcat-band">
+      <h3 class="mcat-band__title">{{ band.label }}</h3>
+      <ul class="mcat-grid">
+        {%- for dish in band.items %}
+        <li class="mcat-tile">{{ dish.name }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+
 {# ==================== THE CHOOSER ====================
    The mockup's card grid: three across, hairline gaps on a rule-coloured
    ground, two-pixel ink rules top and bottom, cards that fill with ink on

@@ -439,6 +439,67 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   ALSO ON OUR MENU · the plain catalog, added 2026-09-19
+   ═══════════════════════════════════════════════════════════════════
+
+   Deliberately not the bento's .dish card: no photo box, no hover-zoom,
+   no feature/quiet distinction. Wrap-and-flow pills rather than a strict
+   equal-width grid, since dish names here range from "163 Roll" to
+   "Combo A: Tajima Ramen + 1 Onigiri" and forcing that range into
+   identical cell widths would either truncate the long ones or waste a
+   lot of space padding out the short ones. "One uniform size" is the
+   tile's border, padding and type weight, the same for all 65 entries
+   including Carnitas Ramen; it is not literal equal pixel width. */
+.mcat-band {
+  margin-top: var(--space-8);
+}
+.mcat-band:first-child {
+  margin-top: var(--space-7);
+}
+
+.mcat-band__title {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  margin: 0 0 var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--stroke-hair) solid var(--color-rule);
+}
+
+.mcat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mcat-tile {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-canvas-2);
+  border: var(--stroke-hair) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-cond);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+}
+
+@media (max-width: 40rem) {
+  .mcat-grid {
+    gap: var(--space-2);
+  }
+  .mcat-tile {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-micro);
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════ DRINKS GRID · simple location-based legend ═══════════════════════════════════════════════════════════════════ */ .drinks-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
