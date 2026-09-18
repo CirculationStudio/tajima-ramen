@@ -371,7 +371,12 @@
   margin-inline: auto;
   padding: var(--space-4) var(--layout-gutter);
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* Four columns, not three: back, mark, nav, order. Order Online moved out
+     of .site-header__nav (see the comment in noodle-room.njk) to become a
+     fourth direct child of this grid, so it needs its own track here or the
+     auto-placement algorithm drops it onto an implicit second row under the
+     Back pill instead of leaving it inline. */
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
   gap: var(--space-5);
 }
@@ -1799,7 +1804,10 @@
 [data-experience="noodle-room"] { --layout-gutter: var(--space-5);
 }
 
-[data-experience="noodle-room"] .site-header__inner { grid-template-columns: auto auto;
+/* Three columns, not two: mark is hidden below (display:none drops it from
+   grid placement entirely), leaving back, nav and order as the remaining
+   three children. */
+[data-experience="noodle-room"] .site-header__inner { grid-template-columns: auto 1fr auto;
 }
 
 [data-experience="noodle-room"] .site-header__mark { display: none;
@@ -1920,6 +1928,110 @@
 [data-experience="noodle-room"] .site-footer__nav { justify-content: flex-start; flex-wrap: wrap;
 }
 
+}
+
+/* --------------------------------------------------------------------------
+   PHONE WIDTH HEADER, 2026-09-18, off the mobile audit's follow-up.
+
+   At 390px the 64rem rule above still put three columns in one row (back,
+   nav, order) and the nav column alone had to hold Menu, About and
+   Locations. Measured before this rule existed: 149px for that column,
+   which wrapped three times (Menu+About on one line, Locations alone on the
+   next, Order Online's own text wrapping to two lines inside it), and the
+   Back pill wrapped to two lines in its own column for the same reason. 175px
+   of header for four short labels and two pills.
+
+   Same shape as the main site header's dense mobile fix: two rows instead of
+   one, Back and Order Online sharing the first row the way the main header's
+   logo and CTA do, the plain links wrapping as their own full-width second
+   row instead of fighting the pills for space. 36rem matches that header's
+   own breakpoint, chosen there for the same reason it fits here: measured to
+   clear the point where this row's items stop fitting on one line.
+
+   Same breakpoint value as hdr.css's dense header, not the same rule: this
+   page keeps its own editorial type and colours throughout, only the grid
+   mechanics are shared.
+   -------------------------------------------------------------------------- */
+@media (max-width: 36rem) {
+  [data-experience="noodle-room"] .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "back order" "nav nav";
+    align-items: center;
+    row-gap: var(--space-3);
+    column-gap: var(--space-3);
+    padding-block: var(--space-3);
+    /* Tighter than --layout-gutter (24px), which is a page-content margin,
+       not a header-row margin: nowrap on both pills below means this row's
+       content no longer shrinks to fit, and at 360px the two pills at their
+       normal size plus the 24px gutter overflowed the viewport by 16px.
+       16px each side, matched with the pills' own tightened padding below,
+       is what actually clears 360px; verified, not assumed. */
+    padding-inline: var(--space-4);
+  }
+
+  [data-experience="noodle-room"] .site-header__back {
+    grid-area: back;
+    /* Was wrapping to two lines at 169px. The column is flexible now (1fr)
+       but grid's default min-width:auto still lets a flex/grid item shrink
+       below its content size unless told not to; nowrap is the actual
+       guarantee, the same way the main header's tap-target fix is a real
+       box change rather than a hope that the layout leaves enough room. */
+    white-space: nowrap;
+    padding-inline: var(--space-3);
+  }
+
+  [data-experience="noodle-room"] .site-header__nav-link--order {
+    grid-area: order;
+    /* Same reasoning as .site-header__back above: it wrapped to two lines at
+       360 and 390px specifically, once the Back pill's own nowrap fix left
+       this column as the only one still able to shrink under pressure. */
+    white-space: nowrap;
+    padding-inline: var(--space-3);
+  }
+
+  [data-experience="noodle-room"] .site-header__nav {
+    grid-area: nav;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  /* 44px minimum tap target, same floor as the main header. Menu, About and
+     Locations measured 24px tall before this rule, bare text with no
+     padding. Real box growth: this row has no border-bottom or shared
+     baseline nearby for a taller box to detach from.
+
+     No --current variant here: unlike the main nav, this page's three links
+     never link to the page they're on, so there is no underline-compensation
+     rule to carry over. */
+  [data-experience="noodle-room"] .site-header__nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+}
+
+/* 320px, the overflow sweep's floor width and narrower than any width this
+   pass otherwise designs for (the audit's own three are 360, 390, 414). Back
+   plus Order Online at the padding above still overflowed by 28px there,
+   verified by the sweep rather than assumed: both pills are nowrap now, so
+   there is no more slack for the row to shrink into on its own. Everything
+   else above (grid areas, wrap, tap targets) already applies here too, since
+   320px matches the 36rem query as well; this block only tightens the
+   padding and gap further, scoped this narrow so 360px and up keep the
+   roomier spacing above. */
+@media (max-width: 350px) {
+  [data-experience="noodle-room"] .site-header__inner {
+    column-gap: var(--space-2);
+    padding-inline: var(--space-2);
+  }
+
+  [data-experience="noodle-room"] .site-header__back,
+  [data-experience="noodle-room"] .site-header__nav-link--order {
+    padding-inline: var(--space-2);
+  }
 }
 
 @media (max-width: 40rem) {

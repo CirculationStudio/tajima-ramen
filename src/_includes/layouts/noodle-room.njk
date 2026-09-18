@@ -68,19 +68,28 @@
         <a class="site-header__nav-link" href="/menu/">Menu</a>
         <a class="site-header__nav-link" href="/about/">About</a>
         <a class="site-header__nav-link" href="/locations/">Locations</a>
-        {#
-          ADDED 2026-09-16, off the mobile audit. This page runs its own
-          editorial header and never carried the site's one CTA, so the
-          highest-intent link on the site was unreachable from the page named
-          the growth priority. Not the shared .hdr__nav-link--cta: that is the
-          main site's bold uppercase sans block, and dropping it here would
-          read as a graft. Same pill shape and mono type as .site-header__back
-          instead, filled in this page's own red rather than the quiet grey
-          the other three links use, so it is unmistakably the one thing here
-          meant to be pressed. See mobile audit CTA proposal, option B.
-        #}
-        <a class="site-header__nav-link site-header__nav-link--order" href="/order-online/">Order Online</a>
       </nav>
+      {#
+        ADDED 2026-09-16, off the mobile audit. This page runs its own
+        editorial header and never carried the site's one CTA, so the
+        highest-intent link on the site was unreachable from the page named
+        the growth priority. Not the shared .hdr__nav-link--cta: that is the
+        main site's bold uppercase sans block, and dropping it here would
+        read as a graft. Same pill shape and mono type as .site-header__back
+        instead, filled in this page's own red rather than the quiet grey
+        the other three links use, so it is unmistakably the one thing here
+        meant to be pressed. See mobile audit CTA proposal, option B.
+
+        MOVED OUT OF .site-header__nav, 2026-09-18, off the mobile audit's
+        follow-up: at 390px the nav column was 149px wide, holding four
+        items including this pill, which wrapped three times (Menu+About,
+        Locations alone, Order Online onto two lines of its own). A sibling
+        of .site-header__nav rather than a child of it, same move the main
+        site header already made for the same reason, so the phone
+        breakpoint in noodle-room.css can place it deterministically next to
+        the Back pill instead of leaving it to flex-wrap math.
+      #}
+      <a class="site-header__nav-link site-header__nav-link--order" href="/order-online/">Order Online</a>
     </div>
   </header>
 
