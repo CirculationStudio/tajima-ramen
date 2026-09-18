@@ -206,6 +206,15 @@ function buildRoom(roomId) {
         descriptionSource,
         dishId,
         dietary: dish ? dish.dietary || [] : [],
+        // Same join as dietary, one field over: menu.json's featurable flag,
+        // hand-maintained per dish for exactly one reason (Open Decision #4:
+        // Carnitas Ramen is listed plainly everywhere but never gets a
+        // photo, card, hero or callout). Defaults true for an unmatched or
+        // unflagged row, same default menu.json itself uses. A room's own
+        // full menu never reads this field and is unaffected either way;
+        // it exists for surfaces that pick a subset to feature, like
+        // coreMenu.js's universalFeaturable.
+        featurable: dish ? dish.featurable !== false : true,
         photo: dishId ? dishPhotos.photoFor(dishId, roomId) : null,
         toastSection: section.name,
       });

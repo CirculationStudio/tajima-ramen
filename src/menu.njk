@@ -69,18 +69,20 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
     hand, from the SAME roomMenus rows the location pages render, so this
     page and a room's own menu cannot disagree about what it serves. `core`
     itself (five-of-six and up) is no longer read directly here; only
-    `universal`, the six-of-six subset, below. See that file for the
-    threshold and the full breakdown. -#}
-{#- UNIVERSAL: served at all six San Diego rooms, no exception, computed in
-    coreMenu.js. The bento grid below is scoped to exactly this list, on
-    request (2026-09-18), and deliberately not to `core`: `core` still
-    carries the five-of-six dishes, every one of them with a
-    "Not served at Plaza Bonita" exception attached, which is the exact
-    shape of claim that broke the original bento grid (one shared layout
-    presented as though it applied everywhere, when it did not). A bento
-    cell has no room to print an exception; a dish that needs one does not
-    belong in this section. -#}
-{%- set universal = coreMenu.universal %}
+    `universalFeaturable`, below. See that file for the threshold and the
+    full breakdown. -#}
+{#- BENTO DISHES: served at all six San Diego rooms (coreMenu.universal),
+    minus the standing do-not-feature rows (coreMenu.universalFeaturable).
+    Carnitas Ramen is the case that matters here, added 2026-09-19: it
+    genuinely qualifies as universal, and menu.json's featurable flag
+    (Open Decision #4, "listed plainly everywhere, never a photo, card,
+    hero or callout") is exactly why a bento tile is the wrong place for
+    it regardless. `count === sanDiego.length` still guarantees no
+    missingNote can reach this list; `featurable !== false` guarantees no
+    do-not-feature row can either. Both conditions live in coreMenu.js, not
+    here, so this section reads as a straight loop over whatever the data
+    layer already decided is safe to show. -#}
+{%- set bentoDishes = coreMenu.universalFeaturable %}
 
 {# ==================== MASTHEAD ==================== #}
 <section class="mchoose-mast" aria-labelledby="page-title">
@@ -94,37 +96,45 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
   </div>
 </section>
 
-{# ==================== THE BENTO GRID · universal dishes only ====================
-   RESTORED 2026-09-18. The grid this page shipped with is the one that broke:
-   one shared layout stretched across six rooms with barely-overlapping
-   menus, which is exactly the failure the 2026-09-15 rewrite documents at
-   the top of this file. It is not rebuilt from scratch here, because the
-   failure was never the grid mechanics, `.bento`/`.dish` in css/pages/menu.css
-   (git history: bd3059e^, restored intact) draws a card the same way it
-   always did. The failure was scope: a bento cell has no room to print
-   "not served at Plaza Bonita", so nothing that carries an exception belongs
-   in one. `coreMenu.universal` is built to guarantee that: it is `core`
-   filtered to count === every San Diego room, which by construction can
-   never produce a missingNote. Eight dishes today. Photo and name only, one
-   line, since /menu/ has printed no prices since Open Decision #24 resolved
-   that at client review.
+{# ==================== THE BENTO GRID · universal, featurable dishes ====================
+   RESTORED 2026-09-18, NARROWED AGAIN 2026-09-19. The grid this page shipped
+   with is the one that broke: one shared layout stretched across six rooms
+   with barely-overlapping menus, which is exactly the failure the
+   2026-09-15 rewrite documents at the top of this file. It is not rebuilt
+   from scratch here, because the failure was never the grid mechanics,
+   `.bento`/`.dish` in css/pages/menu.css (git history: bd3059e^, restored
+   intact) draws a card the same way it always did. The failure was scope:
+   a bento cell has no room to print "not served at Plaza Bonita", so
+   nothing that carries an exception belongs in one, and no room to print a
+   client's do-not-feature rule either, so nothing under that rule belongs
+   here regardless of how many rooms serve it. `coreMenu.universalFeaturable`
+   is built to guarantee both: see that file. Photo and name only, one line,
+   since /menu/ has printed no prices since Open Decision #24 resolved that
+   at client review.
+
+   THE COUNT IS PRINTED, NEVER HARD-CODED, on purpose: it was eight until
+   Carnitas Ramen's featurable:false rule pulled it to seven, and the count
+   in the heading and the note below both read `bentoDishes | length` so a
+   future change to either list (a room adding or dropping a dish, a
+   different do-not-feature call) updates the sentence along with the grid
+   rather than leaving a stale number for someone to catch later.
 
    Deliberately NOT an attempt at the old hand-placed asymmetric layout
    (.dish--ramen-tonkotsu and its seven siblings): that layout was hard-coded
    to eight specific ramen names from the pre-2026-09-15 menu, none of which
-   match today's universal eight (which mixes ramen with Karaage and Pork
-   Gyoza, izakaya dishes the old layout had no slots for at all), and hand-
-   coding dish names into placement CSS is the same fragility this whole
-   pass exists to remove. Even columns instead: four across, no cell reads
-   as more equal than another, and the grid does not go stale the day the
-   menu does. #}
+   match today's list (which mixes ramen with Karaage and Pork Gyoza,
+   izakaya dishes the old layout had no slots for at all), and hand-coding
+   dish names into placement CSS is the same fragility this whole pass
+   exists to remove. Even columns instead: four across, no cell reads as
+   more equal than another, an uneven last row is fine, and the grid does
+   not go stale the day the menu or the feature list does. #}
 {#- id="signature" IS LOAD-BEARING. The homepage bowl tiles and both Noodle
     Room links point here rather than at the top of the page: they promise food,
     and the top of this page is a masthead. -#}
 <section class="sect sect--rule" id="signature" aria-labelledby="signature-title">
   <div class="sect__inner">
     <header class="sect__head">
-      <h2 class="sect__title" id="signature-title">The {{ universal | length }} <em>everyone makes.</em></h2>
+      <h2 class="sect__title" id="signature-title">The {{ bentoDishes | length }} <em>everyone makes.</em></h2>
       <p class="sect__note">
         No exceptions: every one of these is on all six San Diego menus. Nothing below is missing
         from a room, which is what makes it safe to show without naming one.
@@ -132,7 +142,7 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
     </header>
 
     <ul class="bento bento--signature">
-      {%- for dish in universal %}
+      {%- for dish in bentoDishes %}
       <li class="dish">
         {%- if dish.photo %}
         <span class="dish__photo">
@@ -166,9 +176,9 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
     <header class="sect__head">
       <h2 class="sect__title" id="chooser-title">What each room <em>adds.</em></h2>
       <p class="sect__note">
-        Past the {{ universal | length }} above, every room's menu is its own. Mercury runs a full
+        Past the {{ bentoDishes | length }} above, every room's menu is its own. Mercury runs a full
         sushi program the others do not; Plaza Bonita runs a quick-serve counter. Pick a room to see
-        what it serves beyond the shared eight.
+        what it serves beyond the shared list.
         Addresses, hours and directions are on
         <a class="sect__link" href="/locations/">the locations page</a>; this one sorts by what
         comes out of the kitchen.

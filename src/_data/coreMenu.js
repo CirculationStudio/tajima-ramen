@@ -95,6 +95,7 @@ function entry(item) {
     name: item.row.name,
     description: item.row.description,
     dietary: item.row.dietary,
+    featurable: item.row.featurable,
     photo: item.row.photo,
     dishId: item.row.dishId,
     section: item.section.key,
@@ -133,6 +134,20 @@ const nextBand = all
 const universal = core
   .filter((item) => item.count === SAN_DIEGO.length)
   .sort((a, b) => a.name.localeCompare(b.name));
+
+/**
+ * UNIVERSAL, MINUS THE DO-NOT-FEATURE ROWS. The bento grid's real source:
+ * `universal` answers "is this dish on every San Diego menu", a fact, and
+ * Carnitas Ramen genuinely is. Whether it may appear in a card with a photo
+ * is a different, presentational question, menu.json's `featurable` flag
+ * (Open Decision #4: listed plainly everywhere, never a photo, card, hero
+ * or callout), joined through roomMenus.js the same way `dietary` already
+ * is. Filtered here rather than by name, and rather than in `universal`
+ * itself: `universal` still has to answer the availability question
+ * correctly for every other consumer (room pages, the chooser's dish
+ * counts), which do not care whether a dish is clear to feature.
+ */
+const universalFeaturable = universal.filter((item) => item.featurable !== false);
 
 // What only Maui serves. Split, because "no San Diego room has this dish" and
 // "a San Diego room has a dish of the same name and it is not this one" are
@@ -215,6 +230,7 @@ export default {
   sanDiego: SAN_DIEGO,
   core,
   universal,
+  universalFeaturable,
   nextBand,
   mauiOnly,
   mauiSameName,
