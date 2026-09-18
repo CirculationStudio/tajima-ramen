@@ -6,8 +6,25 @@
    area, blurb, a tag list, and a dish count in the top right, filling with ink
    on hover.
 
-   IT IS A LINK, NOT A BUTTON. The mockup's card swaps a client-side view. The
-   rooms have real URLs that already rank, so this goes to the room.
+   TWO LINKS NOW, NOT ONE, added 2026-09-19. It was a single <a> around the
+   whole card, correctly pointing at the room, but with the only "this is
+   clickable" signal being an ink-fill that only shows up on hover, invisible
+   at rest and to anyone who has not moved a mouse over it. Checked before
+   changing anything: the link was real, just not visibly one. `.mchoose-card`
+   is the container now; `.mchoose-card__link` keeps the original whole-block
+   behavior (count, name, area, blurb, tags, same href as before);
+   `.mchoose-card__cta` is new, an explicit "See the full [room] menu" link,
+   underlined at rest so it reads as a link before anyone hovers anything. An
+   anchor cannot nest inside another anchor, which is the reason this is two
+   siblings rather than one link with a second link inside it, same shape as
+   the mobile Locations panel's Directions fix.
+
+   THE CTA POINTS AT #menu, NOT JUST THE ROOM URL: location-menu.njk's own
+   header comment calls id="menu" load-bearing for exactly this, "a 'see the
+   menu' link on a room page that points there", already used by the NAP
+   plate and every full location template. Reused here rather than
+   reinvented, so this lands a reader on the actual menu section instead of
+   the top of the page.
 
    EVERY VALUE IS DATA. `name`, `neighborhood` and `summary` come from
    locations.json and are confirmed. The count and the tags come from the
@@ -19,18 +36,26 @@
     advertising "34 dishes" against a page listing 39 is exactly the drift this
     pass exists to end. -#}
 {%- set facts = coreMenu.cards[loc.id] %}
-<a class="mchoose-card" href="{{ loc.url }}">
-  <span class="mchoose-card__count">{{ facts.served }} dishes</span>
-  <span class="mchoose-card__name">{{ loc.name }}</span>
-  <span class="mchoose-card__area">{{ loc.neighborhood }}</span>
-  <span class="mchoose-card__blurb">{{ loc.summary }}</span>
-  {#- The "N only here" tag (facts.exclusive, a bare dish count) is gone on
-      request: computed and accurate, but a number with no noun read as
-      confusing rather than informative. rareSections stays; those are
-      section names, not counts, and read as intended. -#}
-  {%- if facts.rareSections | length %}
-  <span class="mchoose-card__tags">
-    {%- for label in facts.rareSections %}<span class="mchoose-card__tag">{{ label }}</span>{% endfor %}
-  </span>
-  {%- endif %}
-</a>
+<article class="mchoose-card">
+  <a class="mchoose-card__link" href="{{ loc.url }}">
+    <span class="mchoose-card__count">{{ facts.served }} dishes</span>
+    <span class="mchoose-card__name">{{ loc.name }}</span>
+    <span class="mchoose-card__area">{{ loc.neighborhood }}</span>
+    <span class="mchoose-card__blurb">{{ loc.summary }}</span>
+    {#- The "N only here" tag (facts.exclusive, a bare dish count) is gone on
+        request: computed and accurate, but a number with no noun read as
+        confusing rather than informative. rareSections stays; those are
+        section names, not counts, and read as intended. -#}
+    {%- if facts.rareSections | length %}
+    <span class="mchoose-card__tags">
+      {%- for label in facts.rareSections %}<span class="mchoose-card__tag">{{ label }}</span>{% endfor %}
+    </span>
+    {%- endif %}
+  </a>
+  <a class="mchoose-card__cta" href="{{ loc.url }}#menu">
+    See the full {{ loc.name }} menu
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+  </a>
+</article>

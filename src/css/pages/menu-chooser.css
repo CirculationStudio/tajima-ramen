@@ -72,21 +72,30 @@
   background: transparent;
 }
 
+/* Container now, not itself a link: .mchoose-card__link and
+   .mchoose-card__cta are the two tap targets inside it (an anchor cannot
+   nest inside another anchor). The ink-fill still belongs to the whole
+   card, so it triggers on hovering or focusing either child, not just
+   the one the mouse happens to be over. */
 .mchoose-card {
   position: relative;
-  display: block;
   background: var(--canvas);
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+/* The reference fills the card with ink on hover and turns the name gold.
+   :focus-within, not :focus-visible: focus lands on one of the two child
+   links now, never on this element itself, so the state has to read from
+   a descendant having focus rather than from focus being here directly. */
+.mchoose-card:hover,
+.mchoose-card:focus-within {
+  background: var(--color-system-ink);
+}
+
+.mchoose-card__link {
+  display: block;
   padding: var(--space-6) var(--space-5) var(--space-5);
   text-decoration: none;
-  transition: background var(--duration-fast) var(--ease-smooth),
-              color var(--duration-fast) var(--ease-smooth);
-}
-/* The reference fills the card with ink on hover and turns the name gold. It
-   is a link here rather than a button, so focus-visible has to do the same
-   thing or a keyboard reader loses the state a mouse reader gets. */
-.mchoose-card:hover,
-.mchoose-card:focus-visible {
-  background: var(--color-system-ink);
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 .mchoose-card__count {
   position: absolute;
@@ -143,22 +152,58 @@
   color: var(--ink-3);
 }
 
+/* The explicit CTA, underlined AT REST (not only on hover), which is the
+   actual fix: the whole card was already a real link, the problem was
+   that nothing about it read as one before you hovered it. Sits outside
+   .mchoose-card__link, in the padding the link's own bottom edge left, so
+   the two tap targets read as stacked rather than crowded. */
+.mchoose-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 var(--space-5) var(--space-5);
+  padding-bottom: 2px;
+  width: fit-content;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: var(--stroke-hair) solid var(--color-red-line);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth);
+}
+.mchoose-card__cta svg { flex: none; }
+.mchoose-card__cta:hover,
+.mchoose-card__cta:focus-visible {
+  border-color: var(--accent);
+}
+
 /* On the inked card every value has to invert, not just the name. The
    reference turns the name gold and lifts the rest to cream at reduced alpha;
    these are the system's own night-side tokens doing the same job, so the
-   inked card reads the same in both themes. */
+   inked card reads the same in both themes. :focus-within, not
+   :focus-visible: .mchoose-card itself is a container now, never focused
+   directly, only ever through one of its two links. */
 .mchoose-card:hover .mchoose-card__name,
-.mchoose-card:focus-visible .mchoose-card__name { color: var(--color-system-gold); }
+.mchoose-card:focus-within .mchoose-card__name { color: var(--color-system-gold); }
 .mchoose-card:hover .mchoose-card__area,
-.mchoose-card:focus-visible .mchoose-card__area { color: var(--color-system-gold); }
+.mchoose-card:focus-within .mchoose-card__area { color: var(--color-system-gold); }
 .mchoose-card:hover .mchoose-card__blurb,
-.mchoose-card:focus-visible .mchoose-card__blurb,
+.mchoose-card:focus-within .mchoose-card__blurb,
 .mchoose-card:hover .mchoose-card__count,
-.mchoose-card:focus-visible .mchoose-card__count { color: var(--color-system-cream-70); }
+.mchoose-card:focus-within .mchoose-card__count { color: var(--color-system-cream-70); }
 .mchoose-card:hover .mchoose-card__tag,
-.mchoose-card:focus-visible .mchoose-card__tag {
+.mchoose-card:focus-within .mchoose-card__tag {
   border-color: var(--color-system-cream-70);
   color: var(--color-system-cream-70);
+}
+.mchoose-card:hover .mchoose-card__cta,
+.mchoose-card:focus-within .mchoose-card__cta {
+  color: var(--color-system-gold);
+  border-color: var(--color-system-cream-70);
 }
 
 /* --- Responsive ----------------------------------------------------------
