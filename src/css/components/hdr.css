@@ -263,6 +263,40 @@
 }
 
 /* --------------------------------------------------------------------------
+   Desktop CTA position. .hdr__in has been a 3-child flex row (logo, CTA,
+   nav) since the CTA started rendering as a sibling of .hdr__logo and
+   .hdr__nav rather than a member of the nav loop, a change made for the
+   dense mobile grid below, which needs the CTA free to sit next to the logo
+   on row one independent of the four plain nav items. The base rule's
+   justify-content: space-between was written for two children and never
+   updated for three: it spaces logo, CTA and nav evenly across the row,
+   which puts the CTA in the visual middle, floating, rather than reading as
+   the nav's own trailing item.
+
+   order moves the CTA after .hdr__nav in paint order without touching
+   markup or the mobile grid-area assignments (grid-area placement ignores
+   order). The logo's auto margin absorbs the row's slack space, so nav and
+   CTA sit packed together at the trailing edge rather than pinned apart by
+   space-between.
+
+   Scoped to desktop only: the dense mobile header below already places the
+   CTA with grid-template-areas, and that layout is unaffected either way.
+   -------------------------------------------------------------------------- */
+@media (min-width: 36.0625rem) {
+  .hdr__in {
+    justify-content: flex-start;
+  }
+
+  .hdr__logo {
+    margin-inline-end: auto;
+  }
+
+  .hdr__in > .hdr__nav-link--cta {
+    order: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Responsive. The reference collapses to a single row and hides the Menu link
    below 60rem; this keeps all five items and wraps instead, because the
    mega-menu disclosure needs its trigger to stay reachable and the design
