@@ -114,16 +114,24 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
    nobody has curated yet lands as `quiet` rather than breaking the grid,
    the same fail-safe direction the original's own fallback cell used.
 
-   Photo and name only, one line, since /menu/ has printed no prices since
-   Open Decision #24 resolved that at client review. The count in the
-   heading and the note below still read `bentoDishes | length` rather than
-   a written number.
+   Photo, name, and now (2026-09-19) a one-line description where
+   coreMenu.js's menuJsonDescription is non-null: menu.json's own verified
+   text, never Toast's longer catalog prose, and never a description
+   menu.json itself flags with descriptionTbc (see roomMenus.js). No
+   prices, still: /menu/ has printed none since Open Decision #24. The
+   count in the heading and the note below still read
+   `bentoDishes | length` rather than a written number.
 
-   FLAGGED, NOT SILENTLY DECIDED: coreMenu.bentoLayout's own comment records
-   that the concept file treats Pork Gyoza as a feature cell (paired with
-   Karaage, both "photo feature", equal size), where this build's request
-   specified Gyoza as quiet. Built to the request; the discrepancy and how
-   to flip it live in that file if the call should go the other way. #}
+   PORK GYOZA IS A FEATURE CELL AS OF 2026-09-19, matching what the
+   concept file actually shows (paired with Karaage, both "photo feature",
+   equal size): a prior pass here had built it quiet, flagged the
+   discrepancy, and this is that flag acted on.
+
+   TAJIMA WHITE, DISPLAY NAME ONLY: this tile's `dish.name` reads "Tajima
+   White" via a displayName override in coreMenu.bentoLayout, not a
+   rename. Open Decision #22 (Tajima White vs. the Toast name "Tajima
+   Ramen") is still open everywhere else; this dish's own room pages
+   still correctly show the Toast name. #}
 {#- id="signature" IS LOAD-BEARING. The homepage bowl tiles and both Noodle
     Room links point here rather than at the top of the page: they promise food,
     and the top of this page is a masthead. -#}
@@ -150,6 +158,14 @@ description: "Every Tajima room serves a different menu. Eight dishes, including
         {%- endif %}
         <span class="dish__body">
           <span class="dish__name">{{ dish.name }}</span>
+          {#- menuJsonDescription is already the "verified" filter (see
+              roomMenus.js): null unless menu.json carries real text AND
+              nothing flags it unconfirmed. Printed as-is, one line, CSS
+              clips rather than wraps it (see .dish__desc): a tile has no
+              room to grow past its own card. -#}
+          {%- if dish.menuJsonDescription %}
+          <span class="dish__desc">{{ dish.menuJsonDescription }}</span>
+          {%- endif %}
         </span>
       </li>
       {%- endfor %}

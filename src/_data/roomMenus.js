@@ -215,6 +215,28 @@ function buildRoom(roomId) {
         // it exists for surfaces that pick a subset to feature, like
         // coreMenu.js's universalFeaturable.
         featurable: dish ? dish.featurable !== false : true,
+        // menu.json's OWN description, unmerged and untransformed, next to
+        // (not instead of) the Toast-priority `description` above. That
+        // fallback chain exists so a room's own full menu always has real
+        // text; this is for a surface that specifically wants the shorter,
+        // hand-verified menu.json line over Toast's longer catalog prose,
+        // e.g. a bento tile with room for one line, not a sentence. Not run
+        // through house() (the function above): menu.json's text ships
+        // already in final form, sentence case and a closing period, which
+        // is the whole reason house() exists for Toast's raw text and not
+        // for this.
+        //
+        // NULL WHEN descriptionTbc IS SET, even though `description` still
+        // has text: found checking every bento dish before wiring this up.
+        // Karaage, Pork Gyoza and Chicken Ramen all carry a real sentence
+        // AND a descriptionTbc note reading "No ingredient list confirmed
+        // in CLIENT_FACTS.md" on that same sentence, meaning it has never
+        // cleared client sign-off. "Verified" is the word this field's
+        // consumers were asked to honor, not "has text", so an unconfirmed
+        // description is treated the same as no description: null, not the
+        // unverified sentence, so a template can tell "no text" from "we
+        // checked and it's blank" from "we checked and it's not cleared".
+        menuJsonDescription: dish && dish.description && !dish.descriptionTbc ? dish.description : null,
         photo: dishId ? dishPhotos.photoFor(dishId, roomId) : null,
         toastSection: section.name,
       });

@@ -244,23 +244,24 @@
   grid-auto-rows: minmax(18rem, auto);
 }
 
-/* Four feature cells (bentoLayout's 1st-4th), the original's own rhythm:
-   a wide hero, a tall portrait beside it, repeated once. Today's four
-   feature photos are all portrait-oriented (checked in coreMenu.js before
-   writing these), so the alternation crops each about as hard as the
-   original's did, not harder. */
+/* Five feature cells (bentoLayout's 1st-5th) now that Pork Gyoza is one
+   of them: the original's wide-hero/tall-portrait rhythm, repeated twice
+   (Tonkotsu/Red, Sesame/Karaage), then Gyoza as a third wide strip rather
+   than a third tall cell, since it's the one feature photo that's
+   landscape rather than portrait (checked in coreMenu.js: 0.67 against
+   the other four's 1.5). A wide crop suits a landscape source better than
+   forcing it into the same tall slot Karaage's portrait photo fills. */
 .bento--signature .dish:nth-child(1) { grid-column: span 7; grid-row: 1; }
 .bento--signature .dish:nth-child(2) { grid-column: span 5; grid-row: 1 / span 2; }
 .bento--signature .dish:nth-child(3) { grid-column: span 7; grid-row: 3; }
 .bento--signature .dish:nth-child(4) { grid-column: span 5; grid-row: 3 / span 2; }
+.bento--signature .dish:nth-child(5) { grid-column: span 7; grid-row: 4; }
 
-/* Three quiet cells (5th-7th) fill the gaps the tall features leave open:
-   two beside the row-1/2 tall cell, sized to its two landscape-leaning
-   photos (4 and 3 of the remaining 7 columns), one full-width strip below
-   the row-3/4 tall cell for the one landscape quiet photo left. */
-.bento--signature .dish:nth-child(5) { grid-column: span 4; grid-row: 2; }
-.bento--signature .dish:nth-child(6) { grid-column: span 3; grid-row: 2; }
-.bento--signature .dish:nth-child(7) { grid-column: span 7; grid-row: 4; }
+/* Two quiet cells (6th-7th) fill the gap the row-1/2 tall cell leaves
+   open, sized to their own landscape-leaning photos (4 and 3 of the
+   remaining 7 columns). */
+.bento--signature .dish:nth-child(6) { grid-column: span 4; grid-row: 2; }
+.bento--signature .dish:nth-child(7) { grid-column: span 3; grid-row: 2; }
 
 .bento .dish {
   position: relative;
@@ -344,7 +345,14 @@
 .bento .dish__body {
   display: flex;
   flex-direction: column;
+  gap: var(--space-1);
   padding: var(--space-4) var(--space-4) var(--space-5);
+  /* Both children (name, description) need to lose height before the row
+     itself does: min-width:0's height-axis equivalent. Without this a
+     long description's intrinsic size can push the card taller than its
+     grid-row span asks for instead of the ellipsis rule below ever
+     getting the chance to clip it. */
+  min-height: 0;
 }
 
 .bento .dish__name {
@@ -357,15 +365,42 @@
   color: var(--color-ink);
 }
 
-/* Quiet tier reads one step smaller, same mechanism (and same target size,
-   --text-h4) the original used for .dish--small/.dish--quiet. */
+/* One line, always, the request's own floor: "sized to fit each cell...
+   verify no overflow". A fixed line-clamp guarantees that regardless of
+   how long a given dish's real menu.json text happens to be, rather than
+   trusting every description to already be short enough. white-space:
+   nowrap does the actual clipping; the flex/min-width plumbing above and
+   overflow:hidden here just make sure nowrap has somewhere to hide the
+   overflow instead of pushing the card wider. */
+.bento .dish__desc {
+  /* The actual guarantee against overflow, not overflow:hidden alone: a
+     flex child's default min-width is `auto`, which means "never shrink
+     below your own content's width", the opposite of what a nowrap line
+     needs here. Without this override the text's full intrinsic width
+     wins over the card's width and pushes it wider instead of eliding. */
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: var(--text-body);
+  color: var(--color-ink-2);
+}
+
+/* Quiet tier reads one step smaller throughout, same mechanism (and same
+   target sizes, --text-h4 / --text-small) the original used for
+   .dish--small/.dish--quiet. */
 .bento .dish--quiet .dish__name {
   font-size: var(--text-h4);
 }
 
+.bento .dish--quiet .dish__desc {
+  font-size: var(--text-small);
+}
+
 /* Tablet: the original's own collapse, features to a full-width stack,
-   quiet cells paired two across (one alone on the last row when there are
-   three, which is fine). */
+   quiet cells paired two across. */
 @media (max-width: 64rem) {
   .bento--signature {
     grid-auto-rows: minmax(15rem, auto);
@@ -373,11 +408,11 @@
   .bento--signature .dish:nth-child(1),
   .bento--signature .dish:nth-child(2),
   .bento--signature .dish:nth-child(3),
-  .bento--signature .dish:nth-child(4) {
+  .bento--signature .dish:nth-child(4),
+  .bento--signature .dish:nth-child(5) {
     grid-column: span 12;
     grid-row: auto;
   }
-  .bento--signature .dish:nth-child(5),
   .bento--signature .dish:nth-child(6),
   .bento--signature .dish:nth-child(7) {
     grid-column: span 6;

@@ -96,6 +96,7 @@ function entry(item) {
     description: item.row.description,
     dietary: item.row.dietary,
     featurable: item.row.featurable,
+    menuJsonDescription: item.row.menuJsonDescription,
     photo: item.row.photo,
     dishId: item.row.dishId,
     section: item.section.key,
@@ -174,38 +175,51 @@ const universalFeaturable = universal.filter((item) => item.featurable !== false
  * THE SPLIT, checked against the real concept file rather than guessed:
  * Traditional Tonkotsu Ramen and Tajima Red were literally the original's
  * two biggest cells (class dish--feature, spans 7 and 5x2 of 12).
- * Spicy Sesame Ramen carried dish--feature too. Karaage was explicitly
- * commented "photo feature" in the concept's izakaya row. Tajima White
- * and Chicken Ramen were never given dish--feature in the original ramen
- * row (the implicit quiet tier there). FLAG: Pork Gyoza was ALSO
- * commented "photo feature" in the concept, paired with Karaage at equal
- * size (both dish--izakaya-photo, span 4) — the request that produced
- * this list proposed Gyoza as quiet, which the concept file does not
- * support. Built to the request as given; see the report for the
- * discrepancy and how to flip it if that was the wrong call.
+ * Spicy Sesame Ramen carried dish--feature too. Karaage and Pork Gyoza
+ * were BOTH explicitly commented "photo feature" in the concept's izakaya
+ * row, paired at equal size (dish--izakaya-photo, span 4 each) — Gyoza
+ * was built quiet in the first pass on this grid (2026-09-19), flagged
+ * as a discrepancy from the concept, and promoted here on request. Tajima
+ * White and Chicken Ramen were never given dish--feature in the original
+ * ramen row, the implicit quiet tier there, and stay quiet.
+ *
+ * DISPLAY NAME, SEPARATE FROM THE MATCH KEY. `name` below is what
+ * universalFeaturable actually carries (Toast's own catalog name, "Tajima
+ * Ramen"), used to find the dish; `displayName`, where present, is what
+ * the tile prints instead. Scoped to this grid only, not a rename:
+ * SITE_ARCHITECTURE.md Open Decision #22 (Tajima White vs. Tajima Ramen)
+ * is still open everywhere else on the site, including this same dish on
+ * every room's own full menu, which reads the Toast name correctly and
+ * is untouched by this.
  */
 // Order matters here as much as tier: CSS places every cell by
-// :nth-child position (see menu.css), so this is also where "White gets
-// the span-4 slot, Chicken gets span-3, Gyoza gets the wide span-7 strip"
-// actually gets decided, informed by each dish's real photo orientation
-// (checked in coreMenu.universalFeaturable before writing this: White and
-// Chicken are landscape-leaning, Gyoza is landscape at 0.67, all three
-// read better in wide-ish quiet cells than square ones).
+// :nth-child position (see menu.css), so this is also where each dish's
+// specific span/row shape actually gets decided, informed by real photo
+// orientation (checked in coreMenu.universalFeaturable before writing
+// this): Tonkotsu, Red, Sesame and Karaage are all portrait and take the
+// grid's four tall-or-wide feature slots; Gyoza is landscape at 0.67 and
+// takes the wide span-7 strip rather than a tall one; White and Chicken
+// are landscape-leaning quiet cells.
 const BENTO_ORDER = [
   { name: "Traditional Tonkotsu Ramen", tier: "feature" },
   { name: "Tajima Red", tier: "feature" },
   { name: "Spicy Sesame Ramen", tier: "feature" },
   { name: "Karaage", tier: "feature" },
-  { name: "Tajima Ramen", tier: "quiet" },
+  { name: "Pork Gyoza", tier: "feature" },
+  { name: "Tajima Ramen", tier: "quiet", displayName: "Tajima White" },
   { name: "Chicken Ramen", tier: "quiet" },
-  { name: "Pork Gyoza", tier: "quiet" },
 ];
 const bentoNamed = new Set(BENTO_ORDER.map((row) => row.name));
 const bentoLayout = [
   ...BENTO_ORDER
     .map((row) => {
       const dish = universalFeaturable.find((d) => d.name === row.name);
-      return dish ? { ...dish, bentoTier: row.tier } : null;
+      if (!dish) return null;
+      return {
+        ...dish,
+        bentoTier: row.tier,
+        ...(row.displayName ? { name: row.displayName } : {}),
+      };
     })
     .filter(Boolean),
   // A dish universalFeaturable carries that BENTO_ORDER has no opinion on
