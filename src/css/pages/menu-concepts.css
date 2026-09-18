@@ -862,10 +862,32 @@
    to the width it happens to render at OR the text below it, only to the
    viewport, which does not change between two dishes on the same visit. The
    arrows, positioned against this box next, inherit that stability for free. */
+/* display: BLOCK, NOT GRID. It was grid with place-items: center, which
+   photographed fine at a glance and zoomed/cropped every portrait dish in
+   the panel. Traced, not guessed: this box has an explicit height (46vh,
+   above), but `display: grid` on it with no `grid-template-rows` leaves the
+   implicit row track sized `auto`, and the child img's `height: 100%` has to
+   resolve against that row, not against this box's own 46vh. An auto row
+   cannot draw on a still-unresolved percentage to size itself, so instead of
+   waiting on the box's real height it falls back to the image's own
+   intrinsic aspect ratio stretched to the column's width, one Edamame frame
+   measured the row at 1295px against a 459px box. The 100%-height img then
+   lays out at that inflated 1295px, object-fit: contain has a giant box to
+   fit the photo into and does exactly that, and overflow: hidden on this
+   element clips the result down to 459px, a tight, zoomed slice of a much
+   bigger render. Landscape photos happened to survive this by luck of their
+   proportions; every portrait one did not.
+
+   Block sidesteps the whole failure mode: this element's height is already
+   definite (46vh), a block child's `height: 100%` resolves against a
+   definite parent height directly, no implicit track for a percentage to
+   wait on. `place-items: center` is not missed: the img already fills the
+   box at 100%/100% and does not need centring, and .mc-lb__none (the
+   no-photo state, below) centres its own icon with its own nested grid,
+   unaffected by this element's display value either way. */
 .mc-lb__media{
   height: 46vh;
-  display: grid;
-  place-items: center;
+  display: block;
   overflow: hidden;
 }
 .mc-lb__media img{
