@@ -65,7 +65,13 @@ const VERIFIED = {
   "pork-chashu-bowl": "tajima-ramen-convoy-pork-chashu-bowl-07.webp",
   "katsu-curry": "tajima-ramen-convoy-katsu-curry-01.webp",
   "cinnamon-churros": "tajima-ramen-convoy-cinnamon-churros-01.webp",
-  "edamame": "tajima-ramen-convoy-edamame-02.webp",
+  // SWAPPED 2026-09-19, request: -02 confined the pods to about a third of
+  // the frame with the second (empty) compartment dominating the rest,
+  // badly cropped even once the lightbox's own zoom bug (fixed separately)
+  // stopped exaggerating it. -04 is the closer, fuller frame: same dish,
+  // pods fill most of it, salt visible. Checked by eye before swapping,
+  // same standard as every other entry in this table.
+  "edamame": "tajima-ramen-convoy-edamame-04.webp",
   "vegetable-gyoza": "tajima-ramen-vegetable-gyoza-kihei.webp",
 
   // --- the five off the do-not-feature list, checked 2026-09-16 ---------
